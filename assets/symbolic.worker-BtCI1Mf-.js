@@ -2261,7 +2261,7 @@ def _calc_overall(hyps, wb, any_fail):
 def analyse_rolle(expr_str, a_str, b_str):
     """expr_str/a_str/b_str: SymPy-syntax strings from expr.mjs (toSympy()/.sympy).
     Rolle = MVT with the extra endpoint hypothesis f(a) = f(b); witnesses are zeros of
-    f' itself. Returns MathViz's flat {provenance, ...} shape (never c-wrapped — this
+    f' itself. Returns VisualMath's flat {provenance, ...} shape (never c-wrapped — this
     module has a genuine witness LIST, unlike Linear Algebra's single-result modules,
     so 'conclusion.witnesses' is itself an array, still inside the one flat dict)."""
     try:
@@ -2599,7 +2599,7 @@ def analyse_ivt(expr_str, a_str, b_str, k_str):
     f(x) - k directly (calc_value_roots), never a derivative — genuinely
     different machinery from analyse_rolle/analyse_mvt's stationary-point
     search, so it is not routed through _calc_witness_block. Returns
-    MathViz's flat {provenance, ...} shape (never c-wrapped)."""
+    VisualMath's flat {provenance, ...} shape (never c-wrapped)."""
     try:
         f, a, b, exact_ab = _calc_prepare(expr_str, a_str, b_str)
         k, exact_k = calc_parse_scalar(k_str)
@@ -2821,7 +2821,7 @@ def analyse_netchange(expr_str, a_str, b_str):
     leaves F' bounded almost everywhere, so the identity survives (this
     module's documented "hypothesis fails yet conclusion holds" exception,
     the same shape as the Linear-algebra addendum's Rank-Nullity exception).
-    Returns MathViz's flat {provenance, ...} shape (never c-wrapped).
+    Returns VisualMath's flat {provenance, ...} shape (never c-wrapped).
 
     Reuses calc_continuous_on (clause 1), calc_differentiable_on (clause 2,
     report-only), and calc_bounded_on -- APPLIED TO F', not to F itself --
@@ -3044,7 +3044,7 @@ def analyse_ftc(f_str, F_str, a_str, b_str):
         itself: here it is gated on continuity holding AND F genuinely
         being an antiderivative, never on its own).
 
-    Returns MathViz's flat {provenance, ...} shape (never c-wrapped)."""
+    Returns VisualMath's flat {provenance, ...} shape (never c-wrapped)."""
     try:
         f, F, a, b, exact = _calc_prepare_ftc(f_str, F_str, a_str, b_str)
     except ValueError as e:
@@ -4023,7 +4023,7 @@ def analyse_cauchymvt(f_str, g_str, a_str, b_str):
     DERIVATIVE is zero, since h itself is a nonzero constant -Δg*m in
     general, not zero -- see cauchymvtEngine.js's header for the algebra).
 
-    Returns MathViz's flat {provenance, ...} shape (never c-wrapped)."""
+    Returns VisualMath's flat {provenance, ...} shape (never c-wrapped)."""
     try:
         f, g, a, b, exact = _calc_prepare_cauchy(f_str, g_str, a_str, b_str)
     except ValueError as e:
