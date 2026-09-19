@@ -39,13 +39,16 @@ worker could service its first real request.
 from sympy import (
     Matrix, Rational, nsimplify, simplify, S, Symbol, sympify, eye, zeros,
     ImmutableMatrix, Float, sqrt, symbols, linsolve, diag,
-    Abs, Interval, oo, sign, floor, ceiling, Piecewise, E, pi,
+    Abs, Interval, oo, sign, floor, ceiling, Piecewise, E, pi, Sum,
 )
 from sympy.calculus.util import continuous_domain
 from sympy.calculus.singularities import singularities
 from sympy.series.limitseq import limit_seq
+from sympy.solvers.inequalities import solve_univariate_inequality
 import sympy as sp
 import mpmath
+import operator
+from itertools import combinations, product
 
 Q = Rational  # shorthand used throughout
 
@@ -5528,4 +5531,3956 @@ def analyse_lagrange(f_str, g_str, a_str, b_str):
            'lambdaTex': sp.latex(sp.nsimplify(lam_val)) if lam_val is not None else None},
         licensed=licensed, counterexample=counterexample, blockedAct=blocked,
     )
-`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
+
+
+# ============================================================================
+# DOMAINS[2] — Probability & Statistics. First module: \`probabilitylaws\`
+# (3.4, Sample spaces, events & the axioms of probability). Reuses the
+# shared parse_matrix/parse_entry/provenance_for parsing helpers (a bare
+# list[str] parses as a column vector — exactly this module's outcome-
+# probability table shape) and \`calc_cap\` (introduced for the Calculus
+# domain, but its logic — "float input caps proved/refuted at numeric" — is
+# domain-agnostic, so it is reused here rather than re-derived a third time).
+# symbolicEngine.py/symbolic.worker.js stay ONE file each across all domains
+# (CLAUDE.md: check-module.mjs hardcodes both paths).
+# ============================================================================
+
+def analyse_probabilitylaws(outcomes, entries, idx_a, idx_b):
+    """outcomes: list[str] (outcome labels); entries: list[str] (one
+    probability-table entry per outcome, exact fraction/integer or decimal —
+    parsed via the shared parse_matrix/parse_entry helpers exactly like a
+    matrix's own entries); idx_a/idx_b: list[int], 0-indexed outcome indices
+    naming the two declared events A, B. An INDEPENDENT SymPy implementation
+    of probabilitylawsEngine.js's analyzeProbabilityLaw (nothing here calls
+    into the JS engine) — same axiom/consequence structure, verified
+    separately in symbolicEngine.selftest.py against presets mirrored
+    verbatim from probabilitylawsPresets.mjs.
+
+    See probabilitylawsEngine.js's own header for the full design note on
+    why axiom (c) (additivity) does not gate the derived consequences the
+    way (a) nonNegativity/(b) normalization do: for a FINITE sample space,
+    once (a)/(b) hold, finite additivity over ANY disjoint pair is a
+    mathematical theorem, not a free assumption — what CAN fail is a
+    student's own claim that a NON-disjoint pair may still use the
+    P(A)+P(B) shortcut. That failure is reported (additivity.pass ==
+    additivity.disjoint) but never halts anything; inclusion-exclusion,
+    checked independently below, is unaffected and still holds exactly."""
+    if not outcomes or len(outcomes) != len(entries):
+        return calc_unknown('sample space and probability table must have the same length')
+    try:
+        M, exact = parse_matrix(list(entries))
+    except ValueError as e:
+        return calc_unknown(f'bad probability entry: {e}')
+
+    values = [M[i, 0] for i in range(M.rows)]
+    n = len(values)
+    idx_a = [int(i) for i in idx_a]
+    idx_b = [int(i) for i in idx_b]
+
+    violations = [i for i, v in enumerate(values) if v < 0]
+    non_neg_pass = len(violations) == 0
+    total = sum(values, S.Zero)
+    norm_pass = bool(simplify(total - 1) == 0)
+    law_valid = non_neg_pass and norm_pass
+
+    set_b = set(idx_b)
+    inter_idx = [i for i in idx_a if i in set_b]
+    union_idx = sorted(set(idx_a) | set(idx_b))
+    disjoint = len(inter_idx) == 0
+    p_a = sum((values[i] for i in idx_a), S.Zero)
+    p_b = sum((values[i] for i in idx_b), S.Zero)
+    p_union = sum((values[i] for i in union_idx), S.Zero)
+    p_inter = sum((values[i] for i in inter_idx), S.Zero)
+    p_claimed = p_a + p_b
+    additivity = {
+        'disjoint': disjoint, 'pass': disjoint,
+        'pA': str(p_a), 'pB': str(p_b), 'pUnion': str(p_union),
+        'pInter': str(p_inter), 'pClaimed': str(p_claimed),
+        'matches': bool(simplify(p_claimed - p_union) == 0),
+    }
+
+    complement = monotonic = incl_excl = None
+    if law_valid:
+        set_a = set(idx_a)
+        idx_ac = [i for i in range(n) if i not in set_a]
+        p_ac = sum((values[i] for i in idx_ac), S.Zero)
+        complement = {
+            'pA': str(p_a), 'pAc': str(p_ac), 'total': str(p_a + p_ac),
+            'pass': bool(simplify(p_a + p_ac - 1) == 0),
+        }
+        is_subset = all(i in set_b for i in idx_a)
+        if is_subset:
+            monotonic = {'applicable': True, 'pA': str(p_a), 'pB': str(p_b), 'pass': bool(p_a <= p_b)}
+        else:
+            monotonic = {'applicable': False}
+        formula = p_a + p_b - p_inter
+        incl_excl = {
+            'pA': str(p_a), 'pB': str(p_b), 'pInter': str(p_inter),
+            'pUnionDirect': str(p_union), 'formula': str(formula),
+            'pass': bool(simplify(formula - p_union) == 0),
+        }
+
+    blocked = None
+    if not non_neg_pass:
+        blocked = 'nonNegativity'
+    elif not norm_pass:
+        blocked = 'normalization'
+
+    return {
+        'provenance': calc_cap('proved' if law_valid else 'refuted', exact),
+        'exactInputs': exact,
+        'nonNegativity': {'pass': non_neg_pass, 'violations': violations},
+        'normalization': {'pass': norm_pass, 'total': str(total)},
+        'lawValid': law_valid,
+        'additivity': additivity,
+        'complement': complement,
+        'monotonic': monotonic,
+        'inclusionExclusion': incl_excl,
+        'blockedAct': blocked,
+    }
+
+
+# =============================================================================
+# ── Probability & Statistics domain (DOMAINS[2]) — counting: permutations &
+#    combinations (topic 3.5) ──
+#
+# Every input here is a small nonnegative integer a student types directly —
+# unlike Linear Algebra/Calculus, this domain has NO float-vs-exact split for
+# this topic (there is no "decimal n" the way there is a decimal matrix
+# entry), so provenance is always 'proved' (the classification/identity
+# genuinely holds) or 'refuted' (it genuinely does not) once n and k parse —
+# never 'numeric'. Plain Python \`int\` (arbitrary precision) throughout: no
+# sympy/factorial call is needed, and none of the float traps documented
+# elsewhere in this file (nsimplify, Matrix.rank() on floats, ...) apply to
+# integer counting at all. Mirrors countingEngine.js's own BigInt-exact
+# design exactly (see that file's header for the full design rationale) —
+# the two engines are independent implementations of the SAME arithmetic,
+# which is what makes cross-checking them meaningful.
+# =============================================================================
+
+
+def _cnt_perm(n, k):
+    """P(n,k) = n(n-1)...(n-k+1); 0 when k>n (standard convention — see
+    countingEngine.js's own permP for the identical rule)."""
+    if n < 0 or k < 0 or k > n:
+        return 0
+    r = 1
+    for i in range(k):
+        r *= (n - i)
+    return r
+
+
+def _cnt_comb(n, k):
+    """C(n,k); 0 when k<0, n<0, or k>n."""
+    if n < 0 or k < 0 or k > n:
+        return 0
+    kk = min(k, n - k)
+    num = 1
+    for i in range(kk):
+        num *= (n - i)
+    den = 1
+    for i in range(2, kk + 1):
+        den *= i
+    return num // den
+
+
+def _cnt_pow(n, k):
+    """n^k, ordered sampling with replacement. 0^0 := 1 (one way to make
+    zero draws), matching countingEngine.js's powBig."""
+    if k == 0:
+        return 1
+    return n ** k
+
+
+def _cnt_multichoose(n, k):
+    """C(n+k-1,k): unordered sampling with replacement."""
+    if k == 0:
+        return 1
+    if n == 0:
+        return 0
+    return _cnt_comb(n + k - 1, k)
+
+
+def _cnt_formula_id(order, replacement):
+    if order and not replacement:
+        return 'P'
+    if order and replacement:
+        return 'nk'
+    if not order and not replacement:
+        return 'C'
+    return 'multichoose'
+
+
+def _cnt_count_for(n, k, order, replacement):
+    fid = _cnt_formula_id(order, replacement)
+    if fid == 'P':
+        return _cnt_perm(n, k)
+    if fid == 'nk':
+        return _cnt_pow(n, k)
+    if fid == 'C':
+        return _cnt_comb(n, k)
+    return _cnt_multichoose(n, k)
+
+
+def _cnt_unknown(reason):
+    return {'id': 'counting', 'provenance': 'unknown', 'reason': reason}
+
+
+def analyse_counting(mode, n, k, order=None, replacement=None, trueOrder=None, trueReplacement=None):
+    """mode: 'rules' | 'identity'. n/k: ints (or numeric strings) — a student's
+    typed nonnegative integers, never a decimal for this topic. order/
+    replacement/trueOrder/trueReplacement: bools, only meaningful for
+    mode='rules' (see countingEngine.js's evaluateScenario for the identical
+    JS-side computation this mirrors).
+
+    RULES: reports whether the STUDENT's classification (order, replacement)
+    produces the same count as the scenario's TRUE classification
+    (trueOrder, trueReplacement) — this module's own breakable clauses.
+
+    IDENTITY: the Team Captain identity n*C(n-1,k-1) = k*C(n,k) — see
+    countingEngine.js's header for why this has NO breakable hypothesis
+    (both sides collapse to 0 by convention whenever k=0 or k>n, so the
+    identity holds for every nonnegative integer pair; 'regular' (1<=k<=n)
+    is reported as an informational flag, not a gate).
+    """
+    try:
+        n = int(n)
+        k = int(k)
+    except (TypeError, ValueError):
+        return _cnt_unknown(f'n and k must be integers (got n={n!r}, k={k!r})')
+    if n < 0 or k < 0:
+        return _cnt_unknown('n and k must be nonnegative integers')
+
+    if mode == 'identity':
+        regular = 1 <= k <= n
+        lhs = n * _cnt_comb(n - 1, k - 1)
+        rhs = k * _cnt_comb(n, k)
+        holds = lhs == rhs
+        return {
+            'id': 'counting', 'mode': 'identity', 'n': n, 'k': k,
+            'regular': regular, 'lhs': lhs, 'rhs': rhs, 'holds': holds,
+            'provenance': 'proved' if holds else 'refuted',
+        }
+
+    # mode == 'rules'
+    try:
+        order = bool(order)
+        replacement = bool(replacement)
+        trueOrder = bool(trueOrder)
+        trueReplacement = bool(trueReplacement)
+    except (TypeError, ValueError):
+        return _cnt_unknown('order/replacement/trueOrder/trueReplacement must be booleans')
+
+    orderMatches = order == trueOrder
+    replacementMatches = replacement == trueReplacement
+    chosenCount = _cnt_count_for(n, k, order, replacement)
+    trueCount = _cnt_count_for(n, k, trueOrder, trueReplacement)
+    holds = chosenCount == trueCount
+    return {
+        'id': 'counting', 'mode': 'rules', 'n': n, 'k': k,
+        'orderMatches': orderMatches, 'replacementMatches': replacementMatches,
+        'chosenCount': chosenCount, 'trueCount': trueCount, 'holds': holds,
+        'chosenFormula': _cnt_formula_id(order, replacement),
+        'trueFormula': _cnt_formula_id(trueOrder, trueReplacement),
+        'provenance': 'proved' if holds else 'refuted',
+    }
+
+
+# =============================================================================
+# ── Probability & Statistics domain (DOMAINS[2]) — descriptive statistics:
+#    measuring centre, spread & robustness (topic 3.2) ──
+#
+# An INDEPENDENT SymPy implementation of descriptivestatsEngine.js's
+# analyzeDataset (nothing here calls into the JS engine) — same structure
+# (mean/median/mode/sample variance/quartiles/IQR, the two grid-search-
+# verified minimization clauses, the empirical robustness probe), verified
+# separately in symbolicEngine.selftest.py against presets mirrored verbatim
+# from descriptivestatsPresets.mjs. See descriptivestatsEngine.js's own
+# header for the full design rationale (variance convention: SAMPLE, divide
+# by n-1; quartile convention: exclusive median-of-halves/Tukey hinges).
+#
+# Exact Rational arithmetic throughout via parse_matrix (a bare list of
+# entry strings is treated as a column vector — the SAME helper
+# probabilitylaws' own table uses) — decimals flip the whole dataset to
+# 'numeric' provenance, never 'proved', exactly like every other module.
+# =============================================================================
+
+
+def _ds_mean(values):
+    return sum(values, S.Zero) / len(values)
+
+
+def _ds_median(values):
+    s = sorted(values)
+    n = len(s)
+    if n % 2 == 1:
+        return s[(n - 1) // 2]
+    return (s[n // 2 - 1] + s[n // 2]) / 2
+
+
+def _ds_modes(values):
+    counts = {}
+    for v in values:
+        counts[v] = counts.get(v, 0) + 1
+    best = max(counts.values())
+    modes = sorted([v for v, c in counts.items() if c == best])
+    no_unique = best <= 1 and len(values) > 1
+    return modes, best, no_unique
+
+
+def _ds_variance(values):
+    n = len(values)
+    if n < 2:
+        return None
+    m = _ds_mean(values)
+    ssd = sum(((v - m) ** 2 for v in values), S.Zero)
+    return ssd / (n - 1)
+
+
+def _ds_quartiles(values):
+    s = sorted(values)
+    n = len(s)
+    if n == 1:
+        return s[0], s[0]
+    if n % 2 == 0:
+        lower, upper = s[: n // 2], s[n // 2 :]
+    else:
+        mid = (n - 1) // 2
+        lower, upper = s[:mid], s[mid + 1 :]
+    return _ds_median(lower), _ds_median(upper)
+
+
+def _ds_ssd_at(values, c):
+    return sum(((v - c) ** 2 for v in values), S.Zero)
+
+
+def _ds_sad_at(values, c):
+    return sum((Abs(v - c) for v in values), S.Zero)
+
+
+def _ds_grid_minimizes(values, center, is_ssd):
+    """Fine grid search confirming \`center\` (mean or median) beats every
+    nearby candidate on its own loss (SSD or SAD) — mirrors
+    descriptivestatsEngine.js's checkMeanMinimizesSSD/checkMedianMinimizesSAD
+    exactly (same step-choosing rule, same +/-12-step grid), an independent
+    SymPy re-verification rather than trusting the textbook fact."""
+    s = sorted(values)
+    rng = s[-1] - s[0]
+    if rng != 0:
+        step = rng / 24
+    else:
+        ref = Abs(center)
+        step = ref / 24 if ref != 0 else Q(1, 24)
+    loss_at = _ds_ssd_at if is_ssd else _ds_sad_at
+    base = loss_at(values, center)
+    for k in range(-12, 13):
+        if k == 0:
+            continue
+        cand = center + step * k
+        if loss_at(values, cand) < base:
+            return False
+    return True
+
+
+def _ds_robustness(values, idx):
+    """Replace values[idx] with two independently huge magnitudes (10x/1000x
+    the data's own range past the current max) and compare each statistic:
+    equal => robust, different => not robust — decided empirically, never
+    from a hand-derived threshold, mirroring descriptivestatsEngine.js's
+    robustnessProbe exactly (an independent SymPy re-implementation)."""
+    n = len(values)
+    s = sorted(values)
+    max_v = s[-1]
+    rng = s[-1] - s[0]
+    if rng != 0:
+        bump = rng
+    else:
+        bump = Abs(max_v) if Abs(max_v) != 0 else S.One
+    m1 = max_v + bump * 10
+    m2 = max_v + bump * 1000
+
+    def with_val(v):
+        y = list(values)
+        y[idx] = v
+        return y
+
+    xs1, xs2 = with_val(m1), with_val(m2)
+    mean1, mean2 = _ds_mean(xs1), _ds_mean(xs2)
+    med1, med2 = _ds_median(xs1), _ds_median(xs2)
+    var1, var2 = _ds_variance(xs1), _ds_variance(xs2)
+    q1a, q3a = _ds_quartiles(xs1)
+    q1b, q3b = _ds_quartiles(xs2)
+    iqr1, iqr2 = q3a - q1a, q3b - q1b
+    return {
+        'M1': str(m1), 'M2': str(m2),
+        'meanRobust': bool(mean1 == mean2),
+        'medianRobust': bool(med1 == med2),
+        'iqrRobust': bool(iqr1 == iqr2),
+        'sdRobust': None if (var1 is None or var2 is None) else bool(var1 == var2),
+    }
+
+
+def analyse_descriptivestats(entries, outlierIndex=None):
+    """entries: list[str] — one dataset value per entry (exact integer/
+    fraction or decimal, via parse_matrix). outlierIndex: int or None —
+    which observation the robustness probe replaces; defaults to the current
+    maximum's own index, exactly like descriptivestatsEngine.js's
+    analyzeDataset."""
+    if not entries:
+        return calc_unknown('dataset must have at least one value')
+    try:
+        M, exact = parse_matrix(list(entries))
+    except ValueError as e:
+        return calc_unknown(f'bad dataset entry: {e}')
+
+    values = [M[i, 0] for i in range(M.rows)]
+    n = len(values)
+    s = sorted(values)
+
+    mean = _ds_mean(values)
+    median = _ds_median(values)
+    modes, mult, no_unique_mode = _ds_modes(values)
+    variance = _ds_variance(values)
+    q1, q3 = _ds_quartiles(values)
+    iqr = q3 - q1
+    low_fence = q1 - iqr * Q(3, 2)
+    high_fence = q3 + iqr * Q(3, 2)
+    outlier_idxs = [i for i, v in enumerate(values) if v < low_fence or v > high_fence]
+
+    mean_pass = _ds_grid_minimizes(values, mean, True)
+    median_pass = _ds_grid_minimizes(values, median, False)
+
+    try:
+        idx = int(outlierIndex) if outlierIndex is not None else None
+    except (TypeError, ValueError):
+        idx = None
+    if idx is None or idx < 0 or idx >= n:
+        idx = values.index(s[-1])
+    robustness = _ds_robustness(values, idx)
+
+    definition_valid = mean_pass and median_pass
+
+    return {
+        'n': n,
+        'mean': str(mean), 'median': str(median),
+        'modes': [str(m) for m in modes], 'multiplicity': mult, 'noUniqueMode': no_unique_mode,
+        'variance': None if variance is None else str(variance),
+        'q1': str(q1), 'q3': str(q3), 'iqr': str(iqr),
+        'lowFence': str(low_fence), 'highFence': str(high_fence),
+        'outlierIndices': outlier_idxs,
+        'meanMinimizesSSD': mean_pass, 'medianMinimizesSAD': median_pass,
+        'robustness': robustness,
+        'outlierIndex': idx,
+        'definitionValid': definition_valid,
+        'provenance': calc_cap('proved' if definition_valid else 'refuted', exact),
+    }
+
+
+# =============================================================================
+# ── Probability & Statistics domain (DOMAINS[2]) — conditional probability &
+#    the multiplication rule (topic 3.6) ──
+#
+# An INDEPENDENT SymPy implementation of conditionalEngine.js's own
+# analyzeConditional (nothing here calls into the JS engine) — same
+# structure, verified separately in symbolicEngine.selftest.py against
+# presets mirrored verbatim from conditionalPresets.mjs. See
+# conditionalEngine.js's own header for the full design note: ONE outcome
+# table plus an ORDERED list of >= 2 declared events serves both halves of
+# the topic — events[0]=A, events[1]=B for Part 1 ("conditional
+# probabilities form a probability law", gated on THE one breakable
+# precondition P(B) > 0) and the basic multiplication rule; the FULL
+# ordered list is walked as A1..An for the multiplication rule's chain
+# generalization, verified two independent ways on the same table (the
+# telescoping product of conditional factors vs. the direct joint
+# probability summed straight from the outcome indices).
+# =============================================================================
+
+
+def _cond_p_of(values, idx):
+    return sum((values[i] for i in idx), S.Zero)
+
+
+def analyse_conditional(outcomes, entries, events):
+    """outcomes: list[str]; entries: list[str] (one probability-table entry
+    per outcome, exact fraction/integer or decimal — parsed via the shared
+    parse_matrix helper exactly like probabilitylaws' own table); events:
+    list[list[int]], length >= 2, ordered 0-indexed outcome index sets.
+    events[0]=A, events[1]=B for the axioms/basic multiplication rule; the
+    FULL list is walked in order as A1..An for the chain rule."""
+    if not outcomes or len(outcomes) != len(entries):
+        return calc_unknown('sample space and probability table must have the same length')
+    events = [[int(i) for i in ev] for ev in events]
+    if len(events) < 2:
+        return calc_unknown('need at least two declared events (A and B)')
+    try:
+        M, exact = parse_matrix(list(entries))
+    except ValueError as e:
+        return calc_unknown(f'bad probability entry: {e}')
+
+    values = [M[i, 0] for i in range(M.rows)]
+
+    violations = [i for i, v in enumerate(values) if v < 0]
+    non_neg_pass = len(violations) == 0
+    total = sum(values, S.Zero)
+    norm_pass = bool(simplify(total - 1) == 0)
+    table_valid = non_neg_pass and norm_pass
+
+    idx_a, idx_b = events[0], events[1]
+    set_a, set_b = set(idx_a), set(idx_b)
+    p_a = _cond_p_of(values, idx_a)
+    p_b = _cond_p_of(values, idx_b)
+    conditioning = {'pass': bool(p_b > 0), 'pB': str(p_b)}
+
+    axioms = None
+    mult = None
+    chain = None
+    if table_valid:
+        inter_ab = [i for i in idx_a if i in set_b]
+        p_and = _cond_p_of(values, inter_ab)
+        b_ready = bool(p_b > 0)
+        a_ready = bool(p_a > 0)
+        p_a_given_b = (p_and / p_b) if b_ready else None
+        p_b_given_a = (p_and / p_a) if a_ready else None
+        dir1 = None
+        if b_ready:
+            formula1 = p_a_given_b * p_b
+            dir1 = {'formula': str(formula1), 'target': str(p_and), 'pass': bool(simplify(formula1 - p_and) == 0)}
+        dir2 = None
+        if a_ready:
+            formula2 = p_b_given_a * p_a
+            dir2 = {'formula': str(formula2), 'target': str(p_and), 'pass': bool(simplify(formula2 - p_and) == 0)}
+        mult = {
+            'pA': str(p_a), 'pB': str(p_b), 'pAandB': str(p_and),
+            'bReady': b_ready, 'aReady': a_ready, 'dir1': dir1, 'dir2': dir2,
+        }
+
+        if conditioning['pass']:
+            b_minus_a = [i for i in idx_b if i not in set_a]
+            p_b_minus_a = _cond_p_of(values, b_minus_a)
+            q_a = p_and / p_b
+            q_bma = p_b_minus_a / p_b
+            q_b = p_b / p_b
+            non_neg_pass2 = bool(q_a >= 0) and bool(q_bma >= 0)
+            norm_pass2 = bool(simplify(q_b - 1) == 0)
+            sum_q = q_a + q_bma
+            additivity_pass = bool(simplify(sum_q - q_b) == 0)
+            axioms = {
+                'pB': str(p_b), 'qAinterB': str(q_a), 'qBminusA': str(q_bma), 'qB': str(q_b),
+                'nonNegPass': non_neg_pass2, 'normPass': norm_pass2, 'additivityPass': additivity_pass,
+                'pass': non_neg_pass2 and norm_pass2 and additivity_pass,
+            }
+
+        prefixes = [events[0]]
+        for k in range(1, len(events)):
+            prev_set = set(prefixes[k - 1])
+            prefixes.append([i for i in events[k] if i in prev_set])
+        p_prefixes = [_cond_p_of(values, idx) for idx in prefixes]
+        steps = []
+        blocked_step = None
+        broken = False
+        product = p_prefixes[0]
+        for k in range(1, len(events)):
+            denom = p_prefixes[k - 1]
+            numer = p_prefixes[k]
+            denom_pos = bool(denom > 0)
+            if not denom_pos and blocked_step is None:
+                blocked_step = k + 1
+            if not denom_pos:
+                broken = True
+            factor = (numer / denom) if denom_pos else None
+            steps.append({
+                'step': k + 1, 'numer': str(numer), 'denom': str(denom),
+                'factor': (str(factor) if factor is not None else None), 'defined': denom_pos,
+            })
+            product = None if broken else product * factor
+        chain_defined = blocked_step is None
+        direct_joint = p_prefixes[-1]
+        matches = chain_defined and bool(simplify(product - direct_joint) == 0)
+        chain = {
+            'n': len(events), 'pPrefixes': [str(x) for x in p_prefixes], 'steps': steps,
+            'chainDefined': chain_defined, 'blockedStep': blocked_step,
+            'chainProduct': (str(product) if product is not None else None),
+            'directJoint': str(direct_joint), 'matches': matches,
+        }
+
+    blocked_act = None
+    if not table_valid:
+        blocked_act = 'nonNegativity' if not non_neg_pass else 'normalization'
+    elif not conditioning['pass']:
+        blocked_act = 'conditioningUndefined'
+
+    law_valid = table_valid and conditioning['pass']
+
+    return {
+        'provenance': calc_cap('proved' if law_valid else 'refuted', exact),
+        'exactInputs': exact,
+        'tableValid': {'pass': table_valid, 'nonNegPass': non_neg_pass, 'normPass': norm_pass},
+        'conditioning': conditioning,
+        'axioms': axioms,
+        'mult': mult,
+        'chain': chain,
+        'blockedAct': blocked_act,
+        'lawValid': law_valid,
+    }
+
+
+# =============================================================================
+# \`bayes\` (3.7, "Total probability & Bayes' rule"). An INDEPENDENT SymPy
+# implementation of bayesEngine.js's own analyzeBayes (nothing here calls
+# into the JS engine) — same partition/total-probability/Bayes'-rule/
+# odds-form structure, verified separately in symbolicEngine.selftest.py
+# against presets mirrored verbatim from bayesPresets.mjs.
+#
+# See bayesEngine.js's own header for the full design note on why the
+# partition hypothesis has exactly TWO independently-breakable clauses
+# (pairwise disjoint, covers Omega) — a third condition the theorem's own
+# statement also lists, P(Bi) > 0 for every i, is reported (\`allPositive\`)
+# but never gates anything: the ADDITIVE total-probability sum is
+# well-defined regardless (a zero-probability part just contributes 0), only
+# the weighted-average FORM needs it to form a likelihood factor at all.
+#
+# \`total_prob\` (the naive-partition-sum vs. direct-from-table comparison) is
+# computed whenever the underlying table is valid, REGARDLESS of whether the
+# declared partition itself is genuine — exactly mirroring the JS engine's
+# own deliberate choice (see its header): the derivation still HALTS at
+# whichever partition clause fails, but the two-routes comparison is what
+# lets a "break" preset show a genuine numeric disagreement and a
+# "fails-yet-holds" preset show a genuine numeric agreement, instead of
+# merely asserting either. Bayes' rule and the odds form are gated on the
+# partition genuinely holding.
+# =============================================================================
+
+def _bayes_p_of(values, idx):
+    return sum((values[i] for i in idx), S.Zero)
+
+
+def analyse_bayes(outcomes, entries, partition, event_a):
+    if not outcomes or len(outcomes) != len(entries):
+        return calc_unknown('sample space and probability table must have the same length')
+    partition = [[int(i) for i in part] for part in partition]
+    if len(partition) < 2:
+        return calc_unknown('need a partition of at least two parts')
+    event_a = [int(i) for i in event_a]
+    try:
+        M, exact = parse_matrix(list(entries))
+    except ValueError as e:
+        return calc_unknown(f'bad probability entry: {e}')
+
+    values = [M[i, 0] for i in range(M.rows)]
+    n = len(values)
+
+    violations = [i for i, v in enumerate(values) if v < 0]
+    non_neg_pass = len(violations) == 0
+    total = sum(values, S.Zero)
+    norm_pass = bool(simplify(total - 1) == 0)
+    table_valid = non_neg_pass and norm_pass
+
+    overlaps = []
+    for i in range(len(partition)):
+        set_i = set(partition[i])
+        for j in range(i + 1, len(partition)):
+            if set_i & set(partition[j]):
+                overlaps.append((i, j))
+    disjoint_pass = len(overlaps) == 0
+    covered = set()
+    for part in partition:
+        covered |= set(part)
+    missing = [i for i in range(n) if i not in covered]
+    covers_pass = len(missing) == 0
+    p_bi = [_bayes_p_of(values, part) for part in partition]
+    zero_indices = [i for i, p in enumerate(p_bi) if not bool(p > 0)]
+    partition_pass = disjoint_pass and covers_pass
+
+    total_prob = None
+    bayes = None
+    odds = None
+    if table_valid:
+        set_a = set(event_a)
+        p_a_and_bi = [_bayes_p_of(values, [i for i in part if i in set_a]) for part in partition]
+        p_a_given_bi = [(p_a_and_bi[k] / p_bi[k]) if bool(p_bi[k] > 0) else None for k in range(len(partition))]
+        weighted = sum(p_a_and_bi, S.Zero)
+        direct = _bayes_p_of(values, event_a)
+        matches = bool(simplify(weighted - direct) == 0)
+        total_prob = {
+            'pBi': [str(x) for x in p_bi], 'pAandBi': [str(x) for x in p_a_and_bi],
+            'pAgivenBi': [(str(x) if x is not None else None) for x in p_a_given_bi],
+            'totalPWeighted': str(weighted), 'directPA': str(direct), 'matches': matches,
+        }
+
+        if partition_pass:
+            ready = bool(direct > 0)
+            if ready:
+                posteriors = []
+                post_values = []
+                for k in range(len(partition)):
+                    raw = p_a_and_bi[k] / direct
+                    if bool(p_bi[k] > 0):
+                        formula = (p_bi[k] * p_a_given_bi[k]) / weighted
+                    else:
+                        formula = S.Zero
+                    post_values.append(raw)
+                    posteriors.append({
+                        'index': k, 'raw': str(raw), 'formula': str(formula),
+                        'matches': bool(simplify(raw - formula) == 0),
+                    })
+                sum_posteriors = sum(post_values, S.Zero)
+                all_match = all(p['matches'] for p in posteriors)
+                bayes = {
+                    'ready': True, 'posteriors': posteriors,
+                    'sumPosteriors': str(sum_posteriors), 'allMatch': all_match,
+                    '_postValues': post_values,
+                }
+            else:
+                bayes = {'ready': False}
+
+            if bayes['ready'] and len(partition) == 2:
+                pAgB1, pAgB2 = p_a_given_bi
+                post1, post2 = bayes['_postValues']
+                if bool(p_bi[0] > 0) and bool(p_bi[1] > 0) and pAgB2 is not None and bool(pAgB2 > 0) and bool(post2 > 0):
+                    likelihood_ratio = pAgB1 / pAgB2
+                    prior_odds = p_bi[0] / p_bi[1]
+                    computed = likelihood_ratio * prior_odds
+                    actual = post1 / post2
+                    odds = {
+                        'applicable': True, 'likelihoodRatio': str(likelihood_ratio),
+                        'priorOdds': str(prior_odds), 'computedPosteriorOdds': str(computed),
+                        'actualPosteriorOdds': str(actual), 'matches': bool(simplify(computed - actual) == 0),
+                    }
+                else:
+                    odds = {'applicable': False, 'reason': 'a required probability is zero'}
+            else:
+                odds = {'applicable': False, 'reason': 'odds form needs exactly two partition parts, both positive, and P(A) > 0'}
+
+    blocked_act = None
+    if not table_valid:
+        blocked_act = 'nonNegativity' if not non_neg_pass else 'normalization'
+    elif not disjoint_pass:
+        blocked_act = 'notDisjoint'
+    elif not covers_pass:
+        blocked_act = 'notCovering'
+
+    hypotheses_hold = table_valid and partition_pass
+    if bayes is not None:
+        bayes.pop('_postValues', None)
+
+    return {
+        'provenance': calc_cap('proved' if hypotheses_hold else 'refuted', exact),
+        'exactInputs': exact,
+        'tableValid': {'pass': table_valid, 'nonNegPass': non_neg_pass, 'normPass': norm_pass},
+        'partitionCheck': {
+            'pass': partition_pass, 'pairwiseDisjointPass': disjoint_pass, 'coversPass': covers_pass,
+            'allPositivePass': len(zero_indices) == 0, 'zeroIndices': zero_indices,
+        },
+        'totalProb': total_prob,
+        'bayes': bayes,
+        'odds': odds,
+        'blockedAct': blocked_act,
+        'hypothesesHold': hypotheses_hold,
+    }
+
+
+# =============================================================================
+# \`randomvariables\` (3.9, "Random variables — PMF, PDF & CDF"). An
+# INDEPENDENT SymPy implementation of randomvariablesEngine.js's own
+# analyzeDiscrete/analyzeContinuous (nothing here calls into the JS engine) —
+# see that file's header for the full design note on why nonNegativity/
+# normalization are the ONLY two breakable clauses and why the CDF's own
+# properties never independently gate anything once they hold.
+#
+# DISCRETE: xs/ps mirror the JS engine's own (x, p) rows exactly — ps is a
+# bare list[str] of probability-table entries, parsed via the SAME shared
+# parse_matrix helper probabilitylaws/conditional/descriptivestats already
+# use (a decimal ANYWHERE flips the whole table to 'numeric' provenance,
+# never 'proved' — non-negotiable #2). xs is a list of plain floats (already
+# numeric x-values, not strings needing exact parsing — the x-axis LABELS
+# carry no provenance of their own, only the probabilities do).
+#
+# CONTINUOUS: \`formula\` is a SymPy-syntax string from expr.mjs's toSympy()
+# (the module converts its own mathjs-syntax formula before sending — see
+# RandomVariablesModule.jsx's checkSymbolic — the same "JS never hands SymPy
+# raw user text" discipline every Calculus module already follows).
+# \`support_kind\`/\`lo_str\`/\`hi_str\` mirror randomvariablesEngine.js's own
+# {kind, lo, hi} shape; a semi-infinite support becomes sp.oo directly
+# (no string round-trip needed for +infinity — the JS side never needs to
+# print 'oo' itself, unlike improperEngine.js's own parseBound, since a
+# random-variable support is only ever right-semi-infinite here, never a
+# user-typed bound). Unlike the numeric engine (which is honestly ALWAYS
+# 'numeric' provenance for continuous, since Simpson's-rule quadrature is
+# inherently approximate — see randomvariablesEngine.js's header),
+# \`sp.integrate\` and \`solve_univariate_inequality\` decide both axioms
+# EXACTLY on every preset here (confirmed by hand: both calls succeed
+# cleanly on the uniform/quadratic/exponential/linear preset family), so the
+# continuous branch CAN reach 'proved'/'refuted' symbolically even though its
+# numeric twin never does — an intentional, documented asymmetry between the
+# two tiers, not a bug. A formula/support this abstains on (e.g. a genuinely
+# unintegrable density, or one solve_univariate_inequality cannot decide)
+# reports 'unknown' rather than guessing, per non-negotiable #2.
+# =============================================================================
+
+def analyse_randomvariables(kind, xs, ps, formula, support_kind, lo_str, hi_str):
+    if kind == 'discrete':
+        if not xs or not ps or len(xs) != len(ps):
+            return calc_unknown('x and p must be non-empty and the same length')
+        try:
+            xvals = [float(v) for v in xs]
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'bad x value: {e}')
+        if len(set(xvals)) != len(xvals):
+            return calc_unknown('duplicate x value')
+        try:
+            M, exact = parse_matrix(list(ps))
+        except ValueError as e:
+            return calc_unknown(f'bad probability entry: {e}')
+        values = [M[i, 0] for i in range(M.rows)]
+
+        order = sorted(range(len(xvals)), key=lambda i: xvals[i])
+        sorted_x = [xvals[i] for i in order]
+        sorted_p = [values[i] for i in order]
+
+        violations = [i for i, v in enumerate(sorted_p) if v < 0]
+        non_neg_pass = len(violations) == 0
+        total = sum(sorted_p, S.Zero)
+        norm_pass = bool(simplify(total - 1) == 0)
+        law_valid = non_neg_pass and norm_pass
+
+        cdf_total = None
+        cdf_all_pass = None
+        if law_valid:
+            acc = S.Zero
+            for xv, p in zip(sorted_x, sorted_p):
+                acc = acc + p
+            cdf_total = str(acc)
+            cdf_all_pass = bool(simplify(acc - 1) == 0)
+
+        blocked = None
+        if not non_neg_pass:
+            blocked = 'nonNegativity'
+        elif not norm_pass:
+            blocked = 'normalization'
+
+        return {
+            'provenance': calc_cap('proved' if law_valid else 'refuted', exact),
+            'kind': 'discrete',
+            'exactInputs': exact,
+            'nonNegativity': {'pass': non_neg_pass, 'violations': violations},
+            'normalization': {'pass': norm_pass, 'total': str(total)},
+            'lawValid': law_valid,
+            'cdfTotal': cdf_total,
+            'cdfPropertiesAllPass': cdf_all_pass,
+            'blockedAct': blocked,
+        }
+
+    if kind != 'continuous':
+        return calc_unknown(f'unknown kind {kind!r}')
+
+    try:
+        f = calc_parse(formula)
+    except ValueError as e:
+        return calc_unknown(f'bad formula: {e}')
+    try:
+        lo, lo_exact = calc_parse_scalar(lo_str)
+    except ValueError as e:
+        return calc_unknown(f'bad lower support bound: {e}')
+
+    if support_kind == 'semiInfRight':
+        hi, hi_exact = oo, True
+    else:
+        try:
+            hi, hi_exact = calc_parse_scalar(hi_str)
+        except ValueError as e:
+            return calc_unknown(f'bad upper support bound: {e}')
+        if not (hi > lo):
+            return calc_unknown('support must have hi > lo')
+
+    exact = lo_exact and hi_exact
+
+    try:
+        neg_set = solve_univariate_inequality(f < 0, x, relational=False, domain=Interval(lo, hi))
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'cannot determine sign on the support: {e}')
+    non_neg_pass = (neg_set is S.EmptySet)
+
+    try:
+        total = sp.integrate(f, (x, lo, hi))
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'cannot integrate exactly: {e}')
+    if total.has(sp.Integral) or not total.is_finite:
+        return calc_unknown('integral does not evaluate to a finite closed form')
+    norm_pass = bool(simplify(total - 1) == 0)
+
+    law_valid = non_neg_pass and norm_pass
+    blocked = None
+    if not non_neg_pass:
+        blocked = 'nonNegativity'
+    elif not norm_pass:
+        blocked = 'normalization'
+
+    return {
+        'provenance': calc_cap('proved' if law_valid else 'refuted', exact),
+        'kind': 'continuous',
+        'exactInputs': exact,
+        'nonNegativity': {'pass': non_neg_pass},
+        'normalization': {'pass': norm_pass, 'total': str(total)},
+        'lawValid': law_valid,
+        'blockedAct': blocked,
+    }
+
+
+# =============================================================================
+# \`independence\` (3.8, "Independence of events"). An INDEPENDENT SymPy
+# implementation of independenceEngine.js's own analyzeIndependence (nothing
+# here calls into the JS engine) — same three-facet structure, verified
+# separately in symbolicEngine.selftest.py against presets mirrored verbatim
+# from independencePresets.mjs.
+#
+# See independenceEngine.js's own header for the full design note: THREE
+# checkMode facets over one shared outcome-probability table —
+#   'pairwise'    — P(A ∩ B) = P(A)P(B), cross-checked against the
+#                   conditional characterization P(A|B) = P(A) / P(B|A) =
+#                   P(B) wherever the conditioning event has positive
+#                   probability.
+#   'mutual'      — n >= 3 declared events A1..An are mutually independent
+#                   iff the product rule holds for EVERY subset of size
+#                   >= 2, checked exhaustively (2^n - n - 1 non-trivial
+#                   subsets, safe for n <= 5, the scope this module
+#                   supports) via \`itertools.combinations\` — the flagship
+#                   lesson (every pair independent, the full triple not) is
+#                   this module's signature counterexample.
+#   'conditional' — A, B independent GIVEN C means P(A ∩ B|C) = P(A|C)P(B|C)
+#                   for a third declared event C with P(C) > 0 (the one
+#                   genuinely breakable precondition here); the plain
+#                   UNCONDITIONAL product-rule check on the same A, B is
+#                   also reported, so the module can show conditional and
+#                   unconditional independence are genuinely different
+#                   properties (neither implies the other).
+#
+# Reliability of series/parallel systems (independently-given component
+# reliabilities, not events sharing a sample space) has no symbolic tier —
+# it is a small pure numeric calculator on the JS side only (see
+# independenceEngine.js's own header), exactly like every other
+# module-adjacent Applications dataset in this app.
+def _indep_p_of(values, idx):
+    return sum((values[i] for i in idx), S.Zero)
+
+
+def analyse_independence(check_mode, outcomes, entries, events):
+    """check_mode: 'pairwise' | 'mutual' | 'conditional'. outcomes/entries:
+    the shared probability table, parsed via the shared parse_matrix helper
+    exactly like probabilitylaws'/conditional's/bayes' own tables. events:
+    list[list[int]], ordered 0-indexed outcome index sets — length 2 for
+    'pairwise' (A, B), length >= 3 (<= 5) for 'mutual' (A1..An), length 3 for
+    'conditional' (A, B, C — C is the conditioning event)."""
+    if not outcomes or len(outcomes) != len(entries):
+        return calc_unknown('sample space and probability table must have the same length')
+    events = [[int(i) for i in ev] for ev in events]
+    if len(events) < 2:
+        return calc_unknown('need at least two declared events')
+    if check_mode == 'mutual' and len(events) < 3:
+        return calc_unknown('mutual independence needs at least three declared events')
+    if check_mode == 'mutual' and len(events) > 5:
+        return calc_unknown('mutual independence here supports at most five declared events (subset enumeration grows as 2^n)')
+    if check_mode == 'conditional' and len(events) < 3:
+        return calc_unknown('conditional independence needs three declared events: A, B, and the conditioning event C')
+    try:
+        M, exact = parse_matrix(list(entries))
+    except ValueError as e:
+        return calc_unknown(f'bad probability entry: {e}')
+
+    values = [M[i, 0] for i in range(M.rows)]
+
+    violations = [i for i, v in enumerate(values) if v < 0]
+    non_neg_pass = len(violations) == 0
+    total = sum(values, S.Zero)
+    norm_pass = bool(simplify(total - 1) == 0)
+    table_valid = non_neg_pass and norm_pass
+
+    pairwise = None
+    mutual = None
+    conditional = None
+    blocked_act = None
+
+    if not table_valid:
+        blocked_act = 'nonNegativity' if not non_neg_pass else 'normalization'
+    elif check_mode == 'pairwise':
+        idx_a, idx_b = events[0], events[1]
+        set_b = set(idx_b)
+        p_a = _indep_p_of(values, idx_a)
+        p_b = _indep_p_of(values, idx_b)
+        inter_ab = [i for i in idx_a if i in set_b]
+        p_ab = _indep_p_of(values, inter_ab)
+        product_matches = bool(simplify(p_ab - p_a * p_b) == 0)
+        b_ready = bool(p_b > 0)
+        a_ready = bool(p_a > 0)
+        p_a_given_b = (p_ab / p_b) if b_ready else None
+        cond_matches_b = bool(simplify(p_a_given_b - p_a) == 0) if b_ready else None
+        p_b_given_a = (p_ab / p_a) if a_ready else None
+        cond_matches_a = bool(simplify(p_b_given_a - p_b) == 0) if a_ready else None
+        pairwise = {
+            'pA': str(p_a), 'pB': str(p_b), 'pAB': str(p_ab), 'productMatches': product_matches,
+            'bReady': b_ready, 'pAgivenB': (str(p_a_given_b) if b_ready else None), 'condMatchesB': cond_matches_b,
+            'aReady': a_ready, 'pBgivenA': (str(p_b_given_a) if a_ready else None), 'condMatchesA': cond_matches_a,
+            'pass': product_matches,
+        }
+    elif check_mode == 'mutual':
+        n = len(events)
+        p_single = [_indep_p_of(values, ev) for ev in events]
+        subsets = []
+        for r in range(2, n + 1):
+            for combo in combinations(range(n), r):
+                inter = set(range(len(values)))
+                for i in combo:
+                    inter &= set(events[i])
+                p_inter = _indep_p_of(values, sorted(inter))
+                prod = S.One
+                for i in combo:
+                    prod *= p_single[i]
+                passed = bool(simplify(p_inter - prod) == 0)
+                subsets.append({'bits': list(combo), 'pInter': str(p_inter), 'prod': str(prod), 'pass': passed})
+        pairwise_subsets = [s for s in subsets if len(s['bits']) == 2]
+        pairwise_all_pass = all(s['pass'] for s in pairwise_subsets)
+        mutual_pass = all(s['pass'] for s in subsets)
+        pairwise_not_mutual = pairwise_all_pass and not mutual_pass
+        mutual = {
+            'n': n, 'pSingle': [str(x) for x in p_single], 'subsets': subsets,
+            'pairwiseAllPass': pairwise_all_pass, 'mutualPass': mutual_pass, 'pairwiseNotMutual': pairwise_not_mutual,
+        }
+    elif check_mode == 'conditional':
+        idx_a, idx_b, idx_c = events[0], events[1], events[2]
+        set_b = set(idx_b)
+        p_a = _indep_p_of(values, idx_a)
+        p_b = _indep_p_of(values, idx_b)
+        inter_ab = [i for i in idx_a if i in set_b]
+        p_ab = _indep_p_of(values, inter_ab)
+        uncond_indep = bool(simplify(p_ab - p_a * p_b) == 0)
+        p_c = _indep_p_of(values, idx_c)
+        c_ready = bool(p_c > 0)
+        if not c_ready:
+            conditional = {
+                'pC': str(p_c), 'cReady': False, 'pA': str(p_a), 'pB': str(p_b), 'pAB': str(p_ab),
+                'uncondIndep': uncond_indep, 'condIndep': None, 'agrees': None,
+            }
+            blocked_act = 'conditioningUndefined'
+        else:
+            set_c = set(idx_c)
+            idx_ac = [i for i in idx_a if i in set_c]
+            idx_bc = [i for i in idx_b if i in set_c]
+            idx_abc = [i for i in inter_ab if i in set_c]
+            p_ac = _indep_p_of(values, idx_ac)
+            p_bc = _indep_p_of(values, idx_bc)
+            p_abc = _indep_p_of(values, idx_abc)
+            p_a_given_c = p_ac / p_c
+            p_b_given_c = p_bc / p_c
+            p_ab_given_c = p_abc / p_c
+            cond_indep = bool(simplify(p_ab_given_c - p_a_given_c * p_b_given_c) == 0)
+            agrees = (cond_indep == uncond_indep)
+            conditional = {
+                'pC': str(p_c), 'cReady': True, 'pA': str(p_a), 'pB': str(p_b), 'pAB': str(p_ab), 'uncondIndep': uncond_indep,
+                'pAC': str(p_ac), 'pBC': str(p_bc), 'pABC': str(p_abc),
+                'pAgivenC': str(p_a_given_c), 'pBgivenC': str(p_b_given_c), 'pABgivenC': str(p_ab_given_c),
+                'condIndep': cond_indep, 'agrees': agrees, 'pass': cond_indep,
+            }
+
+    holds = None
+    if check_mode == 'pairwise' and pairwise is not None:
+        holds = pairwise['pass']
+    elif check_mode == 'mutual' and mutual is not None:
+        holds = mutual['mutualPass']
+    elif check_mode == 'conditional' and conditional is not None:
+        holds = conditional.get('pass')
+
+    definite = table_valid and blocked_act is None
+
+    return {
+        'provenance': calc_cap('proved' if (definite and holds) else 'refuted', exact),
+        'exactInputs': exact,
+        'checkMode': check_mode,
+        'tableValid': {'pass': table_valid, 'nonNegPass': non_neg_pass, 'normPass': norm_pass},
+        'pairwise': pairwise,
+        'mutual': mutual,
+        'conditional': conditional,
+        'blockedAct': blocked_act,
+        'holds': holds,
+    }
+
+
+# =============================================================================
+# \`expectation\` (3.11, "Expectation & variance"). An INDEPENDENT SymPy
+# implementation of expectationEngine.js's own two-clause chain (nothing
+# here calls into the JS engine) — see expectationEngine.js's own header for
+# the full design note. Unlike the JS tier (always 'numeric' provenance,
+# since its PMF/PDF is formula-driven and checked by marching/quadrature),
+# SymPy's exact Sum/Integrate machinery CAN decide 'proved'/'refuted' on
+# most presets here — the same asymmetry analyse_randomvariables's own
+# docstring already documents ("the JS engine's own honest quadrature always
+# reports 'numeric', the SymPy tier decides more").
+#
+#   DISCRETE.  x(n), p(n) parsed via _seq_parse (n a positive-integer-valued
+#              symbol, reused VERBATIM from analyse_sequences — the same
+#              "genuinely reuse an already-tested small helper" precedent
+#              series/powerseries already set for this domain). A finite
+#              support (n = startN..startN+count-1) sums directly, term by
+#              term, over EXACT SymPy values — always decidable. An infinite
+#              support hands sp.Sum(term, (n, startN, oo)) to \`.doit()\`:
+#                - a genuine SymPy VALUE (finite)  -> convergent, exact.
+#                - oo/-oo/zoo/nan                  -> divergent, exact
+#                  (a certain, definitive refutation — never an abstention;
+#                  the St. Petersburg preset's own sum of the CONSTANT term
+#                  1 is exactly this shape: Sum(1, (n,1,oo)).doit() = oo).
+#                - AccumBounds                      -> divergent, exact (the
+#                  same "AccumBounds is certain, never an abstention"
+#                  precedent analyse_improper/analyse_sequences established).
+#                - still an unevaluated Sum          -> abstain ('unknown'):
+#                  SymPy could not decide this sum's convergence in closed
+#                  form (never guessed).
+#   CONTINUOUS. f(x) parsed via calc_parse (the shared \`x\` symbol every
+#              other Calculus/probability-continuous analyse_* uses).
+#              sp.integrate(term, (x, lo, hi)) is called DIRECTLY on the
+#              (possibly doubly-infinite) interval — mirroring
+#              analyse_improper's own established choice: SymPy's own
+#              integration machinery performs the equivalent split-and-limit
+#              internally, so no manual piece-marching is needed even for
+#              the two-sided-improper Cauchy flagship (lo=-oo, hi=oo).
+#              Divergence classification (finite / oo-zoo-nan / AccumBounds /
+#              unevaluated-abstain) is the SAME four-way split as the
+#              discrete branch, and reuses \`_expect_classify\` for both.
+#
+# H1 (meanExists) is decided on sum/integral of Abs(x(n))*p(n) (or
+# Abs(x)*f(x)); H2 (varianceExists), GATED by H1, on x(n)**2*p(n) (or
+# x**2*f(x)) — never signed, so the SAME classification helper applies to
+# both without an Abs()-vs-not distinction to track. Once both hold, E[X]
+# (signed) and Var(X) = E[X^2]-(E[X])^2 are computed directly and exactly
+# where SymPy can; each is independently reported, never asserted from the
+# JS tier's own numeric estimate.
+#
+# Non-negotiable #5 is N/A, the same documented call netchange/ftc/
+# gammabeta/chainrule/extrema/expectationEngine.js's own header already
+# make: every check here is a direct computation against a GIVEN law, not
+# an existence claim with multiple witnesses to search among.
+# =============================================================================
+
+def _expect_classify(val):
+    """Classify a computed Sum/Integral result. Returns one of:
+      ('finite', value)  — a genuine, decided finite SymPy value.
+      ('divergent', None) — a certain, definitive divergence (oo/-oo/zoo/nan,
+        or a genuinely oscillating AccumBounds — never an abstention).
+      ('abstain', reason) — SymPy could not decide this in closed form.
+    Shared between the discrete Sum branch and the continuous Integral
+    branch — both an unevaluated sp.Sum and an unevaluated sp.Integral are
+    caught by the same \`.has(sp.Sum) or .has(sp.Integral)\` guard."""
+    if val is None:
+        return ('abstain', 'SymPy returned no result')
+    if val.has(sp.Sum) or val.has(sp.Integral):
+        return ('abstain', 'SymPy could not evaluate this in closed form')
+    if isinstance(val, sp.calculus.accumulationbounds.AccumulationBounds):
+        return ('divergent', None)
+    if val in (oo, -oo, sp.zoo, sp.nan):
+        return ('divergent', None)
+    if val.is_real is False:
+        return ('abstain', 'did not evaluate to a real number')
+    return ('finite', val)
+
+
+def _expect_abs_x_f_integral(f, lo, hi):
+    """integral of |x| f(x) dx over [lo, hi] (lo/hi possibly +-oo), computed
+    by splitting exactly at x=0 by KNOWN SIGN rather than leaving a literal
+    Abs(x) inside sp.integrate. Confirmed by hand while building this
+    module, and documented as this module's own addition to the domain's
+    running "Abs()-wrapped integrands are frequently where sp.integrate
+    gives up" trap family (analyse_improper's own docstring already names
+    the general shape): the Cauchy flagship's two-sided
+    \`sp.integrate(Abs(x)/(pi*(1+x**2)), (x,-oo,oo))\` returns an UNEVALUATED
+    Integral (an honest abstention) even though EACH signed half is
+    individually decidable in exact closed form —
+    \`sp.integrate(x/(pi*(1+x**2)), (x,0,oo))\` evaluates cleanly to \`oo\`.
+    Splitting by sign first turns an abstention into a certain, definitive
+    divergence finding."""
+    if bool(lo >= 0):
+        return sp.integrate(x * f, (x, lo, hi))
+    if bool(hi <= 0):
+        return sp.integrate(-x * f, (x, lo, hi))
+    try:
+        left = sp.integrate(-x * f, (x, lo, 0))
+        right = sp.integrate(x * f, (x, 0, hi))
+    except Exception:  # noqa: BLE001
+        return sp.integrate(Abs(x) * f, (x, lo, hi))
+    kl, _ = _expect_classify(left)
+    kr, _ = _expect_classify(right)
+    if kl == 'divergent' or kr == 'divergent':
+        return oo
+    return left + right
+
+
+def analyse_expectation(rv_mode, x_formula, p_formula, startN_str, disc_support_kind, count_str,
+                         formula, cont_support_kind, lo_str, hi_str):
+    """See the module docstring above. \`x_formula\`/\`p_formula\` are SymPy-
+    syntax strings from expr.mjs's toSympy(), parsed with n (not x) as the
+    free variable — src/modules/expectationEngine.js's own parseExprN
+    wrapper calls parseExpr(text, ['n']), mirroring sequencesEngine.js's own
+    convention exactly. \`formula\` is the continuous density, parsed with
+    the shared \`x\` symbol via calc_parse."""
+    if rv_mode == 'discrete':
+        try:
+            xf = _seq_parse(x_formula)
+            pf = _seq_parse(p_formula)
+        except ValueError as e:
+            return calc_unknown(f'bad formula: {e}')
+        try:
+            startN_val, startN_exact = calc_parse_scalar(startN_str)
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'bad startN: {e}')
+        if not (startN_val.is_integer and bool(startN_val >= 0)):
+            return calc_unknown('startN must be a non-negative integer')
+        startN = int(startN_val)
+
+        n = _SEQ_N
+        if disc_support_kind == 'finite':
+            try:
+                count_val, count_exact = calc_parse_scalar(count_str)
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'bad count: {e}')
+            if not (count_val.is_integer and bool(count_val >= 1)):
+                return calc_unknown('count must be a positive integer')
+            count = int(count_val)
+            exact = startN_exact and count_exact
+            ns = list(range(startN, startN + count))
+            try:
+                xs = [xf.subs(n, k) for k in ns]
+                ps = [pf.subs(n, k) for k in ns]
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'cannot evaluate formula: {e}')
+            mean_val = sp.nsimplify(sum((xv * pv for xv, pv in zip(xs, ps)), S.Zero))
+            mean_kind, e2_val = 'finite', sp.nsimplify(sum((xv**2 * pv for xv, pv in zip(xs, ps)), S.Zero))
+            var_kind = 'finite'
+            mean_exists, variance_exists = True, True
+        else:
+            exact = startN_exact
+            try:
+                mean_abs = sp.Sum(Abs(xf) * pf, (n, startN, oo)).doit()
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'cannot evaluate sum: {e}')
+            mean_kind, mean_abs_val = _expect_classify(mean_abs)
+            if mean_kind == 'abstain':
+                return calc_unknown(f'meanExists: {mean_abs_val}')
+            mean_exists = (mean_kind == 'finite')
+            variance_exists = False
+            e2_val = None
+            if mean_exists:
+                try:
+                    mean_val = sp.Sum(xf * pf, (n, startN, oo)).doit()
+                except Exception as e:  # noqa: BLE001
+                    return calc_unknown(f'cannot evaluate E[X]: {e}')
+                try:
+                    e2_raw = sp.Sum(xf**2 * pf, (n, startN, oo)).doit()
+                except Exception as e:  # noqa: BLE001
+                    return calc_unknown(f'cannot evaluate E[X^2]: {e}')
+                var_kind, e2_val = _expect_classify(e2_raw)
+                if var_kind == 'abstain':
+                    return calc_unknown(f'varianceExists: {e2_val}')
+                variance_exists = (var_kind == 'finite')
+            else:
+                mean_val = None
+
+        blocked = None if mean_exists else 'meanExists'
+        if mean_exists and not variance_exists:
+            blocked = 'varianceExists'
+        variance_val = (e2_val - mean_val**2) if (mean_exists and variance_exists) else None
+        all_pass = blocked is None
+        return {
+            'provenance': calc_cap('proved' if all_pass else 'refuted', exact),
+            'kind': 'discrete',
+            'exactInputs': exact,
+            'meanExists': mean_exists,
+            'varianceExists': variance_exists if mean_exists else None,
+            'blockedAct': blocked,
+            'allPass': all_pass,
+            'mean': (_calc_num(mean_val) if mean_exists else None),
+            'meanTex': (sp.latex(mean_val) if mean_exists else None),
+            'variance': (_calc_num(variance_val) if variance_val is not None else None),
+            'varianceTex': (sp.latex(variance_val) if variance_val is not None else None),
+        }
+
+    if rv_mode != 'continuous':
+        return calc_unknown(f'unknown rv_mode {rv_mode!r}')
+
+    try:
+        f = calc_parse(formula)
+    except ValueError as e:
+        return calc_unknown(f'bad formula: {e}')
+
+    if cont_support_kind == 'full':
+        lo, hi, exact = -oo, oo, True
+    else:
+        try:
+            lo, lo_exact = calc_parse_scalar(lo_str)
+        except ValueError as e:
+            return calc_unknown(f'bad lower support bound: {e}')
+        if cont_support_kind == 'semiInfRight':
+            hi, hi_exact = oo, True
+        else:
+            try:
+                hi, hi_exact = calc_parse_scalar(hi_str)
+            except ValueError as e:
+                return calc_unknown(f'bad upper support bound: {e}')
+            if not (hi > lo):
+                return calc_unknown('support must have hi > lo')
+        exact = lo_exact and hi_exact
+
+    try:
+        mean_abs_raw = _expect_abs_x_f_integral(f, lo, hi)
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'cannot integrate |x|f(x): {e}')
+    mean_kind, mean_abs_val = _expect_classify(mean_abs_raw)
+    if mean_kind == 'abstain':
+        return calc_unknown(f'meanExists: {mean_abs_val}')
+    mean_exists = (mean_kind == 'finite')
+
+    mean_val, variance_exists, e2_val = None, False, None
+    if mean_exists:
+        try:
+            mean_val = sp.integrate(x * f, (x, lo, hi))
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'cannot integrate x f(x): {e}')
+        try:
+            e2_raw = sp.integrate(x**2 * f, (x, lo, hi))
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'cannot integrate x^2 f(x): {e}')
+        var_kind, e2_val = _expect_classify(e2_raw)
+        if var_kind == 'abstain':
+            return calc_unknown(f'varianceExists: {e2_val}')
+        variance_exists = (var_kind == 'finite')
+
+    blocked = None if mean_exists else 'meanExists'
+    if mean_exists and not variance_exists:
+        blocked = 'varianceExists'
+    variance_val = (e2_val - mean_val**2) if (mean_exists and variance_exists) else None
+    all_pass = blocked is None
+    return {
+        'provenance': calc_cap('proved' if all_pass else 'refuted', exact),
+        'kind': 'continuous',
+        'exactInputs': exact,
+        'meanExists': mean_exists,
+        'varianceExists': variance_exists if mean_exists else None,
+        'blockedAct': blocked,
+        'allPass': all_pass,
+        'mean': (_calc_num(mean_val) if mean_exists else None),
+        'meanTex': (sp.latex(mean_val) if mean_exists else None),
+        'variance': (_calc_num(variance_val) if variance_val is not None else None),
+        'varianceTex': (sp.latex(variance_val) if variance_val is not None else None),
+    }
+
+
+# =============================================================================
+# \`transformrv\` (3.10, "Transformations of random variables"). An INDEPENDENT
+# SymPy implementation of transformrvEngine.js's own two-facet split (nothing
+# here calls into the JS engine) — see that file's header for the full design
+# note: discrete collecting-preimages (no breakable hypothesis) vs.
+# continuous strictly-monotonic-transformation (H1 = monotonic, gating the
+# change-of-variables shortcut).
+#
+# DISCRETE. xs/ps mirror analyse_randomvariables's own (x, p) rows exactly
+# (xs plain floats — the x-axis LABELS carry no exactness of their own, only
+# the probabilities do, via the shared parse_matrix helper); g_formula is a
+# SymPy-syntax string (expr.mjs's toSympy()) evaluated at each x-value.
+# Grouping is by FLOAT g(x) value (rounded to 9 decimals, the same tolerance
+# transformrvEngine.js's own keyOf uses) — the KEY (which x's collide) is a
+# float classification decision exactly as the JS tier documents, but the
+# VALUE summed per group is exact SymPy Rational addition, so this facet CAN
+# reach 'proved'/'refuted' when the input table is exact.
+#
+# CONTINUOUS. f_formula/g_formula are BOTH SymPy-syntax strings. Unlike the
+# JS numeric tier (which decides monotonicity by SAMPLING — a probe, never a
+# proof, for an arbitrary formula), SymPy decides H1 EXACTLY: g' has a
+# constant sign on the OPEN interval iff \`solve_univariate_inequality\` finds
+# no point where the derivative's sign flips — checked as "g'<=0 nowhere" OR
+# "g'>=0 nowhere" on Interval.open(lo, hi) (a decisive, closed-form
+# certificate every preset in this module's grammar produces). When
+# monotonic, \`sp.solve(Eq(g, y), x)\` is attempted for a closed-form inverse
+# h(y); every preset needing an inverse (sqrt(x), 180/x, 2x+1, x) resolves to
+# EXACTLY ONE symbolic solution, so f_Y(y) = f_X(h(y))*|dh/dy| is then
+# computed and simplified exactly. A genuine scope decision, documented here
+# rather than attempted and silently wrong: when H1 is FALSE (g not
+# monotonic), this symbolic tier does NOT attempt a general multi-branch
+# piecewise inverse — that is exactly the JS numeric tier's own
+# region-integral machinery's job (transformrvEngine.js's regionIntegral),
+# and forcing a symbolic piecewise solve here would risk exactly the kind of
+# "confidently wrong closed form" this app's provenance discipline exists to
+# prevent. The module reports H1's own verdict exactly (a certain,
+# decisive fact either way) and abstains ONLY on the derived f_Y formula in
+# that case — never promoted to 'proved'.
+# =============================================================================
+
+def _trv_group_discrete(xvals, pvals, g_formula):
+    """Returns (groups, injective) or raises ValueError. groups is a list of
+    {'y': float, 'xs': [float,...], 'p': sympy expr} sorted by y."""
+    try:
+        g = calc_parse(g_formula)
+    except ValueError as e:
+        raise ValueError(f'bad g(x): {e}') from e
+    keyed = {}
+    for xv, p in zip(xvals, pvals):
+        try:
+            yv = float(g.subs(x, xv))
+        except Exception as e:  # noqa: BLE001
+            raise ValueError(f'g(x) could not be evaluated at x={xv}: {e}') from e
+        key = round(yv, 9)
+        if key not in keyed:
+            keyed[key] = {'y': yv, 'xs': [], 'p': S.Zero}
+        keyed[key]['xs'].append(xv)
+        keyed[key]['p'] = keyed[key]['p'] + p
+    groups = sorted(keyed.values(), key=lambda gg: gg['y'])
+    injective = all(len(gg['xs']) == 1 for gg in groups)
+    return groups, injective
+
+
+def analyse_transformrv(rv_mode, xs, ps, g_formula, f_formula, lo_str, hi_str):
+    """rv_mode: 'discrete'|'continuous'.
+    Discrete:   xs (list[float]), ps (list[str] probability entries), g_formula.
+    Continuous: f_formula, lo_str, hi_str (support [lo,hi], finite only —
+                mirroring transformrvEngine.js's own scoped-down support
+                contract, see that file's header), g_formula.
+    """
+    if rv_mode == 'discrete':
+        if not xs or not ps or len(xs) != len(ps):
+            return calc_unknown('x and p must be non-empty and the same length')
+        try:
+            xvals = [float(v) for v in xs]
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'bad x value: {e}')
+        if len(set(xvals)) != len(xvals):
+            return calc_unknown('duplicate x value')
+        try:
+            M, exact = parse_matrix(list(ps))
+        except ValueError as e:
+            return calc_unknown(f'bad probability entry: {e}')
+        pvals = [M[i, 0] for i in range(M.rows)]
+
+        order = sorted(range(len(xvals)), key=lambda i: xvals[i])
+        sorted_x = [xvals[i] for i in order]
+        sorted_p = [pvals[i] for i in order]
+
+        violations = [i for i, v in enumerate(sorted_p) if v < 0]
+        non_neg_pass = len(violations) == 0
+        total = sum(sorted_p, S.Zero)
+        norm_pass = bool(simplify(total - 1) == 0)
+        p_x_valid = non_neg_pass and norm_pass
+
+        groups_out, injective, p_y_valid = None, None, None
+        if p_x_valid:
+            try:
+                groups, injective = _trv_group_discrete(sorted_x, sorted_p, g_formula)
+            except ValueError as e:
+                return calc_unknown(str(e))
+            p_y_values = [gg['p'] for gg in groups]
+            p_y_nonneg = all(bool(v >= 0) for v in p_y_values)
+            p_y_total = sum(p_y_values, S.Zero)
+            p_y_norm = bool(simplify(p_y_total - 1) == 0)
+            p_y_valid = p_y_nonneg and p_y_norm
+            groups_out = [{'y': gg['y'], 'xs': gg['xs'], 'p': str(gg['p'])} for gg in groups]
+
+        law_ok = bool(p_x_valid and p_y_valid)
+        return {
+            'provenance': calc_cap('proved' if law_ok else 'refuted', exact),
+            'kind': 'discrete',
+            'exactInputs': exact,
+            'pXValid': p_x_valid,
+            'groups': groups_out,
+            'injective': injective,
+            'pYValid': p_y_valid,
+        }
+
+    if rv_mode != 'continuous':
+        return calc_unknown(f'unknown rv_mode {rv_mode!r}')
+
+    try:
+        f = calc_parse(f_formula)
+    except ValueError as e:
+        return calc_unknown(f'bad f(x): {e}')
+    try:
+        g = calc_parse(g_formula)
+    except ValueError as e:
+        return calc_unknown(f'bad g(x): {e}')
+    try:
+        lo, lo_exact = calc_parse_scalar(lo_str)
+        hi, hi_exact = calc_parse_scalar(hi_str)
+    except ValueError as e:
+        return calc_unknown(f'bad support bound: {e}')
+    if not bool(hi > lo):
+        return calc_unknown('support must have hi > lo')
+    exact = lo_exact and hi_exact
+
+    try:
+        neg_set = solve_univariate_inequality(f < 0, x, relational=False, domain=Interval(lo, hi))
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'cannot determine sign of f on the support: {e}')
+    non_neg_pass = (neg_set is S.EmptySet)
+
+    try:
+        total = sp.integrate(f, (x, lo, hi))
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'cannot integrate f exactly: {e}')
+    if total.has(sp.Integral) or not total.is_finite:
+        return calc_unknown('integral of f does not evaluate to a finite closed form')
+    norm_pass = bool(simplify(total - 1) == 0)
+    f_x_valid = non_neg_pass and norm_pass
+
+    if not f_x_valid:
+        blocked = 'nonNegativity' if not non_neg_pass else 'normalization'
+        return {
+            'provenance': calc_cap('refuted', exact),
+            'kind': 'continuous',
+            'exactInputs': exact,
+            'nonNegativity': {'pass': non_neg_pass},
+            'normalization': {'pass': norm_pass, 'total': str(total)},
+            'fXValid': False,
+            'blockedAct': blocked,
+            'monotonic': None,
+            'hExpr': None,
+            'fYExpr': None,
+        }
+
+    # H1: is g' of constant sign on the OPEN interval? A decisive certificate
+    # either way (see the module docstring for why this is exact, unlike the
+    # JS tier's own sampling probe).
+    try:
+        gprime = sp.diff(g, x)
+        open_iv = Interval.open(lo, hi)
+        non_positive_nowhere = solve_univariate_inequality(gprime <= 0, x, relational=False, domain=open_iv) is S.EmptySet
+        non_negative_nowhere = solve_univariate_inequality(gprime >= 0, x, relational=False, domain=open_iv) is S.EmptySet
+        monotonic = bool(non_positive_nowhere or non_negative_nowhere)
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'cannot determine monotonicity of g exactly: {e}')
+
+    h_expr, f_y_expr = None, None
+    if monotonic:
+        y_sym = sp.Symbol('y', real=True)
+        try:
+            sols = sp.solve(sp.Eq(g, y_sym), x)
+        except Exception:  # noqa: BLE001
+            sols = []
+        if len(sols) == 1:
+            h_expr = sols[0]
+            try:
+                f_y_expr = simplify(f.subs(x, h_expr) * Abs(sp.diff(h_expr, y_sym)))
+            except Exception:  # noqa: BLE001
+                f_y_expr = None
+        # len(sols) != 1: SymPy could not produce a single unambiguous
+        # closed-form inverse — abstain on f_Y specifically (h_expr/f_y_expr
+        # stay None) rather than guessing which branch/solution to use.
+
+    provenance = calc_cap('proved' if (monotonic and f_y_expr is not None) else 'refuted', exact) if (monotonic is False or f_y_expr is not None) else 'unknown'
+    return {
+        'provenance': provenance,
+        'kind': 'continuous',
+        'exactInputs': exact,
+        'nonNegativity': {'pass': non_neg_pass},
+        'normalization': {'pass': norm_pass, 'total': str(total)},
+        'fXValid': True,
+        'blockedAct': None if monotonic else 'monotonic',
+        'monotonic': monotonic,
+        'hExpr': (str(h_expr) if h_expr is not None else None),
+        'fYExpr': (str(f_y_expr) if f_y_expr is not None else None),
+        'fYTex': (sp.latex(f_y_expr) if f_y_expr is not None else None),
+    }
+
+
+# =============================================================================
+# ── Probability & Statistics domain (DOMAINS[2]) — named distributions:
+#    Bernoulli & Binomial distributions (topic 3.12) ──
+#
+# An INDEPENDENT SymPy implementation of binomialEngine.js's analyzeBinomial
+# (nothing here calls into the JS engine). p and every entry of p_arr arrive
+# as RAW probability strings exactly as the module's own input fields hold
+# them (never pre-converted to a sympy-syntax string via expr.mjs's
+# parseNumber) — parsed via parse_entry/parse_matrix, the same exact-vs-
+# decimal distinguishing helper every other module in this domain
+# (probabilitylaws/conditional/bayes/independence/randomvariables/
+# transformrv) already uses for its own probability entries: a decimal
+# string like "0.05" is read as an EXACT rational via nsimplify(Float(s))
+# (the string itself is already fixed-precision, not a suspect float) but
+# still flips the whole result's provenance to 'numeric', mirroring the JS
+# engine's own "one decimal taints the table" rule.
+#
+# Mirrors binomialEngine.js's own structure exactly: build the joint table
+# over 2^n_check binary trial-outcome sequences under the declared scenario
+# ('iid'/'correlated'/'unequalP'), check identicallyDistributed/jointFactors,
+# and compare the enumerated distribution of X=X1+...+Xn_check against the
+# Bin(n_check, pUsed) formula DIRECTLY — the one genuinely breakable
+# hypothesis, iidBernoulli. Once it holds, normalization (the binomial
+# theorem) and the two-route mean/variance theorem (binmv) are verified via
+# exact finite sums (n is always concrete here, so "the sum" is a literal
+# finite Rational sum, not a symbolic Sum over an unbound n) — never merely
+# asserted as n*p / n*p*(1-p).
+# =============================================================================
+
+
+def _bin_joint(n_check, scenario, p_val, p_arr_vals):
+    """Build the joint table over 2^n_check binary trial-outcome sequences —
+    an independent re-derivation of binomialEngine.js's own buildJoint."""
+    seqs = []
+    for bits in product((0, 1), repeat=n_check):
+        if scenario == 'iid':
+            prob = S.One
+            for b in bits:
+                prob = prob * (p_val if b else (S.One - p_val))
+        elif scenario == 'correlated':
+            if n_check < 2 or bits[0] == bits[1]:
+                prob = p_val if bits[0] else (S.One - p_val)
+                for b in bits[2:]:
+                    prob = prob * (p_val if b else (S.One - p_val))
+            else:
+                prob = S.Zero
+        else:  # 'unequalP'
+            prob = S.One
+            for i, b in enumerate(bits):
+                pi = p_arr_vals[i]
+                prob = prob * (pi if b else (S.One - pi))
+        seqs.append((bits, prob))
+    marginals = [sum((prob for bits, prob in seqs if bits[i]), S.Zero) for i in range(n_check)]
+    return seqs, marginals
+
+
+def analyse_binomial(n, p_str, n_check, scenario, p_arr=None):
+    """n, n_check: ints (or numeric strings). p_str: a RAW probability entry
+    string ('0.05', '1/2', '1'). scenario: 'iid'|'correlated'|'unequalP'.
+    p_arr: list[str] of n_check raw probability entries, required only when
+    scenario='unequalP'."""
+    try:
+        n = int(n)
+        n_check = int(n_check)
+    except (TypeError, ValueError):
+        return calc_unknown('n and nCheck must be integers')
+    if n < 1:
+        return calc_unknown('n must be a positive integer')
+    if not (1 <= n_check <= 6):
+        return calc_unknown('the i.i.d. check needs 1 <= nCheck <= 6 (brute force over 2^n sequences)')
+
+    try:
+        p_val, p_exact = parse_entry(p_str)
+    except ValueError as e:
+        return calc_unknown(f'bad p: {e}')
+    if not (0 <= p_val <= 1):
+        return calc_unknown('p must satisfy 0 <= p <= 1')
+
+    p_arr_vals, p_arr_exact = None, True
+    if scenario == 'unequalP':
+        if not p_arr or len(p_arr) != n_check:
+            return calc_unknown(f'need exactly {n_check} trial probabilities for the unequal-p scenario')
+        p_arr_vals = []
+        for s in p_arr:
+            try:
+                v, ex = parse_entry(s)
+            except ValueError as e:
+                return calc_unknown(f'bad trial probability: {e}')
+            if not (0 <= v <= 1):
+                return calc_unknown('every trial probability must satisfy 0 <= p_i <= 1')
+            p_arr_vals.append(v)
+            p_arr_exact = p_arr_exact and ex
+
+    eff_exact = p_arr_exact if scenario == 'unequalP' else p_exact
+    seqs, marginals = _bin_joint(n_check, scenario, p_val, p_arr_vals)
+
+    def eqp(a, b):
+        return bool(simplify(a - b) == 0) if eff_exact else abs(float(a) - float(b)) <= 1e-9
+
+    identically_distributed = all(eqp(m, marginals[0]) for m in marginals)
+
+    def joint_factors_check():
+        for bits, prob in seqs:
+            expected = S.One
+            for i in range(n_check):
+                mi = marginals[i]
+                expected = expected * (mi if bits[i] else (S.One - mi))
+            if not eqp(expected, prob):
+                return False
+        return True
+    joint_factors = joint_factors_check()
+
+    p_used = marginals[0] if identically_distributed else sum(marginals, S.Zero) / n_check
+
+    true_dist = [S.Zero] * (n_check + 1)
+    for bits, prob in seqs:
+        true_dist[sum(bits)] += prob
+    formula_dist = [sp.binomial(n_check, k) * p_used**k * (S.One - p_used)**(n_check - k) for k in range(n_check + 1)]
+
+    matches = True
+    for k in range(n_check + 1):
+        if not eqp(true_dist[k], formula_dist[k]):
+            matches = False
+
+    result = {
+        'id': 'binomial', 'n': n, 'nCheck': n_check, 'scenario': scenario,
+        'iidHolds': matches,
+        'identicallyDistributed': identically_distributed,
+        'jointFactors': joint_factors,
+        'pUsed': _calc_num(p_used),
+        'blockedAct': None if matches else 'iidBernoulli',
+    }
+    if not matches:
+        result['provenance'] = calc_cap('refuted', eff_exact)
+        return result
+
+    # Normalization (the binomial theorem) — a real, non-gating check via a
+    # literal finite sum (n is always concrete here).
+    pmf_terms = [sp.binomial(n, k) * p_val**k * (S.One - p_val)**(n - k) for k in range(n + 1)]
+    total = sum(pmf_terms, S.Zero)
+    norm_pass = bool(simplify(total - 1) == 0) if p_exact else bool(abs(float(total) - 1) <= 1e-6)
+
+    # Theorem binmv, Route A: the direct factorial-moment sums (never merely
+    # asserted as np / np(1-p)).
+    mean_sum = sum((k * pmf_terms[k] for k in range(n + 1)), S.Zero)
+    e2fact_sum = sum((k * (k - 1) * pmf_terms[k] for k in range(n + 1)), S.Zero)
+    var_sum = e2fact_sum + mean_sum - mean_sum * mean_sum
+    mean_closed = n * p_val
+    var_closed = n * p_val * (S.One - p_val)
+    if p_exact:
+        mean_sum = simplify(mean_sum)
+        var_sum = simplify(var_sum)
+        mean_agree = bool(simplify(mean_sum - mean_closed) == 0)
+        var_agree = bool(simplify(var_sum - var_closed) == 0)
+    else:
+        mean_agree = bool(abs(float(mean_sum) - float(mean_closed)) <= 1e-6)
+        var_agree = bool(abs(float(var_sum) - float(var_closed)) <= 1e-6)
+
+    return {
+        **result,
+        'provenance': calc_cap('proved', p_exact),
+        'allPass': True,
+        'normalization': {'pass': norm_pass, 'total': _calc_num(total)},
+        'mean': _calc_num(mean_sum), 'meanTex': sp.latex(mean_sum),
+        'variance': _calc_num(var_sum), 'varianceTex': sp.latex(var_sum),
+        'meanAgree': mean_agree, 'varAgree': var_agree,
+        'reducesTo': 'bernoulli' if n == 1 else None,
+    }
+
+
+# ---------------------------------------------------------------------------
+# geometric (3.13, "Geometric distribution & memorylessness") — the direct
+# sequel to analyse_binomial above. See geometricEngine.js's own header for
+# the full mathematical design; this mirrors it independently in SymPy.
+# ---------------------------------------------------------------------------
+def _geom_joint_iid(n, p_val):
+    """Independent re-derivation of geometricEngine.js's own 'iid' joint
+    table — identical in structure to _bin_joint(n, 'iid', p_val, None)."""
+    seqs = []
+    for bits in product((0, 1), repeat=n):
+        prob = S.One
+        for b in bits:
+            prob = prob * (p_val if b else (S.One - p_val))
+        seqs.append((bits, prob))
+    marginals = [sum((prob for bits, prob in seqs if bits[i]), S.Zero) for i in range(n)]
+    return seqs, marginals
+
+
+def _geom_joint_improving(n, p_start, inc):
+    """'improvingP' scenario — mirrors geometricEngine.js's own
+    buildImprovingJoint: a trial's own probability, in a GIVEN sequence,
+    depends on how many of the PRECEDING trials in THAT sequence were
+    failures (regardless of any interspersed success — a documented
+    modeling simplification shared with the JS engine, needed so this joint
+    table can confirm identicallyDistributed/jointFactors by brute force
+    rather than merely computing the schedule's own tail probabilities).
+    Kept in exact Rational arithmetic throughout — p_start/inc arrive as
+    exact Rationals from parse_entry even when the raw string was a
+    decimal, so 'improvingP' with two decimal inputs still computes exactly
+    and is only CAPPED to 'numeric'/'refuted' provenance by calc_cap."""
+    seqs = []
+    for bits in product((0, 1), repeat=n):
+        prob = S.One
+        fail_count = 0
+        for b in bits:
+            pi = min(S.One, p_start + inc * fail_count)
+            prob = prob * (pi if b else (S.One - pi))
+            if not b:
+                fail_count += 1
+        seqs.append((bits, prob))
+    marginals = [sum((prob for bits, prob in seqs if bits[i]), S.Zero) for i in range(n)]
+    return seqs, marginals
+
+
+def _geom_waiting_dist(n, seqs):
+    """X = index (1-based) of the first 1-bit, or the tail P(X>n)."""
+    dist = [S.Zero] * (n + 1)
+    tail = S.Zero
+    for bits, prob in seqs:
+        idx = None
+        for i, b in enumerate(bits):
+            if b:
+                idx = i
+                break
+        if idx is None:
+            tail += prob
+        else:
+            dist[idx + 1] += prob
+    return dist, tail
+
+
+def _geom_tail_exact(n_val, p_val, q_val):
+    """P(X>n_val) = sum_{k>n_val} q^(k-1)p, via SymPy's OWN infinite Sum —
+    a genuinely independent route from simply writing q_val**n_val.
+    q_val=0 (p=1) is special-cased: SymPy's infinite-Sum machinery,
+    confirmed by hand, silently drops the k=n_val+1 boundary term
+    (0**0=1) when the summation index is symbolic, returning 0 instead of
+    the correct P(X>0)=1 — a genuinely NEW SymPy trap for this module,
+    alongside the existing floor/sign/nsimplify family, worked around by
+    deciding the p=1 degenerate case analytically instead (X is
+    identically 1, so P(X>n)=1 for n=0 and 0 for n>=1 — exact facts, not a
+    limit)."""
+    if q_val == 0:
+        return S.One if n_val == 0 else S.Zero
+    ksym = Symbol('k', positive=True, integer=True)
+    return Sum(q_val ** (ksym - 1) * p_val, (ksym, n_val + 1, oo)).doit()
+
+
+def analyse_geometric(p_str, n_check, scenario, inc_str=None, s=None, t=None):
+    """p_str: RAW probability entry string ('0.3', '1/2', '1'). n_check: int
+    (or numeric string), 1<=n_check<=6. scenario: 'iid'|'improvingP'.
+    inc_str: RAW increment entry string, required only for 'improvingP'.
+    s, t: ints (or numeric strings) for the memorylessness check, s>=0,
+    t>=1 — checked whenever supplied, REGARDLESS of whether iidBernoulli
+    holds (this module's own flagship lesson: memorylessness genuinely
+    depends on the i.i.d. hypothesis, so the broken scenario's own
+    divergence is a second, honest, always-computed fact, the same shape
+    analyse_bayes' own totalProb-computed-regardless-of-validity
+    established)."""
+    try:
+        n_check = int(n_check)
+    except (TypeError, ValueError):
+        return calc_unknown('nCheck must be an integer')
+    if not (1 <= n_check <= 6):
+        return calc_unknown('the i.i.d. check needs 1 <= nCheck <= 6 (brute force over 2^n sequences)')
+
+    try:
+        p_val, p_exact = parse_entry(p_str)
+    except ValueError as e:
+        return calc_unknown(f'bad p: {e}')
+    if not (0 < p_val <= 1):
+        return calc_unknown('p must satisfy 0 < p <= 1')
+
+    inc_val, inc_exact = None, True
+    if scenario == 'improvingP':
+        try:
+            inc_val, inc_exact = parse_entry(inc_str)
+        except (ValueError, TypeError) as e:
+            return calc_unknown(f'bad increment: {e}')
+        if inc_val < 0:
+            return calc_unknown('the improving-p increment must be >= 0')
+        seqs, marginals = _geom_joint_improving(n_check, p_val, inc_val)
+    else:
+        seqs, marginals = _geom_joint_iid(n_check, p_val)
+
+    eff_exact = p_exact and inc_exact
+
+    def eqp(a, b):
+        return bool(simplify(a - b) == 0)
+
+    identically_distributed = all(eqp(m, marginals[0]) for m in marginals)
+
+    def joint_factors_check():
+        for bits, prob in seqs:
+            expected = S.One
+            for i in range(n_check):
+                mi = marginals[i]
+                expected = expected * (mi if bits[i] else (S.One - mi))
+            if not eqp(expected, prob):
+                return False
+        return True
+    joint_factors = joint_factors_check()
+
+    dist, tail = _geom_waiting_dist(n_check, seqs)
+    p_used = marginals[0] if scenario == 'iid' else p_val
+    formula_dist = [(S.One - p_used) ** (k - 1) * p_used for k in range(1, n_check + 1)]
+    formula_tail = (S.One - p_used) ** n_check
+
+    matches = all(eqp(dist[k], formula_dist[k - 1]) for k in range(1, n_check + 1)) and eqp(tail, formula_tail)
+
+    result = {
+        'id': 'geometric', 'nCheck': n_check, 'scenario': scenario,
+        'iidHolds': matches,
+        'identicallyDistributed': identically_distributed,
+        'jointFactors': joint_factors,
+        'pUsed': _calc_num(p_used),
+        'blockedAct': None if matches else 'iidBernoulli',
+    }
+
+    try:
+        s_int, t_int = int(s), int(t)
+    except (TypeError, ValueError):
+        s_int, t_int = None, None
+    if s_int is not None and t_int is not None and s_int >= 0 and t_int >= 1:
+        if scenario == 'iid':
+            q_val = S.One - p_val
+            closed_ratio = q_val ** t_int
+            tail_s = _geom_tail_exact(s_int, p_val, q_val)
+            tail_st = _geom_tail_exact(s_int + t_int, p_val, q_val)
+            tail_t = _geom_tail_exact(t_int, p_val, q_val)
+            numeric_ratio = tail_st / tail_s if tail_s != 0 else None
+            memory_holds = numeric_ratio is not None and eqp(numeric_ratio, closed_ratio) and eqp(numeric_ratio, tail_t)
+            result['memoryless'] = {
+                'closedRatio': _calc_num(closed_ratio),
+                'numericRatio': _calc_num(numeric_ratio) if numeric_ratio is not None else None,
+                'holds': bool(memory_holds),
+            }
+        else:
+            def tail_from_schedule(k):
+                prod = S.One
+                for i in range(k):
+                    pi = min(S.One, p_val + inc_val * i)
+                    prod = prod * (S.One - pi)
+                return prod
+            tail_s = tail_from_schedule(s_int)
+            tail_st = tail_from_schedule(s_int + t_int)
+            naive_t = tail_from_schedule(t_int)
+            ratio = tail_st / tail_s if tail_s != 0 else None
+            diverges = ratio is None or not eqp(ratio, naive_t)
+            result['memoryless'] = {
+                'conditionalRatio': _calc_num(ratio) if ratio is not None else None,
+                'naiveTailT': _calc_num(naive_t),
+                'holds': bool(not diverges),
+            }
+
+    if not matches:
+        result['provenance'] = calc_cap('refuted', eff_exact)
+        return result
+
+    # Normalization (geometric series) — a real, non-gating check that ALWAYS
+    # holds for 0 < p <= 1 (an algebraic identity, not something that can
+    # independently fail) — the now-established "no independently-breakable
+    # third hypothesis" exception shape (riemann/ftc/improper/gammabeta/
+    # sequences/extrema/probabilitylaws/bayes' own third condition).
+    norm_pass = True
+
+    # Theorem geomv, Route A: literally differentiate the geometric series
+    # sum_{k=0}^inf q^k = (1-q)^-1 — sp.diff on the CLOSED FORM itself,
+    # mirroring the course notes' own proof, not an asserted derivative.
+    qsym = Symbol('q')
+    series_closed = 1 / (1 - qsym)
+    d1_expr = sp.diff(series_closed, qsym)
+    d2_expr = sp.diff(series_closed, qsym, 2)
+    q_val = S.One - p_val
+    if q_val == 0:
+        # See _geom_tail_exact's own docstring for the identical q=0 SymPy
+        # trap — the general infinite-Sum/derivative-substitution route
+        # mishandles this boundary; p=1 is decided analytically instead.
+        mean_sum, var_sum, mean_b = S.One, S.Zero, S.One
+        derivative_identities_confirmed = True
+    else:
+        d1_val = d1_expr.subs(qsym, q_val)
+        d2_val = d2_expr.subs(qsym, q_val)
+        mean_sum = p_val * d1_val
+        e2fact_sum = p_val * q_val * d2_val
+        var_sum = e2fact_sum + mean_sum - mean_sum * mean_sum
+        # Route B: expectation's (3.11) own Tail-Sum Formula, E[X]=
+        # sum_{n>=0}P(X>n) — a genuinely different SymPy computation (a
+        # direct Sum(...).doit() over the geometric series in q, not a
+        # derivative), citing Topic 3.11 explicitly (see geometricNotes.jsx's
+        # connects section).
+        nsym = Symbol('n', nonnegative=True, integer=True)
+        tail_sum_expr = Sum(qsym ** nsym, (nsym, 0, oo)).doit()
+        mean_b = tail_sum_expr.subs(qsym, q_val)
+        derivative_identities_confirmed = bool(
+            simplify(d1_val - 1 / (1 - q_val) ** 2) == 0
+            and simplify(d2_val - 2 / (1 - q_val) ** 3) == 0
+        )
+
+    mean_closed = 1 / p_val
+    var_closed = q_val / (p_val * p_val)
+    mean_agree = bool(simplify(mean_sum - mean_closed) == 0)
+    var_agree = bool(simplify(var_sum - var_closed) == 0)
+    route_b_agree = bool(simplify(mean_b - mean_closed) == 0)
+
+    return {
+        **result,
+        'provenance': calc_cap('proved', eff_exact),
+        'allPass': True,
+        'normalization': {'pass': norm_pass},
+        'mean': _calc_num(mean_sum), 'meanTex': sp.latex(mean_sum),
+        'variance': _calc_num(var_sum), 'varianceTex': sp.latex(var_sum),
+        'meanAgree': mean_agree, 'varAgree': var_agree,
+        'meanB': _calc_num(mean_b), 'routeBAgree': route_b_agree,
+        'derivativeIdentitiesConfirmed': derivative_identities_confirmed,
+    }
+
+
+# ---------------------------------------------------------------------------
+# poisson (3.14, "Poisson distribution") — the direct sequel to
+# analyse_binomial/analyse_geometric above. See poissonEngine.js's own
+# header for the full mathematical design; this is a genuinely INDEPENDENT
+# re-derivation in SymPy, not a port of the JS engine's own marching
+# machinery — where the JS tier's provenance is ALWAYS 'numeric' (e^-lambda
+# is transcendental, so no rational-arithmetic route exists there even for
+# an exact-fraction lambda), THIS function decides every base-layer fact
+# EXACTLY for a rational lambda via SymPy's own closed-form infinite-series
+# summation (Sum(...).doit() resolves sum_k lambda^k/k! to exp(lambda)
+# directly, a known hypergeometric closed form), and decides the
+# Approximation Theorem's own hypothesis H1 (poissonScaling) EXACTLY via a
+# genuine symbolic LIMIT as n -> infinity — sp.limit(binomial(n,k)*p_n**k*
+# (1-p_n)**(n-k), n, oo) resolves cleanly to exp(-lambda)*lambda**k/k! under
+# the textbook p_n=lambda/n scaling, and to 0 under a FIXED p_n — both
+# confirmed by hand across every shipped preset (lambda up to 20, k up to
+# 15) in well under 3 seconds each, comfortably inside the 10s compute
+# watchdog. NO SymPy boundary trap analogous to analyse_geometric's own q=0
+# finding was found here: normalization/poismv were confirmed by hand at
+# lambda=1/1000 and lambda=100 (both extremes) and the H1 limit was
+# confirmed at lambda=1/100,k=0 and lambda=20,k=15 — every case decided
+# cleanly with no unevaluated Sum/limit and no special-casing needed.
+def analyse_poisson(lambda_str, k, scaling_rule, p_fixed_str=None):
+    """lambda_str: RAW lambda entry string ('0.7', '1/3', '10'). k: int (or
+    numeric string), k>=0. scaling_rule: 'lambdaOverN'|'fixedP'. p_fixed_str:
+    RAW probability entry string, required only for scaling_rule='fixedP'."""
+    try:
+        k = int(k)
+    except (TypeError, ValueError):
+        return calc_unknown('k must be an integer')
+    if k < 0:
+        return calc_unknown('k must be a non-negative integer')
+
+    try:
+        lambda_val, lambda_exact = parse_entry(lambda_str)
+    except ValueError as e:
+        return calc_unknown(f'bad lambda: {e}')
+    if lambda_val <= 0:
+        return calc_unknown('lambda must be > 0 (a Poisson rate is strictly positive)')
+
+    p_fixed_val, p_fixed_exact = None, True
+    if scaling_rule == 'fixedP':
+        try:
+            p_fixed_val, p_fixed_exact = parse_entry(p_fixed_str)
+        except (ValueError, TypeError) as e:
+            return calc_unknown(f'bad fixed p: {e}')
+        if not (0 < p_fixed_val <= 1):
+            return calc_unknown('the fixed p must satisfy 0 < p <= 1')
+    elif scaling_rule != 'lambdaOverN':
+        return calc_unknown("scalingRule must be 'lambdaOverN' or 'fixedP'")
+
+    eff_exact = lambda_exact and p_fixed_exact
+
+    ksym = Symbol('k', integer=True, nonnegative=True)
+    target = sp.exp(-lambda_val) * lambda_val ** k / sp.factorial(k)
+
+    # Base layer: normalization (the exponential series) — a real,
+    # non-gating, ALWAYS-holding identity for lambda>0, confirmed via
+    # SymPy's own closed-form infinite summation, not merely cited.
+    total = Sum(lambda_val ** ksym * sp.exp(-lambda_val) / sp.factorial(ksym), (ksym, 0, oo)).doit()
+    norm_pass = bool(simplify(total - 1) == 0)
+
+    # Theorem poismv: E[X]=Var(X)=lambda, via the SAME exact closed-form
+    # summation (a genuinely independent computation from the JS engine's
+    # own marching-sum Route A/B split — SymPy proves the infinite sum
+    # directly rather than truncating it).
+    mean_sum = Sum(ksym * lambda_val ** ksym * sp.exp(-lambda_val) / sp.factorial(ksym), (ksym, 0, oo)).doit()
+    e2_sum = Sum(ksym * (ksym - 1) * lambda_val ** ksym * sp.exp(-lambda_val) / sp.factorial(ksym), (ksym, 0, oo)).doit()
+    var_sum = simplify(e2_sum + mean_sum - mean_sum ** 2)
+    mean_agree = bool(simplify(mean_sum - lambda_val) == 0)
+    var_agree = bool(simplify(var_sum - lambda_val) == 0)
+
+    # The Poisson Approximation Theorem's H1 (poissonScaling): a genuine
+    # symbolic LIMIT as n -> infinity of the fixed-k binomial PMF under the
+    # declared scaling — decided EXACTLY, never sampled.
+    nsym = Symbol('n', positive=True)
+    p_n = p_fixed_val if scaling_rule == 'fixedP' else lambda_val / nsym
+    expr = sp.binomial(nsym, k) * p_n ** k * (1 - p_n) ** (nsym - k)
+    try:
+        scaling_limit = sp.limit(expr, nsym, oo)
+    except Exception as e:  # noqa: BLE001 — an exotic input SymPy's limit machinery declines
+        return calc_unknown(f'could not compute the scaling limit: {e}')
+    scaling_holds = bool(simplify(scaling_limit - target) == 0)
+
+    result = {
+        'id': 'poisson', 'lambda': _calc_num(lambda_val), 'k': k, 'scalingRule': scaling_rule,
+        'normalization': {'pass': norm_pass},
+        'mean': _calc_num(mean_sum), 'meanTex': sp.latex(mean_sum),
+        'variance': _calc_num(var_sum), 'varianceTex': sp.latex(var_sum),
+        'meanAgree': mean_agree, 'varAgree': var_agree,
+        'target': _calc_num(target),
+        'scalingLimit': _calc_num(scaling_limit), 'scalingLimitTex': sp.latex(scaling_limit),
+        'scalingHolds': scaling_holds,
+        'blockedAct': None if scaling_holds else 'poissonScaling',
+    }
+    if not scaling_holds:
+        result['provenance'] = calc_cap('refuted', eff_exact)
+        return result
+    return {
+        **result,
+        'provenance': calc_cap('proved', eff_exact),
+        'allPass': True,
+    }
+
+
+# =============================================================================
+# \`uniform\` (3.15, "Uniform distribution — discrete & continuous"). An
+# INDEPENDENT SymPy implementation of uniformEngine.js's own analyzeDiscrete
+# Uniform/analyzeContinuousUniform (nothing here calls into the JS engine).
+# See uniformEngine.js's own header for the full design note: unlike
+# binomial/geometric/poisson, this module has NO hypothesis structure at all
+# — a definition plus two derived moments, verified as an identity between
+# two independently-computed numbers, never an existence claim.
+#
+# a/b/c/d are parsed via \`parse_entry\` (this domain's own exact-vs-decimal
+# helper binomial/geometric/poisson already use for their own probability
+# entries) — deliberately NOT expr.mjs's parseNumber/calc_parse_scalar (the
+# Calculus-domain helper, which pre-converts even a plain decimal string into
+# an exact Rational before it ever reaches SymPy), for exactly the reason
+# analyse_binomial's own docstring documents at length: using the wrong
+# helper here would silently make every decimal a/b preset read as 'proved'
+# instead of 'numeric'.
+#
+# A genuine asymmetry with the JS numeric engine, the mirror image of
+# analyse_ftc's/analyse_randomvariables' own "decides more than expected"
+# finding: the JS continuous branch is ALWAYS 'numeric' (Simpson quadrature
+# is inherently approximate), but analyse_uniform's continuous branch
+# integrates the DEFINING integral directly via \`sp.integrate\` and so CAN
+# decide exactly ('proved'/'refuted') whenever a and b are both exact —
+# documented here, not merely discovered by accident.
+def _unif_p_int(v):
+    """v: a SymPy Rational/Integer known to be an integer value. Returns a
+    plain Python int."""
+    return int(v)
+
+
+def analyse_uniform(rv_mode, a_str, b_str, c_str=None, d_str=None):
+    """rv_mode: 'discrete'|'continuous'. a_str/b_str: RAW entry strings
+    ('1', '1/2', '0.5'), parsed via parse_entry — never expr.mjs's
+    parseNumber (see module header). c_str/d_str: RAW entry strings for the
+    continuous branch's affine-invariance extra fact (Y=cX+d), optional —
+    when omitted, the affine check is skipped entirely (not an error)."""
+    if rv_mode == 'discrete':
+        try:
+            a_val, a_exact = parse_entry(a_str)
+            b_val, b_exact = parse_entry(b_str)
+        except ValueError as e:
+            return calc_unknown(f'bad a/b: {e}')
+        if not a_val.is_integer or not b_val.is_integer:
+            return calc_unknown('a and b must be integers')
+        a_int, b_int = _unif_p_int(a_val), _unif_p_int(b_val)
+        if a_int > b_int:
+            return calc_unknown('need a <= b (a > b is an empty range)')
+        n = b_int - a_int + 1
+        exact = a_exact and b_exact
+
+        p = Q(1, n)
+        total = sum((p for _ in range(n)), S.Zero)
+        norm_pass = bool(simplify(total - 1) == 0)
+
+        mean = sum((Q(k) * p for k in range(a_int, b_int + 1)), S.Zero)
+        var = sum(((Q(k) - mean) ** 2 * p for k in range(a_int, b_int + 1)), S.Zero)
+        mean_closed = Q(a_int + b_int, 2)
+        var_closed = Q((b_int - a_int) * (b_int - a_int + 2), 12)
+        identity_holds = bool(simplify(mean - mean_closed) == 0) and bool(simplify(var - var_closed) == 0)
+
+        return {
+            'provenance': calc_cap('proved' if identity_holds else 'refuted', exact),
+            'kind': 'discrete', 'a': a_int, 'b': b_int, 'n': n,
+            'degenerate': a_int == b_int,
+            'normalizationPass': norm_pass,
+            'mean': str(mean), 'variance': str(var),
+            'meanClosed': str(mean_closed), 'varianceClosed': str(var_closed),
+            'identityHolds': identity_holds,
+        }
+
+    if rv_mode != 'continuous':
+        return calc_unknown(f'unknown rv_mode {rv_mode!r}')
+
+    try:
+        lo, lo_exact = parse_entry(a_str)
+        hi, hi_exact = parse_entry(b_str)
+    except ValueError as e:
+        return calc_unknown(f'bad a/b: {e}')
+    if not (hi > lo):
+        return calc_unknown('need b > a (a zero-width interval [a,a] has no density to normalize)')
+    exact = lo_exact and hi_exact
+
+    width = hi - lo
+    f = S.One / width
+    try:
+        total = sp.integrate(f, (x, lo, hi))
+        mean = sp.integrate(f * x, (x, lo, hi))
+        e2 = sp.integrate(f * x ** 2, (x, lo, hi))
+    except Exception as e:  # noqa: BLE001 — an exotic width SymPy's integrator declines
+        return calc_unknown(f'could not integrate exactly: {e}')
+    var = simplify(e2 - mean ** 2)
+    norm_pass = bool(simplify(total - 1) == 0)
+    mean_closed = simplify((lo + hi) / 2)
+    var_closed = simplify(width ** 2 / 12)
+    identity_holds = bool(simplify(mean - mean_closed) == 0) and bool(simplify(var - var_closed) == 0)
+
+    affine = None
+    if c_str is not None and d_str is not None:
+        try:
+            c_val, c_exact = parse_entry(c_str)
+            d_val, d_exact = parse_entry(d_str)
+        except ValueError as e:
+            affine = {'error': f'bad c/d: {e}'}
+        else:
+            if c_val == 0:
+                affine = {'error': 'c must be nonzero'}
+            else:
+                new_lo = c_val * lo + d_val if c_val > 0 else c_val * hi + d_val
+                new_hi = c_val * hi + d_val if c_val > 0 else c_val * lo + d_val
+                expected_density = simplify(S.One / (Abs(c_val) * width))
+                # Y=cX+d, X~U[lo,hi]. h(y)=(y-d)/c, |dh/dy|=1/|c| — the
+                # transformed density's own genuinely constant value,
+                # confirmed by direct substitution into f, not merely
+                # asserted from the theorem's own conclusion.
+                fY = simplify(f.subs(x, (x - d_val) / c_val) * (S.One / Abs(c_val)))
+                density_matches = bool(simplify(fY - expected_density) == 0)
+                affine = {
+                    'c': str(c_val), 'd': str(d_val),
+                    'newLo': str(new_lo), 'newHi': str(new_hi),
+                    'expectedDensity': str(expected_density),
+                    'densityMatches': density_matches,
+                    'stillUniform': density_matches,
+                    'provenance': calc_cap('proved' if density_matches else 'refuted', exact and c_exact and d_exact),
+                }
+
+    return {
+        'provenance': calc_cap('proved' if identity_holds else 'refuted', exact),
+        'kind': 'continuous', 'a': str(lo), 'b': str(hi),
+        'normalizationPass': norm_pass,
+        'mean': str(mean), 'variance': str(var),
+        'meanClosed': str(mean_closed), 'varianceClosed': str(var_closed),
+        'identityHolds': identity_holds,
+        'affine': affine,
+    }
+
+
+# =============================================================================
+# \`exponential\` (3.16, "Exponential distribution & memorylessness"). An
+# INDEPENDENT SymPy implementation of exponentialEngine.js's own
+# analyzeExponential (nothing here calls into the JS engine). See
+# exponentialEngine.js's own header for the full design note: the ONE
+# genuinely breakable hypothesis, poissonProcessAssumption, asks whether the
+# DECLARED rate process is truly homogeneous Poisson (rateMode='constant')
+# or a non-homogeneous "aging" hazard (rateMode='aging',
+# rate(t)=lambda*(1+k*t)). Unlike the JS numeric tier (always 'numeric' —
+# e^{-lambda x} is transcendental to a floating-point evaluator), SymPy CAN
+# decide this EXACTLY for a rational lambda/x/k: the hazard integral
+# lambda*x + lambda*k*x**2/2 is a polynomial, so both the naive survival
+# e^{-lambda x} and the TRUE survival e^{-hazard integral} are exact SymPy
+# expressions whose difference \`simplify\` can decide definitively — the same
+# "JS always numeric, SymPy decides more" asymmetry randomvariables/ftc/
+# poisson already documented, now live for a THIRD time in this domain.
+#
+# a/b/c/d-style entries here (lambda/x/s/t/k) are parsed via \`parse_entry\`
+# (this domain's own exact-vs-decimal helper binomial/geometric/poisson/
+# uniform already use) — never expr.mjs's parseNumber, for exactly the
+# reason analyse_binomial's own docstring documents at length: using the
+# wrong helper would silently make every decimal preset here read as
+# 'proved' instead of 'numeric'.
+#
+# When poissonProcessAssumption is BROKEN, the official proof halts
+# ('refuted') and a second, honest fact is still computed and returned: does
+# memorylessness happen to survive anyway, under the TRUE (aging) process?
+# It does not (mirroring exponentialEngine.js's own analyzeMemorylessness
+# Broken) — computed via the SAME exact hazard-integral machinery, never
+# merely asserted.
+def analyse_exponential(lambda_str, x_str, s_str, t_str, rate_mode, aging_k_str=None):
+    """lambda_str/x_str/s_str/t_str: RAW entry strings ('0.001', '1500',
+    '1/2'), parsed via parse_entry. rate_mode: 'constant'|'aging'.
+    aging_k_str: RAW entry string, required only for rate_mode='aging'."""
+    try:
+        lambda_val, lambda_exact = parse_entry(lambda_str)
+    except ValueError as e:
+        return calc_unknown(f'bad lambda: {e}')
+    if lambda_val <= 0:
+        return calc_unknown('lambda must be > 0 (an Exponential rate is strictly positive)')
+
+    try:
+        x_val, x_exact = parse_entry(x_str)
+    except ValueError as e:
+        return calc_unknown(f'bad x: {e}')
+    if x_val <= 0:
+        return calc_unknown('x must be > 0 (P(X>0)=1 trivially)')
+
+    try:
+        s_val, s_exact = parse_entry(s_str)
+    except ValueError as e:
+        return calc_unknown(f'bad s: {e}')
+    if s_val < 0:
+        return calc_unknown('s must be >= 0')
+
+    try:
+        t_val, t_exact = parse_entry(t_str)
+    except ValueError as e:
+        return calc_unknown(f'bad t: {e}')
+    if t_val <= 0:
+        return calc_unknown('t must be > 0')
+
+    k_val, k_exact = S.Zero, True
+    if rate_mode == 'aging':
+        try:
+            k_val, k_exact = parse_entry(aging_k_str)
+        except (ValueError, TypeError) as e:
+            return calc_unknown(f'bad aging rate: {e}')
+        if k_val <= 0:
+            return calc_unknown('the aging rate k must be > 0 (k=0 reduces to the constant-rate case)')
+    elif rate_mode != 'constant':
+        return calc_unknown("rateMode must be 'constant' or 'aging'")
+
+    eff_exact = lambda_exact and x_exact and s_exact and t_exact and k_exact
+
+    tsym = Symbol('t', nonnegative=True)
+    xsym = Symbol('x', positive=True)
+
+    def hazard_expr_at(bound):
+        """The exact hazard integral integral_0^bound rate(u)du, and its
+        implied survival e^{-that} — the SAME relationship
+        checkPoissonProcessAssumption's own hazardSurvival approximates
+        numerically by quadrature; SymPy decides it exactly."""
+        rate_expr = lambda_val * (1 + k_val * tsym) if rate_mode == 'aging' else lambda_val
+        return sp.integrate(rate_expr, (tsym, 0, bound))
+
+    naive_survival = sp.exp(-lambda_val * x_val)
+    true_hazard_x = hazard_expr_at(x_val)
+    true_survival = sp.exp(-true_hazard_x)
+    h1_holds = bool(simplify(naive_survival - true_survival) == 0)
+
+    result = {
+        'id': 'exponential', 'lambda': _calc_num(lambda_val), 'x': _calc_num(x_val),
+        'rateMode': rate_mode,
+        'naiveSurvival': _calc_num(naive_survival), 'naiveSurvivalTex': sp.latex(naive_survival),
+        'trueSurvival': _calc_num(true_survival), 'trueSurvivalTex': sp.latex(true_survival),
+        'h1Holds': h1_holds,
+        'blockedAct': None if h1_holds else 'poissonProcessAssumption',
+    }
+
+    if not h1_holds:
+        # Honest second fact, computed regardless of official validity (the
+        # same shape bayes'/geometric's own broken-scenario checks already
+        # established): does memorylessness survive anyway, under the TRUE
+        # (aging) process?
+        surv_s = sp.exp(-hazard_expr_at(s_val))
+        surv_s_plus_t = sp.exp(-hazard_expr_at(s_val + t_val))
+        conditional = simplify(surv_s_plus_t / surv_s) if surv_s != 0 else None
+        fresh_t = sp.exp(-lambda_val * t_val)
+        memoryless_holds = bool(conditional is not None and simplify(conditional - fresh_t) == 0)
+        result.update({
+            'memoryless': {
+                'conditional': _calc_num(conditional) if conditional is not None else None,
+                'freshTailT': _calc_num(fresh_t),
+                'holds': memoryless_holds,
+            },
+            'provenance': calc_cap('refuted', eff_exact),
+        })
+        return result
+
+    # Theorem expmv: E[X]=1/lambda, Var(X)=1/lambda^2, via exact integration
+    # over the defining density — decided EXACTLY for a rational lambda.
+    try:
+        mean_sym = sp.integrate(xsym * lambda_val * sp.exp(-lambda_val * xsym), (xsym, 0, oo))
+        e2_sym = sp.integrate(xsym ** 2 * lambda_val * sp.exp(-lambda_val * xsym), (xsym, 0, oo))
+    except Exception as e:  # noqa: BLE001 — an exotic lambda SymPy's integrator declines
+        return calc_unknown(f'could not integrate exactly: {e}')
+    var_sym = simplify(e2_sym - mean_sym ** 2)
+    mean_closed = simplify(1 / lambda_val)
+    var_closed = simplify(1 / lambda_val ** 2)
+    mean_agree = bool(simplify(mean_sym - mean_closed) == 0)
+    var_agree = bool(simplify(var_sym - var_closed) == 0)
+
+    # Theorem expmemory: memorylessness, exact algebraic cancellation.
+    ratio = simplify(sp.exp(-lambda_val * (s_val + t_val)) / sp.exp(-lambda_val * s_val))
+    target = simplify(sp.exp(-lambda_val * t_val))
+    memoryless_holds = bool(simplify(ratio - target) == 0)
+
+    identity_holds = mean_agree and var_agree and memoryless_holds
+
+    result.update({
+        'mean': _calc_num(mean_sym), 'meanTex': sp.latex(mean_sym),
+        'variance': _calc_num(var_sym), 'varianceTex': sp.latex(var_sym),
+        'meanAgree': mean_agree, 'varAgree': var_agree,
+        'memoryless': {
+            'ratio': _calc_num(ratio), 'target': _calc_num(target), 'holds': memoryless_holds,
+        },
+        'provenance': calc_cap('proved' if identity_holds else 'refuted', eff_exact),
+        'allPass': identity_holds,
+    })
+    return result
+
+
+# =============================================================================
+# \`normal\` (3.17, "Normal distribution"). An INDEPENDENT SymPy implementation
+# of normalEngine.js's own analyzeNormal (nothing here calls into the JS
+# engine). See normalEngine.js's own header for the full design note: this is
+# a CONCEPT module with no hypothesis structure at all (sigma>0 is a domain
+# constraint, not a breakable assumption).
+#
+# INVESTIGATED, CONFIRMED: unlike every prior continuous module in this
+# domain (transformrv/expectation/uniform/exponential all had elementary
+# antiderivatives that were nonetheless left to quadrature in JS), the
+# Gaussian integral int e^{-y^2/2}dy = sqrt(2*pi) is one of the FEW genuinely
+# closed-form transcendental integrals SymPy handles NATIVELY —
+# sp.integrate(f, (x,-oo,oo)) on the raw defining density decides
+# normalization/mean/variance EXACTLY for an exact-rational mu/sigma, a
+# genuine asymmetry stronger than randomvariables'/ftc's own "SymPy decides
+# more" finding (those relied on solve_univariate_inequality/ordinary
+# polynomial integration, not a transcendental special integral). Confirmed
+# by hand: analyse_normal('3','1/2') simplifies total/mean/variance to EXACT
+# 1/3/(1/4) with zero residual.
+#
+# Phi ITSELF still has no elementary closed form even in SymPy (Phi(z) =
+# (1+erf(z/sqrt(2)))/2 is as far as it reduces) — a decimal Phi(z) value is
+# therefore still fundamentally a numeric evaluation (sp.N), never claimed
+# 'proved'. But standardized-probability IDENTITIES (Phi(-k)=1-Phi(k); the
+# symmetric-interval rule 2*Phi(k)-1; P(X<=x)=Phi((x-mu)/sigma) itself) ARE
+# decidable EXACTLY via erf for rational inputs — confirmed by hand (see the
+# module's own investigation), with one confirmed TRAP: sp.integrate's own
+# raw-density antiderivative reaches the answer via \`erfc\`, not \`erf\`, so a
+# direct \`simplify(rawP - stdP)\` can spuriously report \`!= 0\` even when the
+# two are identical — FIXED by \`.rewrite(erf)\` on both sides before
+# comparing, the same "confirmed by hand, rejected the naive form, fixed"
+# discipline every prior module's symbolic-tier retro documents. (This trap
+# is not exercised by analyse_normal itself, which never separately computes
+# a raw P(X<=x) — see below — but is documented here since it was found
+# during this module's own investigation and would bite the next symbolic
+# extension of this function.)
+#
+# For a FLOAT mu/sigma, sp.integrate still returns a genuine SymPy
+# expression (e.g. \`-1 + 0.707106781186548*sqrt(2)\`), but algebraic
+# simplification does not fold a bare float against an irrational sqrt(2)
+# term to a clean symbolic 0 — confirmed by hand — so the float branch is
+# graded by a numeric evaluation (\`_calc_num\`) against a tight absolute
+# tolerance instead, capped at 'numeric' via calc_cap exactly like every
+# other module in this domain.
+def analyse_normal(mu_str, sigma_str, a_str=None, b_str=None):
+    """mu_str/sigma_str: RAW entry strings ('0', '1/2', '0.005'), parsed via
+    parse_entry — never expr.mjs's parseNumber (the domain's own documented
+    binomial/geometric/poisson/uniform/exponential trap: using the wrong
+    helper would silently make every decimal preset here read as 'proved'
+    instead of 'numeric'). a_str/b_str: RAW entry strings for Theorem
+    normlin's affine-transform extra fact (Y=aX+b), optional — when omitted,
+    that check is skipped entirely (not an error), mirroring
+    analyse_uniform's own c_str/d_str contract."""
+    try:
+        mu_val, mu_exact = parse_entry(mu_str)
+        sigma_val, sigma_exact = parse_entry(sigma_str)
+    except ValueError as e:
+        return calc_unknown(f'bad mu/sigma: {e}')
+    if not (sigma_val > 0):
+        return calc_unknown('sigma must be > 0 (a Normal distribution requires a strictly positive standard deviation — a domain constraint, not a breakable hypothesis)')
+    exact = mu_exact and sigma_exact
+
+    f = 1 / (sigma_val * sp.sqrt(2 * pi)) * sp.exp(-(x - mu_val) ** 2 / (2 * sigma_val ** 2))
+    try:
+        total = sp.integrate(f, (x, -oo, oo))
+        mean_sym = sp.integrate(f * x, (x, -oo, oo))
+        e2_sym = sp.integrate(f * x ** 2, (x, -oo, oo))
+    except Exception as e:  # noqa: BLE001 — an exotic mu/sigma SymPy's integrator declines
+        return calc_unknown(f'could not integrate exactly: {e}')
+    var_sym = simplify(e2_sym - mean_sym ** 2)
+
+    total_num, mean_num, var_num = _calc_num(total), _calc_num(mean_sym), _calc_num(var_sym)
+    if exact:
+        norm_pass = bool(simplify(total - 1) == 0)
+        mean_agree = bool(simplify(mean_sym - mu_val) == 0)
+        var_agree = bool(simplify(var_sym - sigma_val ** 2) == 0)
+    else:
+        norm_pass = total_num is not None and abs(total_num - 1) < 1e-9
+        mean_agree = mean_num is not None and abs(mean_num - float(mu_val)) < 1e-6 * max(1, abs(float(mu_val)))
+        var_agree = var_num is not None and abs(var_num - float(sigma_val) ** 2) < 1e-6 * max(1, float(sigma_val) ** 2)
+    identity_holds = norm_pass and mean_agree and var_agree
+
+    # Theorem normlin (optional — see docstring): Y=aX+b ~ N(a*mu+b, a^2*sigma^2),
+    # confirmed by direct substitution into the raw density (the change-of-
+    # variables formula itself), never merely asserted from the theorem's own
+    # conclusion — the same discipline analyse_uniform's own affine check uses.
+    linear = None
+    if a_str is not None and b_str is not None:
+        try:
+            a_val, a_exact = parse_entry(a_str)
+            b_val, b_exact = parse_entry(b_str)
+        except ValueError as e:
+            linear = {'error': f'bad a/b: {e}'}
+        else:
+            if a_val == 0:
+                linear = {'error': 'a must be nonzero'}
+            else:
+                y_sym = Symbol('y', real=True)
+                h = (y_sym - b_val) / a_val
+                fY = f.subs(x, h) / Abs(a_val)
+                new_mu = a_val * mu_val + b_val
+                new_sigma2 = a_val ** 2 * sigma_val ** 2
+                target = 1 / sp.sqrt(new_sigma2 * 2 * pi) * sp.exp(-(y_sym - new_mu) ** 2 / (2 * new_sigma2))
+                lin_exact = exact and a_exact and b_exact
+                if lin_exact:
+                    density_matches = bool(simplify(fY - target) == 0)
+                else:
+                    # a bare float against an irrational sqrt(2*pi) term does
+                    # not fold to a clean symbolic 0 (see module header) — a
+                    # sample-point numeric comparison at several y's is the
+                    # honest check instead, confirmed by hand to agree with
+                    # the exact branch to ~1e-15 on every tested case.
+                    try:
+                        new_mu_f, new_sigma_f = float(new_mu), abs(float(a_val)) * float(sigma_val)
+                        sample_ys = [new_mu_f + k * new_sigma_f for k in (-3, -1, 0, 1, 3)]
+                        density_matches = all(
+                            abs(float(fY.subs(y_sym, yv)) - float(target.subs(y_sym, yv))) <= 1e-6
+                            for yv in sample_ys
+                        )
+                    except Exception:  # noqa: BLE001
+                        density_matches = False
+                linear = {
+                    'a': str(a_val), 'b': str(b_val),
+                    'newMu': str(new_mu), 'newSigma2': str(new_sigma2),
+                    'densityMatches': density_matches,
+                    'provenance': calc_cap('proved' if density_matches else 'refuted', lin_exact),
+                }
+
+    # Standard normal identities — 2*Phi(k)-1 for k=1,2,3, decided EXACTLY via
+    # erf regardless of mu/sigma (the identity is pure in k — see module
+    # header) — informational, non-gating, the same shape every prior
+    # "extra fact" in this domain uses.
+    z = Symbol('z', real=True)
+    Phi = sp.Rational(1, 2) * (1 + sp.erf(z / sp.sqrt(2)))
+    identities = [{'k': k, 'value': _calc_num(2 * Phi.subs(z, k) - 1)} for k in (1, 2, 3)]
+
+    return {
+        'provenance': calc_cap('proved' if identity_holds else 'refuted', exact),
+        'mu': str(mu_val), 'sigma': str(sigma_val),
+        'total': total_num, 'mean': mean_num, 'variance': var_num,
+        'normPass': norm_pass, 'meanAgree': mean_agree, 'varAgree': var_agree,
+        'identityHolds': identity_holds,
+        'linear': linear,
+        'identities': identities,
+    }
+
+
+# ---------------------------------------------------------------------------
+# distconnections (3.18, "Origins & connections between distributions") —
+# the domain's own synthesis/review topic. See distconnectionsEngine.js's
+# own header for the full mathematical design. TWO facets, \`mode\`:
+#
+#   'negbin'   — the Negative Binomial (beyond the nominal syllabus). Exact
+#     mean/variance (E[X]=r/p, Var(X)=r(1-p)/p^2) and, when k is supplied,
+#     the exact PMF value C(k-1,r-1)p^r(1-p)^(k-r) — both decided EXACTLY
+#     for a rational p via ordinary SymPy arithmetic (never sp.nbinom or any
+#     other closed-form special-function shortcut, mirroring
+#     analyse_gammabeta's/analyse_improper's own "the raw defining object,
+#     not the closed-form special function, is the primary evaluator"
+#     choice). Normalization is decided via SymPy's own infinite Sum over
+#     the negative-binomial series
+#     (p^r * Sum_{j=0}^oo C(j+r-1,r-1) q^j = 1), the SAME "confirm the
+#     series identity itself via SymPy's own Sum, never merely cited"
+#     discipline analyse_geometric's own normalization check already uses —
+#     confirmed by hand for r=1,3,4 to return exactly 1 (never an
+#     unevaluated Sum), so no boundary trap analogous to analyse_geometric's
+#     own q=0 finding was found here.
+#
+#   'paradigm' — the Poisson Paradigm. Decides ONLY the exact
+#     E[X]=sum(p_j)=lambda identity for a rational p_arr (a genuine, if
+#     algebraically direct, fact — lambda IS defined as sum(p_j), so this
+#     confirms the fundamental-bridge identity survives exact rational
+#     arithmetic, never silently promoted to a claim about the
+#     approximation's SHAPE). The approximation QUALITY itself (the total
+#     variation distance against Poisson(lambda)) is NOT a symbolic
+#     question — no exact closed form exists for a heterogeneous p_arr's
+#     own convolution against a transcendental Poisson target — and is
+#     explicitly abstained on ('approxQuality': 'unknown') rather than
+#     guessed, per non-negotiable #2.
+def analyse_distconnections(mode, r=None, p_str=None, k=None, p_arr=None):
+    if mode == 'negbin':
+        try:
+            r = int(r)
+        except (TypeError, ValueError):
+            return calc_unknown('r must be an integer')
+        if r < 1:
+            return calc_unknown('r must be a positive integer')
+        try:
+            p_val, p_exact = parse_entry(p_str)
+        except ValueError as e:
+            return calc_unknown(f'bad p: {e}')
+        if not (0 < p_val <= 1):
+            return calc_unknown('p must satisfy 0 < p <= 1')
+        q_val = S.One - p_val
+
+        # Exact mean/variance via X = sum of r independent Geometric(p)
+        # stretches — the SAME identity distconnectionsEngine.js's own
+        # Route B reuses geometricEngine.js's machinery for.
+        mean = r / p_val
+        variance = r * q_val / p_val**2
+
+        # Normalization: p^r * Sum_{j=0}^oo C(j+r-1,r-1) q^j = 1 — a genuine
+        # exact identity decided via SymPy's own infinite Sum, never merely
+        # cited (see docstring above).
+        j = Symbol('j', nonnegative=True, integer=True)
+        norm_sum = (p_val ** r) * Sum(sp.binomial(j + r - 1, r - 1) * q_val ** j, (j, 0, oo)).doit()
+        if p_exact:
+            norm_holds = bool(simplify(norm_sum - 1) == 0)
+        else:
+            norm_holds = bool(abs(float(norm_sum) - 1) <= 1e-9)
+
+        result = {
+            'id': 'distconnections', 'mode': 'negbin', 'r': r,
+            'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+            'variance': _calc_num(variance), 'varianceTex': sp.latex(variance),
+            'normalizationHolds': norm_holds,
+            'reducesTo': 'geometric' if r == 1 else None,
+            'provenance': calc_cap('proved', p_exact),
+        }
+
+        if k is not None:
+            try:
+                k = int(k)
+            except (TypeError, ValueError):
+                return calc_unknown('k must be an integer')
+            if k < r:
+                return calc_unknown('k must satisfy k >= r')
+            pmf = sp.binomial(k - 1, r - 1) * p_val ** r * q_val ** (k - r)
+            result['pmf'] = _calc_num(pmf)
+            result['pmfTex'] = sp.latex(pmf)
+        return result
+
+    if mode == 'paradigm':
+        if not p_arr:
+            return calc_unknown('need a list of event probabilities p_1..p_n')
+        p_vals = []
+        p_exact = True
+        for s in p_arr:
+            try:
+                v, ex = parse_entry(s)
+            except ValueError as e:
+                return calc_unknown(f'bad p_j: {e}')
+            if not (0 < v < 1):
+                return calc_unknown('every p_j must satisfy 0 < p_j < 1')
+            p_vals.append(v)
+            p_exact = p_exact and ex
+        lam = sum(p_vals, S.Zero)
+        if p_exact:
+            lam = simplify(lam)
+        return {
+            'id': 'distconnections', 'mode': 'paradigm', 'n': len(p_vals),
+            'lambda': _calc_num(lam), 'lambdaTex': sp.latex(lam),
+            'meanExactlyLambda': True,
+            'provenance': calc_cap('proved', p_exact),
+            'approxQuality': 'unknown',
+            'note': 'E[X]=lambda is an exact algebraic identity (the fundamental bridge) for any p_j; whether the SHAPE genuinely resembles Poisson(lambda) is a numeric total-variation-distance question, not decided symbolically.',
+        }
+
+    return calc_unknown(f'unknown mode: {mode!r} (expected "negbin" or "paradigm")')
+
+
+# =============================================================================
+# \`mgf\` (3.19, "Moments & the moment generating function") — the direct
+# sequel to \`expectation\` (3.11): M_X(s) = E[e^{sX}], discrete
+# Sum(e^{sx}p(x)) or continuous Integral(e^{sx}f(x)dx). Mirrors
+# mgfEngine.js's own shape exactly: same rv_mode split, same formula-over-
+# an-index/coordinate law (never a finite table), and the SAME S_LADDER
+# ([1/5, 1/10, 1/20, 1/40], both signs) used to decide mgfExists — this
+# module DECIDES the ladder point-wise via genuine closed-form Sum/
+# Integral evaluation AT each rational magnitude, rather than attempting a
+# single symbolic-s Piecewise convergence condition once: a symbolic-s
+# Sum/Integral's own generic convergence certificate (e.g.
+# \`Abs(arg(s)+pi)<=pi/2\`) cannot be safely substituted at s=0 (arg(0) is
+# undefined — confirmed by hand, "Invalid NaN comparison"), and evaluating
+# AT each concrete rational ladder point sidesteps that entirely while
+# staying decisive: a certain divergence at ANY tested magnitude refutes
+# mgfExists outright (the same operational "no interval at all vs. one
+# narrower than every tested magnitude" reading mgfEngine.js's own
+# checkMgfExists already documents, kept identical on purpose here for
+# one-to-one selftest parity with the JS ladder).
+#
+# Once mgfExists holds, Theorem momentsfrommgf is decided by constructing
+# the GENERAL closed-form M(s) (a genuine function of the free symbol
+# _MGF_S, via Sum/Integral.doit()), differentiating at s=0, and cross-
+# checking against an INDEPENDENTLY-evaluated E[X]/E[X^2] (a second,
+# separate Sum/Integral call on x*p(x)/x^2*p(x)) — the SAME "two
+# independent routes" discipline mgfEngine.js's own analyzeMoments
+# already uses, now symbolic. Two confirmed traps, both fixed, documented
+# rather than hidden:
+#   1. A Piecewise closed form guarded by a convergence condition (e.g.
+#      \`Piecewise((1/(1-s/2), Abs(arg(s)+pi)<=pi/2), (Integral(...), True))\`
+#      for Exponential(2)) cannot be differentiated-then-substituted at
+#      s=0 directly — \`_mgf_pick_branch\` picks the Piecewise's own
+#      closed-form branch FIRST (mgfExists is already independently
+#      confirmed by the ladder by the time this runs, so a genuine
+#      closed-form branch is known to apply near s=0), then differentiates
+#      the PLAIN expression, sidestepping the guard condition entirely.
+#   2. A genuinely two-sided-improper full-line integral (the Cauchy
+#      flagship; the general shape ANY 'full'-support law could take) is
+#      frequently left unevaluated by a single sp.integrate call even
+#      when each signed half is independently decidable — the SAME
+#      "two-sided-improper integrands are where sp.integrate often gives
+#      up" trap family analyse_expectation's own _expect_abs_x_f_integral
+#      already documents for meanExists; fixed the identical way, by
+#      splitting at x=0 and combining two independently-classified
+#      halves. On the Cauchy preset specifically, EACH half still
+#      abstains for every tested ladder magnitude (neither half resolves
+#      to a certain divergence, unlike the discrete/continuous Pareto
+#      flagships, which DO resolve to a clean \`oo\`) — so this module
+#      honestly reports mgfExists as 'unknown' on Cauchy, a genuine,
+#      confirmed-by-hand asymmetry with the discrete tier's own decisive
+#      refutation, not a bug to route around.
+#
+# Theorem mgflinear/mgfsum are NOT re-derived symbolically — a documented
+# scope decision, the same "investigated, then declined" precedent
+# transformrv's own H1-false branch and gammabeta's declined quadrature
+# re-derivation already set: mgfEngine.js's own analyzeLinear already
+# cross-checks the closed-form substitution against a full, independently
+# recomputed INDUCED LAW (an affine change of variables, the continuous
+# case needing exactly transformrv's own change-of-variables machinery a
+# second time to redo symbolically for no additional confidence — the JS
+# tier already covers it exactly, with a 100-case seeded fuzz pass);
+# mgfsum/Uniqueness are built from a small FRESH finite-table construction
+# with no typed formula input at all, so there is nothing of the
+# student's own input left to decide symbolically beyond what the numeric
+# tier already demonstrates exactly (confirmed to machine precision in
+# mgfEngine.test.mjs).
+# =============================================================================
+
+_MGF_S = sp.symbols('mgf_s', real=True)
+_MGF_LADDER = [sp.Rational(1, 5), sp.Rational(1, 10), sp.Rational(1, 20), sp.Rational(1, 40)]
+
+
+def _mgf_pick_branch(expr):
+    """See module docstring trap (1). Picks the first Piecewise branch
+    whose own expression is not an unevaluated Sum/Integral; a bare
+    (non-Piecewise) expression is returned unchanged."""
+    if not isinstance(expr, sp.Piecewise):
+        return expr
+    for piece_expr, _cond in expr.args:
+        if not (piece_expr.has(sp.Sum) or piece_expr.has(sp.Integral)):
+            return piece_expr
+    return expr
+
+
+def _mgf_discrete_at(xf, pf, startN, support_kind, count, sval):
+    n = _SEQ_N
+    if support_kind == 'finite':
+        try:
+            val = sum((sp.exp(sval * xf.subs(n, k)) * pf.subs(n, k) for k in range(startN, startN + count)), S.Zero)
+        except Exception as e:  # noqa: BLE001
+            return ('abstain', str(e))
+        return _expect_classify(val)
+    try:
+        raw = sp.Sum(sp.exp(sval * xf) * pf, (n, startN, oo)).doit()
+    except Exception as e:  # noqa: BLE001
+        return ('abstain', str(e))
+    return _expect_classify(raw)
+
+
+def _mgf_discrete_expr(xf, pf, startN, support_kind, count):
+    """The GENERAL closed-form M_X(s) as a function of _MGF_S, used only
+    for Theorem momentsfrommgf (never for deciding mgfExists itself —
+    see module docstring for why the ladder decides that pointwise)."""
+    n = _SEQ_N
+    if support_kind == 'finite':
+        return sum((sp.exp(_MGF_S * xf.subs(n, k)) * pf.subs(n, k) for k in range(startN, startN + count)), S.Zero)
+    return sp.Sum(sp.exp(_MGF_S * xf) * pf, (n, startN, oo)).doit()
+
+
+def _mgf_continuous_at(f, lo, hi, sval):
+    try:
+        if lo == -oo and hi == oo:
+            left = sp.integrate(sp.exp(sval * x) * f, (x, -oo, 0))
+            right = sp.integrate(sp.exp(sval * x) * f, (x, 0, oo))
+            kl, lv = _expect_classify(left)
+            kr, rv = _expect_classify(right)
+            if kl == 'divergent' or kr == 'divergent':
+                return ('divergent', None)
+            if kl == 'abstain' or kr == 'abstain':
+                return ('abstain', 'unevaluated even after splitting the full line at x=0')
+            return ('finite', lv + rv)
+        raw = sp.integrate(sp.exp(sval * x) * f, (x, lo, hi))
+    except Exception as e:  # noqa: BLE001
+        return ('abstain', str(e))
+    return _expect_classify(raw)
+
+
+def _mgf_continuous_expr(f, lo, hi):
+    if lo == -oo and hi == oo:
+        direct = sp.integrate(sp.exp(_MGF_S * x) * f, (x, lo, hi))
+        if not (direct.has(sp.Integral) and _mgf_pick_branch(direct).has(sp.Integral)):
+            return direct
+        left = sp.integrate(sp.exp(_MGF_S * x) * f, (x, -oo, 0))
+        right = sp.integrate(sp.exp(_MGF_S * x) * f, (x, 0, oo))
+        return left + right
+    return sp.integrate(sp.exp(_MGF_S * x) * f, (x, lo, hi))
+
+
+def _mgf_moments(M_expr, trueEX_expr, trueEX2_expr):
+    """Theorem momentsfrommgf. Returns None (an honest abstention, never a
+    guessed value) when SymPy cannot produce a differentiable closed form
+    for M(s) or the independent E[X]/E[X^2] route itself abstains."""
+    if M_expr is None:
+        return None
+    branch = _mgf_pick_branch(M_expr)
+    try:
+        M1 = sp.simplify(sp.diff(branch, _MGF_S).subs(_MGF_S, 0).doit())
+        M2 = sp.simplify(sp.diff(branch, _MGF_S, 2).subs(_MGF_S, 0).doit())
+    except Exception:  # noqa: BLE001
+        return None
+    if M1.has(sp.Sum) or M1.has(sp.Integral) or M2.has(sp.Sum) or M2.has(sp.Integral):
+        return None
+    ex_expr = trueEX_expr.doit() if hasattr(trueEX_expr, 'doit') else trueEX_expr
+    ex2_expr = trueEX2_expr.doit() if hasattr(trueEX2_expr, 'doit') else trueEX2_expr
+    ek, ev = _expect_classify(ex_expr)
+    e2k, e2v = _expect_classify(ex2_expr)
+    if ek != 'finite' or e2k != 'finite':
+        return None
+    agree = bool(sp.simplify(M1 - ev) == 0) and bool(sp.simplify(M2 - e2v) == 0)
+    variance = sp.simplify(M2 - M1 ** 2) if agree else None
+    return {
+        'agree': agree,
+        'eX': _calc_num(M1), 'eXTex': sp.latex(M1),
+        'eX2': _calc_num(M2), 'eX2Tex': sp.latex(M2),
+        'variance': (_calc_num(variance) if variance is not None else None),
+    }
+
+
+def analyse_mgf(rv_mode, x_formula, p_formula, startN_str, disc_support_kind, count_str,
+                 formula, cont_support_kind, lo_str, hi_str, a_str, b_str):
+    """See the module docstring above. a_str/b_str are accepted for
+    payload-shape parity with mgfEngine.js's own request (Theorem
+    mgflinear's a/b) but are NOT used — see the docstring's own
+    documented scope decision for why mgflinear is JS-only."""
+    del a_str, b_str
+    if rv_mode == 'discrete':
+        try:
+            xf = _seq_parse(x_formula)
+            pf = _seq_parse(p_formula)
+        except ValueError as e:
+            return calc_unknown(f'bad formula: {e}')
+        try:
+            startN_val, startN_exact = calc_parse_scalar(startN_str)
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'bad startN: {e}')
+        if not (startN_val.is_integer and bool(startN_val >= 0)):
+            return calc_unknown('startN must be a non-negative integer')
+        startN = int(startN_val)
+        exact = startN_exact
+        count = None
+        if disc_support_kind == 'finite':
+            try:
+                count_val, count_exact = calc_parse_scalar(count_str)
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'bad count: {e}')
+            if not (count_val.is_integer and bool(count_val >= 1)):
+                return calc_unknown('count must be a positive integer')
+            count = int(count_val)
+            exact = exact and count_exact
+
+        def at(sval):
+            return _mgf_discrete_at(xf, pf, startN, disc_support_kind, count, sval)
+
+        def general_expr():
+            return _mgf_discrete_expr(xf, pf, startN, disc_support_kind, count)
+
+        n = _SEQ_N
+        if disc_support_kind == 'finite':
+            trueEX_expr = sum((xf.subs(n, k) * pf.subs(n, k) for k in range(startN, startN + count)), S.Zero)
+            trueEX2_expr = sum((xf.subs(n, k) ** 2 * pf.subs(n, k) for k in range(startN, startN + count)), S.Zero)
+        else:
+            trueEX_expr = sp.Sum(xf * pf, (n, startN, oo)).doit()
+            trueEX2_expr = sp.Sum(xf ** 2 * pf, (n, startN, oo)).doit()
+    elif rv_mode == 'continuous':
+        try:
+            f = calc_parse(formula)
+        except ValueError as e:
+            return calc_unknown(f'bad formula: {e}')
+        if cont_support_kind == 'full':
+            lo, hi, exact = -oo, oo, True
+        else:
+            try:
+                lo, lo_exact = calc_parse_scalar(lo_str)
+            except ValueError as e:
+                return calc_unknown(f'bad lower support bound: {e}')
+            if cont_support_kind == 'semiInfRight':
+                hi, hi_exact = oo, True
+            else:
+                try:
+                    hi, hi_exact = calc_parse_scalar(hi_str)
+                except ValueError as e:
+                    return calc_unknown(f'bad upper support bound: {e}')
+                if not (hi > lo):
+                    return calc_unknown('support must have hi > lo')
+            exact = lo_exact and hi_exact
+
+        def at(sval):
+            return _mgf_continuous_at(f, lo, hi, sval)
+
+        def general_expr():
+            return _mgf_continuous_expr(f, lo, hi)
+
+        trueEX_expr = sp.integrate(x * f, (x, lo, hi))
+        trueEX2_expr = sp.integrate(x ** 2 * f, (x, lo, hi))
+    else:
+        return calc_unknown(f'unknown rv_mode {rv_mode!r}')
+
+    zero_kind, zero_val = at(S.Zero)
+
+    kinds = []
+    for mag in _MGF_LADDER:
+        k1, _ = at(mag)
+        k2, _ = at(-mag)
+        kinds.append(k1)
+        kinds.append(k2)
+    if 'divergent' in kinds:
+        mgf_exists = False
+    elif 'abstain' in kinds:
+        mgf_exists = None
+    else:
+        mgf_exists = True
+
+    if mgf_exists is not True:
+        return {
+            'id': 'mgf', 'kind': rv_mode,
+            'provenance': calc_cap('refuted', exact) if mgf_exists is False else 'unknown',
+            'mgfExists': mgf_exists,
+            'atZero': (_calc_num(zero_val) if zero_kind == 'finite' else None),
+            'blockedAct': 'mgfExists' if mgf_exists is False else None,
+            'allPass': False,
+            'moments': None,
+        }
+
+    try:
+        M_expr = general_expr()
+    except Exception:  # noqa: BLE001
+        M_expr = None
+    moments = _mgf_moments(M_expr, trueEX_expr, trueEX2_expr)
+    all_pass = bool(moments and moments.get('agree'))
+    return {
+        'id': 'mgf', 'kind': rv_mode,
+        'provenance': calc_cap('proved', exact),
+        'mgfExists': True,
+        'atZero': (_calc_num(zero_val) if zero_kind == 'finite' else None),
+        'blockedAct': None,
+        'allPass': all_pass,
+        'moments': moments,
+    }
+
+
+# =============================================================================
+# \`inequalities\` (3.20, "Markov & Chebyshev inequalities"). An INDEPENDENT
+# SymPy implementation of inequalitiesEngine.js's own two-theorem module
+# (theorem_mode 'markov'|'chebyshev') — nothing here calls into the JS
+# engine. See inequalitiesEngine.js's own header for the full design note
+# on the module's genuinely NEW verification shape (a true value vs. a
+# bound, not an identity).
+#
+# For an exact-rational law, this decides the TRUE tail probability EXACTLY
+# (sum the actual PMF over the exact set of support points satisfying the
+# threshold; integrate the actual density over the exact sub-interval) and
+# compares it SYMBOLICALLY against the stated bound (E[X]/a or sigma^2/c^2)
+# — landing on 'proved'/'refuted' for the COMPARISON itself when both sides
+# are exact rationals, this domain's usual exact-vs-numeric split
+# (calc_cap, applied to \`holds\` rather than to an identity's own agreement).
+#
+# Markov's own hypothesis (X >= 0) is decided differently by support shape:
+# a FINITE discrete support is checked EXHAUSTIVELY (every point, exact);
+# an INFINITE discrete support and a continuous support are decided
+# structurally — a continuous X is nonnegative iff its own support's lower
+# bound is >= 0 (X's "value function" is the identity, so this is exactly
+# the lower endpoint), and an infinite discrete X's own x(n) formula is
+# checked via \`solve_univariate_inequality(x(n) < 0, ...)\` over the
+# declared range — genuinely decided, never assumed, but honestly
+# ABSTAINING (never guessing) if solve_univariate_inequality itself cannot
+# resolve the inequality to a definite empty/nonempty set.
+#
+# The TRUE tail probability for an INFINITE discrete support additionally
+# needs to know WHICH n satisfy x(n)>=a — solved the same way
+# (solve_univariate_inequality), then handed to sp.Sum(...).doit() over the
+# resolved tail; if the solved set is not a plain right-unbounded interval
+# (the only shape every shipped infinite-support Markov preset needs), this
+# abstains rather than guess at the summation range.
+#
+# Chebyshev's own reduction to Markov on Y=(X-mu)^2 is NOT re-derived
+# symbolically as a second Markov call (unlike the JS engine's own
+# checkMarkov reuse) — the true two-sided tail P(|X-mu|>=c) is computed
+# DIRECTLY as two one-sided pieces (P(X<=mu-c)+P(X>=mu+c)), the same Route B
+# the JS engine's own \`tailProbAbsDeviation\` uses, since a symbolic
+# quadratic-indicator route would need to re-derive the same case-split
+# for no additional confidence.
+# =============================================================================
+
+def _ineq_nonneg_discrete_finite(xf, startN, count):
+    n = _SEQ_N
+    try:
+        vals = [xf.subs(n, k) for k in range(startN, startN + count)]
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot evaluate x(n): {e}') from e
+    bad = next((v for v in vals if v.is_real is False or bool(v < 0)), None)
+    return bad is None
+
+
+def _ineq_solve_univariate_over_n(xf, n, rel, threshold, domain):
+    """Solving a relational built directly from \`n\` (e.g. \`xf >= a\`, with
+    \`xf\` in terms of \`_SEQ_N\`) has a confirmed SymPy trap, documented at
+    length here: \`_SEQ_N\` carries \`positive=True\` (needed elsewhere so a
+    discrete sequence's own n is read as a genuine positive-integer index),
+    and \`x(n)>=a\`-style relationals AUTO-EVALUATE to a bare \`True\`/\`False\`
+    at CONSTRUCTION time whenever the assumption alone already settles
+    them (e.g. plain \`n >= 1\` immediately becomes \`sympy.true\`, since a
+    positive INTEGER is always >= 1) — confirmed by hand: even
+    substituting a fresh symbol into an ALREADY-collapsed \`True\` cannot
+    recover the original comparison, so the substitution must happen
+    BEFORE the relational is ever built. \`rel\` is \`operator.lt\`/
+    \`operator.ge\` (or any two-argument comparison callable), applied to
+    the SUBSTITUTED expression (in terms of a fresh, assumption-free
+    integer symbol) and \`threshold\` — never to \`xf\` itself."""
+    m = Symbol('_ineq_m', integer=True)
+    return sp.solve_univariate_inequality(rel(xf.subs(n, m), threshold), m, domain=domain, relational=False)
+
+
+def _ineq_nonneg_discrete_infinite(xf, startN):
+    n = _SEQ_N
+    try:
+        sol = _ineq_solve_univariate_over_n(xf, n, operator.lt, S.Zero, Interval(startN, oo))
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot decide X>=0: {e}') from e
+    return sol == S.EmptySet
+
+
+def _ineq_tail_ge_discrete_finite(xf, pf, startN, count, a):
+    n = _SEQ_N
+    try:
+        terms = [pf.subs(n, k) for k in range(startN, startN + count) if bool(xf.subs(n, k) >= a)]
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot evaluate the tail: {e}') from e
+    return sum(terms, S.Zero)
+
+
+def _ineq_tail_ge_discrete_infinite(xf, pf, startN, a):
+    """The tail P(x(n)>=a) for an infinite discrete support — solves for
+    the set of n satisfying the threshold first (see module docstring),
+    then sums the PMF over that set. Abstains (never guesses) if the
+    solved set is not a plain right-unbounded interval [n0, oo)."""
+    n = _SEQ_N
+    try:
+        sol = _ineq_solve_univariate_over_n(xf, n, operator.ge, a, Interval(startN, oo))
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot resolve the tail set: {e}') from e
+    if sol == S.EmptySet:
+        return S.Zero
+    if not (isinstance(sol, Interval) and sol.right == oo):
+        raise Abstain(f'tail set is not a plain right-unbounded interval: {sol}')
+    # Smallest integer n satisfying the resolved bound: n>left (open) is
+    # floor(left)+1 for ANY real left (integer or not); n>=left (closed)
+    # is ceiling(left).
+    n0 = sp.floor(sol.left) + 1 if sol.left_open else sp.ceiling(sol.left)
+    try:
+        total = sp.Sum(pf, (n, n0, oo)).doit()
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot sum the resolved tail: {e}') from e
+    kind, val = _expect_classify(total)
+    if kind != 'finite':
+        raise Abstain(f'tail sum did not resolve to a finite value ({kind})')
+    return val
+
+
+def _ineq_mean_discrete(xf, pf, startN, support_kind, count):
+    """Returns ('finite', value) / ('divergent', None) / ('abstain', reason)
+    — the SAME three-way classification analyse_expectation's own
+    _expect_classify uses, so a genuinely divergent mean (St. Petersburg)
+    is reported as a certain, definitive 'divergent' — refuted, never
+    'unknown' — distinctly from an honest SymPy abstention."""
+    n = _SEQ_N
+    if support_kind == 'finite':
+        try:
+            return ('finite', sum((xf.subs(n, k) * pf.subs(n, k) for k in range(startN, startN + count)), S.Zero))
+        except Exception as e:  # noqa: BLE001
+            return ('abstain', f'cannot evaluate E[X]: {e}')
+    try:
+        raw = sp.Sum(xf * pf, (n, startN, oo)).doit()
+    except Exception as e:  # noqa: BLE001
+        return ('abstain', f'cannot sum E[X]: {e}')
+    return _expect_classify(raw)
+
+
+def _ineq_var_discrete(xf, pf, startN, support_kind, count, mean_val):
+    """Returns ('finite', value) / ('divergent', None) / ('abstain', reason)
+    — see _ineq_mean_discrete's own header for why this is a 3-way
+    classification rather than a value-or-raise."""
+    n = _SEQ_N
+    if support_kind == 'finite':
+        try:
+            e2 = sum((xf.subs(n, k) ** 2 * pf.subs(n, k) for k in range(startN, startN + count)), S.Zero)
+        except Exception as e:  # noqa: BLE001
+            return ('abstain', f'cannot evaluate E[X^2]: {e}')
+        return ('finite', sp.simplify(e2 - mean_val ** 2))
+    try:
+        raw = sp.Sum(xf ** 2 * pf, (n, startN, oo)).doit()
+    except Exception as e:  # noqa: BLE001
+        return ('abstain', f'cannot sum E[X^2]: {e}')
+    kind, e2 = _expect_classify(raw)
+    if kind != 'finite':
+        return (kind, None)
+    return ('finite', sp.simplify(e2 - mean_val ** 2))
+
+
+def _ineq_two_tail_discrete_finite(xf, pf, startN, count, mu, c):
+    n = _SEQ_N
+    try:
+        terms = [pf.subs(n, k) for k in range(startN, startN + count) if bool(Abs(xf.subs(n, k) - mu) >= c)]
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot evaluate the two-sided tail: {e}') from e
+    return sum(terms, S.Zero)
+
+
+def _ineq_integral_ge(f, lo, hi, a):
+    lo_eff = sp.Max(a, lo)
+    if hi != oo and bool(lo_eff >= hi):
+        return S.Zero
+    try:
+        raw = sp.integrate(f, (x, lo_eff, hi))
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot integrate the tail: {e}') from e
+    kind, val = _expect_classify(raw)
+    if kind != 'finite':
+        raise Abstain(f'tail integral did not resolve to a finite value ({kind})')
+    return val
+
+
+def _ineq_integral_le(f, lo, hi, t):
+    hi_eff = sp.Min(t, hi)
+    if lo != -oo and bool(hi_eff <= lo):
+        return S.Zero
+    try:
+        raw = sp.integrate(f, (x, lo, hi_eff))
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot integrate the lower tail: {e}') from e
+    kind, val = _expect_classify(raw)
+    if kind != 'finite':
+        raise Abstain(f'lower tail integral did not resolve to a finite value ({kind})')
+    return val
+
+
+def _ineq_mean_continuous(f, lo, hi):
+    """Returns ('finite', value) / ('divergent', None) / ('abstain',
+    reason) — see _ineq_mean_discrete's own header."""
+    if lo == -oo and hi == oo:
+        # Splitting at x=0 by known sign, the SAME fix analyse_expectation's
+        # own _expect_abs_x_f_integral already documents (a two-sided-
+        # improper sp.integrate call frequently gives up even when each
+        # signed half is individually decidable — the Cauchy flagship).
+        try:
+            left = sp.integrate(x * f, (x, -oo, 0))
+            right = sp.integrate(x * f, (x, 0, oo))
+        except Exception as e:  # noqa: BLE001
+            return ('abstain', f'cannot integrate E[X]: {e}')
+        kl, lv = _expect_classify(left)
+        kr, rv = _expect_classify(right)
+        if kl == 'divergent' or kr == 'divergent':
+            return ('divergent', None)
+        if kl == 'abstain' or kr == 'abstain':
+            return ('abstain', 'E[X] unevaluated even after splitting the full line at x=0')
+        return ('finite', lv + rv)
+    try:
+        raw = sp.integrate(x * f, (x, lo, hi))
+    except Exception as e:  # noqa: BLE001
+        return ('abstain', f'cannot integrate E[X]: {e}')
+    return _expect_classify(raw)
+
+
+def _ineq_var_continuous(f, lo, hi, mean_val):
+    """Returns ('finite', value) / ('divergent', None) / ('abstain',
+    reason) — see _ineq_mean_discrete's own header."""
+    try:
+        raw = sp.integrate(x ** 2 * f, (x, lo, hi))
+    except Exception as e:  # noqa: BLE001
+        return ('abstain', f'cannot integrate E[X^2]: {e}')
+    kind, e2 = _expect_classify(raw)
+    if kind != 'finite':
+        return (kind, None)
+    return ('finite', sp.simplify(e2 - mean_val ** 2))
+
+
+def analyse_inequalities(theorem_mode, rv_mode, x_formula, p_formula, startN_str, disc_support_kind, count_str,
+                          formula, cont_support_kind, lo_str, hi_str, a_str, c_str):
+    """See the module docstring above."""
+    try:
+        if rv_mode == 'discrete':
+            try:
+                xf = _seq_parse(x_formula)
+                pf = _seq_parse(p_formula)
+            except ValueError as e:
+                return calc_unknown(f'bad formula: {e}')
+            try:
+                startN_val, startN_exact = calc_parse_scalar(startN_str)
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'bad startN: {e}')
+            if not (startN_val.is_integer and bool(startN_val >= 0)):
+                return calc_unknown('startN must be a non-negative integer')
+            startN = int(startN_val)
+            exact = startN_exact
+            count = None
+            if disc_support_kind == 'finite':
+                try:
+                    count_val, count_exact = calc_parse_scalar(count_str)
+                except Exception as e:  # noqa: BLE001
+                    return calc_unknown(f'bad count: {e}')
+                if not (count_val.is_integer and bool(count_val >= 1)):
+                    return calc_unknown('count must be a positive integer')
+                count = int(count_val)
+                exact = exact and count_exact
+        elif rv_mode == 'continuous':
+            try:
+                f = calc_parse(formula)
+            except ValueError as e:
+                return calc_unknown(f'bad formula: {e}')
+            if cont_support_kind == 'full':
+                lo, hi, exact = -oo, oo, True
+            else:
+                try:
+                    lo, lo_exact = calc_parse_scalar(lo_str)
+                except ValueError as e:
+                    return calc_unknown(f'bad lower support bound: {e}')
+                if cont_support_kind == 'semiInfRight':
+                    hi, hi_exact = oo, True
+                else:
+                    try:
+                        hi, hi_exact = calc_parse_scalar(hi_str)
+                    except ValueError as e:
+                        return calc_unknown(f'bad upper support bound: {e}')
+                    if not (hi > lo):
+                        return calc_unknown('support must have hi > lo')
+                exact = lo_exact and hi_exact
+        else:
+            return calc_unknown(f'unknown rv_mode {rv_mode!r}')
+
+        if theorem_mode == 'markov':
+            try:
+                a_val, a_exact = calc_parse_scalar(a_str)
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'bad a: {e}')
+            if not bool(a_val > 0):
+                return calc_unknown('a must be positive')
+            exact = exact and a_exact
+
+            if rv_mode == 'discrete':
+                nonneg = _ineq_nonneg_discrete_finite(xf, startN, count) if disc_support_kind == 'finite' \\
+                    else _ineq_nonneg_discrete_infinite(xf, startN)
+                mean_kind, mean = _ineq_mean_discrete(xf, pf, startN, disc_support_kind, count)
+                true_val = _ineq_tail_ge_discrete_finite(xf, pf, startN, count, a_val) if disc_support_kind == 'finite' \\
+                    else _ineq_tail_ge_discrete_infinite(xf, pf, startN, a_val)
+            else:
+                nonneg = bool(lo >= 0)
+                mean_kind, mean = _ineq_mean_continuous(f, lo, hi)
+                true_val = _ineq_integral_ge(f, lo, hi, a_val)
+
+            if mean_kind != 'finite':
+                # E[X] itself does not exist for this law — Markov's own
+                # bound (E[X]/a) cannot even be FORMED, a distinct failure
+                # from the true tail simply exceeding a known bound.
+                # Scope decision (documented in the module docstring): this
+                # module presupposes a finite mean, the same way the
+                # informal theorem statement itself does by writing E[X]/a
+                # at all; every shipped preset has a finite mean, so this
+                # branch is honesty, not a gap being routed around.
+                return calc_unknown(f'E[X] does not exist for this law ({mean_kind})') if mean_kind == 'abstain' \\
+                    else {'theoremMode': 'markov', 'kind': rv_mode, 'provenance': calc_cap('refuted', exact),
+                          'nonneg': nonneg, 'mean': None, 'trueValue': None, 'bound': None, 'holds': None,
+                          'blockedAct': 'meanExists'}
+
+            bound = sp.simplify(mean / a_val)
+            holds = bool(sp.simplify(true_val - bound) <= 0)
+            return {
+                'theoremMode': 'markov', 'kind': rv_mode,
+                'provenance': calc_cap('proved' if holds else 'refuted', exact),
+                'nonneg': nonneg,
+                'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+                'trueValue': _calc_num(true_val), 'trueValueTex': sp.latex(true_val),
+                'bound': _calc_num(bound), 'boundTex': sp.latex(bound),
+                'holds': holds,
+                'blockedAct': None if nonneg else 'nonnegative',
+            }
+
+        if theorem_mode != 'chebyshev':
+            return calc_unknown(f'unknown theoremMode {theorem_mode!r}')
+
+        try:
+            c_val, c_exact = calc_parse_scalar(c_str)
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'bad c: {e}')
+        if not bool(c_val > 0):
+            return calc_unknown('c must be positive')
+        exact = exact and c_exact
+
+        # meanExists / varianceExists — the SAME chained-clause cascade
+        # analyse_expectation's own header documents: a certain divergence
+        # is 'refuted' (never an abstention), an honest SymPy failure to
+        # decide is 'unknown', and varianceExists is only even ATTEMPTED
+        # once meanExists holds.
+        if rv_mode == 'discrete':
+            mean_kind, mean = _ineq_mean_discrete(xf, pf, startN, disc_support_kind, count)
+        else:
+            mean_kind, mean = _ineq_mean_continuous(f, lo, hi)
+        if mean_kind == 'abstain':
+            return calc_unknown(f'meanExists: {mean}')
+        if mean_kind != 'finite':
+            return {
+                'theoremMode': 'chebyshev', 'kind': rv_mode,
+                'provenance': calc_cap('refuted', exact),
+                'meanExists': False, 'mean': None,
+                'varianceExists': None, 'variance': None,
+                'blockedAct': 'meanExists',
+                'cheb': None,
+            }
+
+        if rv_mode == 'discrete':
+            var_kind, variance = _ineq_var_discrete(xf, pf, startN, disc_support_kind, count, mean)
+        else:
+            var_kind, variance = _ineq_var_continuous(f, lo, hi, mean)
+        if var_kind == 'abstain':
+            return calc_unknown(f'varianceExists: {variance}')
+        if var_kind != 'finite':
+            return {
+                'theoremMode': 'chebyshev', 'kind': rv_mode,
+                'provenance': calc_cap('refuted', exact),
+                'meanExists': True, 'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+                'varianceExists': False, 'variance': None,
+                'blockedAct': 'varianceExists',
+                'cheb': None,
+            }
+
+        if rv_mode == 'discrete' and disc_support_kind == 'finite':
+            true_val = _ineq_two_tail_discrete_finite(xf, pf, startN, count, mean, c_val)
+        elif rv_mode == 'continuous':
+            true_val = _ineq_integral_le(f, lo, hi, mean - c_val) + _ineq_integral_ge(f, lo, hi, mean + c_val)
+        else:
+            raise Abstain('the two-sided tail is only decided here for a finite discrete or continuous support')
+
+        bound = sp.simplify(variance / (c_val ** 2))
+        holds = bool(sp.simplify(true_val - bound) <= 0)
+        return {
+            'theoremMode': 'chebyshev', 'kind': rv_mode,
+            'provenance': calc_cap('proved' if holds else 'refuted', exact),
+            'meanExists': True, 'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+            'varianceExists': True, 'variance': _calc_num(variance), 'varianceTex': sp.latex(variance),
+            'blockedAct': None,
+            'cheb': {
+                'trueValue': _calc_num(true_val), 'trueValueTex': sp.latex(true_val),
+                'bound': _calc_num(bound), 'boundTex': sp.latex(bound),
+                'holds': holds,
+            },
+        }
+    except Abstain as e:
+        return calc_unknown(str(e))
+
+
+# =============================================================================
+# ── Probability & Statistics domain (DOMAINS[2]) — modes of convergence (topic 3.21) ──
+# =============================================================================
+# CONCEPT module: FOUR independent checks (never chained/gated -- none is a
+# precondition for another) on ONE of five NAMED, PARAMETERIZED
+# constructions -- see src/modules/convergenceEngine.js's own header for the
+# full design rationale. Unlike every other module in this file, this is
+# NOT a free-form-formula module: there is no expr.mjs parsing of a general
+# f(x)/table here at all, only a construction id plus, for two of the five
+# constructions, a small number of scalar parameters (p, q for the spike
+# family; c for the degenerate constant).
+#
+# n is \`_SEQ_N\` (the SAME positive-integer symbol analyse_sequences already
+# defines), reusing its own \`limit_seq\`/\`sp.limit\` machinery via a direct
+# \`sp.limit\` call on each construction's own closed form -- confirmed by
+# hand that SymPy decides every closed form this module needs EXACTLY,
+# including the typewriter construction's floor-based P(Y_n=1) =
+# 2^-floor(log2 n): \`sp.limit(2**(-sp.floor(sp.log(n, 2))), n, oo)\` resolves
+# cleanly to 0 with no abstention needed -- a genuine departure from this
+# domain's usual floor/ceiling/sign trap family (see this file's own module
+# docstring), because here floor sits INSIDE a monotonically-diverging
+# argument rather than creating a jump discontinuity \`continuous_domain\`
+# must classify.
+def _conv_mode(pass_, detail):
+    """A DECIDED (proved/refuted) mode result — used for the three
+    constructions (minUniform, typewriter's inProbability/meanSquare/
+    inDistribution facets, symmetric) with no free scalar inputs at all, so
+    there is never a float to cap against."""
+    return {'pass': bool(pass_), 'provenance': 'proved' if pass_ else 'refuted', 'detail': detail}
+
+
+def _conv_overall(fields_attempted):
+    """Weakest-tier reduction across every ATTEMPTED (non-None) mode field
+    -- the SAME reduction analyse_partials's own docstring documents,
+    applied here to four independent facts rather than partials' own four
+    clauses: 'unknown' if any attempted field abstained; else 'numeric' if
+    any attempted field is 'numeric'; else 'refuted' if any attempted field
+    is 'refuted'; else 'proved'."""
+    provs = [f['provenance'] for f in fields_attempted if f is not None]
+    if not provs:
+        return 'unknown'
+    if 'unknown' in provs:
+        return 'unknown'
+    if 'numeric' in provs:
+        return 'numeric'
+    if 'refuted' in provs:
+        return 'refuted'
+    return 'proved'
+
+
+def analyse_convergence(construction, p_str, q_str, c_str):
+    """construction: 'minUniform'|'spike'|'typewriter'|'symmetric'|
+    'degenerate'. p_str/q_str: SymPy-syntax scalar strings (expr.mjs's
+    parseNumber().sympy) for the 'spike' family only, else None/null.
+    c_str: same, for the 'degenerate' constant only, else None/null.
+
+    Returns a FLAT dict with the usual top-level \`provenance\` PLUS four
+    per-mode sub-dicts (\`inProbability\`, \`almostSure\`, \`meanSquare\`,
+    \`inDistribution\`), each \`{pass, provenance, detail}\` OR \`None\` when the
+    construction genuinely does not evaluate that mode — the spike
+    family's own documented scope decision (see convergenceEngine.js's
+    header: an arbitrary (p,q) does not admit a clean closed-form
+    in-distribution test point or an exact almost-sure argument, so both
+    stay \`None\`/"not evaluated" rather than guessed at, on BOTH tiers).
+
+    minUniform's \`almostSure\` is an ENTAILED consequence, not independently
+    re-derived: Y_n = min(Y_{n-1}, X_n) <= Y_{n-1} is a structural fact of
+    the min operator needing no computation, and Y_n >= 0 always — a
+    monotone bounded sequence converges surely to some limit, which must
+    then equal the ALREADY-DECIDED in-probability limit (0) by uniqueness
+    of a probability limit — the same "report a derived, not re-probed,
+    consequence" choice \`analyse_gammabeta\`'s own identity fields already
+    made. typewriter's \`almostSure\` is a genuine EXACT combinatorial
+    argument needing no limit at all (every omega in [0,1) lies in exactly
+    one length-2^-k subinterval per block k, so Y_n(omega)=1 infinitely
+    often for literally every omega) -- decided 'refuted', never an
+    abstention. spike's \`almostSure\` depends on an independence MODELING
+    ASSUMPTION this function does not encode (see convergenceEngine.js's
+    own header) and stays \`None\` on this tier too, exactly mirroring the
+    numeric tier's own choice to report only Monte Carlo EVIDENCE there,
+    never a symbolic verdict.
+    """
+    n = _SEQ_N
+
+    if construction == 'minUniform':
+        eps_list = [sp.Rational(1, 2), sp.Rational(1, 5), sp.Rational(1, 10)]
+        ip_pass = all(sp.limit((1 - e) ** n, n, oo) == 0 for e in eps_list)
+        inProbability = _conv_mode(ip_pass, 'lim_{n->oo} (1-eps)^n = 0 for eps in (0,1)')
+
+        ms_lim = sp.limit(sp.Rational(2, 1) / ((n + 1) * (n + 2)), n, oo)
+        meanSquare = _conv_mode(ms_lim == 0, 'lim_{n->oo} 2/((n+1)(n+2)) = 0')
+
+        y_list = [sp.Rational(1, 10), sp.Rational(3, 10), sp.Rational(6, 10), sp.Rational(9, 10)]
+        id_pass = all(sp.limit(1 - (1 - y) ** n, n, oo) == 1 for y in y_list)
+        inDistribution = _conv_mode(id_pass, 'lim_{n->oo} [1-(1-y)^n] = 1 for y in (0,1)')
+
+        almostSure = {
+            'pass': inProbability['pass'], 'provenance': inProbability['provenance'],
+            'detail': 'Y_n = min(Y_{n-1}, X_n) <= Y_{n-1} always (a structural fact of the min operator) and Y_n >= 0 always -- a monotone bounded sequence converges surely to some limit; since Y_n -> 0 in probability too, and a probability limit is a.s. unique, the a.s. limit is 0 too.',
+        }
+        fields = {'inProbability': inProbability, 'almostSure': almostSure, 'meanSquare': meanSquare, 'inDistribution': inDistribution}
+
+    elif construction == 'spike':
+        try:
+            p_val, p_exact = calc_parse_scalar(p_str)
+            q_val, q_exact = calc_parse_scalar(q_str)
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'bad p/q: {e}')
+        if not bool(p_val > 0):
+            return calc_unknown('p must be positive')
+        if not bool(q_val > 0):
+            return calc_unknown('q must be positive')
+        exact = p_exact and q_exact
+
+        ip_lim = sp.limit(n ** (-q_val), n, oo)
+        ip_pass = bool(ip_lim == 0)
+        inProbability = {'pass': ip_pass, 'provenance': calc_cap('proved' if ip_pass else 'refuted', exact),
+                          'detail': 'lim_{n->oo} n^-q = 0 for q > 0'}
+
+        exponent = sp.nsimplify(2 * p_val - q_val)
+        ms_lim = sp.limit(n ** exponent, n, oo)
+        ms_pass = bool(ms_lim == 0)
+        meanSquare = {'pass': ms_pass, 'provenance': calc_cap('proved' if ms_pass else 'refuted', exact),
+                      'detail': f'E[Y_n^2] = n^(2p-q) = n^{exponent}; converges to 0 iff 2p < q'}
+
+        fields = {'inProbability': inProbability, 'almostSure': None, 'meanSquare': meanSquare, 'inDistribution': None}
+
+    elif construction == 'typewriter':
+        base = 2 ** (-sp.floor(sp.log(n, 2)))
+        ip_lim = sp.limit(base, n, oo)
+        ip_pass = bool(ip_lim == 0)
+        inProbability = _conv_mode(ip_pass, 'P(Y_n=1) = 2^-floor(log2 n) -> 0')
+        meanSquare = _conv_mode(ip_pass, 'E[Y_n^2] = P(Y_n=1) (indicator identity: Y_n in {0,1}) -> 0')
+
+        id_lim = sp.limit(1 - base, n, oo)
+        inDistribution = _conv_mode(id_lim == 1, 'F_{Y_n}(y) = 1 - 2^-floor(log2 n) -> 1 for y in (0,1)')
+
+        almostSure = {
+            'pass': False, 'provenance': 'refuted',
+            'detail': 'Every omega in [0,1) lies in EXACTLY ONE length-2^-k subinterval per block k -- Y_n(omega)=1 infinitely often, for every omega. The sequence converges NOWHERE, a strictly stronger failure than merely almost-sure non-convergence.',
+        }
+        fields = {'inProbability': inProbability, 'almostSure': almostSure, 'meanSquare': meanSquare, 'inDistribution': inDistribution}
+
+    elif construction == 'symmetric':
+        inProbability = _conv_mode(False, 'P(|Y_n-Y|>=eps) = 1 for eps<=2 (Y is never 0) -- constant, never -> 0')
+        meanSquare = _conv_mode(False, 'E[(Y_n-Y)^2] = E[4Y^2] = 4 -- constant, never -> 0')
+        inDistribution = _conv_mode(True, 'Y_n = -Y has the identical law as Y by symmetry -- F_{Y_n} = F_Y exactly for every n')
+        almostSure = _conv_mode(False, 'Y_n(omega) = Y(omega) requires Y(omega) = 0, never true for a +/-1 coin -- fails at every outcome')
+        fields = {'inProbability': inProbability, 'almostSure': almostSure, 'meanSquare': meanSquare, 'inDistribution': inDistribution}
+
+    elif construction == 'degenerate':
+        try:
+            c_val, c_exact = calc_parse_scalar(c_str)
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'bad c: {e}')
+        exact = c_exact
+        prov = calc_cap('proved', exact)
+        inProbability = {'pass': True, 'provenance': prov, 'detail': f'|Y_n-Y| = 0 always (c = {c_val})'}
+        meanSquare = {'pass': True, 'provenance': prov, 'detail': f'E[(Y_n-Y)^2] = 0 always (c = {c_val})'}
+        inDistribution = {'pass': True, 'provenance': prov, 'detail': f'F_{{Y_n}} = F_Y exactly (c = {c_val})'}
+        almostSure = {'pass': True, 'provenance': prov, 'detail': f'Y_n(omega) = Y(omega) = {c_val} exactly, for every n and every omega'}
+        fields = {'inProbability': inProbability, 'almostSure': almostSure, 'meanSquare': meanSquare, 'inDistribution': inDistribution}
+
+    else:
+        return calc_unknown(f'unknown construction {construction!r}')
+
+    overall = _conv_overall(list(fields.values()))
+    return {'id': 'convergence', 'construction': construction, 'provenance': overall, **fields}
+
+
+# =============================================================================
+# ── Probability & Statistics domain (DOMAINS[2]) -- the weak law of large
+#    numbers (topic 3.22) --
+# =============================================================================
+# THEOREM module, the direct sequel to inequalities (3.20)/convergence
+# (3.21) -- see wllnEngine.js's own header for the full design. H1
+# (meanExists) gates everything; H2 (varianceExists) is the PROOF-SPECIFIC
+# (Chebyshev) hypothesis, not the theorem's own true (weaker) requirement.
+# Reuses inequalitiesEngine's own \`_ineq_mean_discrete\`/\`_ineq_var_discrete\`/
+# \`_ineq_mean_continuous\`/\`_ineq_var_continuous\` module-level functions
+# DIRECTLY -- the SAME three-way ('finite'/'divergent'/'abstain')
+# classification \`analyse_inequalities\` already uses for its own
+# meanExists/varianceExists chain, now on this module's per-trial law.
+#
+# The Chebyshev-BOUND limit (sigma^2/(n*eps^2) -> 0 as n->infty) is decided
+# EXACTLY via \`sp.limit\` on \`_SEQ_N\` -- trivial once sigma^2 is a known
+# finite constant, but demonstrated via a genuine symbolic limit rather than
+# merely cited, per non-negotiable #1.
+#
+# The TRUE P(|M_n-mu|>=eps) is decided EXACTLY, for a SMALL finite discrete
+# per-trial law and a small n_check, via genuine convolution/enumeration
+# over the joint distribution of X_1+...+X_n_check (mirroring
+# \`analyse_binomial\`'s own exact small-n brute-force cross-check) --
+# abstaining honestly (returning \`exactSmallN: None\`, never guessing) for a
+# larger n, an infinite discrete support, or a continuous law, where only
+# the numeric (JS) tier can march.
+def analyse_wlln(rv_mode, x_formula, p_formula, startN_str, disc_support_kind, count_str,
+                  formula, cont_support_kind, lo_str, hi_str, eps_str, n_check_str):
+    """See the module docstring above."""
+    n = _SEQ_N
+    try:
+        if rv_mode == 'discrete':
+            try:
+                xf = _seq_parse(x_formula)
+                pf = _seq_parse(p_formula)
+            except ValueError as e:
+                return calc_unknown(f'bad formula: {e}')
+            try:
+                startN_val, startN_exact = calc_parse_scalar(startN_str)
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'bad startN: {e}')
+            if not (startN_val.is_integer and bool(startN_val >= 0)):
+                return calc_unknown('startN must be a non-negative integer')
+            startN = int(startN_val)
+            exact = startN_exact
+            count = None
+            if disc_support_kind == 'finite':
+                try:
+                    count_val, count_exact = calc_parse_scalar(count_str)
+                except Exception as e:  # noqa: BLE001
+                    return calc_unknown(f'bad count: {e}')
+                if not (count_val.is_integer and bool(count_val >= 1)):
+                    return calc_unknown('count must be a positive integer')
+                count = int(count_val)
+                exact = exact and count_exact
+        elif rv_mode == 'continuous':
+            try:
+                f = calc_parse(formula)
+            except ValueError as e:
+                return calc_unknown(f'bad formula: {e}')
+            if cont_support_kind == 'full':
+                lo, hi, exact = -oo, oo, True
+            else:
+                try:
+                    lo, lo_exact = calc_parse_scalar(lo_str)
+                except ValueError as e:
+                    return calc_unknown(f'bad lower support bound: {e}')
+                if cont_support_kind == 'semiInfRight':
+                    hi, hi_exact = oo, True
+                else:
+                    try:
+                        hi, hi_exact = calc_parse_scalar(hi_str)
+                    except ValueError as e:
+                        return calc_unknown(f'bad upper support bound: {e}')
+                    if not (hi > lo):
+                        return calc_unknown('support must have hi > lo')
+                exact = lo_exact and hi_exact
+        else:
+            return calc_unknown(f'unknown rv_mode {rv_mode!r}')
+
+        try:
+            eps_val, eps_exact = calc_parse_scalar(eps_str)
+        except Exception as e:  # noqa: BLE001
+            return calc_unknown(f'bad eps: {e}')
+        if not bool(eps_val > 0):
+            return calc_unknown('eps must be positive')
+        exact = exact and eps_exact
+
+        n_check = 4
+        if n_check_str is not None:
+            try:
+                nc_val, _ = calc_parse_scalar(n_check_str)
+                if nc_val.is_integer and bool(nc_val >= 1):
+                    n_check = int(nc_val)
+            except Exception:  # noqa: BLE001
+                pass
+
+        # H1 -- meanExists -- reusing analyse_inequalities' own module-level
+        # helpers DIRECTLY.
+        if rv_mode == 'discrete':
+            mean_kind, mean = _ineq_mean_discrete(xf, pf, startN, disc_support_kind, count)
+        else:
+            mean_kind, mean = _ineq_mean_continuous(f, lo, hi)
+        if mean_kind == 'abstain':
+            return calc_unknown(f'meanExists: {mean}')
+        if mean_kind != 'finite':
+            return {
+                'kind': rv_mode, 'provenance': calc_cap('refuted', exact),
+                'meanExists': False, 'mean': None,
+                'varianceExists': None, 'variance': None,
+                'blockedAct': 'meanExists',
+                'exactSmallN': None,
+            }
+
+        # H2 -- varianceExists (proof-specific) -- same reuse.
+        if rv_mode == 'discrete':
+            var_kind, variance = _ineq_var_discrete(xf, pf, startN, disc_support_kind, count, mean)
+        else:
+            var_kind, variance = _ineq_var_continuous(f, lo, hi, mean)
+        if var_kind == 'abstain':
+            return calc_unknown(f'varianceExists: {variance}')
+        if var_kind != 'finite':
+            return {
+                'kind': rv_mode, 'provenance': calc_cap('refuted', exact),
+                'meanExists': True, 'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+                'varianceExists': False, 'variance': None,
+                'blockedAct': 'varianceExists',
+                'exactSmallN': None,
+            }
+
+        # The Chebyshev BOUND's own limit, decided EXACTLY (trivial once
+        # sigma^2 is a known finite constant, but demonstrated via a genuine
+        # sp.limit rather than merely cited).
+        bound_seq = variance / (n * eps_val ** 2)
+        bound_limit = sp.limit(bound_seq, n, oo)
+        bound_limit_zero = bool(bound_limit == 0)
+
+        # exactSmallN -- EXACT convolution/enumeration, finite discrete only,
+        # abstaining (None, never guessed) otherwise.
+        exact_small_n = None
+        if rv_mode == 'discrete' and disc_support_kind == 'finite' and count ** n_check <= 5000:
+            xs = [xf.subs(n, startN + i) for i in range(count)]
+            ps = [pf.subs(n, startN + i) for i in range(count)]
+            from itertools import product as _product
+            true_val = S.Zero
+            for combo in _product(range(count), repeat=n_check):
+                s = sum((xs[i] for i in combo), S.Zero)
+                w = S.One
+                for i in combo:
+                    w *= ps[i]
+                m = sp.Rational(1, n_check) * s
+                if bool(Abs(m - mean) >= eps_val):
+                    true_val += w
+            bound_at_ncheck = variance / (n_check * eps_val ** 2)
+            holds = bool(sp.simplify(true_val - bound_at_ncheck) <= 0)
+            exact_small_n = {
+                'nCheck': n_check,
+                'trueValue': _calc_num(true_val), 'trueValueTex': sp.latex(true_val),
+                'bound': _calc_num(bound_at_ncheck), 'boundTex': sp.latex(bound_at_ncheck),
+                'holds': holds,
+            }
+
+        return {
+            'kind': rv_mode, 'provenance': calc_cap('proved', exact),
+            'meanExists': True, 'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+            'varianceExists': True, 'variance': _calc_num(variance), 'varianceTex': sp.latex(variance),
+            'blockedAct': None,
+            'boundLimitZero': bound_limit_zero,
+            'exactSmallN': exact_small_n,
+        }
+    except Abstain as e:
+        return calc_unknown(str(e))
+
+
+# =============================================================================
+# ── Probability & Statistics domain (DOMAINS[2]) -- the strong law of large
+#    numbers (topic 3.23) --
+# =============================================================================
+# THEOREM module, the direct sequel to wlln (3.22)/convergence (3.21) --
+# see sllnEngine.js's own header for the full design. ONE hypothesis only
+# (meanExists) -- reuses inequalitiesEngine's own \`_ineq_mean_discrete\`/
+# \`_ineq_mean_continuous\` module-level functions DIRECTLY, the SAME reuse
+# \`analyse_wlln\` already established for its own H1. Unlike \`analyse_wlln\`,
+# there is NO H2 (varianceExists) here at all: SLLN's true scope needs only
+# a finite mean, a genuinely striking asymmetry with WLLN's own textbook
+# proof (which needs finite variance for Chebyshev to run).
+#
+# The almost-sure convergence CLAIM ITSELF is NOT further decided here --
+# genuinely, not a stylistic omission: the real proof of the Strong Law is
+# hard and beyond this course (the source material states this plainly),
+# and no SymPy computation could certify "only finitely many exceedances"
+# for an arbitrary declared law any more than the numeric tier's own
+# finite-horizon Monte Carlo evidence can PROVE it. This is a genuinely new
+# instance of this domain's "how much does the symbolic tier add"
+# asymmetry family, landing at "nothing more, for once" -- contrast
+# \`analyse_randomvariables\`/\`analyse_ftc\`/\`analyse_uniform\`/\`analyse_normal\`,
+# which all decide MORE than their own numeric tiers. Once \`meanExists\` is
+# decided (exactly, for a rational law), the result reports
+# \`asDecidable: False\` with a \`note\` explaining why, rather than inventing
+# a verdict on the core claim.
+def analyse_slln(rv_mode, x_formula, p_formula, startN_str, disc_support_kind, count_str,
+                  formula, cont_support_kind, lo_str, hi_str):
+    """See the module docstring above."""
+    try:
+        if rv_mode == 'discrete':
+            try:
+                xf = _seq_parse(x_formula)
+                pf = _seq_parse(p_formula)
+            except ValueError as e:
+                return calc_unknown(f'bad formula: {e}')
+            try:
+                startN_val, startN_exact = calc_parse_scalar(startN_str)
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'bad startN: {e}')
+            if not (startN_val.is_integer and bool(startN_val >= 0)):
+                return calc_unknown('startN must be a non-negative integer')
+            startN = int(startN_val)
+            exact = startN_exact
+            count = None
+            if disc_support_kind == 'finite':
+                try:
+                    count_val, count_exact = calc_parse_scalar(count_str)
+                except Exception as e:  # noqa: BLE001
+                    return calc_unknown(f'bad count: {e}')
+                if not (count_val.is_integer and bool(count_val >= 1)):
+                    return calc_unknown('count must be a positive integer')
+                count = int(count_val)
+                exact = exact and count_exact
+        elif rv_mode == 'continuous':
+            try:
+                f = calc_parse(formula)
+            except ValueError as e:
+                return calc_unknown(f'bad formula: {e}')
+            if cont_support_kind == 'full':
+                lo, hi, exact = -oo, oo, True
+            else:
+                try:
+                    lo, lo_exact = calc_parse_scalar(lo_str)
+                except ValueError as e:
+                    return calc_unknown(f'bad lower support bound: {e}')
+                if cont_support_kind == 'semiInfRight':
+                    hi, hi_exact = oo, True
+                else:
+                    try:
+                        hi, hi_exact = calc_parse_scalar(hi_str)
+                    except ValueError as e:
+                        return calc_unknown(f'bad upper support bound: {e}')
+                    if not (hi > lo):
+                        return calc_unknown('support must have hi > lo')
+                exact = lo_exact and hi_exact
+        else:
+            return calc_unknown(f'unknown rv_mode {rv_mode!r}')
+
+        # H1 -- meanExists -- reusing analyse_inequalities' own module-level
+        # helpers DIRECTLY (the same reuse analyse_wlln already established).
+        # This is the ONLY hypothesis this module checks.
+        if rv_mode == 'discrete':
+            mean_kind, mean = _ineq_mean_discrete(xf, pf, startN, disc_support_kind, count)
+        else:
+            mean_kind, mean = _ineq_mean_continuous(f, lo, hi)
+        if mean_kind == 'abstain':
+            return calc_unknown(f'meanExists: {mean}')
+        if mean_kind != 'finite':
+            return {
+                'kind': rv_mode, 'provenance': calc_cap('refuted', exact),
+                'meanExists': False, 'mean': None,
+                'blockedAct': 'meanExists',
+                'asDecidable': False,
+                'note': 'meanExists fails -- M_n has nothing to converge to. The almost-sure convergence claim itself is not decidable by this symbolic tier in any case (see this function\\'s own docstring); the numeric tier\\'s Monte Carlo evidence is the only route once mean/no-mean is settled.',
+            }
+
+        return {
+            'kind': rv_mode, 'provenance': calc_cap('proved', exact),
+            'meanExists': True, 'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+            'blockedAct': None,
+            'asDecidable': False,
+            'note': 'The mean exists (decided exactly above) -- the theorem\\'s ONLY hypothesis holds. The almost-sure convergence conclusion itself is NOT further decidable by this symbolic tier: the real proof of the Strong Law is beyond this course, and no SymPy computation here certifies "only finitely many exceedances" for an arbitrary law any more than finite-horizon simulation can. See the numeric tier for Monte Carlo evidence (the exceedance-plateau demonstration).',
+        }
+    except Abstain as e:
+        return calc_unknown(str(e))
+
+
+# =============================================================================
+# ── Probability & Statistics domain (DOMAINS[2]) -- the Central Limit
+#    Theorem (topic 3.24) -- the LAST topic in the 24-topic backlog --
+# =============================================================================
+# THEOREM module -- see cltEngine.js's own header for the full design. H1
+# (meanExists) gates H2 (varianceExists) -- reuses \`_ineq_mean_discrete\`/
+# \`_ineq_mean_continuous\`/\`_ineq_var_discrete\`/\`_ineq_var_continuous\`
+# DIRECTLY, the SAME reuse \`analyse_wlln\`/\`analyse_slln\` already established
+# for their own H1 (and, for wlln, H2).
+#
+# UNLIKE \`analyse_wlln\`, a broken H2 here reports a \`provenance: 'refuted'\`
+# verdict with \`variance: None\` and NOTHING further attempted -- CLT's own
+# Z_n divides by sigma*sqrt(n), so a missing (infinite) variance makes the
+# STATEMENT itself undefined, not merely one particular proof of it (\`mean\`
+# is still reported, since H1 independently holds -- the same "report what
+# is known as soon as it is known" precedent \`analyse_wlln\` already sets).
+#
+# \`exactSmallN\`, when computable (a FINITE discrete per-trial law, small
+# enough that \`size**n_check\` stays tractable), builds Z_n's own EXACT law
+# by brute-force convolution over every length-n_check trial sequence (the
+# SAME odometer-style enumeration \`analyse_wlln\`'s own \`exact_small_n\`
+# already uses, adapted to Z_n's affine transform of the raw sum) and
+# reports the EXACT rational P(Z_n<=z) alongside a DECIMAL Phi(z) via
+# \`sp.erf\` -- Phi ITSELF has no elementary closed form (see \`analyse_normal\`'s
+# own header), so even an exact-rational per-trial law can only ever produce
+# a \`numeric\` comparison against Phi, never a \`proved\` one; this asymmetry
+# (mean/variance decide exactly, but the actual CLT comparison itself never
+# fully closes) is documented here, not hidden, the same "SymPy decides
+# less" instance \`analyse_slln\`'s own header already records for its own
+# almost-sure conclusion.
+def analyse_clt(rv_mode, x_formula, p_formula, startN_str, disc_support_kind, count_str,
+                 formula, cont_support_kind, lo_str, hi_str, z_str, n_check_str):
+    """See the module docstring above."""
+    n = _SEQ_N
+    try:
+        if rv_mode == 'discrete':
+            try:
+                xf = _seq_parse(x_formula)
+                pf = _seq_parse(p_formula)
+            except ValueError as e:
+                return calc_unknown(f'bad formula: {e}')
+            try:
+                startN_val, startN_exact = calc_parse_scalar(startN_str)
+            except Exception as e:  # noqa: BLE001
+                return calc_unknown(f'bad startN: {e}')
+            if not (startN_val.is_integer and bool(startN_val >= 0)):
+                return calc_unknown('startN must be a non-negative integer')
+            startN = int(startN_val)
+            exact = startN_exact
+            count = None
+            if disc_support_kind == 'finite':
+                try:
+                    count_val, count_exact = calc_parse_scalar(count_str)
+                except Exception as e:  # noqa: BLE001
+                    return calc_unknown(f'bad count: {e}')
+                if not (count_val.is_integer and bool(count_val >= 1)):
+                    return calc_unknown('count must be a positive integer')
+                count = int(count_val)
+                exact = exact and count_exact
+        elif rv_mode == 'continuous':
+            try:
+                f = calc_parse(formula)
+            except ValueError as e:
+                return calc_unknown(f'bad formula: {e}')
+            if cont_support_kind == 'full':
+                lo, hi, exact = -oo, oo, True
+            else:
+                try:
+                    lo, lo_exact = calc_parse_scalar(lo_str)
+                except ValueError as e:
+                    return calc_unknown(f'bad lower support bound: {e}')
+                if cont_support_kind == 'semiInfRight':
+                    hi, hi_exact = oo, True
+                else:
+                    try:
+                        hi, hi_exact = calc_parse_scalar(hi_str)
+                    except ValueError as e:
+                        return calc_unknown(f'bad upper support bound: {e}')
+                    if not (hi > lo):
+                        return calc_unknown('support must have hi > lo')
+                exact = lo_exact and hi_exact
+        else:
+            return calc_unknown(f'unknown rv_mode {rv_mode!r}')
+
+        z_val = S.Zero
+        if z_str is not None:
+            try:
+                z_val, z_exact = calc_parse_scalar(z_str)
+                exact = exact and z_exact
+            except Exception:  # noqa: BLE001
+                z_val = S.Zero
+
+        n_check = 4
+        if n_check_str is not None:
+            try:
+                nc_val, _ = calc_parse_scalar(n_check_str)
+                if nc_val.is_integer and bool(nc_val >= 1):
+                    n_check = int(nc_val)
+            except Exception:  # noqa: BLE001
+                pass
+
+        # H1 -- meanExists -- reusing analyse_inequalities' own module-level
+        # helpers DIRECTLY (the same reuse analyse_wlln/analyse_slln already
+        # established).
+        if rv_mode == 'discrete':
+            mean_kind, mean = _ineq_mean_discrete(xf, pf, startN, disc_support_kind, count)
+        else:
+            mean_kind, mean = _ineq_mean_continuous(f, lo, hi)
+        if mean_kind == 'abstain':
+            return calc_unknown(f'meanExists: {mean}')
+        if mean_kind != 'finite':
+            return {
+                'kind': rv_mode, 'provenance': calc_cap('refuted', exact),
+                'meanExists': False, 'mean': None,
+                'varianceExists': None, 'variance': None,
+                'blockedAct': 'meanExists',
+                'exactSmallN': None,
+            }
+
+        # H2 -- varianceExists -- same reuse. UNLIKE analyse_wlln, a broken
+        # H2 here is NOT merely "this proof cannot run" -- Z_n's own
+        # STATEMENT (its denominator) is undefined, so nothing further is
+        # even attempted, exactly mirroring cltEngine.js's own numeric tier.
+        if rv_mode == 'discrete':
+            var_kind, variance = _ineq_var_discrete(xf, pf, startN, disc_support_kind, count, mean)
+        else:
+            var_kind, variance = _ineq_var_continuous(f, lo, hi, mean)
+        if var_kind == 'abstain':
+            return calc_unknown(f'varianceExists: {variance}')
+        if var_kind != 'finite':
+            return {
+                'kind': rv_mode, 'provenance': calc_cap('refuted', exact),
+                'meanExists': True, 'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+                'varianceExists': False, 'variance': None,
+                'blockedAct': 'varianceExists',
+                'exactSmallN': None,
+            }
+
+        # exactSmallN -- EXACT convolution/enumeration for Z_n itself (finite
+        # discrete only), comparing against a DECIMAL Phi(z) via erf -- Phi
+        # has no elementary closed form (see this function's own docstring),
+        # so this comparison can never fully close even for an exact-rational
+        # law, unlike analyse_wlln's own exact_small_n (which compares two
+        # exact rationals throughout).
+        exact_small_n = None
+        if rv_mode == 'discrete' and disc_support_kind == 'finite' and count ** n_check <= 5000:
+            xs = [xf.subs(n, startN + i) for i in range(count)]
+            ps = [pf.subs(n, startN + i) for i in range(count)]
+            sigma_exact = sp.sqrt(variance)
+            true_val = S.Zero
+            for combo in product(range(count), repeat=n_check):
+                s = sum((xs[i] for i in combo), S.Zero)
+                w = S.One
+                for i in combo:
+                    w *= ps[i]
+                zn = (s - n_check * mean) / (sigma_exact * sp.sqrt(n_check))
+                if bool(zn <= z_val):
+                    true_val += w
+            Phi = sp.Rational(1, 2) * (1 + sp.erf(z_val / sp.sqrt(2)))
+            phi_num = _calc_num(Phi)
+            exact_small_n = {
+                'nCheck': n_check, 'z': _calc_num(z_val),
+                'trueValue': _calc_num(true_val), 'trueValueTex': sp.latex(true_val),
+                'phi': phi_num,
+                'diff': abs(_calc_num(true_val) - phi_num),
+            }
+
+        return {
+            'kind': rv_mode, 'provenance': calc_cap('proved', exact),
+            'meanExists': True, 'mean': _calc_num(mean), 'meanTex': sp.latex(mean),
+            'varianceExists': True, 'variance': _calc_num(variance), 'varianceTex': sp.latex(variance),
+            'blockedAct': None,
+            'exactSmallN': exact_small_n,
+        }
+    except Abstain as e:
+        return calc_unknown(str(e))
+`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
