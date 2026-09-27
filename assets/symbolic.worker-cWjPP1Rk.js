@@ -1935,6 +1935,16 @@ CALC_NAMESPACE = {
     # argument exactly (no overflow, unlike the JS numeric engine's own
     # IEEE-754 double — see powerseriesEngine.js's header).
     'factorial': sp.factorial,
+    # M1 of the Calculus upgrade plan (2026-09): the whitelist in expr.mjs grew by the
+    # reciprocal-trig, reciprocal/inverse-hyperbolic families and sinc — mirrored here
+    # name-for-name so toSympy()'s output stays readable by calc_parse. \`cbrt\` never
+    # reaches this namespace (expr.mjs prints it as the existing odd-root rewrite
+    # sign(x)*Abs(x)**Rational(1,3)); \`log10\`/\`log2\` arrive as two-argument log(x, b),
+    # which sp.log already accepts. SymPy's real-branch conventions match mathjs's
+    # (confirmed by hand: acot(-1) = -pi/4 on both).
+    'cot': sp.cot, 'sec': sp.sec, 'csc': sp.csc, 'acot': sp.acot, 'asec': sp.asec, 'acsc': sp.acsc,
+    'coth': sp.coth, 'sech': sp.sech, 'csch': sp.csch,
+    'asinh': sp.asinh, 'acosh': sp.acosh, 'atanh': sp.atanh, 'sinc': sp.sinc,
 }
 
 CALC_ABSTAIN_FUNCS = (floor, ceiling, sign, Piecewise)
