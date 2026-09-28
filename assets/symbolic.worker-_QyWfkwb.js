@@ -2051,6 +2051,34 @@ def calc_safe_diff_at(f, x0):
         l = sp.limit(q_left, h, 0, '+')
     except Exception as e:  # noqa: BLE001
         raise Abstain(f'one-sided limit failed at {x0}: {e}') from e
+    # M7 (Calculus upgrade plan): SymPy's series step can leave a constant that IS zero
+    # unsimplified — limit((asinh(1) - asinh(1 - h))/h, h -> 0+) came back as oo because
+    # log(sqrt(2) - 1) + log(sqrt(2) + 1) survived as a 1/h coefficient — and every
+    # multivariable engine (partials, totaldiff, lagrange) then refuted a smooth function
+    # as a "cusp". When a side comes back non-finite, retry with the pivot as a SYMBOL
+    # (the cancellation then happens algebraically) and substitute x0 afterwards. This is
+    # only ever used as a fallback and only accepted when it yields a finite real value
+    # that the actual numeric quotient confirms: a genuine corner never enters it (|x| at
+    # 0 gives finite ±1 directly) and a genuine pole or vertical tangent survives it
+    # (1/x, x**(1/3) at 0 give zoo after substitution, so the oo verdict stands).
+    def _finite(v):
+        return v is not None and v.is_finite and v.is_real
+    if not (_finite(l) and _finite(r)):
+        try:
+            piv = Symbol('a_piv', real=True)
+            l2 = l if _finite(l) else sp.limit((f.subs(x, piv) - f.subs(x, piv - h)) / h, h, 0, '+').subs(piv, x0)
+            r2 = r if _finite(r) else sp.limit((f.subs(x, piv + h) - f.subs(x, piv)) / h, h, 0, '+').subs(piv, x0)
+            def _confirmed(v, q):
+                if not _finite(v):
+                    return False
+                vals = [sp.N(q.subs(h, sp.Rational(1, 10 ** k)), 30) for k in (5, 7)]
+                return all(vv.is_real and abs(float(vv - v)) <= 1e-3 * max(1.0, abs(float(v))) for vv in vals)
+            if _confirmed(l2, q_left):
+                l = l2
+            if _confirmed(r2, q_right):
+                r = r2
+        except Exception:  # noqa: BLE001
+            pass
     return l, r
 
 
@@ -2070,6 +2098,21 @@ def calc_differentiable_on(f, a, b):
     return {'pass': True, 'issues': [], 'provenance': 'proved'}
 
 
+def _calc_solveset_is_risky(expr):
+    """True when \`expr\` (a derivative to be solved for x) has TWO or more distinct
+    transcendental function heads applied to x AND a transcendental numeric constant
+    (a function applied to a number, e.g. csc(3/10)) — the shape that stalls solveset.
+    See calc_stationary_points."""
+    heads = set()
+    const_transcendental = False
+    for fn in expr.atoms(sp.Function):
+        if fn.has(x):
+            heads.add(type(fn))
+        else:
+            const_transcendental = True
+    return len(heads) >= 2 and const_transcendental
+
+
 def calc_stationary_points(f, a, b, max_points=12):
     """Exact zeros of f' in (a,b) when solveset can; otherwise certified sign-change
     enclosures via mpmath.iv (Darboux: f' has the intermediate value property, so a
@@ -2077,7 +2120,16 @@ def calc_stationary_points(f, a, b, max_points=12):
     certificate in {'exact', 'enclosure'}."""
     fp = sp.diff(f, x)
     try:
-        sols = sp.solveset(sp.simplify(fp), x, Interval.open(a, b))
+        # M3 (Calculus upgrade plan): solveset can spin for MINUTES on an equation that
+        # multiplies two different transcendental heads of x and carries a transcendental
+        # CONSTANT — exactly what an MVT auxiliary g' = f' - S looks like for f = csc x
+        # on [3/10, 14/5] (g' = -cot(x)csc(x) - (csc(14/5) - csc(3/10))/(5/2)); confirmed
+        # by faulthandler at this very line. The browser worker's 10 s watchdog would
+        # abstain, but a 10 s stall before "unknown" is a poor answer when the certified
+        # enclosure below settles the same question in milliseconds. So: skip solveset
+        # for that shape only. Single-head equations (cos x = sin(2)/2, tan²x + 1 = S)
+        # still get their exact closed-form witnesses, as before.
+        sols = None if _calc_solveset_is_risky(fp) else sp.solveset(sp.simplify(fp), x, Interval.open(a, b))
     except Exception:  # noqa: BLE001
         sols = None
     if sols is not None and sols.is_FiniteSet:
@@ -2117,6 +2169,7 @@ def calc_enclose_roots(g, a, b, max_points=12, depth=14):
         raise Abstain('cannot lambdify for enclosure')
     iv = mpmath.iv
     iv.dps = 30
+    mpmath.mp.dps = 30
     out = []
     n = 512
     lo_f, hi_f = float(a), float(b)
@@ -2127,7 +2180,17 @@ def calc_enclose_roots(g, a, b, max_points=12, depth=14):
             v = gf(iv.mpf(t))
             return iv.mpf(v)
         except Exception:  # noqa: BLE001
-            return None
+            # M3 (Calculus upgrade plan): a zero-width interval stops being zero-width the
+            # moment any arithmetic touches it (outward rounding), and mpmath's non-interval
+            # functions then refuse it — so \`sqrt(1 - 1/x**2)\` (asec', acsc') raised here and
+            # the enclosure silently found NOTHING, abstaining on a witness the numeric tier
+            # locates trivially. Evaluate at 30-digit mpf instead and re-wrap; the sign-change
+            # bracketing below is the same, at the same precision.
+            try:
+                v = gf(mpmath.mpf(t))
+                return iv.mpf(v)
+            except Exception:  # noqa: BLE001
+                return None
 
     prev = val(xs[1])
     for i in range(2, n):
@@ -9493,4 +9556,528 @@ def analyse_clt(rv_mode, x_formula, p_formula, startN_str, disc_support_kind, co
         }
     except Abstain as e:
         return calc_unknown(str(e))
-`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════
+# Domain 4 — Multiple Integrals & Vector Calculus: shared symbolic helpers (V0, 2026-09-27)
+# ═══════════════════════════════════════════════════════════════════════════════════════
+# Everything a domain-4 analyse_* function needs, and nothing module-specific. Two rules
+# learnt in domain 2 are enforced here structurally: (1) sp.integrate and sp.solveset are
+# NEVER called directly by domain-4 code — only through _integrate_or_none / _solve_or_none,
+# which refuse the shapes that stall (the csc lesson, CHANGES-M3.md) and swallow exceptions
+# into an honest None; (2) every input string is what expr.mjs printed, never raw user text.
+
+_D4_SYMS = {n: Symbol(n, real=True) for n in ('x', 'y', 'z', 't', 'u', 'v', 'theta', 'phi')}
+_D4_SYMS['r'] = Symbol('r', nonnegative=True)
+_D4_SYMS['rho'] = Symbol('rho', nonnegative=True)
+VEC_NAMESPACE = {**CALC_NAMESPACE, **_D4_SYMS}
+VEC_NAMESPACE['x'] = x  # keep the domain-2 x (real) as the canonical x
+_D4_SYMS['x'] = x
+
+
+def vec_sym(name):
+    return _D4_SYMS[name]
+
+
+def vec_parse(expr_str, symbols=('x', 'y', 'z')):
+    """Parse a printed expression allowing exactly \`symbols\`. Raises Abstain on anything else."""
+    try:
+        f = sp.sympify(expr_str, locals=VEC_NAMESPACE)
+    except Exception as e:  # noqa: BLE001
+        raise Abstain(f'cannot parse: {e}') from e
+    allowed = {vec_sym(s) for s in symbols}
+    bad = f.free_symbols - allowed
+    if bad:
+        raise Abstain(f'unexpected symbols {sorted(map(str, bad))}')
+    return f
+
+
+def vec_parse_vector(strs, symbols=('x', 'y', 'z')):
+    """A list of printed component strings (from parseVector(...).parts[i].toSympy()) → sp.Matrix."""
+    return sp.Matrix([vec_parse(s, symbols) for s in strs])
+
+
+def _transcendental_heads(expr, var):
+    heads = set()
+    const_transcendental = False
+    for fn in expr.atoms(sp.Function):
+        if fn.has(var):
+            heads.add(type(fn))
+        elif not fn.free_symbols:
+            const_transcendental = True  # a transcendental NUMBER (csc(14/5)), not a function of another variable
+    return heads, const_transcendental
+
+
+def _integrate_or_none(expr, *limits):
+    """sp.integrate, guarded. Returns None (never raises, never stalls the worker) when:
+    the integrand contains Abs / sign / floor / ceiling / Piecewise; or, in any integration
+    variable, it has two or more distinct transcendental heads together with a
+    transcendental constant (the shape that stalled solveset for >30 s in domain 2);
+    or SymPy raises; or the result still contains an unevaluated Integral."""
+    try:
+        if expr.has(sp.Abs, sp.sign, sp.floor, sp.ceiling, sp.Piecewise):
+            return None
+        for lim in limits:
+            var = lim[0] if isinstance(lim, (tuple, list)) else lim
+            heads, ct = _transcendental_heads(expr, var)
+            if len(heads) >= 2 and ct:
+                return None
+        res = sp.integrate(expr, *limits, conds='none')
+        if res is None or res.has(sp.Integral) or res.has(sp.zoo) or res.has(sp.nan):
+            return None
+        return sp.simplify(res)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _solve_or_none(expr, var, domain=None):
+    """sp.solveset, guarded with the domain-2 risk test; returns a FiniteSet/None."""
+    try:
+        heads, ct = _transcendental_heads(expr, var)
+        if len(heads) >= 2 and ct:
+            return None
+        sol = sp.solveset(sp.simplify(expr), var, domain if domain is not None else sp.S.Reals)
+        if sol == sp.S.EmptySet:
+            return sp.FiniteSet()  # decided: no solutions (not "undecidable")
+        if not isinstance(sol, sp.FiniteSet):
+            return None
+        return sol
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _bound(s, symbols):
+    """A bound string ('x^2' printed as '(x**2)', or a number) → sympy expr in \`symbols\`."""
+    if isinstance(s, (int, float)):
+        return sp.nsimplify(s)
+    return vec_parse(str(s), symbols)
+
+
+def vec_region_limits(region):
+    """A regions.mjs region (JSON) → the sp.integrate limits, innermost first.
+    typeI  → [(y, g1(x), g2(x)), (x, a, b)]      typeII → [(x, h1(y), h2(y)), (y, c, d)]
+    rect   → [(y, c, d), (x, a, b)]              polar  → [(r, r1(θ), r2(θ)), (θ, α, β)] (caller adds the Jacobian r)"""
+    k = region['kind']
+    X, Y, R, TH = vec_sym('x'), vec_sym('y'), vec_sym('r'), vec_sym('theta')
+    if k == 'rect':
+        a, b = region['x']; c, d = region['y']
+        return [(Y, _bound(c, ()), _bound(d, ())), (X, _bound(a, ()), _bound(b, ()))]
+    if k == 'typeI':
+        a, b = region['x']; g1, g2 = region['y']
+        return [(Y, _bound(g1, ('x',)), _bound(g2, ('x',))), (X, _bound(a, ()), _bound(b, ()))]
+    if k == 'typeII':
+        c, d = region['y']; h1, h2 = region['x']
+        return [(X, _bound(h1, ('y',)), _bound(h2, ('y',))), (Y, _bound(c, ()), _bound(d, ()))]
+    if k == 'polar':
+        al, be = region['theta']; r1, r2 = region['r']
+        return [(R, _bound(r1, ('theta',)), _bound(r2, ('theta',))), (TH, _bound(al, ()), _bound(be, ()))]
+    raise Abstain(f'cannot form limits for a {k} region')
+
+
+def vec_integrate_region(f_str, region, symbols=('x', 'y')):
+    """∬_region f dA exactly, or None. Polar regions: f is given in x, y and substituted."""
+    f = vec_parse(f_str, symbols)
+    lims = vec_region_limits(region)
+    if region['kind'] == 'union':
+        parts = [vec_integrate_region(f_str, p, symbols) for p in region['parts']]
+        if any(p is None for p in parts):
+            return None
+        return sp.simplify(sum(parts))
+    if region['kind'] == 'polar':
+        R, TH = vec_sym('r'), vec_sym('theta')
+        f = f.subs({vec_sym('x'): R * sp.cos(TH), vec_sym('y'): R * sp.sin(TH)}) * R
+    return _integrate_or_none(f, *lims)
+
+
+def vec_reverse_order(region):
+    """typeI ↔ typeII, exact, VERIFIED — or None (abstain).
+
+    Candidate left/right edges of the reversed strip are the old outer endpoints a, b and
+    every real inverse branch of the two bound curves (solve g(x) = y for x, guarded). The
+    true edges are located numerically at five interior heights (sampling where
+    g1(x) ≤ y ≤ g2(x)); a candidate is accepted only if it matches the true edge at all
+    five. No match, two matches that disagree, or a strip crossing R more than twice →
+    None: a split or a piecewise description is needed, and we do not guess. (V0's first
+    version picked branches by heuristic and returned −√y for the lens and a wrong bound
+    for the quarter disc; this construction cannot, because every bound it returns has
+    been checked against the region itself.)"""
+    X, Y = vec_sym('x'), vec_sym('y')
+    if region['kind'] == 'typeII':
+        swapped = {'kind': 'typeI', 'x': region['y'],
+                   'y': [str(sp.sympify(v, locals=VEC_NAMESPACE).subs(Y, X)) if not isinstance(v, (int, float)) else v for v in region['x']]}
+        out = vec_reverse_order(swapped)
+        if out is None:
+            return None
+        back = lambda v: sp.sympify(v, locals=VEC_NAMESPACE).subs(Y, X)  # noqa: E731
+        return {'kind': 'typeI', 'x': out['y'], 'y': [str(back(v)) for v in out['x']], 'tex': {'x': out['tex']['y'], 'y': [sp.latex(back(v)) for v in out['x']]}}
+    if region['kind'] != 'typeI':
+        return None
+    try:
+        a, b = [_bound(v, ()) for v in region['x']]
+        g1, g2 = [_bound(v, ('x',)) for v in region['y']]
+        fa, fb = float(a), float(b)
+        G1, G2 = sp.lambdify(X, g1, 'math'), sp.lambdify(X, g2, 'math')
+        # y-range, from a fine sample (then snapped to exact values at a, b when they match)
+        xs = [fa + (fb - fa) * k / 2000 for k in range(2001)]
+        lo_vals = [G1(v) for v in xs]; hi_vals = [G2(v) for v in xs]
+        c_num, d_num = min(lo_vals), max(hi_vals)
+        exact_ends = [sp.simplify(g.subs(X, e)) for g in (g1, g2) for e in (a, b)]
+        c = next((e for e in exact_ends if abs(float(e) - c_num) < 1e-9), sp.nsimplify(c_num))
+        d = next((e for e in exact_ends if abs(float(e) - d_num) < 1e-9), sp.nsimplify(d_num))
+        cands = [a, b]
+        # Solve g(x) = h for a POSITIVE dummy height h (with a merely real y, solveset returns
+        # a conditional set for x² = y instead of {±√y}); sp.solve as a fallback. Safe to be
+        # generous here: every candidate is verified against the region below.
+        H = sp.Symbol('h_rev', positive=True)
+        for g in (g1, g2):
+            if not g.has(X):
+                continue
+            branches = []
+            sol = _solve_or_none(g - H, X)
+            if sol:
+                branches = list(sol)
+            else:
+                heads, ct = _transcendental_heads(g, X)
+                if not (len(heads) >= 2 and ct):
+                    try:
+                        branches = sp.solve(sp.Eq(g, H), X)
+                    except Exception:  # noqa: BLE001
+                        branches = []
+            cands += [br.subs(H, Y) for br in branches if br.has(H)]
+        cand_fns = [(cexp, sp.lambdify(Y, cexp, 'math')) for cexp in cands]
+        heights = [c_num + (d_num - c_num) * t for t in (0.13, 0.31, 0.5, 0.69, 0.87)]
+
+        def true_edges(yv):
+            inside = [G1(v) <= yv <= G2(v) for v in xs]
+            if not any(inside):
+                return None
+            crossings = sum(1 for k in range(1, len(inside)) if inside[k] != inside[k - 1])
+            if crossings > 2:
+                return 'split'
+            first = inside.index(True); last = len(inside) - 1 - inside[::-1].index(True)
+            return xs[first], xs[last]
+
+        edges = [true_edges(yv) for yv in heights]
+        if any(e == 'split' for e in edges) or any(e is None for e in edges):
+            return None
+        step = (fb - fa) / 2000 * 1.5
+
+        def pick(which):
+            hits = []
+            for cexp, cf in cand_fns:
+                try:
+                    if all(abs(cf(yv) - e[which]) <= step for yv, e in zip(heights, edges)):
+                        hits.append(cexp)
+                except (ValueError, TypeError, ZeroDivisionError):
+                    continue
+            uniq = []
+            for h in hits:
+                if not any(sp.simplify(h - u) == 0 for u in uniq):
+                    uniq.append(h)
+            return uniq[0] if len(uniq) == 1 else None
+
+        L, R = pick(0), pick(1)
+        if L is None or R is None:
+            return None
+        return {'kind': 'typeII', 'y': [str(c), str(d)], 'x': [str(L), str(R)], 'tex': {'y': [sp.latex(c), sp.latex(d)], 'x': [sp.latex(L), sp.latex(R)]}}
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def vec_integrate_solid(f_str, solid):
+    """∭ f dV exactly, or None. Cylindrical/spherical solids carry their Jacobian."""
+    X, Y, Z, R, TH, PH, RHO = (vec_sym(n) for n in ('x', 'y', 'z', 'r', 'theta', 'phi', 'rho'))
+    f = vec_parse(f_str, ('x', 'y', 'z'))
+    k = solid['kind']
+    if k == 'box':
+        (a, b), (c, d), (e, g) = solid['x'], solid['y'], solid['z']
+        return _integrate_or_none(f, (Z, _bound(e, ()), _bound(g, ())), (Y, _bound(c, ()), _bound(d, ())), (X, _bound(a, ()), _bound(b, ())))
+    if k == 'general':
+        h1, h2 = [_bound(v, ('x', 'y')) for v in solid['z']]
+        lims = vec_region_limits(solid['base'])
+        return _integrate_or_none(f, (Z, h1, h2), *lims)
+    if k == 'cylindrical':
+        r1, r2 = [_bound(v, ('theta',)) for v in solid['r']]
+        z1, z2 = [_bound(v, ('r', 'theta')) for v in solid['z']]
+        al, be = [_bound(v, ()) for v in solid['theta']]
+        g = f.subs({X: R * sp.cos(TH), Y: R * sp.sin(TH)}) * R
+        return _integrate_or_none(g, (Z, z1, z2), (R, r1, r2), (TH, al, be))
+    if k == 'spherical':
+        rho1, rho2 = [_bound(v, ('phi', 'theta')) for v in solid['rho']]
+        p1, p2 = [_bound(v, ()) for v in solid['phi']]
+        al, be = [_bound(v, ()) for v in solid['theta']]
+        g = f.subs({X: RHO * sp.sin(PH) * sp.cos(TH), Y: RHO * sp.sin(PH) * sp.sin(TH), Z: RHO * sp.cos(PH)}) * RHO**2 * sp.sin(PH)
+        return _integrate_or_none(g, (RHO, rho1, rho2), (PH, p1, p2), (TH, al, be))
+    raise Abstain(f'cannot integrate over a {k} solid')
+
+
+def vec_grad(f_str, symbols=('x', 'y', 'z')):
+    f = vec_parse(f_str, symbols)
+    g = sp.Matrix([sp.diff(f, vec_sym(s)) for s in symbols])
+    return {'expr': g, 'tex': sp.latex(g)}
+
+
+def vec_div(F_strs, symbols=('x', 'y', 'z')):
+    F = vec_parse_vector(F_strs, symbols)
+    d = sp.simplify(sum(sp.diff(F[i], vec_sym(s)) for i, s in enumerate(symbols)))
+    return {'expr': d, 'tex': sp.latex(d)}
+
+
+def vec_curl(F_strs, symbols=('x', 'y', 'z')):
+    F = vec_parse_vector(F_strs, symbols)
+    if len(symbols) == 2:
+        X, Y = vec_sym(symbols[0]), vec_sym(symbols[1])
+        c = sp.simplify(sp.diff(F[1], X) - sp.diff(F[0], Y))
+        return {'expr': c, 'tex': sp.latex(c)}
+    X, Y, Z = (vec_sym(s) for s in symbols)
+    c = sp.Matrix([sp.diff(F[2], Y) - sp.diff(F[1], Z), sp.diff(F[0], Z) - sp.diff(F[2], X), sp.diff(F[1], X) - sp.diff(F[0], Y)]).applyfunc(sp.simplify)
+    return {'expr': c, 'tex': sp.latex(c)}
+
+
+def vec_laplacian(f_str, symbols=('x', 'y', 'z')):
+    f = vec_parse(f_str, symbols)
+    l = sp.simplify(sum(sp.diff(f, vec_sym(s), 2) for s in symbols))
+    return {'expr': l, 'tex': sp.latex(l)}
+
+
+def vec_jacobian(T_strs, from_symbols=('u', 'v')):
+    """T: list of printed components in \`from_symbols\` → { det, detTex, zeros } (zeros: where det = 0, guarded)."""
+    T = vec_parse_vector(T_strs, from_symbols)
+    J = T.jacobian([vec_sym(s) for s in from_symbols])
+    det = sp.simplify(J.det())
+    zeros = None
+    if len(from_symbols) == 1 or det.free_symbols <= {vec_sym(from_symbols[0])}:
+        zs = _solve_or_none(det, vec_sym(from_symbols[0]))
+        zeros = [str(z) for z in zs] if zs is not None else None
+    return {'det': det, 'detTex': sp.latex(det), 'zeros': zeros, 'J': J}
+
+
+def vec_potential(F_strs, symbols=None):
+    symbols = symbols or ('x', 'y', 'z')[:len(F_strs)]
+    """A potential f with ∇f = F, by successive integration, or None. Verified by
+    re-differentiation, so a non-conservative F (curl ≠ 0) returns None rather than a
+    wrong f — the curl test itself is the module's clause, this is its construction."""
+    F = vec_parse_vector(F_strs, symbols)
+    syms = [vec_sym(s) for s in symbols]
+    f = _integrate_or_none(F[0], syms[0])
+    if f is None:
+        return None
+    for i in range(1, len(syms)):
+        rest = sp.simplify(F[i] - sp.diff(f, syms[i]))
+        if any(rest.has(s) for s in syms[:i]):
+            return None  # would need a function of the earlier variables: not conservative
+        gi = _integrate_or_none(rest, syms[i])
+        if gi is None:
+            return None
+        f = f + gi
+    f = sp.simplify(f)
+    for i, s in enumerate(syms):
+        if sp.simplify(sp.diff(f, s) - F[i]) != 0:
+            return None
+    return {'f': f, 'tex': sp.latex(f)}
+
+
+def vec_line_integral(F_strs, curve, symbols=('x', 'y', 'z')):
+    """∫_C F·dr for a curves.mjs curve {x:'…', y:'…', z?:'…', t:[a, b]} (strings printed by expr.mjs), exact or None."""
+    T = vec_sym('t')
+    comps = [vec_parse(curve[k], ('t',)) for k in ('x', 'y', 'z') if k in curve and curve[k] is not None]
+    syms = symbols[:len(comps)]
+    F = vec_parse_vector(F_strs, syms)
+    sub = {vec_sym(s): c for s, c in zip(syms, comps)}
+    integrand = sum(F[i].subs(sub) * sp.diff(comps[i], T) for i in range(len(comps)))
+    a, b = [_bound(v, ()) for v in curve['t']]
+    return _integrate_or_none(sp.simplify(integrand), (T, a, b))
+
+
+def vec_flux(F_strs, surface):
+    """∬_S F·dS for a surfaces.mjs surface {x,y,z: '…' in u,v; u:[..], v:[..]}, exact or None."""
+    U, V = vec_sym('u'), vec_sym('v')
+    r = sp.Matrix([vec_parse(surface[k], ('u', 'v')) for k in ('x', 'y', 'z')])
+    F = vec_parse_vector(F_strs, ('x', 'y', 'z'))
+    n = r.diff(U).cross(r.diff(V))
+    sub = {vec_sym('x'): r[0], vec_sym('y'): r[1], vec_sym('z'): r[2]}
+    integrand = sp.simplify(sum(F[i].subs(sub) * n[i] for i in range(3)))
+    u0, u1 = [_bound(v, ()) for v in surface['u']]
+    v0, v1 = [_bound(v, ()) for v in surface['v']]
+    return _integrate_or_none(integrand, (V, v0, v1), (U, u0, u1))
+
+
+# ── 4.1 dblrect — Fubini on a rectangle ─────────────────────────────────────────────────
+def analyse_dblrect(expr_str, a_str, b_str, c_str, d_str):
+    """Same top-level shape as analyse_rolle. Clauses: bounded, continuous (gated).
+    Conclusion: both iterated integrals exactly (guarded); \`agree\` when they are equal."""
+    X, Y = vec_sym('x'), vec_sym('y')
+    try:
+        f = vec_parse(expr_str, ('x', 'y'))
+        a, _ = calc_parse_scalar(a_str); b, _ = calc_parse_scalar(b_str)
+        c, _ = calc_parse_scalar(c_str); d, _ = calc_parse_scalar(d_str)
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'dblrect', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    hyps = {}
+    # bounded: try the four corner limits and the singular set of the denominator
+    bounded = None
+    try:
+        num, den = sp.fraction(sp.together(f))
+        if den.free_symbols:
+            zs = _solve_or_none(den, X) if den.free_symbols == {X} else None
+            # a denominator vanishing on the closed rectangle → unbounded unless the numerator cancels
+            corner_bad = any(sp.simplify(den.subs({X: px, Y: py})) == 0 for px in (a, b) for py in (c, d))
+            if corner_bad or (zs and any(a <= z <= b for z in zs if z.is_real)):
+                lim = sp.limit(sp.limit(f, X, a, '+'), Y, c, '+') if corner_bad else None
+                bounded = False if (lim is None or lim in (sp.oo, -sp.oo, sp.zoo) or lim.has(sp.oo)) else None
+            else:
+                bounded = True
+        else:
+            bounded = True
+    except Exception:  # noqa: BLE001
+        bounded = None
+    hyps['bounded'] = {'pass': bounded, 'issues': [] if bounded else [{'detail': 'f is unbounded on R' if bounded is False else 'could not decide boundedness'}], 'provenance': 'proved' if bounded else ('refuted' if bounded is False else 'unknown')}
+    cont = None
+    if bounded and f.has(sp.sign, sp.floor, sp.ceiling):
+        cont = False  # a step function: refuted, not unknown
+    elif bounded:
+        try:
+            from sympy.calculus.util import continuous_domain
+            dom_x = continuous_domain(f.subs(Y, (c + d) / 2), X, sp.Interval(a, b))
+            dom_y = continuous_domain(f.subs(X, (a + b) / 2), Y, sp.Interval(c, d))
+            cont = bool(dom_x == sp.Interval(a, b) and dom_y == sp.Interval(c, d)) and not f.has(sp.sign, sp.floor, sp.ceiling, sp.Abs)
+            if f.has(sp.sign, sp.floor, sp.ceiling):
+                cont = False
+        except Exception:  # noqa: BLE001
+            cont = None
+    else:
+        cont = False if bounded is False else None
+    hyps['continuous'] = {'pass': cont, 'issues': [] if cont else [{'detail': 'f is not continuous on R' if cont is False else 'could not decide continuity'}], 'provenance': 'proved' if cont else ('refuted' if cont is False else 'unknown')}
+    dydx = _integrate_or_none(f, (Y, c, d), (X, a, b))
+    dxdy = _integrate_or_none(f, (X, a, b), (Y, c, d))
+    agree = None if (dydx is None or dxdy is None) else bool(sp.simplify(dydx - dxdy) == 0)
+    all_pass = bounded is True and cont is True
+    blocked = 'boxes' if bounded is False else ('slicex' if cont is False else None)
+    prov = 'refuted' if blocked else ('proved' if (all_pass and agree) else 'unknown')
+    return {
+        'id': 'dblrect', 'provenance': prov, 'hypotheses': hyps, 'allHypothesesPass': all_pass, 'blockedAct': blocked,
+        'conclusion': {'agree': agree, 'dydxTex': sp.latex(dydx) if dydx is not None else None, 'dxdyTex': sp.latex(dxdy) if dxdy is not None else None,
+                       'valueTex': sp.latex(dydx) if (agree and dydx is not None) else None,
+                       'value': str(dydx) if (agree and dydx is not None) else None, 'dydx': str(dydx) if dydx is not None else None, 'dxdy': str(dxdy) if dxdy is not None else None,
+                       'provenance': 'proved' if agree else ('refuted' if agree is False else 'unknown')},
+        'f': {'tex': sp.latex(f)},
+    }
+
+
+# ── 4.2 dblregion — general regions; reversing the order ────────────────────────────────
+_NONELEMENTARY = (sp.erf, sp.erfi, sp.erfc, sp.Ei, sp.li, sp.Si, sp.Ci, sp.fresnels, sp.fresnelc, sp.expint, sp.uppergamma, sp.lowergamma)
+
+
+def analyse_dblregion(expr_str, region_json):
+    """Region as a JSON string ({kind:'typeI', x:[a,b], y:[g1,g2]} with bounds printed by
+    expr.mjs). Returns the exact integral in the given order and in the reversed order,
+    whether the INNER antiderivative in the given order is elementary (the e^{y²} lesson:
+    SymPy finishes via erfi, a non-elementary function — honest, and the reason to reverse),
+    the reversed region, and describable=False when vec_reverse_order finds a split."""
+    import json
+    X, Y = vec_sym('x'), vec_sym('y')
+    try:
+        region = json.loads(region_json) if isinstance(region_json, str) else region_json
+        f = vec_parse(expr_str, ('x', 'y'))
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'dblregion', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    lims = vec_region_limits(region)
+    inner_var, ilo, ihi = lims[0]
+    inner_anti = _integrate_or_none(f, inner_var)
+    inner_elementary = None if inner_anti is None else not inner_anti.has(*_NONELEMENTARY)
+    orig = _integrate_or_none(f, *lims)
+    rev_region = vec_reverse_order(region)
+    describable = rev_region is not None
+    rev = None
+    if describable:
+        rev = vec_integrate_region(expr_str, {k: v for k, v in rev_region.items() if k != 'tex'}, ('x', 'y'))
+    hyps = {
+        'describable': {'pass': describable if rev_region is not None or region['kind'] == 'rect' else None,
+                        'issues': [] if describable else [{'detail': 'SymPy could not reverse the bounds as a single region (a split may be needed)'}],
+                        'provenance': 'proved' if describable else 'unknown'},
+    }
+    agree = None if (orig is None or rev is None) else bool(sp.simplify(orig - rev) == 0)
+    return {
+        'id': 'dblregion', 'provenance': 'proved' if agree else 'unknown', 'hypotheses': hyps,
+        'allHypothesesPass': bool(describable), 'blockedAct': None,
+        'reversedRegion': rev_region,
+        'innerElementary': inner_elementary, 'innerAntiTex': sp.latex(inner_anti) if inner_anti is not None else None,
+        'conclusion': {'agree': agree, 'orig': str(orig) if orig is not None else None, 'rev': str(rev) if rev is not None else None,
+                       'valueTex': sp.latex(orig) if (agree and orig is not None) else None, 'provenance': 'proved' if agree else 'unknown'},
+        'f': {'tex': sp.latex(f)},
+    }
+
+
+# ── 4.3 polar — double integrals in polar coordinates ──────────────────────────────────
+def analyse_polar(expr_str, region_json):
+    """Exact ∫∫ f(r cos θ, r sin θ) r dr dθ over a polar region (JSON, bounds printed by
+    expr.mjs), and — for the "forgot the r" lesson — the same integral WITHOUT the r, so the
+    results panel can show both. provenance 'proved' when the correct integral is exact."""
+    import json
+    R, TH, X, Y = vec_sym('r'), vec_sym('theta'), vec_sym('x'), vec_sym('y')
+    try:
+        region = json.loads(region_json) if isinstance(region_json, str) else region_json
+        f = vec_parse(expr_str, ('x', 'y'))
+        lims = vec_region_limits(region)
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'polar', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    g = f.subs({X: R * sp.cos(TH), Y: R * sp.sin(TH)})
+    with_r = _integrate_or_none(g * R, *lims)
+    without_r = _integrate_or_none(g, *lims)
+    return {
+        'id': 'polar', 'provenance': 'proved' if with_r is not None else 'unknown', 'hypotheses': {}, 'allHypothesesPass': True, 'blockedAct': None,
+        'conclusion': {'value': str(with_r) if with_r is not None else None, 'valueTex': sp.latex(with_r) if with_r is not None else None,
+                       'withoutR': str(without_r) if without_r is not None else None, 'withoutRTex': sp.latex(without_r) if without_r is not None else None,
+                       'provenance': 'proved' if with_r is not None else 'unknown'},
+        'f': {'tex': sp.latex(f), 'polarTex': sp.latex(sp.simplify(g))},
+    }
+
+
+# ── 4.6 jacobian — change of variables ──────────────────────────────────────────────────
+def analyse_jacobian(x_str, y_str, f_str, u0_str, u1_str, v0_str, v1_str):
+    """J = ∂(x,y)/∂(u,v) exactly, and ∬_D f(T(u,v)) |J| du dv exactly when |J| can be written
+    without Abs: J of one sign on D (checked at a 5×5 grid and at the zeros of J), or J
+    depending on u alone with finitely many zeros in (u0, u1) — then D is split at those zeros
+    and each piece carries the sign of J at its midpoint (the fold: J = 2u, pieces [-1,0], [0,1]).
+    Anything else abstains. Hypotheses are the numeric tier's; this reports the exact numbers."""
+    U, V, X, Y = vec_sym('u'), vec_sym('v'), vec_sym('x'), vec_sym('y')
+    try:
+        jac = vec_jacobian([x_str, y_str], ('u', 'v'))
+        det = jac['det']
+        xs, ys = vec_parse(x_str, ('u', 'v')), vec_parse(y_str, ('u', 'v'))
+        f = vec_parse(f_str, ('x', 'y'))
+        u0, _ = calc_parse_scalar(u0_str); u1, _ = calc_parse_scalar(u1_str)
+        v0, _ = calc_parse_scalar(v0_str); v1, _ = calc_parse_scalar(v1_str)
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'jacobian', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    g = sp.simplify(f.subs({X: xs, Y: ys}))
+    pieces = None  # list of (u_lo, u_hi, sign)
+    try:
+        num = sp.lambdify((U, V), det, 'math')
+        samples = [num(float(u0 + (u1 - u0) * (i + 0.5) / 5), float(v0 + (v1 - v0) * (j + 0.5) / 5)) for i in range(5) for j in range(5)]
+        if det.free_symbols <= {U}:
+            zs = _solve_or_none(det, U)
+            cuts = sorted([z for z in (zs or []) if z.is_real and u0 < z < u1]) if zs is not None else None
+            if cuts is not None:
+                edges = [u0, *cuts, u1]
+                pieces = []
+                for a_, b_ in zip(edges[:-1], edges[1:]):
+                    mid = float((a_ + b_) / 2)
+                    val = float(det.subs(U, mid))
+                    pieces.append((a_, b_, 1 if val >= 0 else -1))
+        elif all(s_ > 0 for s_ in samples) or all(s_ < 0 for s_ in samples):
+            pieces = [(u0, u1, 1 if samples[0] > 0 else -1)]
+    except Exception:  # noqa: BLE001
+        pieces = None
+    value = None
+    if pieces is not None:
+        parts = [_integrate_or_none(sg * det * g, (V, v0, v1), (U, a_, b_)) for (a_, b_, sg) in pieces]
+        if all(p_ is not None for p_ in parts):
+            value = sp.simplify(sum(parts))
+    return {
+        'id': 'jacobian', 'provenance': 'proved' if value is not None else 'unknown', 'hypotheses': {}, 'allHypothesesPass': None, 'blockedAct': None,
+        'detTex': jac['detTex'], 'det': str(det), 'pieces': [[str(a_), str(b_), sg] for (a_, b_, sg) in (pieces or [])],
+        'conclusion': {'value': str(value) if value is not None else None, 'valueTex': sp.latex(value) if value is not None else None, 'provenance': 'proved' if value is not None else 'unknown'},
+        'f': {'tex': sp.latex(f), 'composedTex': sp.latex(g)},
+    }
+`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
