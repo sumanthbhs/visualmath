@@ -2411,7 +2411,7 @@ def analyse_mvt(expr_str, a_str, b_str):
     any_fail = any(h['pass'] is False for h in hyps.values())
     wb = _calc_witness_block(g, a, b, exact, slope)
     fp = sp.diff(f, x)
-    reduces_to = {'id': 'rolle', 'active': bool(sp.simplify(fb - fa) == 0),
+    reduces_to = {'id': 'rolle', 'active': (_exact_equal(fb, fa) is True),
                   'detail': 'f(a) = f(b): the secant is horizontal — this input is exactly Rolle'}
     # Proof state for MvtModule's theatre (module 2.6). The proof is Rolle's, run on g:
     # g(a) = g(b) = 0 by construction, so the interiority step can never die — only
@@ -2558,7 +2558,7 @@ def analyse_limits(expr_str, c_str, override_str=None):
             'provenance': limit_clause['provenance'] if limit_clause['pass'] is False else defined_clause['provenance'],
         }
     else:
-        agree = bool(sp.simplify(lim['value'] - fc_value) == 0)
+        agree = (_exact_equal(lim['value'], fc_value) is True)
         continuous_clause = {
             'pass': agree,
             'issues': [] if agree else [{'kind': 'disagree', 'detail': f"the limit is {sp.latex(lim['value'])} but f(c) = {sp.latex(fc_value)}"}],
@@ -2718,7 +2718,7 @@ def analyse_ivt(expr_str, a_str, b_str, k_str):
     elif hyps['bracket']['pass'] is False and not wb['witnesses']:
         blocked = 'bracket'
 
-    g_is_zero = bool(sp.simplify(f - k) == 0)
+    g_is_zero = (_exact_equal(f, k) is True)
     return {
         'id': 'ivt',
         'provenance': _calc_overall(hyps, wb, any_fail),
@@ -3151,7 +3151,7 @@ def analyse_ftc(f_str, F_str, a_str, b_str):
     if continuous['pass'] is True:
         try:
             Fp = sp.diff(F, x)
-            is_antideriv = bool(sp.simplify(Fp - f) == 0)
+            is_antideriv = (_exact_equal(Fp, f) is True)
             antideriv_provenance = calc_cap('proved' if is_antideriv else 'refuted', exact)
         except Exception:  # noqa: BLE001
             is_antideriv = None
@@ -3164,7 +3164,7 @@ def analyse_ftc(f_str, F_str, a_str, b_str):
 
         if is_antideriv is True and integral_value is not None:
             try:
-                identity_holds = bool(sp.simplify(lhs - integral_value) == 0)
+                identity_holds = (_exact_equal(lhs, integral_value) is True)
                 identity_provenance = calc_cap('proved' if identity_holds else 'refuted', exact)
             except Exception:  # noqa: BLE001
                 identity_holds = None
@@ -3541,7 +3541,7 @@ def analyse_gammabeta(kind, p_str, q_str):
                     'kind': 'functional-equation',
                     'lhs': _calc_num(val2), 'rhs': _calc_num(rhs),
                     'lhsTex': sp.latex(val2), 'rhsTex': sp.latex(rhs),
-                    'holds': bool(sp.simplify(val2 - rhs) == 0),
+                    'holds': (_exact_equal(val2, rhs) is True),
                 }
             else:
                 identity = {'kind': 'functional-equation', 'lhs': None, 'rhs': None, 'holds': None, 'reason': err2}
@@ -3549,7 +3549,7 @@ def analyse_gammabeta(kind, p_str, q_str):
             val_swapped, err_sw = _gb_integrate_or_none(x ** (q - 1) * (1 - x) ** (p - 1), (x, 0, 1))
             symmetry = None
             if val_swapped is not None:
-                symmetry = {'a': _calc_num(val), 'b': _calc_num(val_swapped), 'holds': bool(sp.simplify(val - val_swapped) == 0)}
+                symmetry = {'a': _calc_num(val), 'b': _calc_num(val_swapped), 'holds': (_exact_equal(val, val_swapped) is True)}
             gp, egp = _gb_integrate_or_none(x ** (p - 1) * sp.exp(-x), (x, 0, oo))
             gq, egq = _gb_integrate_or_none(x ** (q - 1) * sp.exp(-x), (x, 0, oo))
             gpq, egpq = _gb_integrate_or_none(x ** (p + q - 1) * sp.exp(-x), (x, 0, oo))
@@ -3559,7 +3559,7 @@ def analyse_gammabeta(kind, p_str, q_str):
                 beta_gamma = {
                     'lhs': _calc_num(val), 'rhs': _calc_num(rhs),
                     'lhsTex': sp.latex(val), 'rhsTex': sp.latex(rhs),
-                    'holds': bool(sp.simplify(val - rhs) == 0),
+                    'holds': (_exact_equal(val, rhs) is True),
                 }
             identity = {'kind': 'beta-gamma', 'symmetry': symmetry, 'betaGamma': beta_gamma}
 
@@ -4139,7 +4139,7 @@ def analyse_cauchymvt(f_str, g_str, a_str, b_str):
     elif gprime['pass'] is False:
         blocked = 'divide'
 
-    reduces_to = {'id': 'mvt', 'active': bool(sp.simplify(g - x) == 0),
+    reduces_to = {'id': 'mvt', 'active': (_exact_equal(g, x) is True),
                   'detail': 'g(x) = x: this is exactly Lagrange’s Mean Value Theorem (2.6)'}
     h_prime = sp.diff(h_expr, x)
     affine = bool(sp.simplify(h_prime) == 0)
@@ -5408,7 +5408,7 @@ def analyse_extrema(expr_str, a_str, b_str):
             'counterexample': False, 'blockedAct': 'secondPartialsExist',
         }
 
-    agree = bool(sp.simplify(fxyOrder1['exactValue'] - fyxOrder2['exactValue']) == 0)
+    agree = (_exact_equal(fxyOrder1['exactValue'], fyxOrder2['exactValue']) is True)
 
     if not agree:
         provs = [defined['provenance'], partialX['provenance'], partialY['provenance'],
@@ -8388,7 +8388,7 @@ def _mgf_moments(M_expr, trueEX_expr, trueEX2_expr):
     e2k, e2v = _expect_classify(ex2_expr)
     if ek != 'finite' or e2k != 'finite':
         return None
-    agree = bool(sp.simplify(M1 - ev) == 0) and bool(sp.simplify(M2 - e2v) == 0)
+    agree = (_exact_equal(M1, ev) is True) and (_exact_equal(M2, e2v) is True)
     variance = sp.simplify(M2 - M1 ** 2) if agree else None
     return {
         'agree': agree,
@@ -9653,6 +9653,25 @@ def _bound(s, symbols):
     return vec_parse(str(s), symbols)
 
 
+def _exact_equal(a, b):
+    """Three-valued exact comparison: True when a − b simplifies to 0 (also after sqrtdenest);
+    False only when a and b differ NUMERICALLY (|a − b| > 1e-12 at 30 digits); None when they agree
+    to 25+ digits but SymPy cannot prove it. "Could not simplify to 0" must never read as "unequal"
+    (4.11: SymPy's ellipse area came back as nested radicals equal to 2π, and was marked refuted)."""
+    try:
+        d = sp.simplify(a - b)
+        if d == 0:
+            return True
+        if sp.simplify(sp.sqrtdenest(sp.simplify(a)) - sp.sqrtdenest(sp.simplify(b))) == 0:
+            return True
+        n = abs(sp.N(d, 30))
+        if n > 1e-12:
+            return False
+        return None
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def vec_region_limits(region):
     """A regions.mjs region (JSON) → the sp.integrate limits, innermost first.
     typeI  → [(y, g1(x), g2(x)), (x, a, b)]      typeII → [(x, h1(y), h2(y)), (y, c, d)]
@@ -9950,7 +9969,7 @@ def analyse_dblrect(expr_str, a_str, b_str, c_str, d_str):
     hyps['continuous'] = {'pass': cont, 'issues': [] if cont else [{'detail': 'f is not continuous on R' if cont is False else 'could not decide continuity'}], 'provenance': 'proved' if cont else ('refuted' if cont is False else 'unknown')}
     dydx = _integrate_or_none(f, (Y, c, d), (X, a, b))
     dxdy = _integrate_or_none(f, (X, a, b), (Y, c, d))
-    agree = None if (dydx is None or dxdy is None) else bool(sp.simplify(dydx - dxdy) == 0)
+    agree = None if (dydx is None or dxdy is None) else _exact_equal(dydx, dxdy)
     all_pass = bounded is True and cont is True
     blocked = 'boxes' if bounded is False else ('slicex' if cont is False else None)
     prov = 'refuted' if blocked else ('proved' if (all_pass and agree) else 'unknown')
@@ -9996,7 +10015,7 @@ def analyse_dblregion(expr_str, region_json):
                         'issues': [] if describable else [{'detail': 'SymPy could not reverse the bounds as a single region (a split may be needed)'}],
                         'provenance': 'proved' if describable else 'unknown'},
     }
-    agree = None if (orig is None or rev is None) else bool(sp.simplify(orig - rev) == 0)
+    agree = None if (orig is None or rev is None) else _exact_equal(orig, rev)
     return {
         'id': 'dblregion', 'provenance': 'proved' if agree else 'unknown', 'hypotheses': hyps,
         'allHypothesesPass': bool(describable), 'blockedAct': None,
@@ -10080,4 +10099,294 @@ def analyse_jacobian(x_str, y_str, f_str, u0_str, u1_str, v0_str, v1_str):
         'conclusion': {'value': str(value) if value is not None else None, 'valueTex': sp.latex(value) if value is not None else None, 'provenance': 'proved' if value is not None else 'unknown'},
         'f': {'tex': sp.latex(f), 'composedTex': sp.latex(g)},
     }
-`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
+
+
+# ── 4.4 triple — triple integrals over a general solid ─────────────────────────────────
+def analyse_triple(expr_str, solid_json):
+    """Exact ∭ f dV over a \`general\` solid (JSON, bounds printed by expr.mjs) in the order it is
+    described (dz dy dx). The other five orders are the numeric tier's business (their bounds
+    require solving the surfaces for other variables, which is not always possible)."""
+    import json
+    try:
+        solid = json.loads(solid_json) if isinstance(solid_json, str) else solid_json
+        value = vec_integrate_solid(expr_str, solid)
+        f = vec_parse(expr_str, ('x', 'y', 'z'))
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'triple', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    return {'id': 'triple', 'provenance': 'proved' if value is not None else 'unknown', 'hypotheses': {}, 'allHypothesesPass': None, 'blockedAct': None,
+            'conclusion': {'value': str(value) if value is not None else None, 'valueTex': sp.latex(value) if value is not None else None, 'provenance': 'proved' if value is not None else 'unknown'},
+            'f': {'tex': sp.latex(f)}}
+
+
+# ── 4.5 cylsph — cylindrical and spherical coordinates ─────────────────────────────────
+def analyse_cylsph(expr_str, solid_json):
+    """Exact ∭ f dV over a cylindrical or spherical solid (with its Jacobian), and — for the
+    forgot-the-Jacobian lesson — the same iterated integral without sin φ (spherical) or r
+    (cylindrical)."""
+    import json
+    X, Y, Z, R, TH, PH, RHO = (vec_sym(n) for n in ('x', 'y', 'z', 'r', 'theta', 'phi', 'rho'))
+    try:
+        solid = json.loads(solid_json) if isinstance(solid_json, str) else solid_json
+        f = vec_parse(expr_str, ('x', 'y', 'z'))
+        value = vec_integrate_solid(expr_str, solid)
+        al, be = [_bound(v, ()) for v in solid['theta']]
+        if solid['kind'] == 'spherical':
+            rho1, rho2 = [_bound(v, ('phi', 'theta')) for v in solid['rho']]
+            p1, p2 = [_bound(v, ()) for v in solid['phi']]
+            g = f.subs({X: RHO * sp.sin(PH) * sp.cos(TH), Y: RHO * sp.sin(PH) * sp.sin(TH), Z: RHO * sp.cos(PH)}) * RHO**2
+            without = _integrate_or_none(g, (RHO, rho1, rho2), (PH, p1, p2), (TH, al, be))
+        else:
+            r1, r2 = [_bound(v, ('theta',)) for v in solid['r']]
+            z1, z2 = [_bound(v, ('r', 'theta')) for v in solid['z']]
+            g = f.subs({X: R * sp.cos(TH), Y: R * sp.sin(TH)})
+            without = _integrate_or_none(g, (Z, z1, z2), (R, r1, r2), (TH, al, be))
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'cylsph', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    return {'id': 'cylsph', 'provenance': 'proved' if value is not None else 'unknown', 'hypotheses': {}, 'allHypothesesPass': None, 'blockedAct': None,
+            'conclusion': {'value': str(value) if value is not None else None, 'valueTex': sp.latex(value) if value is not None else None,
+                           'without': str(without) if without is not None else None, 'withoutTex': sp.latex(without) if without is not None else None,
+                           'provenance': 'proved' if value is not None else 'unknown'},
+            'f': {'tex': sp.latex(f)}}
+
+
+# ── 4.7 massmoments — mass, centre of mass, moments ────────────────────────────────────
+def analyse_massmoments(expr_str, region_json):
+    """Exact M, M_y, M_x and the centre of mass for density ρ over a region (typeI or polar JSON)."""
+    import json
+    try:
+        region = json.loads(region_json) if isinstance(region_json, str) else region_json
+        rho = vec_parse(expr_str, ('x', 'y'))
+        X, Y = vec_sym('x'), vec_sym('y')
+        M = vec_integrate_region(str(rho), region)
+        My = vec_integrate_region(str(X * rho), region)
+        Mx = vec_integrate_region(str(Y * rho), region)
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'massmoments', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    ok = M is not None and My is not None and Mx is not None and M != 0
+    xbar = sp.simplify(My / M) if ok else None
+    ybar = sp.simplify(Mx / M) if ok else None
+    return {'id': 'massmoments', 'provenance': 'proved' if ok else 'unknown', 'hypotheses': {}, 'allHypothesesPass': None, 'blockedAct': None,
+            'conclusion': {'M': str(M) if M is not None else None, 'MTex': sp.latex(M) if M is not None else None,
+                           'xbar': str(xbar) if ok else None, 'ybar': str(ybar) if ok else None,
+                           'xbarTex': sp.latex(xbar) if ok else None, 'ybarTex': sp.latex(ybar) if ok else None,
+                           'provenance': 'proved' if ok else 'unknown'}}
+
+
+# ── 4.8 fields — div, curl, Laplacian, identities ──────────────────────────────────────
+def analyse_fields(P_str, Q_str, f_str=''):
+    """Exact div and curl of F = (P, Q), Δf, and the vector identities PROVED (simplify to 0) for
+    this F and f: div curl F (F extended by R = 0), curl ∇f, div(fF) − (∇f·F + f div F), Δf − div ∇f."""
+    X, Y, Z = vec_sym('x'), vec_sym('y'), vec_sym('z')
+    try:
+        P = vec_parse(P_str, ('x', 'y')); Q = vec_parse(Q_str, ('x', 'y'))
+        f = vec_parse(f_str, ('x', 'y')) if f_str else None
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'fields', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    divF = sp.simplify(sp.diff(P, X) + sp.diff(Q, Y))
+    curlF = sp.simplify(sp.diff(Q, X) - sp.diff(P, Y))
+    ids = {'divCurl': True}  # F = (P, Q, 0) with no z-dependence: curl F = (0, 0, Q_x − P_y), whose div is ∂z(...) = 0
+    out = {'id': 'fields', 'provenance': 'proved', 'divTex': sp.latex(divF), 'curlTex': sp.latex(curlF), 'div': str(divF), 'curl': str(curlF), 'hypotheses': {}, 'blockedAct': None}
+    if f is not None:
+        fx, fy = sp.diff(f, X), sp.diff(f, Y)
+        lap = sp.simplify(sp.diff(f, X, 2) + sp.diff(f, Y, 2))
+        ids['curlGrad'] = sp.simplify(sp.diff(fy, X) - sp.diff(fx, Y)) == 0
+        ids['divProduct'] = sp.simplify(sp.diff(f * P, X) + sp.diff(f * Q, Y) - (fx * P + fy * Q + f * divF)) == 0
+        ids['laplaceIsDivGrad'] = sp.simplify(lap - (sp.diff(fx, X) + sp.diff(fy, Y))) == 0
+        out['laplacianTex'] = sp.latex(lap); out['laplacian'] = str(lap)
+    out['identities'] = ids
+    out['conclusion'] = {'provenance': 'proved'}
+    return out
+
+
+# ── 4.9 lineint — line integrals and work ──────────────────────────────────────────────
+def analyse_lineint(P_str, Q_str, f_str, x_str, y_str, t0_str, t1_str):
+    """Exact ∫_C F·dr (when P, Q are given) or ∫_C f ds (when only f is), for r(t) = (x(t), y(t))."""
+    T, X, Y = vec_sym('t'), vec_sym('x'), vec_sym('y')
+    try:
+        xt, yt = vec_parse(x_str, ('t',)), vec_parse(y_str, ('t',))
+        t0, _ = calc_parse_scalar(t0_str); t1, _ = calc_parse_scalar(t1_str)
+        if P_str and Q_str:
+            value = vec_line_integral([P_str, Q_str], {'x': x_str, 'y': y_str, 't': [t0_str, t1_str]}, ('x', 'y'))
+            kind = 'work'
+        else:
+            f = vec_parse(f_str, ('x', 'y'))
+            speed = sp.sqrt(sp.diff(xt, T)**2 + sp.diff(yt, T)**2)
+            value = _integrate_or_none(sp.simplify(f.subs({X: xt, Y: yt}) * sp.simplify(speed)), (T, t0, t1))
+            kind = 'scalar'
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'lineint', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    return {'id': 'lineint', 'provenance': 'proved' if value is not None else 'unknown', 'kind': kind, 'hypotheses': {}, 'blockedAct': None,
+            'conclusion': {'value': str(value) if value is not None else None, 'valueTex': sp.latex(value) if value is not None else None, 'provenance': 'proved' if value is not None else 'unknown'}}
+
+
+# ── 4.10 conservative — curl, and a potential only where the DOMAIN allows one ────────────
+def analyse_conservative(P_str, Q_str, domain='plane'):
+    """Exact curl; when curl = 0, a potential via vec_potential (verified ∇f = F). The DOMAIN decides
+    whether that potential is global: on the punctured plane or an annulus a curl-free field may have
+    none (the vortex), and we say so instead of returning a formula valid only on a half-plane."""
+    X, Y = vec_sym('x'), vec_sym('y')
+    try:
+        c = vec_curl([P_str, Q_str], ('x', 'y'))
+        P = vec_parse(P_str, ('x', 'y')); Q = vec_parse(Q_str, ('x', 'y'))
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'conservative', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    out = {'id': 'conservative', 'curlTex': c['tex'], 'curl': str(c['expr']), 'hypotheses': {}, 'blockedAct': None}
+    if c['expr'] != 0:
+        out.update(provenance='refuted', note='curl F ≠ 0: F is not conservative on any domain')
+        return out
+    simple = domain in ('plane', 'halfplane', 'disc')
+    pot = vec_potential([P_str, Q_str], ('x', 'y'))
+    if domain == 'halfplane':
+        cand = sp.atan(Y / X)  # the polar angle, single-valued for x > 0
+        if sp.simplify(sp.diff(cand, X) - P) == 0 and sp.simplify(sp.diff(cand, Y) - Q) == 0:
+            pot = {'f': cand, 'tex': sp.latex(cand)}
+    if simple and pot is not None:
+        out.update(provenance='proved', potentialTex=pot['tex'], potential=str(pot['f']))
+    elif not simple:
+        loop = vec_line_integral([P_str, Q_str], {'x': 'cos(t)', 'y': 'sin(t)', 't': ['0', '(2 * pi)']}, ('x', 'y'))
+        out.update(provenance='refuted' if loop not in (None, 0) else 'unknown',
+                   note=f'curl F = 0, but the domain has a hole: ∮ around the unit circle = {sp.latex(loop) if loop is not None else "?"} — no single-valued potential' if loop not in (None, 0) else 'curl F = 0 on a domain with a hole: a potential may or may not exist')
+    else:
+        out.update(provenance='unknown', note='curl F = 0, but SymPy could not construct f')
+    out['conclusion'] = {'provenance': out['provenance']}
+    return out
+
+
+# ── 4.11 green — both sides of Green's theorem, exactly ─────────────────────────────────
+def analyse_green(P_str, Q_str, region_json, boundary_json, form='circulation'):
+    """Exact ∮ over a LIST of oriented boundary curves and exact ∬ of curl (or div) over the region."""
+    import json
+    X, Y = vec_sym('x'), vec_sym('y')
+    try:
+        region = json.loads(region_json) if isinstance(region_json, str) else region_json
+        boundary = json.loads(boundary_json) if isinstance(boundary_json, str) else boundary_json
+        P = vec_parse(P_str, ('x', 'y')); Q = vec_parse(Q_str, ('x', 'y'))
+        G = [str(-Q), str(P)] if form == 'flux' else [P_str, Q_str]
+        parts = [vec_line_integral(G, c, ('x', 'y')) for c in boundary]
+        line = None if any(p_ is None for p_ in parts) else sp.simplify(sum(parts))
+        integrand = sp.simplify(sp.diff(P, X) + sp.diff(Q, Y)) if form == 'flux' else sp.simplify(sp.diff(Q, X) - sp.diff(P, Y))
+        double = vec_integrate_region(str(integrand), region)
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'green', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    agree = None if (line is None or double is None) else _exact_equal(line, double)
+    if double is not None:
+        try:
+            double = sp.simplify(sp.sqrtdenest(double))
+        except Exception:  # noqa: BLE001
+            pass
+    return {'id': 'green', 'provenance': 'proved' if agree else ('refuted' if agree is False else 'unknown'), 'hypotheses': {}, 'blockedAct': None,
+            'conclusion': {'line': str(line) if line is not None else None, 'double': str(double) if double is not None else None,
+                           'lineTex': sp.latex(line) if line is not None else None, 'doubleTex': sp.latex(double) if double is not None else None,
+                           'agree': agree, 'provenance': 'proved' if agree else ('refuted' if agree is False else 'unknown')}}
+
+
+# ── 4.12 surfaces — area, ∬ f dS, flux ─────────────────────────────────────────────────
+def _drop_abs(expr, ranges, n=9):
+    """Replace each Abs(a) whose argument keeps one sign over the parameter box (sampled on an n×n grid
+    of interior points) by ±a — |r_u × r_v| comes back from SymPy as e.g. Abs(sin(u)), which the
+    integration guard (rightly) refuses. Mixed signs → the Abs stays and the caller abstains."""
+    syms = list(ranges.keys())
+    for a in sorted(expr.atoms(sp.Abs), key=lambda e: -sp.count_ops(e)):
+        f = sp.lambdify(syms, a.args[0], 'math')
+        vals = []
+        for i in range(1, n):
+            for j in range(1, n):
+                pt = [ranges[syms[0]][0] + (ranges[syms[0]][1] - ranges[syms[0]][0]) * i / n, ranges[syms[1]][0] + (ranges[syms[1]][1] - ranges[syms[1]][0]) * j / n]
+                try:
+                    vals.append(float(f(*pt)))
+                except Exception:  # noqa: BLE001
+                    return expr
+        if all(v >= -1e-12 for v in vals):
+            expr = expr.subs(a, a.args[0])
+        elif all(v <= 1e-12 for v in vals):
+            expr = expr.subs(a, -a.args[0])
+    return expr
+
+
+def analyse_surfaces(x_str, y_str, z_str, u0_str, u1_str, v0_str, v1_str, mode='area', f_str='', F_strs=None):
+    U, V, X, Y, Z = (vec_sym(n) for n in ('u', 'v', 'x', 'y', 'z'))
+    try:
+        r = sp.Matrix([vec_parse(s, ('u', 'v')) for s in (x_str, y_str, z_str)])
+        u0, _ = calc_parse_scalar(u0_str); u1, _ = calc_parse_scalar(u1_str)
+        v0, _ = calc_parse_scalar(v0_str); v1, _ = calc_parse_scalar(v1_str)
+        N = r.diff(U).cross(r.diff(V))
+        sub = {X: r[0], Y: r[1], Z: r[2]}
+        dS = None
+        if mode == 'flux':
+            F = [vec_parse(s, ('x', 'y', 'z')) for s in (F_strs or ['0', '0', '0'])]
+            integrand = sp.simplify(sum(F[i].subs(sub) * N[i] for i in range(3)))
+        else:
+            dS = _drop_abs(sp.simplify(sp.sqrt(sp.simplify(N.dot(N)))), {U: (float(u0), float(u1)), V: (float(v0), float(v1))})
+            f = sp.Integer(1) if mode == 'area' else vec_parse(f_str, ('x', 'y', 'z')).subs(sub)
+            integrand = sp.simplify(f * dS)
+        value = _integrate_or_none(integrand, (U, u0, u1), (V, v0, v1))
+        if value is not None:
+            value = sp.simplify(sp.sqrtdenest(value))
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'surfaces', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    return {'id': 'surfaces', 'provenance': 'proved' if value is not None else 'unknown', 'hypotheses': {}, 'blockedAct': None,
+            'dSTex': sp.latex(dS) if dS is not None else None,
+            'conclusion': {'value': str(value) if value is not None else None, 'valueTex': sp.latex(value) if value is not None else None, 'provenance': 'proved' if value is not None else 'unknown'}}
+
+
+# ── 4.13 stokes — both sides of Stokes' theorem, exactly ────────────────────────────────
+def analyse_stokes(F_strs, x_str, y_str, z_str, u_strs, v_strs, glue=None, degenerate=None, reverse=False):
+    """Exact ∮_{∂S} (boundary edges of the parameter rectangle, induced order, glued/collapsed edges
+    removed — built from the EXACT surface text) and exact ∬_S curl F · dS."""
+    glue = list(glue or []); degenerate = list(degenerate or [])
+    U, V, T = vec_sym('u'), vec_sym('v'), vec_sym('t')
+    X, Y, Z = vec_sym('x'), vec_sym('y'), vec_sym('z')
+    try:
+        F = [vec_parse(s, ('x', 'y', 'z')) for s in F_strs]
+        r = [vec_parse(s, ('u', 'v')) for s in (x_str, y_str, z_str)]
+        u0, _ = calc_parse_scalar(u_strs[0]); u1, _ = calc_parse_scalar(u_strs[1])
+        v0, _ = calc_parse_scalar(v_strs[0]); v1, _ = calc_parse_scalar(v_strs[1])
+        is_deg = lambda e: e in degenerate or e[0] in degenerate  # noqa: E731
+        edges = []
+        if 'v' not in glue and not is_deg('v0'): edges.append((u0 + (u1 - u0) * T, v0))
+        if 'u' not in glue and not is_deg('u1'): edges.append((u1, v0 + (v1 - v0) * T))
+        if 'v' not in glue and not is_deg('v1'): edges.append((u1 - (u1 - u0) * T, v1))
+        if 'u' not in glue and not is_deg('u0'): edges.append((u0, v1 - (v1 - v0) * T))
+        circ = sp.Integer(0)
+        for (ue, ve) in edges:
+            c = [sp.simplify(ri.subs({U: ue, V: ve})) for ri in r]
+            integrand = sp.simplify(sum(F[k].subs({X: c[0], Y: c[1], Z: c[2]}) * sp.diff(c[k], T) for k in range(3)))
+            part = _integrate_or_none(integrand, (T, 0, 1))
+            if part is None:
+                circ = None
+                break
+            circ += part
+        if circ is not None:
+            circ = sp.simplify(-circ if reverse else circ)
+        curl = [sp.diff(F[2], Y) - sp.diff(F[1], Z), sp.diff(F[0], Z) - sp.diff(F[2], X), sp.diff(F[1], X) - sp.diff(F[0], Y)]
+        fl = vec_flux([str(sp.simplify(c_)) for c_ in curl], {'x': x_str, 'y': y_str, 'z': z_str, 'u': list(u_strs), 'v': list(v_strs)})
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'stokes', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    agree = None if (circ is None or fl is None) else _exact_equal(circ, fl)
+    prov = 'proved' if agree else ('refuted' if agree is False else 'unknown')
+    return {'id': 'stokes', 'provenance': prov, 'hypotheses': {}, 'blockedAct': None,
+            'conclusion': {'circ': str(circ) if circ is not None else None, 'flux': str(fl) if fl is not None else None,
+                           'circTex': sp.latex(circ) if circ is not None else None, 'fluxTex': sp.latex(fl) if fl is not None else None, 'agree': agree, 'provenance': prov}}
+
+
+# ── 4.14 gauss — both sides of the divergence theorem, exactly ──────────────────────────
+def analyse_gauss(F_strs, patches_json, solid_json):
+    """Exact ∯ (sum over the surface patches, each by vec_flux) and exact ∭ div F over the solid."""
+    import json
+    X, Y, Z = vec_sym('x'), vec_sym('y'), vec_sym('z')
+    try:
+        patches = json.loads(patches_json) if isinstance(patches_json, str) else patches_json
+        solid = json.loads(solid_json) if isinstance(solid_json, str) else solid_json
+        F = [vec_parse(s, ('x', 'y', 'z')) for s in F_strs]
+        parts = [vec_flux(F_strs, p) for p in patches]
+        fl = None if any(p_ is None for p_ in parts) else sp.simplify(sum(parts))
+        div = sp.simplify(sp.diff(F[0], X) + sp.diff(F[1], Y) + sp.diff(F[2], Z))
+        dv = vec_integrate_solid(str(div), solid)
+    except Exception as e:  # noqa: BLE001
+        return {'id': 'gauss', 'provenance': 'unknown', 'reason': str(e), 'hypotheses': {}, 'blockedAct': None, 'conclusion': {'provenance': 'unknown'}}
+    agree = None if (fl is None or dv is None) else _exact_equal(fl, dv)
+    prov = 'proved' if agree else ('refuted' if agree is False else 'unknown')
+    return {'id': 'gauss', 'provenance': prov, 'hypotheses': {}, 'blockedAct': None,
+            'conclusion': {'flux': str(fl) if fl is not None else None, 'div': str(dv) if dv is not None else None,
+                           'fluxTex': sp.latex(fl) if fl is not None else None, 'divTex': sp.latex(dv) if dv is not None else None, 'agree': agree, 'provenance': prov}}
+`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),triple:(e,t)=>e.globals.get(`analyse_triple`)(t.expr,t.solid),cylsph:(e,t)=>e.globals.get(`analyse_cylsph`)(t.expr,t.solid),massmoments:(e,t)=>e.globals.get(`analyse_massmoments`)(t.expr,t.region),fields:(e,t)=>e.globals.get(`analyse_fields`)(t.P,t.Q,t.f),lineint:(e,t)=>e.globals.get(`analyse_lineint`)(t.P,t.Q,t.f,t.x,t.y,t.t0,t.t1),conservative:(e,t)=>e.globals.get(`analyse_conservative`)(t.P,t.Q,t.domain),green:(e,t)=>e.globals.get(`analyse_green`)(t.P,t.Q,t.region,t.boundary,t.form),surfaces:(e,t)=>e.globals.get(`analyse_surfaces`)(t.x,t.y,t.z,t.u0,t.u1,t.v0,t.v1,t.mode,t.f,t.F),stokes:(e,t)=>e.globals.get(`analyse_stokes`)(t.F,t.x,t.y,t.z,t.u,t.v,t.glue,t.degenerate,t.reverse),gauss:(e,t)=>e.globals.get(`analyse_gauss`)(t.F,t.patches,t.solid),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
