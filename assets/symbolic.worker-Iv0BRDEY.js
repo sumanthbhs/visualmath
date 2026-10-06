@@ -10389,4 +10389,358 @@ def analyse_gauss(F_strs, patches_json, solid_json):
     return {'id': 'gauss', 'provenance': prov, 'hypotheses': {}, 'blockedAct': None,
             'conclusion': {'flux': str(fl) if fl is not None else None, 'div': str(dv) if dv is not None else None,
                            'fluxTex': sp.latex(fl) if fl is not None else None, 'divTex': sp.latex(dv) if dv is not None else None, 'agree': agree, 'provenance': prov}}
-`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),triple:(e,t)=>e.globals.get(`analyse_triple`)(t.expr,t.solid),cylsph:(e,t)=>e.globals.get(`analyse_cylsph`)(t.expr,t.solid),massmoments:(e,t)=>e.globals.get(`analyse_massmoments`)(t.expr,t.region),fields:(e,t)=>e.globals.get(`analyse_fields`)(t.P,t.Q,t.f),lineint:(e,t)=>e.globals.get(`analyse_lineint`)(t.P,t.Q,t.f,t.x,t.y,t.t0,t.t1),conservative:(e,t)=>e.globals.get(`analyse_conservative`)(t.P,t.Q,t.domain),green:(e,t)=>e.globals.get(`analyse_green`)(t.P,t.Q,t.region,t.boundary,t.form),surfaces:(e,t)=>e.globals.get(`analyse_surfaces`)(t.x,t.y,t.z,t.u0,t.u1,t.v0,t.v1,t.mode,t.f,t.F),stokes:(e,t)=>e.globals.get(`analyse_stokes`)(t.F,t.x,t.y,t.z,t.u,t.v,t.glue,t.degenerate,t.reverse),gauss:(e,t)=>e.globals.get(`analyse_gauss`)(t.F,t.patches,t.solid),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════
+# Domain 5 — Differential Equations
+# ═══════════════════════════════════════════════════════════════════════════════════════
+
+# ── 5.5 picard — Picard–Lindelöf existence & uniqueness ─────────────────────────────────
+# Hypotheses on R = {|t − t0| ≤ a, |y − y0| ≤ b}: (H1) f continuous, (H2) f Lipschitz in y.
+# Decided EXACTLY where SymPy can, abstaining to None/'unknown' everywhere else — never a float
+# verdict promoted to 'proved'. Documented traps, all confirmed by hand while building 5.5:
+#   * sp.dsolve(y' = 3 y^(2/3), y(0) = 0) returns the SINGLE solution t**3 — it misses y ≡ 0
+#     (the one the Picard iterates actually converge to) and the whole (t − c)^3 family. dsolve
+#     is therefore only a cross-check when Lipschitz is PROVED (then the answer is the answer);
+#     for a non-Lipschitz f its output is never reported as "the solution".
+#   * ∂f/∂y of 3|y|^(2/3) is 2 sign(y)/|y|^(1/3) — Lipschitz is decided from the exact limit of
+#     the DIFFERENCE QUOTIENT at each suspect point (zeros of Abs/log/fractional-power bases), not
+#     by asking SymPy to bound a sign()-laden derivative.
+#   * ∫ du/(u log u) from d to 1/4 is −log(log d) + log(log 4) + iπ (a complex constant from the
+#     branch of log of a negative number); its limit as d → 0⁺ is still −∞, which is what the
+#     Osgood test needs — only infinite-vs-finite is read off, never the value.
+#   * sp.calculus.util.maximum(u log u, …) is the max of the SIGNED function (0 here); max|f|
+#     is computed from candidate points (corners, critical points, suspect lines) instead.
+#   * y·log|y| is undefined at y = 0; the module's override f(t, 0) := 0 is honoured ONLY after
+#     sp.limit confirms it IS the continuous extension.
+
+def _pic_suspects(expr, var, lo, hi):
+    """Points in [lo, hi] of \`var\` where a base/argument of Abs, sign, log or a non-integer /
+    negative power vanishes — where continuity or Lipschitz can fail. A sorted list of exact
+    values, or None when SymPy cannot locate them (abstain)."""
+    pts = set()
+    for node in sp.preorder_traversal(expr):
+        args = []
+        if isinstance(node, (sp.Abs, sp.sign, sp.log)):
+            args = [node.args[0]]
+        elif isinstance(node, sp.Pow) and (not node.exp.is_integer or node.exp.is_negative):
+            args = [node.base]
+        for g in args:
+            if not g.has(var):
+                continue
+            if g.free_symbols - {var}:
+                return None
+            sol = _solve_or_none(g, var, sp.Interval(lo, hi))
+            if sol is None:
+                return None
+            pts.update(sol)
+    return sorted(pts, key=lambda v: float(v))
+
+
+def _pic_max_abs(expr, T, Y, R):
+    """max |expr| over the rectangle R = (t0, y0, a, b), exactly, or None (abstain). Candidates:
+    corners, critical points on each edge and in the interior, and the suspect lines."""
+    t0, y0, a, b = R
+    tl, th, yl, yh = t0 - a, t0 + a, y0 - b, y0 + b
+
+    def univariate(e, v, lo, hi):
+        out = [lo, hi]
+        sus = _pic_suspects(e, v, lo, hi)
+        if sus is None:
+            return None
+        out += sus
+        # d/dt sign(t) = 2 δ(t): the jump points are already among the suspects, so the
+        # DiracDelta terms carry no further critical points (solveset cannot read them anyway)
+        d = sp.diff(e, v).replace(lambda z: isinstance(z, sp.DiracDelta), lambda z: sp.Integer(0))
+        if d != 0:
+            crit = _solve_or_none(d, v, sp.Interval(lo, hi))
+            if crit is None:
+                return None
+            out += list(crit)
+        return out
+    try:
+        free = expr.free_symbols
+        cands = []
+        if not free:
+            return sp.Abs(expr)
+        if free == {Y}:
+            pts = univariate(expr, Y, yl, yh)
+            if pts is None:
+                return None
+            cands = [expr.subs(Y, p) for p in pts]
+        elif free == {T}:
+            pts = univariate(expr, T, tl, th)
+            if pts is None:
+                return None
+            cands = [expr.subs(T, p) for p in pts]
+        else:
+            if not expr.is_polynomial(T, Y):
+                return None
+            for tv in (tl, th):
+                pts = univariate(expr.subs(T, tv), Y, yl, yh)
+                if pts is None:
+                    return None
+                cands += [expr.subs({T: tv, Y: p}) for p in pts]
+            for yv in (yl, yh):
+                pts = univariate(expr.subs(Y, yv), T, tl, th)
+                if pts is None:
+                    return None
+                cands += [expr.subs({T: p, Y: yv}) for p in pts]
+            for c_ in sp.solve([sp.diff(expr, T), sp.diff(expr, Y)], [T, Y], dict=True):
+                tv, yv = c_.get(T), c_.get(Y)
+                if tv is None or yv is None or not (tv.is_real and yv.is_real):
+                    continue
+                if tl <= tv <= th and yl <= yv <= yh:
+                    cands.append(expr.subs({T: tv, Y: yv}))
+        vals = []
+        for v in cands:
+            av = sp.Abs(sp.simplify(v))
+            if av.is_real and av.is_finite:
+                vals.append(av)
+        return sp.Max(*vals) if vals else None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _pic_continuity(f, T, Y, R, at, ovY, ovV):
+    """H1, exactly: sign() jumps, points where f is undefined (log / negative-power bases), and
+    non-real pieces (log / fractional power of a quantity that goes negative in R)."""
+    t0, y0, a, b = R
+    tl, th, yl, yh = t0 - a, t0 + a, y0 - b, y0 + b
+    box = {T: sp.Interval(tl, th), Y: sp.Interval(yl, yh)}
+    if f.has(sp.floor, sp.ceiling, sp.Piecewise):
+        return {'pass': None, 'provenance': 'unknown', 'detail': 'floor / ceiling / Piecewise: SymPy does not decide continuity here'}
+    for node in sp.preorder_traversal(f):
+        if isinstance(node, sp.sign):
+            g = node.args[0]
+            fs = g.free_symbols
+            if not fs:
+                continue
+            if len(fs) > 1:
+                return {'pass': None, 'provenance': 'unknown', 'detail': 'a sign() of a mixed argument: abstaining'}
+            v = next(iter(fs))
+            zs = _solve_or_none(g, v, box[v])
+            if zs is None:
+                return {'pass': None, 'provenance': 'unknown', 'detail': 'could not locate where a sign() changes: abstaining'}
+            for z in zs:
+                jump = sp.simplify((f.subs(node, 1) - f.subs(node, -1)).subs(v, z))
+                if jump != 0:
+                    return {'pass': False, 'provenance': 'refuted', 'var': str(v), 'at': str(z),
+                            'detail': f'f jumps across {v} = {sp.latex(z)}: the two sides differ by {sp.latex(jump)}'}
+    for node in sp.preorder_traversal(f):
+        if isinstance(node, sp.log):
+            g, strict = node.args[0], True
+        elif isinstance(node, sp.Pow) and node.exp.is_negative:
+            g, strict = node.base, True
+        elif isinstance(node, sp.Pow) and not node.exp.is_integer:
+            g, strict = node.base, False
+        else:
+            continue
+        fs = g.free_symbols
+        if not fs:
+            continue
+        if len(fs) > 1:
+            return {'pass': None, 'provenance': 'unknown', 'detail': 'a singular factor in both t and y: abstaining'}
+        v = next(iter(fs))
+        if not isinstance(g, sp.Abs) and (isinstance(node, sp.log) or not node.exp.is_integer):
+            neg = sp.solve_univariate_inequality(g < 0, v, relational=False).intersect(box[v])
+            if neg != sp.S.EmptySet:
+                return {'pass': False, 'provenance': 'refuted', 'detail': f'f is not real where {sp.latex(g)} < 0, which happens inside R'}
+        if strict:
+            zs = _solve_or_none(g, v, box[v])
+            if zs is None:
+                return {'pass': None, 'provenance': 'unknown', 'detail': 'could not locate where f is undefined: abstaining'}
+            for z in zs:
+                if v == Y and ovY is not None and sp.simplify(z - ovY) == 0:
+                    lim = sp.limit(f, Y, z)
+                    if sp.simplify(lim - ovV) == 0:
+                        continue  # the override IS the continuous extension
+                    return {'pass': False, 'provenance': 'refuted', 'detail': f'the override value {sp.latex(ovV)} is not lim f = {sp.latex(lim)}'}
+                return {'pass': False, 'provenance': 'refuted', 'var': str(v), 'at': str(z), 'detail': f'f is undefined at {v} = {sp.latex(z)}, inside R'}
+    note = f'; at y = {sp.latex(ovY)} the override f := {sp.latex(ovV)} is the limit of f — the continuous extension' if ovY is not None else ''
+    return {'pass': True, 'provenance': 'proved', 'detail': f'f is built from functions continuous on R{note}'}
+
+
+def _pic_lipschitz(f, T, Y, R, at):
+    """H2, exactly: the limit of the difference quotient at every suspect point; when there is
+    none, ∂f/∂y is continuous on the compact R, and L = max|∂f/∂y| when SymPy can find it."""
+    t0, y0, a, b = R
+    yl, yh = y0 - b, y0 + b
+    sus = _pic_suspects(f, Y, yl, yh)
+    if sus is None:
+        return {'pass': None, 'provenance': 'unknown', 'L': None, 'LTex': None, 'detail': 'could not locate the points where ∂f/∂y might blow up: abstaining'}
+    d = sp.Symbol('d', positive=True)
+    ts = t0 if f.has(T) else T
+    for z in sus:
+        base = at(ts, z)
+        for sgn in (1, -1):
+            if (sgn == 1 and z >= yh) or (sgn == -1 and z <= yl):
+                continue
+            q = sp.limit((f.subs({T: ts, Y: z + sgn * d}) - base) / (sgn * d), d, 0, '+')
+            if q in (sp.oo, -sp.oo, sp.zoo):
+                return {'pass': False, 'provenance': 'refuted', 'L': None, 'LTex': None, 'at': str(z),
+                        'detail': f'the difference quotient (f(t, {sp.latex(z)} + δ) − f(t, {sp.latex(z)}))/δ → {sp.latex(q)} as δ → 0{"⁺" if sgn == 1 else "⁻"}: no Lipschitz constant'}
+    if sus:
+        return {'pass': None, 'provenance': 'unknown', 'L': None, 'LTex': None, 'detail': 'the difference quotients stay finite at the suspect points, but SymPy does not bound ∂f/∂y on all of R: abstaining'}
+    fy = sp.simplify(sp.diff(f, Y))
+    L = _pic_max_abs(fy, T, Y, R)
+    if L is not None:
+        L = sp.simplify(L)
+        return {'pass': True, 'provenance': 'proved', 'L': float(L), 'LTex': sp.latex(L),
+                'detail': f'∂f/∂y = {sp.latex(fy)} is continuous on R; L = max|∂f/∂y| = {sp.latex(L)}'}
+    if _pic_suspects(fy, Y, yl, yh) == [] and not fy.has(sp.floor, sp.ceiling, sp.Piecewise, sp.sign):
+        return {'pass': True, 'provenance': 'proved', 'L': None, 'LTex': None, 'detail': '∂f/∂y is continuous on the compact R, hence bounded (its exact maximum was not computed)'}
+    return {'pass': None, 'provenance': 'unknown', 'L': None, 'LTex': None, 'detail': 'abstained'}
+
+
+def _pic_osgood(f, Y, y0, b, at):
+    """Uniqueness of the equilibrium y ≡ y0 of an AUTONOMOUS y′ = f(y) with f(y0) = 0 (f locally
+    Lipschitz away from y0): a solution can leave/reach y0 in finite time iff ∫ dy/|f| converges
+    on that side (Osgood). Returns (sides, family|None)."""
+    u_, d_ = sp.Symbol('u', positive=True), sp.Symbol('d', positive=True)
+    eta = sp.Min(b, sp.Rational(1, 4)) / 2
+    sides, family = {}, None
+    for name, sgn in (('above', 1), ('below', -1)):
+        g = sp.simplify(f.subs(Y, y0 + sgn * u_))
+        J = sp.integrate(1 / g, (u_, d_, eta), conds='none')
+        lim = sp.limit(J, d_, 0, '+')
+        sides[name] = 'diverges' if lim.has(sp.oo, -sp.oo, sp.zoo) else ('converges' if lim.is_finite else None)
+        if sides[name] == 'converges' and family is None:
+            w_, tau = sp.Symbol('w', positive=True), sp.Symbol('tau', positive=True)
+            G = sp.integrate(1 / g, (u_, 0, w_), conds='none')
+            sol = sp.solve(sp.Eq(G, tau), w_)
+            if sol:
+                fam = y0 + sgn * sol[0]
+                # verify: d/dτ of the branch equals f(branch) (τ = t − c, the time since leaving)
+                if sp.simplify(sp.diff(fam, tau) - f.subs(Y, fam)) == 0:
+                    family = {'tex': sp.latex(fam.subs(tau, sp.Symbol('t') - sp.Symbol('c'))), 'str': str(fam), 'side': name, 'verified': True}
+    return sides, family
+
+
+def analyse_picard(f_str, t0_str, y0_str, a_str, b_str, override_json=None):
+    """5.5 Picard–Lindelöf, exactly where possible. Flat result:
+    { id, provenance, exact, hypotheses: {continuous, lipschitz}, blockedAct, M, MTex, h, hTex,
+      iterates: [tex…], seriesAgree, dsolve, uniqueness: {verdict, method, osgood?, family?}, note }"""
+    import json
+    T, Y = vec_sym('t'), vec_sym('y')
+    out = {'id': 'picard', 'provenance': 'unknown', 'exact': False, 'hypotheses': {}, 'blockedAct': None,
+           'M': None, 'MTex': None, 'h': None, 'hTex': None, 'iterates': [], 'seriesAgree': None,
+           'dsolve': None, 'uniqueness': {'verdict': 'unknown', 'method': None}, 'note': None}
+    try:
+        f = vec_parse(f_str, ('t', 'y'))
+        (t0, e0), (y0, e1), (a, e2), (b, e3) = [calc_parse_scalar(v) for v in (t0_str, y0_str, a_str, b_str)]
+        ov = json.loads(override_json) if isinstance(override_json, str) and override_json else None
+        ovY = ovV = None
+        if ov is not None:
+            ovY, _ = calc_parse_scalar(ov['y'])
+            ovV, _ = calc_parse_scalar(ov['value'])
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'cannot read the input: {e}'
+        return out
+    exact = bool(e0 and e1 and e2 and e3 and not f.has(sp.Float))
+    out['exact'] = exact
+    if not (a > 0 and b > 0):
+        out['note'] = 'need a > 0 and b > 0'
+        return out
+    R = (t0, y0, a, b)
+
+    def at(tv, yv):
+        """f(t, y), honouring the override on the line y = ovY only."""
+        if ovY is not None and sp.simplify(yv - ovY) == 0:
+            return ovV
+        return f.subs({T: tv, Y: yv})
+
+    try:
+        cont = _pic_continuity(f, T, Y, R, at, ovY, ovV)
+    except Exception as e:  # noqa: BLE001
+        cont = {'pass': None, 'provenance': 'unknown', 'detail': f'abstained: {e}'}
+    try:
+        lip = _pic_lipschitz(f, T, Y, R, at)
+    except Exception as e:  # noqa: BLE001
+        lip = {'pass': None, 'provenance': 'unknown', 'L': None, 'LTex': None, 'detail': f'abstained: {e}'}
+    out['hypotheses'] = {'continuous': cont, 'lipschitz': lip}
+    out['blockedAct'] = 'continuous' if cont['pass'] is False else ('lipschitz' if lip['pass'] is False else None)
+
+    # M = max_R |f| and h = min(a, b/M)
+    try:
+        Mv = _pic_max_abs(f, T, Y, R)
+        if Mv is not None and ovY is not None:
+            Mv = sp.Max(Mv, sp.Abs(ovV))
+        if Mv is not None:
+            Mv = sp.simplify(Mv)
+            hv = a if Mv == 0 else sp.Min(a, b / Mv)
+            out.update(M=float(Mv), MTex=sp.latex(Mv), h=float(hv), hTex=sp.latex(sp.simplify(hv)))
+    except Exception:  # noqa: BLE001
+        pass
+
+    # the first Picard iterates, exactly (polynomial-in-y f, or f(t, y0) ≡ 0)
+    its = None
+    s_ = sp.Symbol('s', real=True)
+    try:
+        f_on_y0 = at(T, y0)
+        if cont['pass'] is not False and f_on_y0 is not None and sp.simplify(f_on_y0) == 0:
+            its = [y0] * 4
+            out['iterNote'] = 'f(t, y₀) ≡ 0, so φ₁ = y₀ + ∫ 0 ds = y₀: every iterate is the constant y₀'
+        elif cont['pass'] is True and f.is_polynomial(Y) and not f.has(sp.Abs, sp.sign):
+            phi = sp.Integer(0) + y0
+            its = [phi]
+            for _k in range(4):
+                I = _integrate_or_none(f.subs(Y, phi).subs(T, s_), (s_, t0, T))
+                if I is None:
+                    break
+                phi = sp.expand(y0 + I)
+                if sp.count_ops(phi) > 400:
+                    break
+                its.append(phi)
+        if its:
+            out['iterates'] = [sp.latex(p) for p in its]
+    except Exception:  # noqa: BLE001
+        its = None
+
+    # dsolve, ONLY as a cross-check when uniqueness is already proved (see the trap above)
+    if cont['pass'] is True and lip['pass'] is True:
+        try:
+            if (not f.has(Y)) or (f.is_polynomial(Y) and sp.degree(f, Y) <= 2):
+                Yf = sp.Function('Y')
+                sol = sp.dsolve(sp.Eq(Yf(T).diff(T), f.subs(Y, Yf(T))), Yf(T), ics={Yf(t0): y0})
+                rhs = None if isinstance(sol, list) else sol.rhs
+                if rhs is not None and sp.simplify(sp.diff(rhs, T) - f.subs(Y, rhs)) == 0 and sp.simplify(rhs.subs(T, t0) - y0) == 0:
+                    out['dsolve'] = {'tex': sp.latex(rhs), 'str': str(rhs), 'verified': True}
+                    if its:
+                        # φ_k agrees with y through order k (|φ_k − y| ≤ M L^k |t − t0|^{k+1}/(k+1)!)
+                        out['seriesAgree'] = all(sp.simplify(sp.series(rhs - p, T, t0, k_ + 1).removeO()) == 0 for k_, p in enumerate(its))
+        except Exception:  # noqa: BLE001
+            pass
+
+    # uniqueness
+    uq = {'verdict': 'unknown', 'method': None}
+    try:
+        if cont['pass'] is True and lip['pass'] is True:
+            uq = {'verdict': 'proved', 'method': 'lipschitz', 'detail': 'H1 and H2 hold: exactly one solution on |t − t₀| ≤ h'}
+        elif cont['pass'] is True and not f.has(T) and at(T, y0) is not None and sp.simplify(at(T, y0)) == 0:
+            sides, family = _pic_osgood(f, Y, y0, b, at)
+            uq = {'verdict': 'unknown', 'method': 'osgood', 'osgood': sides}
+            if family:
+                uq['family'] = family
+            if all(v == 'diverges' for v in sides.values()):
+                uq.update(verdict='proved', detail='∫ dy/f diverges on both sides of y₀ (Osgood): no solution leaves or reaches y₀ in finite time — unique, although f is not Lipschitz')
+            elif any(v == 'converges' for v in sides.values()):
+                uq.update(verdict='refuted', detail='∫ dy/f converges on a side of y₀: a solution leaves y₀ in finite time, so y ≡ y₀ is not the only solution')
+    except Exception as e:  # noqa: BLE001
+        uq = {'verdict': 'unknown', 'method': None, 'detail': f'abstained: {e}'}
+    out['uniqueness'] = uq
+
+    if not exact:
+        # a decimal anywhere: SymPy computed with Floats, so nothing here is a proof
+        for hyp in (cont, lip):
+            if hyp.get('provenance') in ('proved', 'refuted'):
+                hyp['provenance'] = 'numeric'
+        if uq.get('verdict') in ('proved', 'refuted'):
+            uq['provenance'] = 'numeric'
+        out['provenance'] = 'numeric' if (cont['pass'] is not None or lip['pass'] is not None) else 'unknown'
+    elif cont['pass'] is False or lip['pass'] is False:
+        out['provenance'] = 'refuted'
+    elif cont['pass'] is True and lip['pass'] is True:
+        out['provenance'] = 'proved'
+    return out
+`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),triple:(e,t)=>e.globals.get(`analyse_triple`)(t.expr,t.solid),cylsph:(e,t)=>e.globals.get(`analyse_cylsph`)(t.expr,t.solid),massmoments:(e,t)=>e.globals.get(`analyse_massmoments`)(t.expr,t.region),fields:(e,t)=>e.globals.get(`analyse_fields`)(t.P,t.Q,t.f),lineint:(e,t)=>e.globals.get(`analyse_lineint`)(t.P,t.Q,t.f,t.x,t.y,t.t0,t.t1),conservative:(e,t)=>e.globals.get(`analyse_conservative`)(t.P,t.Q,t.domain),green:(e,t)=>e.globals.get(`analyse_green`)(t.P,t.Q,t.region,t.boundary,t.form),surfaces:(e,t)=>e.globals.get(`analyse_surfaces`)(t.x,t.y,t.z,t.u0,t.u1,t.v0,t.v1,t.mode,t.f,t.F),stokes:(e,t)=>e.globals.get(`analyse_stokes`)(t.F,t.x,t.y,t.z,t.u,t.v,t.glue,t.degenerate,t.reverse),gauss:(e,t)=>e.globals.get(`analyse_gauss`)(t.F,t.patches,t.solid),picard:(e,t)=>e.globals.get(`analyse_picard`)(t.f,t.t0,t.y0,t.a,t.b,t.override??null),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
