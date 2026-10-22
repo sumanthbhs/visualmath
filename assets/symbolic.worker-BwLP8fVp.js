@@ -18106,4 +18106,2847 @@ def analyse_lsqnum(f_str, a_str, b_str, m, n, basis):
         out['note'] = f'the exact minimiser could not be computed: {e}'
     out['provenance'] = 'numeric'
     return out
-`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),triple:(e,t)=>e.globals.get(`analyse_triple`)(t.expr,t.solid),cylsph:(e,t)=>e.globals.get(`analyse_cylsph`)(t.expr,t.solid),massmoments:(e,t)=>e.globals.get(`analyse_massmoments`)(t.expr,t.region),fields:(e,t)=>e.globals.get(`analyse_fields`)(t.P,t.Q,t.f),lineint:(e,t)=>e.globals.get(`analyse_lineint`)(t.P,t.Q,t.f,t.x,t.y,t.t0,t.t1),conservative:(e,t)=>e.globals.get(`analyse_conservative`)(t.P,t.Q,t.domain),green:(e,t)=>e.globals.get(`analyse_green`)(t.P,t.Q,t.region,t.boundary,t.form),surfaces:(e,t)=>e.globals.get(`analyse_surfaces`)(t.x,t.y,t.z,t.u0,t.u1,t.v0,t.v1,t.mode,t.f,t.F),stokes:(e,t)=>e.globals.get(`analyse_stokes`)(t.F,t.x,t.y,t.z,t.u,t.v,t.glue,t.degenerate,t.reverse),gauss:(e,t)=>e.globals.get(`analyse_gauss`)(t.F,t.patches,t.solid),picard:(e,t)=>e.globals.get(`analyse_picard`)(t.f,t.t0,t.y0,t.a,t.b,t.override??null),slopefield:(e,t)=>e.globals.get(`analyse_slopefield`)(t.f,t.phi,t.t0,t.y0,t.tA,t.tB),autonomous:(e,t)=>e.globals.get(`analyse_autonomous`)(t.f,t.y0,t.ymin,t.ymax,t.tmax??null),separable:(e,t)=>e.globals.get(`analyse_separable`)(t.f,t.t0,t.y0,t.ymin,t.ymax,t.tmax),exact:(e,t)=>e.globals.get(`analyse_exact`)(t.M,t.N,t.t0,t.y0,t.tmin,t.tmax,t.ymin,t.ymax,t.domain??`plane`),eulermethod:(e,t)=>e.globals.get(`analyse_eulermethod`)(t.f,t.t0,t.y0,t.T,t.h,t.exact??null),secondorder:(e,t)=>e.globals.get(`analyse_secondorder`)(t.p,t.q,t.g,t.y1??``,t.t0,t.y0,t.v0,t.ymin,t.ymax,t.tmax,t.a1,t.b1,t.a2,t.b2),odesystems:(e,t)=>e.globals.get(`analyse_odesystems`)(t.A,t.x0,t.f,t.tmax),phaseplane:(e,t)=>e.globals.get(`analyse_phaseplane`)(t.A),linearize:(e,t)=>e.globals.get(`analyse_linearize`)(t.f,t.g,t.xmin,t.xmax,t.ymin,t.ymax,t.px,t.py,t.H??``),limitcycles:(e,t)=>e.globals.get(`analyse_limitcycles`)(t.mode,t.f,t.g,t.B??`1`,t.region,t.xmin,t.xmax,t.ymin,t.ymax),forced:(e,t)=>e.globals.get(`analyse_forced`)(t.p,t.q,t.g,t.method??`uc`,t.shift??`auto`,t.t0,t.y0,t.v0,t.ymin,t.ymax,t.tmax),resonance:(e,t)=>e.globals.get(`analyse_resonance`)(t.m,t.c,t.k,t.F,t.w,t.x0,t.v0,t.tmax,t.xmax),damping:(e,t)=>e.globals.get(`analyse_damping`)(t.m,t.c,t.k,t.x0,t.v0,t.tmax,t.xmax),seriessol:(e,t)=>e.globals.get(`analyse_seriessol`)(t.P,t.Q,t.R,t.t0,t.y0,t.v0,t.exact??`1`,t.n??`10`),lyapunov:(e,t)=>e.globals.get(`analyse_lyapunov`)(t.f,t.g,t.V,t.rad??`1`),frobenius:(e,t)=>e.globals.get(`analyse_frobenius`)(t.A,t.B,t.C,t.t0,t.exact??`1`,t.n??`8`),bvp:(e,t)=>e.globals.get(`analyse_bvp`)(t.lam,t.L,t.bc,t.g,t.alpha,t.beta),odemodel:(e,t)=>e.globals.get(`analyse_odemodel`)(t.g,t.L,t.th0,t.c,t.F,t.w,t.cycles,t.tolA,t.tolV),fourierseries:(e,t)=>e.globals.get(`analyse_fourierseries`)(t.f,t.L,t.x0,t.N),ztransform:(e,t)=>e.globals.get(`analyse_ztransform`)(t.termsJson,t.z0re,t.z0im),laplace:(e,t)=>e.globals.get(`analyse_laplace`)(t.f,t.s),laplaceprops:(e,t)=>e.globals.get(`analyse_laplaceprops`)(t.prop,t.f,t.g??null,t.a??null,t.b??null,t.n??null,t.T??null,t.s,!!t.slip),invlaplace:(e,t)=>e.globals.get(`analyse_invlaplace`)(t.num,t.den,t.s,t.slip??null),laplaceivp:(e,t)=>e.globals.get(`analyse_laplaceivp`)(t.p,t.q,t.g,t.y0,t.v0,t.s,t.slip??null),stepimpulse:(e,t)=>e.globals.get(`analyse_stepimpulse`)(t.p,t.q,t.g,t.steps,t.imps,t.y0,t.v0,t.slip??null),convolution:(e,t)=>e.globals.get(`analyse_convolution`)(t.f,t.g,t.h??``,t.s,t.slip??null),transferfn:(e,t)=>e.globals.get(`analyse_transferfn`)(t.num,t.den),fouriergibbs:(e,t)=>e.globals.get(`analyse_fouriergibbs`)(t.f,t.L,t.x0),fouriercomplex:(e,t)=>e.globals.get(`analyse_fouriercomplex`)(t.f,t.L),fouriertransform:(e,t)=>e.globals.get(`analyse_fouriertransform`)(t.f,t.t0),ftprops:(e,t)=>e.globals.get(`analyse_ftprops`)(t.prop,t.f,t.a,t.g),sampling:(e,t)=>e.globals.get(`analyse_sampling`)(t.kind,t.tones,t.fs,t.A,t.f0),dft:(e,t)=>e.globals.get(`analyse_dft`)(t.f,t.N),zstability:(e,t)=>e.globals.get(`analyse_zstability`)(t.num,t.den,!!t.dec),interp:(e,t)=>e.globals.get(`analyse_interp`)(t.f,t.nodes,t.x0),discretize:(e,t)=>e.globals.get(`analyse_discretize`)(t.num,t.den,t.T,t.method,!!t.dec),signalcap:(e,t)=>e.globals.get(`analyse_signalcap`)(t.num,t.den,t.fs,t.method,t.sig,t.hum,t.sigma,!!t.dec),floatpoint:(e,t)=>e.globals.get(`analyse_floatpoint`)(t.formula,t.alg,t.x),bisection:(e,t)=>e.globals.get(`analyse_bisection`)(t.f,t.a,t.b,t.tol),fixedpoint:(e,t)=>e.globals.get(`analyse_fixedpoint`)(t.g,t.a,t.b,t.x0,t.tol),newton:(e,t)=>e.globals.get(`analyse_newton`)(t.f,t.x0,t.a,t.b,t.m),secant:(e,t)=>e.globals.get(`analyse_secant`)(t.method,t.f,t.x0,t.x1,t.a,t.b),runge:(e,t)=>e.globals.get(`analyse_runge`)(t.f,t.a,t.b,t.family,Number(t.N)),spline:(e,t)=>e.globals.get(`analyse_spline`)(t.f,t.knots,t.end),lsqnum:(e,t)=>e.globals.get(`analyse_lsqnum`)(t.f,t.a,t.b,Number(t.m),Number(t.n),t.basis),invz:(e,t)=>e.globals.get(`analyse_invz`)(t.num,t.den,t.rho,t.slip||``,!!t.dec),windowing:(e,t)=>e.globals.get(`analyse_windowing`)(t.f1,t.A1,t.f2,t.A2,t.fs,t.N,t.win,!!t.dec),cauchyeuler:(e,t)=>e.globals.get(`analyse_cauchyeuler`)(t.c2,t.c1,t.c0,t.t0,t.tend,t.y0,t.v0,t.ymax),linear1:(e,t)=>e.globals.get(`analyse_linear1`)(t.p,t.q,t.n,t.t0,t.y0,t.ymin,t.ymax,t.tmax),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
+
+
+# ── 7.10 numdiff: numerical differentiation. Helper prefix _nmd_. ─────────────────────────────────────────────────────────────────────────────────────────────
+_NMD_H = sp.Symbol('h', positive=True)
+_NMD_FORMULAS = {   # (derivative order k, formula order p)
+    'forward': (1, 1), 'central': (1, 2), 'five': (1, 4), 'second': (2, 2),
+}
+
+
+def _nmd_quotient(f, x0, kind):
+    h = _NMD_H
+    F = lambda t: f.subs(x, t)  # noqa: E731
+    if kind == 'forward':
+        return (F(x0 + h) - F(x0)) / h
+    if kind == 'central':
+        return (F(x0 + h) - F(x0 - h)) / (2 * h)
+    if kind == 'second':
+        return (F(x0 + h) - 2 * F(x0) + F(x0 - h)) / h ** 2
+    return (F(x0 - 2 * h) - 8 * F(x0 - h) + 8 * F(x0 + h) - F(x0 + 2 * h)) / (12 * h)
+
+
+def analyse_numdiff(f_str, x0_str, formula):
+    """7.10 the exact side of a difference quotient. Flat result:
+    { id, provenance, exact, blockedAct, clauses: {smooth: {pass, detail, provenance}}, derivative: {tex, value}, series: {tex}, order, leading: {tex, value}, exactFormula, note }.
+    H1 (f^(k+p) continuous near x0, on [x0 - 1/5, x0 + 1/5]) is _ipl_smooth with n = k + p (slightly stronger: it also asks for f^(k+p+1) inside). The truncation error D(h) - f^(k)(x0) is expanded in h
+    (h > 0) by sp.series: its lowest power is the ORDER the formula actually has for this f — the order drop at a kink shows up exactly (x|x| by the central difference: the error is h itself) — and
+    its leading coefficient is C_p f^(k+p)(x0) when f is smooth. A zero error (f a polynomial of low degree) is reported as exactFormula. H2 (the step against round-off) depends on floating point and is
+    left to the numeric tier."""
+    try:
+        f = calc_parse(f_str)
+        x0, ex = calc_parse_scalar(x0_str)
+        if formula not in _NMD_FORMULAS:
+            raise ValueError('unknown formula')
+        if not x0.is_real:
+            raise ValueError('x0 must be real')
+        if calc_has_abstain_funcs(f):
+            raise Abstain('floor/ceiling/sign/Piecewise in f')
+    except ValueError as e:
+        return calc_unknown(f'bad input: {e}')
+    except Abstain as e:
+        return calc_unknown(str(e))
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'bad input: {e}')
+    k, p = _NMD_FORMULAS[formula]
+    q = k + p
+    out = {'id': 'numdiff', 'provenance': 'unknown', 'exact': bool(ex), 'blockedAct': None, 'clauses': {}, 'derivative': None, 'series': None, 'order': None, 'leading': None, 'exactFormula': None, 'note': None}
+    lo, hi = x0 - sp.Rational(1, 5), x0 + sp.Rational(1, 5)
+    sm = _ipl_smooth(f, lo, hi, q, ex)
+    out['clauses']['smooth'] = {'pass': sm['pass'], 'detail': (f'f^({q}) is continuous near x0' if sm['pass'] is True else (f'f^({q}) is not continuous near x0: ' + str(sm.get('issues') or sm.get('reason'))) if sm['pass'] is False else 'could not be decided'), 'provenance': sm['provenance']}
+    out['blockedAct'] = 'smooth' if sm['pass'] is False else None
+    try:
+        dk = sp.diff(f, x, k).subs(x, x0)
+        dk = sp.simplify(dk)
+        if dk.has(sp.nan, sp.zoo) or dk.has(sp.Subs) or dk.has(sp.Derivative):
+            raise ValueError('the derivative is not defined at x0')
+        if dk.has(sp.DiracDelta) or dk.has(sp.sign):
+            # a kink at x0: read the derivative from the one-sided limits of the quotient instead
+            dk = sp.limit(_nmd_quotient(f, x0, formula), _NMD_H, 0, '+')
+        out['derivative'] = {'tex': sp.latex(dk), 'value': float(dk)}
+        err = sp.simplify(_nmd_quotient(f, x0, formula) - dk)
+        if err == 0:
+            out['exactFormula'] = True
+            out['series'] = {'tex': '0'}
+        else:
+            ser = sp.series(err, _NMD_H, 0, p + 3).removeO()
+            ser = sp.expand(ser)
+            if ser == 0:
+                raise ValueError('the error vanishes to the order expanded but not identically')
+            poly = sp.Poly(ser, _NMD_H) if ser.is_polynomial(_NMD_H) else None
+            if poly is None:
+                raise ValueError('the error is not a power series in h at this order')
+            terms = sorted(poly.terms(), key=lambda t: t[0][0])
+            order, coeff = terms[0][0][0], terms[0][1]
+            out['series'] = {'tex': sp.latex(ser)}
+            out['order'] = int(order)
+            out['leading'] = {'tex': sp.latex(sp.simplify(coeff)), 'value': float(coeff)}
+            out['exactFormula'] = False
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the truncation series could not be formed: {e}'
+    if sm['pass'] is None:
+        out['provenance'] = 'unknown'
+    elif sm['pass'] is False:
+        out['provenance'] = calc_cap('refuted', ex)
+    else:
+        out['provenance'] = calc_cap('proved', ex)
+    return out
+
+
+# ── 7.11 quadrature: the exact side of the trapezoid, midpoint and Simpson rules ──
+_QDR_RULES = {'trapezoid': (2, sp.Rational(-1, 12), 1), 'midpoint': (2, sp.Rational(1, 24), 1), 'simpson': (4, sp.Rational(-1, 180), 3)}
+
+
+def _qdr_rule(g, a, b, n, rule):
+    """The composite rule with n equal subintervals, built exactly (weights are Rationals; g is a SymPy expression in x or a Python callable)."""
+    h = (b - a) / n
+    ev = (lambda t: g.subs(x, t)) if isinstance(g, sp.Basic) else g
+    if rule == 'midpoint':
+        return h * sp.Add(*[ev(a + (2 * i + 1) * h / 2) for i in range(n)])
+    if rule == 'trapezoid':
+        return h * (ev(a) / 2 + sp.Add(*[ev(a + i * h) for i in range(1, n)]) + ev(b) / 2)
+    return h / 3 * (ev(a) + ev(b) + sp.Add(*[(4 if i % 2 else 2) * ev(a + i * h) for i in range(1, n)]))
+
+
+def _qdr_degree(n, rule):
+    """Degree of exactness on [0, 1], exactly: the largest d with the rule exact on 1, x, ..., x^d."""
+    d = -1
+    for k in range(8):
+        if _qdr_rule(x ** k, sp.Integer(0), sp.Integer(1), n, rule) == sp.Rational(1, k + 1):
+            d = k
+        else:
+            break
+    return d
+
+
+def analyse_quadrature(f_str, a_str, b_str, rule, n):
+    """7.11 the exact side of a composite rule. Flat result:
+    { id, provenance, exact, blockedAct, clauses: {smooth: {pass, detail, provenance}}, integral: {tex, value}, ruleValue: {value}, error: {value, exactZero}, emLead: {tex, value}, emRatio,
+      degree, note }.
+    H1 (f^(p) continuous on the closed [a, b]; p = 2 trapezoid/midpoint, 4 Simpson) is _ipl_smooth with n = p (it also catches a kink first). The integral is _integrate_or_none; the rule value is
+    built from exact Rational weights and exact samples, so I - Q_n is an exact number (decided zero exactly when it is rational, e.g. for a polynomial). The Euler-Maclaurin leading term
+    K h^p (f^(p-1)(b) - f^(p-1)(a)) is exact; emRatio = error / emLead. The degree of exactness is computed exactly on [0, 1]. Float input caps proved at numeric."""
+    try:
+        f = calc_parse(f_str)
+        a, exa = calc_parse_scalar(a_str)
+        b, exb = calc_parse_scalar(b_str)
+        ex = bool(exa and exb)
+        if rule not in _QDR_RULES:
+            raise ValueError('unknown rule')
+        n = int(n)
+        if n < 1 or n > 256 or (rule == 'simpson' and n % 2):
+            raise ValueError('n must be 1..256 (even for Simpson)')
+        if not (a.is_real and b.is_real) or not bool(a < b):
+            raise ValueError('need real a < b')
+        if calc_has_abstain_funcs(f):
+            raise Abstain('floor/ceiling/sign/Piecewise in f')
+    except ValueError as e:
+        return calc_unknown(f'bad input: {e}')
+    except Abstain as e:
+        return calc_unknown(str(e))
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'bad input: {e}')
+    p, K, deg = _QDR_RULES[rule]
+    out = {'id': 'quadrature', 'provenance': 'unknown', 'exact': ex, 'blockedAct': None, 'clauses': {}, 'integral': None, 'ruleValue': None, 'error': None, 'emLead': None, 'emRatio': None,
+           'degree': _qdr_degree(n, rule), 'note': None}
+    sm = _ipl_smooth(f, a, b, p, ex)
+    out['clauses']['smooth'] = {'pass': sm['pass'], 'detail': (f'f^({p}) is continuous on [a, b]' if sm['pass'] is True else (f'f^({p}) is not continuous on [a, b]: ' + str(sm.get('issues') or sm.get('reason'))) if sm['pass'] is False else 'could not be decided'), 'provenance': sm['provenance']}
+    out['blockedAct'] = 'smooth' if sm['pass'] is False else None
+    h = (b - a) / n
+    try:
+        I = _integrate_or_none(f, (x, a, b))
+        if I is not None:
+            out['integral'] = {'tex': sp.latex(I), 'value': float(sp.N(I, 30))}
+        Q = _qdr_rule(f, a, b, n, rule)
+        out['ruleValue'] = {'value': float(sp.N(Q, 30))}
+        if I is not None:
+            err = I - Q
+            val = sp.N(err, 30)
+            zero = None
+            if err.is_Rational:
+                zero = bool(err == 0)
+            elif abs(val) < sp.Float('1e-25') and n <= 16:
+                s = sp.simplify(sp.expand_trig(err))
+                zero = True if s == 0 else None
+            elif abs(val) > sp.Float('1e-25'):
+                zero = False
+            out['error'] = {'value': float(val), 'exactZero': zero}
+        if sm['pass'] is True:
+            dp1 = sp.diff(f, x, p - 1)
+            lead = sp.simplify(K * h ** p * (dp1.subs(x, b) - dp1.subs(x, a)))
+            out['emLead'] = {'tex': sp.latex(lead), 'value': float(sp.N(lead, 30))}
+            if out['error'] is not None and lead != 0:
+                out['emRatio'] = float(sp.N(sp.Float(out['error']['value'], 30) / lead, 15))
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact error could not be formed: {e}'
+    if sm['pass'] is None:
+        out['provenance'] = 'unknown'
+    elif sm['pass'] is False:
+        out['provenance'] = calc_cap('refuted', ex)
+    else:
+        out['provenance'] = calc_cap('proved', ex) if out['integral'] is not None else 'unknown'
+    return out
+
+
+# ── 7.12 romberg: the exact side of Richardson extrapolation ──
+_RMB_H = sp.Symbol('h', positive=True)
+
+
+def _rmb_tableau(first):
+    R = [[v] for v in first]
+    for k in range(1, len(first)):
+        for j in range(1, k + 1):
+            R[k].append(R[k][j - 1] + (R[k][j - 1] - R[k - 1][j - 1]) / (4 ** j - 1))
+    return R
+
+
+def analyse_romberg(mode, f_str, a_str, b_str, x0_str, h0_str, K):
+    """7.12 the exact side of Richardson's tableau. Flat result:
+    { id, provenance, exact, mode, blockedAct, clauses: {smooth}, target: {tex, value}, coeffs: [{power, tex, value}], evenExpansion, corner: {value, error, exactZero}, note }.
+    integral: the target is the exact integral (_integrate_or_none); coeffs are the Euler-Maclaurin coefficients c_j = B_2j/(2j)! (f^(2j-1)(b) - f^(2j-1)(a)) of T(h) - I = sum c_j h^2j, j = 1..K;
+    the tableau is built from exact samples, so its corner R_{K-1,K-1} and its error are exact numbers (rational, and decided zero exactly, when f is a polynomial). derivative: the target is f'(x0);
+    coeffs are the series coefficients of D(h) - f'(x0) in h > 0 to order 2K, and evenExpansion says whether every odd power vanishes (Richardson's assumption). H1 is _ipl_smooth with n = 2K (integral,
+    on [a, b]) or 2K + 1 (derivative, on [x0 - h0, x0 + h0]). Float input caps proved at numeric."""
+    try:
+        if mode not in ('integral', 'derivative'):
+            raise ValueError('unknown mode')
+        f = calc_parse(f_str)
+        K = int(K)
+        if K < 2 or K > 6:
+            raise ValueError('K must be 2..6')
+        if mode == 'integral':
+            a, exa = calc_parse_scalar(a_str)
+            b, exb = calc_parse_scalar(b_str)
+            ex = bool(exa and exb)
+            if not (a.is_real and b.is_real) or not bool(a < b):
+                raise ValueError('need real a < b')
+        else:
+            x0, exa = calc_parse_scalar(x0_str)
+            h0, exb = calc_parse_scalar(h0_str)
+            ex = bool(exa and exb)
+            if not (x0.is_real and h0.is_real) or not bool(h0 > 0):
+                raise ValueError('need real x0 and h0 > 0')
+        if calc_has_abstain_funcs(f):
+            raise Abstain('floor/ceiling/sign/Piecewise in f')
+    except ValueError as e:
+        return calc_unknown(f'bad input: {e}')
+    except Abstain as e:
+        return calc_unknown(str(e))
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'bad input: {e}')
+    out = {'id': 'romberg', 'provenance': 'unknown', 'exact': ex, 'mode': mode, 'blockedAct': None, 'clauses': {}, 'target': None, 'coeffs': [], 'evenExpansion': None, 'corner': None, 'note': None}
+    if mode == 'integral':
+        sm = _ipl_smooth(f, a, b, 2 * K, ex)
+    else:
+        sm = _ipl_smooth(f, x0 - h0, x0 + h0, 2 * K + 1, ex)
+    n_ord = 2 * K if mode == 'integral' else 2 * K + 1
+    out['clauses']['smooth'] = {'pass': sm['pass'], 'detail': (f'f^({n_ord}) is continuous on the interval' if sm['pass'] is True else (f'f^({n_ord}) is not continuous on the interval: ' + str(sm.get('issues') or sm.get('reason'))) if sm['pass'] is False else 'could not be decided'), 'provenance': sm['provenance']}
+    out['blockedAct'] = 'smooth' if sm['pass'] is False else None
+    target = None
+    try:
+        if mode == 'integral':
+            target = _integrate_or_none(f, (x, a, b))
+            if sm['pass'] is True:
+                for j in range(1, K + 1):
+                    d = sp.diff(f, x, 2 * j - 1)
+                    cj = sp.simplify(sp.bernoulli(2 * j) / sp.factorial(2 * j) * (d.subs(x, b) - d.subs(x, a)))
+                    out['coeffs'].append({'power': 2 * j, 'tex': sp.latex(cj), 'value': float(sp.N(cj, 30))})
+            first = []
+            for k in range(K):
+                n = 2 ** k
+                hh = (b - a) / n
+                first.append(hh * (f.subs(x, a) / 2 + sp.Add(*[f.subs(x, a + i * hh) for i in range(1, n)]) + f.subs(x, b) / 2))
+        else:
+            d1 = sp.diff(f, x)
+            target = sp.simplify(d1.subs(x, x0))
+            if target.has(sp.nan, sp.zoo, sp.Subs, sp.Derivative, sp.sign, sp.DiracDelta):
+                target = sp.limit((f.subs(x, x0 + _RMB_H) - f.subs(x, x0 - _RMB_H)) / (2 * _RMB_H), _RMB_H, 0, '+')
+            Dh = (f.subs(x, x0 + _RMB_H) - f.subs(x, x0 - _RMB_H)) / (2 * _RMB_H)
+            ser = sp.expand(sp.series(Dh - target, _RMB_H, 0, 2 * K + 1).removeO())
+            poly = sp.Poly(ser, _RMB_H) if ser != 0 and ser.is_polynomial(_RMB_H) else None
+            if ser == 0:
+                out['evenExpansion'] = True
+            elif poly is None:
+                out['note'] = 'the error is not a power series in h at this order'
+            else:
+                terms = sorted(poly.terms(), key=lambda t: t[0][0])
+                out['coeffs'] = [{'power': int(t[0][0]), 'tex': sp.latex(sp.simplify(t[1])), 'value': float(sp.N(t[1], 30))} for t in terms]
+                out['evenExpansion'] = all(c['power'] % 2 == 0 for c in out['coeffs'])
+            first = [(f.subs(x, x0 + h0 / 2 ** k) - f.subs(x, x0 - h0 / 2 ** k)) / (2 * h0 / 2 ** k) for k in range(K)]
+        if target is not None:
+            out['target'] = {'tex': sp.latex(target), 'value': float(sp.N(target, 30))}
+            R = _rmb_tableau(first)
+            corner = R[K - 1][K - 1]
+            err = target - corner
+            zero = bool(sp.nsimplify(err) == 0) if err.is_Rational or sp.nsimplify(err).is_Rational else None
+            val = sp.N(err, 40)
+            if zero is None and abs(val) > sp.Float('1e-30'):
+                zero = False
+            out['corner'] = {'value': float(sp.N(corner, 30)), 'error': float(val), 'exactZero': zero}
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact tableau could not be formed: {e}'
+    if sm['pass'] is None:
+        out['provenance'] = 'unknown'
+    elif sm['pass'] is False:
+        out['provenance'] = calc_cap('refuted', ex)
+    else:
+        out['provenance'] = calc_cap('proved', ex) if target is not None else 'unknown'
+    return out
+
+
+# ── 7.13 gaussquad: the exact side of Gauss-Legendre and Newton-Cotes rules ──
+def _gqd_nodes_weights(rule, n):
+    """(nodes, weights, exact) on [-1, 1]. Gauss: the roots of sp.legendre(n) in closed form when n <= 4 (exact), else 40-digit nroots (numeric); weights 2/((1 - x^2) P_n'(x)^2).
+    Newton-Cotes: equally spaced nodes and exact rational weights from the moment equations."""
+    if rule == 'nc':
+        t = [sp.Rational(2 * i - (n - 1), n - 1) for i in range(n)]
+        w = sp.symbols(f'w0:{n}')
+        sol = sp.solve([sp.Add(*[w[i] * t[i] ** k for i in range(n)]) - (0 if k % 2 else sp.Rational(2, k + 1)) for k in range(n)], w, dict=True)[0]
+        return t, [sol[wi] for wi in w], True
+    P = sp.legendre(n, x)
+    dP = sp.diff(P, x)
+    if n <= 4:
+        roots = sorted(sp.solve(P, x), key=lambda r: float(r))
+        return roots, [sp.simplify(2 / ((1 - r ** 2) * dP.subs(x, r) ** 2)) for r in roots], True
+    roots = sorted(sp.Poly(P, x).nroots(n=40))
+    return roots, [2 / ((1 - r ** 2) * dP.subs(x, r) ** 2) for r in roots], False
+
+
+def analyse_gaussquad(f_str, a_str, b_str, rule, n):
+    """7.13 the exact side of an n-point rule. Flat result:
+    { id, provenance, exact, blockedAct, clauses: {smooth, positive}, nodes: [{tex, value}], weights: [{tex, value}], nodesExact, degree, integral: {tex, value}, ruleValue: {value}, error: {value, exactZero},
+      note }.
+    Nodes and weights come from sp.legendre (closed form for n <= 4, otherwise 40-digit roots: then the degree and the error are numeric). The degree of exactness is decided exactly by summing
+    w_i x_i^k with simplify; H1 is _ipl_smooth with order 2n on [a, b]; H2 (positive weights) is exact for Newton-Cotes and a theorem for Gauss. Float input caps proved at numeric."""
+    try:
+        f = calc_parse(f_str)
+        a, exa = calc_parse_scalar(a_str)
+        b, exb = calc_parse_scalar(b_str)
+        ex = bool(exa and exb)
+        if rule not in ('gauss', 'nc'):
+            raise ValueError('unknown rule')
+        n = int(n)
+        if n < (2 if rule == 'nc' else 1) or n > 12:
+            raise ValueError('n out of range')
+        if not (a.is_real and b.is_real) or not bool(a < b):
+            raise ValueError('need real a < b')
+        if calc_has_abstain_funcs(f):
+            raise Abstain('floor/ceiling/sign/Piecewise in f')
+    except ValueError as e:
+        return calc_unknown(f'bad input: {e}')
+    except Abstain as e:
+        return calc_unknown(str(e))
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'bad input: {e}')
+    out = {'id': 'gaussquad', 'provenance': 'unknown', 'exact': ex, 'blockedAct': None, 'clauses': {}, 'nodes': [], 'weights': [], 'nodesExact': None, 'degree': None, 'integral': None, 'ruleValue': None,
+           'error': None, 'note': None}
+    try:
+        xs, ws, nex = _gqd_nodes_weights(rule, n)
+    except Exception as e:  # noqa: BLE001
+        return calc_unknown(f'nodes could not be formed: {e}')
+    out['nodesExact'] = nex
+    out['nodes'] = [{'tex': sp.latex(v), 'value': float(sp.N(v, 30))} for v in xs]
+    out['weights'] = [{'tex': sp.latex(v), 'value': float(sp.N(v, 30))} for v in ws]
+    deg = -1
+    for k in range(0, 2 * n + 2):
+        s = sp.Add(*[w * xi ** k for xi, w in zip(xs, ws)]) - (0 if k % 2 else sp.Rational(2, k + 1))
+        zero = (sp.simplify(sp.expand(s)) == 0) if nex else abs(sp.N(s, 30)) < sp.Float('1e-25')
+        if not zero:
+            break
+        deg = k
+    out['degree'] = deg
+    sm = _ipl_smooth(f, a, b, min(2 * n, 12), ex)
+    out['clauses']['smooth'] = {'pass': sm['pass'], 'detail': (f'f^({min(2 * n, 12)}) is continuous on [a, b]' if sm['pass'] is True else ('f is not smooth on [a, b]: ' + str(sm.get('issues') or sm.get('reason'))) if sm['pass'] is False else 'could not be decided'), 'provenance': sm['provenance']}
+    pos = all(bool(sp.N(w, 30) > 0) for w in ws)
+    out['clauses']['positive'] = {'pass': pos, 'detail': 'every weight is positive' if pos else 'a weight is negative', 'provenance': 'proved' if nex else 'numeric'}
+    out['blockedAct'] = 'smooth' if sm['pass'] is False else ('positive' if not pos else None)
+    try:
+        I = _integrate_or_none(f, (x, a, b))
+        c, s_ = (a + b) / 2, (b - a) / 2
+        Qv = s_ * sp.Add(*[w * f.subs(x, c + s_ * xi) for xi, w in zip(xs, ws)])
+        out['ruleValue'] = {'value': float(sp.N(Qv, 30))}
+        if I is not None:
+            out['integral'] = {'tex': sp.latex(I), 'value': float(sp.N(I, 30))}
+            err = I - Qv
+            val = sp.N(err, 40)
+            zero = None
+            if nex and abs(val) < sp.Float('1e-25'):
+                zero = True if sp.simplify(sp.expand(err)) == 0 else None
+            elif abs(val) > sp.Float('1e-25'):
+                zero = False
+            out['error'] = {'value': float(val), 'exactZero': zero}
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact error could not be formed: {e}'
+    if sm['pass'] is None:
+        out['provenance'] = 'unknown'
+    elif out['blockedAct'] is not None:
+        out['provenance'] = calc_cap('refuted', ex and (nex or out['blockedAct'] == 'smooth'))
+    else:
+        out['provenance'] = calc_cap('proved', ex and nex) if out['integral'] is not None else 'unknown'
+    return out
+
+
+# ── 7.14 gausselim: elimination in exact arithmetic ──
+def _gel_parse(A_str, b_str):
+    """A as 'r1;r2;…' (entries by spaces/commas; integers, p/q, decimals, 1e-20) or wilkinson(n) / hilbert(n); b as numbers or 'sum'. Returns (A, b, exact) with exact Rationals
+    (a decimal is read as the exact decimal it spells, and makes the result 'numeric')."""
+    import re as _re
+    exact = True
+
+    def num(t):
+        nonlocal exact
+        t = t.strip()
+        if '.' in t or 'e' in t.lower():
+            exact = False
+        return sp.Rational(t)
+    s = str(A_str).strip()
+    g = _re.match(r'^(wilkinson|hilbert)\\s*\\(\\s*(\\d+)\\s*\\)$', s, _re.I)
+    if g:
+        n = int(g.group(2))
+        if not 2 <= n <= 64:
+            raise ValueError('size 2..64')
+        if g.group(1).lower() == 'wilkinson':
+            A = sp.Matrix(n, n, lambda i, j: 1 if (j == n - 1 or i == j) else (-1 if i > j else 0))
+        else:
+            A = sp.Matrix(n, n, lambda i, j: sp.Rational(1, i + j + 1))
+    else:
+        rows = [[num(t) for t in _re.split(r'[\\s,]+', r.strip()) if t] for r in s.split(';') if r.strip()]
+        n = len(rows)
+        if n < 1 or n > 8 or any(len(r) != n for r in rows):
+            raise ValueError('A must be square, 1..8 rows')
+        A = sp.Matrix(rows)
+    bs = str(b_str).strip()
+    if bs.lower() == 'sum':
+        b = sp.Matrix([sum(A.row(i)) for i in range(A.rows)])
+    else:
+        vals = [num(t) for t in _re.split(r'[\\s,;]+', bs) if t]
+        if len(vals) != A.rows:
+            raise ValueError('b has the wrong length')
+        b = sp.Matrix(vals)
+    return A, b, exact
+
+
+def _gel_eliminate(A, b, strategy):
+    """Exact elimination with the strategy's pivot choice (by exact absolute value). Returns (maxMult, rho, breakdownStep or None)."""
+    n = A.rows
+    M = A.row_join(b).as_mutable()
+    a0 = max(abs(v) for v in A)
+    amax, mm = a0, sp.Integer(0)
+    for k in range(n):
+        pr, pc = k, k
+        if strategy == 'partial':
+            pr = max(range(k, n), key=lambda i: abs(M[i, k]))
+        elif strategy == 'complete':
+            pr, pc = max(((i, j) for i in range(k, n) for j in range(k, n)), key=lambda t: abs(M[t[0], t[1]]))
+        if pr != k:
+            M.row_swap(k, pr)
+        if pc != k:
+            M.col_swap(k, pc)
+        if M[k, k] == 0:
+            return None, None, k
+        for i in range(k + 1, n):
+            l = M[i, k] / M[k, k]
+            mm = max(mm, abs(l))
+            M[i, :] = M[i, :] - l * M[k, :]
+            for j in range(k + 1, n):
+                amax = max(amax, abs(M[i, j]))
+    return mm, amax / a0, None
+
+
+def analyse_gausselim(A_str, b_str, strategy):
+    """7.14 the exact side of elimination. Flat result:
+    { id, provenance, exact, blockedAct, clauses: {multipliers, growth: {pass, detail}}, n, solution: [values], solutionTex, kappaInf: {value, tex}, maxMult: {value, tex}, rho: {value, tex}, breakdown, note }.
+    In exact arithmetic there is no rounding, so the CLAUSES are decided exactly: the largest multiplier and the growth factor of the strategy's elimination (pivots chosen by exact |value|), and a zero
+    pivot is an exact breakdown. The exact solution and kappa_inf = ||A||_inf ||A^{-1}||_inf are what the numeric tier's x-hat and error bound are measured against. A decimal entry makes the result numeric."""
+    try:
+        if strategy not in ('none', 'partial', 'complete'):
+            raise ValueError('unknown strategy')
+        A, b, ex = _gel_parse(A_str, b_str)
+    except Exception as e:  # noqa: BLE001
+        return {'provenance': 'unknown', 'reason': f'bad input: {e}'}
+    n = A.rows
+    out = {'id': 'gausselim', 'provenance': 'unknown', 'exact': ex, 'blockedAct': None, 'clauses': {}, 'n': n, 'solution': None, 'solutionTex': None, 'kappaInf': None, 'maxMult': None, 'rho': None,
+           'breakdown': None, 'note': None}
+    try:
+        if A.det() == 0:
+            return {**out, 'provenance': calc_cap('refuted', ex), 'note': 'A is singular: no unique solution'}
+        x_ = A.LUsolve(b) if n > 12 else A.solve(b)
+        out['solution'] = [float(v) for v in x_]
+        if n <= 4:
+            out['solutionTex'] = sp.latex(x_.T)
+        Ainv = A.inv() if n <= 20 else None
+        if Ainv is not None:
+            nA = max(sum(abs(v) for v in A.row(i)) for i in range(n))
+            nI = max(sum(abs(v) for v in Ainv.row(i)) for i in range(n))
+            k = nA * nI
+            out['kappaInf'] = {'value': float(k), 'tex': sp.latex(k) if len(str(k)) < 40 else None}
+        mm, rho, brk = _gel_eliminate(A, b, strategy)
+        if brk is not None:
+            out['breakdown'] = brk
+            out['clauses']['multipliers'] = {'pass': False, 'detail': f'the pivot at step {brk + 1} is exactly 0'}
+            out['clauses']['growth'] = {'pass': None, 'detail': 'no elimination to measure'}
+            out['blockedAct'] = 'multipliers'
+        else:
+            out['maxMult'] = {'value': float(mm), 'tex': sp.latex(mm) if len(str(mm)) < 40 else None}
+            out['rho'] = {'value': float(rho), 'tex': sp.latex(rho) if len(str(rho)) < 40 else None}
+            mp_ = bool(mm <= 1)
+            gp = bool(rho <= 8 * n)
+            out['clauses']['multipliers'] = {'pass': mp_, 'detail': f'largest multiplier {mm}' if len(str(mm)) < 40 else f'largest multiplier {float(mm):.4g}'}
+            out['clauses']['growth'] = {'pass': gp, 'detail': f'growth factor {rho} against 8n = {8 * n}' if len(str(rho)) < 40 else f'growth factor {float(rho):.4g} against 8n = {8 * n}'}
+            out['blockedAct'] = 'multipliers' if not mp_ else ('growth' if not gp else None)
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact elimination could not be completed: {e}'
+        return out
+    out['provenance'] = calc_cap('refuted' if out['blockedAct'] else 'proved', ex)
+    return out
+
+
+# ── 7.15 condition: kappa_2 from the exact matrix ──
+def _cnd_sigmas(A):
+    """Singular values of A from the exact A^T A: closed form for n <= 2 (exact), otherwise 40-digit roots of its characteristic polynomial (numeric). Returns (sigmas descending, exact)."""
+    G = (A.T * A).applyfunc(sp.nsimplify)
+    lam = sp.Symbol('lam')
+    p = sp.Poly(G.charpoly(lam).as_expr(), lam)
+    if A.rows <= 2:
+        roots = sp.solve(p.as_expr(), lam)
+        sig = sorted([sp.sqrt(sp.nsimplify(r)) for r in roots], key=lambda v: -float(v))
+        return sig, True
+    _, facs = sp.factor_list(p.as_expr(), lam)
+    if all(sp.degree(f, lam) == 1 for f, _m in facs):
+        # every eigenvalue of A^T A is rational (an orthogonal matrix, a diagonal one): exact
+        roots = [r for f, mlt in facs for r in [sp.solve(f, lam)[0]] * mlt]
+        sig = sorted([sp.sqrt(r) for r in roots], key=lambda v: -float(v))
+        return sig, True
+    try:
+        roots = [sp.N(r, 40) for r in sp.Poly(p.as_expr(), lam, domain='QQ').all_roots()]   # isolated exactly (CRootOf, so repeated roots are fine), evaluated to 40 digits
+    except Exception:  # noqa: BLE001
+        roots = [sp.re(r) for r in p.nroots(n=40, maxsteps=500)]
+    sig = sorted([sp.sqrt(r) if r > 0 else sp.Integer(0) for r in roots], key=lambda v: -float(v))
+    return sig, False
+
+
+def analyse_condition(A_str, b_str, eps_str):
+    """7.15 the exact side of the condition number. Flat result:
+    { id, provenance, exact, blockedAct, clauses: {invertible, wellcond}, n, sigmas: [values], kappa2: {value, tex}, kappaInf: {value, tex}, kappaB: {value}, solutionTex, worstChange, note }.
+    H1 is decided exactly (det A over Q). kappa_2 = sigma_max/sigma_min with the singular values of the exact A^T A: in closed form for 2x2 (so H2 and the conclusion are decided exactly), from 40-digit roots
+    otherwise (numeric). kappa_b = ||A^{-1}||_2 ||b||_2/||x||_2 = ||b||/(sigma_min ||x||) with the exact solution x. A decimal entry, or n > 2, makes the result numeric."""
+    try:
+        A, b, ex = _gel_parse(A_str, b_str)
+        eps = sp.Rational(str(eps_str))
+        if not (0 < eps <= sp.Rational(1, 10)):
+            raise ValueError('eps out of range')
+        if A.rows > 12:
+            raise ValueError('at most 12x12')
+        if all(v == 0 for v in b):
+            raise ValueError('b = 0')
+    except Exception as e:  # noqa: BLE001
+        return {'provenance': 'unknown', 'reason': f'bad input: {e}'}
+    n = A.rows
+    out = {'id': 'condition', 'provenance': 'unknown', 'exact': ex, 'blockedAct': None, 'clauses': {}, 'n': n, 'sigmas': None, 'kappa2': None, 'kappaInf': None, 'kappaB': None, 'solutionTex': None,
+           'worstChange': None, 'note': None}
+    try:
+        if A.det() == 0:
+            out['clauses']['invertible'] = {'pass': False, 'detail': 'det A = 0 exactly'}
+            out['blockedAct'] = 'invertible'
+            out['provenance'] = calc_cap('refuted', ex)
+            return out
+        out['clauses']['invertible'] = {'pass': True, 'detail': f'det A = {A.det()}' if len(str(A.det())) < 40 else 'det A is nonzero'}
+        sig, closed = _cnd_sigmas(A)
+        k2 = sig[0] / sig[-1]
+        if closed:
+            k2 = sp.simplify(k2)
+        out['sigmas'] = [float(sp.N(s, 30)) for s in sig]
+        out['kappa2'] = {'value': float(sp.N(k2, 30)), 'tex': sp.latex(k2) if closed and len(sp.latex(k2)) < 80 else None}
+        if n <= 12:
+            Ai = A.inv()
+            kinf = max(sum(abs(v) for v in A.row(i)) for i in range(n)) * max(sum(abs(v) for v in Ai.row(i)) for i in range(n))
+            out['kappaInf'] = {'value': float(kinf), 'tex': sp.latex(kinf) if len(str(kinf)) < 40 else None}
+        x_ = A.solve(b)
+        if n <= 3:
+            out['solutionTex'] = sp.latex(x_.T)
+        kb = sp.sqrt(sum(v ** 2 for v in b)) / (sig[-1] * sp.sqrt(sum(v ** 2 for v in x_)))
+        out['kappaB'] = {'value': float(sp.N(kb, 30))}
+        wc = kb * eps
+        out['worstChange'] = float(sp.N(wc, 30))
+        wp = bool(sp.N(k2 * eps - sp.Rational(1, 100), 40) <= 0)
+        out['clauses']['wellcond'] = {'pass': wp, 'detail': f'kappa_2 * eps = {float(sp.N(k2 * eps, 15)):.6g}'}
+        out['blockedAct'] = None if wp else 'wellcond'
+        exact_all = ex and closed
+        out['provenance'] = calc_cap('refuted' if out['blockedAct'] else 'proved', exact_all)
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact computation failed: {e}'
+        out['provenance'] = 'unknown'
+    return out
+
+
+# ── 7.16 iterative: Jacobi & Gauss–Seidel convergence ───────────────────────────────────────────────────────────────
+def _itr_parse(A_str, b_str):
+    """heat(m) (the 5-point Laplace matrix of an m x m grid, m = 2..6), else 7.14's _gel_parse. Returns (A, b, exact)."""
+    import re as _re
+    s = str(A_str).strip()
+    g = _re.match(r'^heat\\s*\\(\\s*(\\d+)\\s*\\)$', s, _re.I)
+    if not g:
+        A, b, ex = _gel_parse(A_str, b_str)
+        if A.rows < 2:
+            raise ValueError('at least 2x2')
+        return A, b, ex
+    m = int(g.group(1))
+    if not 2 <= m <= 6:
+        raise ValueError('heat(m) needs m = 2..6')
+    n = m * m
+    A = sp.Matrix(n, n, lambda k, l: 4 if k == l else (-1 if abs(k // m - l // m) + abs(k % m - l % m) == 1 else 0))
+    bs = str(b_str).strip()
+    if bs.lower() == 'sum':
+        return A, sp.Matrix([sum(A.row(i)) for i in range(n)]), True
+    vals = [sp.Rational(t) for t in _re.split(r'[\\s,;]+', bs) if t]
+    if len(vals) != n:
+        raise ValueError('b has the wrong length')
+    return A, sp.Matrix(vals), not any(('.' in t or 'e' in t.lower()) for t in _re.split(r'[\\s,;]+', bs) if t)
+
+
+def _itr_matrix(A, method):
+    """The iteration matrix over Q: Jacobi -D^{-1}(L + U), Gauss–Seidel -(D + L)^{-1} U."""
+    n = A.rows
+    D = sp.diag(*[A[i, i] for i in range(n)])
+    Lo = sp.Matrix(n, n, lambda i, j: A[i, j] if i > j else 0)
+    Up = sp.Matrix(n, n, lambda i, j: A[i, j] if i < j else 0)
+    if method == 'jacobi':
+        return -D.inv() * (Lo + Up)
+    return -(D + Lo).inv() * Up
+
+
+def _itr_radius(M):
+    """rho(M) from the EXACT characteristic polynomial: its roots isolated exactly (CRootOf) and evaluated to 50 digits. Returns (rho float, stable True|False|None, nilpotent, tex or None).
+    stable is decided when every |root| is at least 1e-30 away from 1; a root on the unit circle is decided exactly by sp.Abs(root) == 1 where SymPy can, else None."""
+    z = sp.Symbol('z')
+    p = sp.Poly(M.charpoly(z).as_expr(), z, domain='QQ')
+    n = M.rows
+    if p == sp.Poly(z ** n, z, domain='QQ'):
+        return 0.0, True, True, '0'
+    roots = p.all_roots()
+    mods = [sp.N(sp.Abs(r), 50) for r in roots]
+    rho = max(mods)
+    tex = None
+    if n <= 2:
+        ex_roots = sp.solve(p.as_expr(), z)
+        rr = max((sp.simplify(sp.Abs(r)) for r in ex_roots), key=lambda v: float(sp.N(v, 30)))
+        tex = sp.latex(sp.nsimplify(rr)) if len(sp.latex(rr)) < 60 else None
+    if all(m < 1 - sp.Float('1e-30', 50) for m in mods):
+        return float(rho), True, False, tex
+    if any(m > 1 + sp.Float('1e-30', 50) for m in mods):
+        return float(rho), False, False, tex
+    return float(rho), None, False, tex
+
+
+def analyse_iterative(A_str, b_str, method):
+    """7.16 the exact side of Jacobi / Gauss–Seidel convergence. Flat result:
+    { id, provenance, exact, blockedAct, clauses: {diagonal, dominance}, n, method, rho: {value, tex}, rhoOther: {value}, nilpotent, verdict, solutionTex, note }.
+    H1 (a_ii != 0) and H2 (strict row dominance) are decided exactly over Q. The conclusion rho(M) < 1 is decided from the exact characteristic polynomial of the exact iteration matrix, its roots
+    isolated as CRootOf (an independent route from the JS engine's Jury table). Provenance grades the CONCLUSION: proved (converges) / refuted (does not converge, or no method); a decimal entry makes
+    it numeric. n <= 16."""
+    try:
+        A, b, ex = _itr_parse(A_str, b_str)
+        if method not in ('jacobi', 'gs'):
+            raise ValueError('method must be jacobi or gs')
+        if A.rows > 16:
+            raise ValueError('at most 16 unknowns here')
+        if all(v == 0 for v in b):
+            raise ValueError('b = 0')
+    except Exception as e:  # noqa: BLE001
+        return {'provenance': 'unknown', 'reason': f'bad input: {e}'}
+    n = A.rows
+    out = {'id': 'iterative', 'provenance': 'unknown', 'exact': ex, 'blockedAct': None, 'clauses': {}, 'n': n, 'method': method, 'rho': None, 'rhoOther': None, 'nilpotent': None,
+           'verdict': None, 'solutionTex': None, 'note': None}
+    try:
+        zero = [i + 1 for i in range(n) if A[i, i] == 0]
+        if zero:
+            out['clauses']['diagonal'] = {'pass': False, 'detail': f'a_ii = 0 exactly in row {", ".join(map(str, zero))}'}
+            out['blockedAct'] = 'diagonal'
+            out['verdict'] = 'undefined'
+            out['provenance'] = calc_cap('refuted', ex)
+            return out
+        out['clauses']['diagonal'] = {'pass': True, 'detail': 'no zero on the diagonal'}
+        if A.det() == 0:
+            out['note'] = 'A is singular (exactly): there is no unique solution to converge to'
+            out['verdict'] = 'singular'
+            return out
+        rows_bad = [i + 1 for i in range(n) if not abs(A[i, i]) > sum(abs(A[i, j]) for j in range(n) if j != i)]
+        out['clauses']['dominance'] = {'pass': not rows_bad, 'detail': 'every row: |a_ii| > sum |a_ij| exactly' if not rows_bad else f'row {rows_bad[0]}: |a_ii| <= sum of the others, exactly'}
+        out['blockedAct'] = None if not rows_bad else 'dominance'
+        x_ = A.solve(b)
+        if n <= 4:
+            out['solutionTex'] = sp.latex(x_.T)
+        M = _itr_matrix(A, method)
+        rho, stable, nil, tex = _itr_radius(M)
+        out['rho'] = {'value': rho, 'tex': tex}
+        out['nilpotent'] = nil
+        other = _itr_radius(_itr_matrix(A, 'gs' if method == 'jacobi' else 'jacobi'))
+        out['rhoOther'] = {'value': other[0], 'converges': other[1]}
+        if stable is None:
+            out['note'] = 'a root of the characteristic polynomial lies within 1e-30 of the unit circle: undecided'
+            return out
+        out['verdict'] = 'converges' if stable else 'diverges'
+        out['provenance'] = calc_cap('proved' if stable else 'refuted', ex)
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact computation failed: {e}'
+        out['provenance'] = 'unknown'
+    return out
+
+
+# ── 7.17 poweriter: power iteration, inverse iteration ───────────────────────────────────────────────────────────────
+def _pwi_parse(A_str, x0_str):
+    """springs(n) (tridiag(-1, 2, -1), n = 2..12), else 7.14's _gel_parse for A; x0 as numbers or 'ones'. Returns (A, x0, exact)."""
+    import re as _re
+    s = str(A_str).strip()
+    g = _re.match(r'^springs\\s*\\(\\s*(\\d+)\\s*\\)$', s, _re.I)
+    if g:
+        n = int(g.group(1))
+        if not 2 <= n <= 12:
+            raise ValueError('springs(n) needs n = 2..12')
+        A, ex = sp.Matrix(n, n, lambda i, j: 2 if i == j else (-1 if abs(i - j) == 1 else 0)), True
+    else:
+        A, _b, ex = _gel_parse(A_str, 'sum')
+        if not 2 <= A.rows <= 12:
+            raise ValueError('A must be 2x2 .. 12x12')
+    xs = str(x0_str).strip()
+    if xs.lower() == 'ones':
+        x0 = sp.Matrix([1] * A.rows)
+    else:
+        toks = [t for t in _re.split(r'[\\s,;]+', xs) if t]
+        if len(toks) != A.rows:
+            raise ValueError('x0 has the wrong length')
+        if any(('.' in t or 'e' in t.lower()) for t in toks):
+            ex = False
+        x0 = sp.Matrix([sp.Rational(t) for t in toks])
+    if all(v == 0 for v in x0):
+        raise ValueError('x0 = 0')
+    return A, x0, ex
+
+
+def analyse_poweriter(A_str, x0_str, method, sigma_str):
+    """7.17 the exact side of power / inverse iteration. Flat result:
+    { id, provenance, exact, blockedAct, clauses: {dominant, start}, n, method, target: {value, tex}, ratio: {value, tex}, eigenvalues: [values], note }.
+    The eigenvalues are the roots of the exact characteristic polynomial (isolated exactly: radicals or CRootOf). H1 (a real eigenvalue strictly dominant in modulus, or strictly nearest sigma) is decided by
+    comparing the roots at 50 digits (a tie of exact algebraic numbers evaluates to an exact 0 difference). H2 (w^T x0 != 0 for the left eigenvectors w of the target) is decided EXACTLY from the null space of
+    (A - lambda I)^T when lambda is rational or a quadratic surd, else at 50 digits (then numeric). Provenance: proved when both clauses hold exactly, refuted when one fails exactly; decimals make it numeric."""
+    try:
+        A, x0, ex = _pwi_parse(A_str, x0_str)
+        if method not in ('power', 'inverse'):
+            raise ValueError('method must be power or inverse')
+        sigma = sp.Rational(str(sigma_str)) if method == 'inverse' else sp.Integer(0)
+        if method == 'inverse' and ('.' in str(sigma_str) or 'e' in str(sigma_str).lower()):
+            ex = False
+    except Exception as e:  # noqa: BLE001
+        return {'provenance': 'unknown', 'reason': f'bad input: {e}'}
+    n = A.rows
+    out = {'id': 'poweriter', 'provenance': 'unknown', 'exact': ex, 'blockedAct': None, 'clauses': {}, 'n': n, 'method': method, 'target': None, 'ratio': None, 'eigenvalues': None, 'note': None}
+    try:
+        z = sp.Symbol('z')
+        p = sp.Poly(A.charpoly(z).as_expr(), z, domain='QQ')
+        roots = []
+        for r in p.all_roots():
+            if not any(sp.simplify(r - q) == 0 for q in roots):
+                roots.append(r)
+        out['eigenvalues'] = [float(sp.N(r, 20)) if sp.im(sp.N(r, 30)) == 0 else str(sp.N(r, 12)) for r in roots]
+        key = (lambda r: sp.N(sp.Abs(r), 50)) if method == 'power' else (lambda r: sp.N(sp.Abs(r - sigma), 50))
+        srt = sorted(roots, key=lambda r: -key(r)) if method == 'power' else sorted(roots, key=key)
+        top = srt[0]
+        k1 = key(top)
+        k2 = key(srt[1]) if len(srt) > 1 else None
+        real_top = sp.N(sp.im(top), 50) == 0
+        if method == 'inverse' and k1 == 0:
+            out['clauses']['dominant'] = {'pass': False, 'detail': 'sigma is an eigenvalue: A - sigma I is singular'}
+        elif not real_top:
+            out['clauses']['dominant'] = {'pass': False, 'detail': 'the dominant eigenvalues are a complex conjugate pair'}
+        elif k2 is not None and abs(k1 - k2) < sp.Float('1e-30', 50):
+            out['clauses']['dominant'] = {'pass': False, 'detail': f'a tie: {sp.N(top, 8)} and {sp.N(srt[1], 8)}'}
+        else:
+            out['clauses']['dominant'] = {'pass': True, 'detail': f'{sp.N(top, 12)} is strictly dominant'}
+        if not out['clauses']['dominant']['pass']:
+            out['blockedAct'] = 'dominant'
+            out['clauses']['start'] = {'pass': False, 'detail': 'no single target eigenvector'}
+            out['provenance'] = calc_cap('refuted', ex)
+            return out
+        lam = sp.nsimplify(top) if top.is_Rational or not isinstance(top, sp.CRootOf) else top
+        out['target'] = {'value': float(sp.N(top, 30)), 'tex': sp.latex(lam) if not isinstance(lam, sp.CRootOf) and len(sp.latex(lam)) < 60 else None}
+        if k2 is not None:
+            rat = (key(srt[1]) / k1) if method == 'power' else (k1 / key(srt[1]))
+            rt = None
+            if n == 2 and not isinstance(lam, sp.CRootOf):
+                ex2 = sp.simplify(sp.Abs(srt[1]) / sp.Abs(top)) if method == 'power' else sp.simplify(sp.Abs(top - sigma) / sp.Abs(srt[1] - sigma))
+                rt = sp.latex(ex2) if len(sp.latex(ex2)) < 60 else None
+            out['ratio'] = {'value': float(rat), 'tex': rt}
+        else:
+            out['ratio'] = {'value': 0.0, 'tex': '0'}
+        # H2: the left null space of A - lambda I
+        exact_h2 = not isinstance(lam, sp.CRootOf)
+        if exact_h2:
+            W = (A - lam * sp.eye(n)).T.nullspace(simplify=True)
+            vals = [sp.simplify((w.T * x0)[0]) for w in W]
+            has = any(v != 0 for v in vals)
+        else:
+            import mpmath as _mp
+            _mp.mp.dps = 50
+            Bm = _mp.matrix([[_mp.mpf(sp.N(A[j, i] - (lam if i == j else 0), 60)) for j in range(n)] for i in range(n)])
+            U, S, V = _mp.svd_r(Bm)
+            w = [V[n - 1, j] for j in range(n)]
+            c = abs(sum(w[j] * _mp.mpf(sp.N(x0[j], 60)) for j in range(n)))
+            has = c > _mp.mpf('1e-25')
+        out['clauses']['start'] = {'pass': bool(has), 'detail': ('w^T x0 != 0' if has else 'w^T x0 = 0: no component along the target eigenvector') + ('' if exact_h2 else ' (at 50 digits)')}
+        out['blockedAct'] = None if has else 'start'
+        prov = 'proved' if has else 'refuted'
+        out['provenance'] = calc_cap(prov, ex) if exact_h2 else 'numeric'
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact computation failed: {e}'
+        out['provenance'] = 'unknown'
+    return out
+
+
+# ── 7.18 rungekutta: Runge–Kutta methods, adaptive step & stiffness ─────────────────────────────────────────────────
+_RKT_ZS = sp.Symbol('z', positive=True)
+_RKT_R = {
+    'rk2': 1 - _RKT_ZS + _RKT_ZS ** 2 / 2,
+    'rk4': 1 - _RKT_ZS + _RKT_ZS ** 2 / 2 - _RKT_ZS ** 3 / 6 + _RKT_ZS ** 4 / 24,
+    'dp45': 1 - _RKT_ZS + _RKT_ZS ** 2 / 2 - _RKT_ZS ** 3 / 6 + _RKT_ZS ** 4 / 24 - _RKT_ZS ** 5 / 120 + _RKT_ZS ** 6 / 600,
+    'ieuler': 1 / (1 + _RKT_ZS),
+}
+
+
+def _rkt_threshold(method):
+    """The smallest z > 0 with |R(z)| = 1 for y' = -y stepped with h = z: an exact real root (CRootOf / radical), or oo for implicit Euler."""
+    if method == 'ieuler':
+        return sp.oo
+    R = _RKT_R[method]
+    cands = []
+    for eq in (R - 1, R + 1):
+        p = sp.Poly(sp.together(eq) * 600, _RKT_ZS)
+        cands += [r for r in p.real_roots() if r > 0]
+    return min(cands, key=lambda r: sp.N(r, 40))
+
+
+def analyse_rungekutta(f_str, t0_str, y0_str, T_str, method, h_str, exact_str=None):
+    """7.18 the exact side of Runge–Kutta stability. Flat result:
+    { id, provenance, exact, method, blockedAct, clauses: {exists, stable}, solution, lambda: {value, tex}, threshold: {value, tex}, z: {value}, stabilityTex, note }.
+    H1 (existence on [t0, T]) is 5.7's analyse_eulermethod, reused: the typed solution checked against the ODE and the initial value, or dsolve for polynomial f, and its singularities on the interval.
+    lambda = max over [t0, T] of -df/dy along that solution, decided exactly (constant, or endpoints and critical points); the stability function R(z) of each method in closed form and its threshold
+    (the smallest z > 0 with |R(z)| = 1) as an exact real root; H2 (fixed-step explicit methods) compares h*lambda with it at 40 digits. Provenance grades the hypotheses: proved / refuted, numeric for decimals."""
+    out = {'id': 'rungekutta', 'provenance': 'unknown', 'exact': False, 'method': method, 'blockedAct': None, 'clauses': {}, 'solution': None, 'lambda': None, 'threshold': None, 'z': None,
+           'stabilityTex': None, 'note': None}
+    if method not in _RKT_R:
+        out['note'] = 'method must be rk2, rk4, dp45 or ieuler'
+        return out
+    fixed = method != 'dp45'
+    base = analyse_eulermethod(f_str, t0_str, y0_str, T_str, h_str if fixed else '1/10', exact_str)
+    if base.get('note') and base['exists']['pass'] is None and base['solution'] is None and 'cannot read' in (base['note'] or ''):
+        out['note'] = base['note']
+        return out
+    try:
+        T, Y = vec_sym('t'), vec_sym('y')
+        f = vec_parse(f_str, ('t', 'y'))
+        (t0, e0), (y0, e1), (Tend, e2) = [calc_parse_scalar(v) for v in (t0_str, y0_str, T_str)]
+        h, e3 = calc_parse_scalar(h_str) if fixed else (None, True)
+        if fixed and not (h > 0):
+            raise ValueError('h > 0')
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'cannot read the input: {e}'
+        return out
+    exact = bool(e0 and e1 and e2 and e3 and not f.has(sp.Float))
+    out['exact'] = exact
+    out['solution'] = base['solution']
+    out['stabilityTex'] = sp.latex(_RKT_R[method])
+    thr = _rkt_threshold(method)
+    out['threshold'] = {'value': float(sp.N(thr, 30)) if thr != sp.oo else None, 'tex': sp.latex(thr) if thr == sp.oo or len(sp.latex(thr)) < 60 else None}
+    ex = base['exists']
+    out['clauses']['exists'] = {'pass': ex['pass'], 'detail': ex['detail']}
+    if ex['pass'] is False:
+        out['blockedAct'] = 'exists'
+        out['provenance'] = 'refuted' if exact else 'numeric'
+        return out
+    # lambda along the solution
+    try:
+        fy = sp.diff(f, Y)
+        lam = None
+        if not fy.has(Y) and not fy.has(T):
+            lam = sp.simplify(-fy)
+        elif base['solution'] is not None and base['solutionChecks'] is not False:
+            sol = vec_parse(exact_str, ('t',)) if (exact_str or '').strip() else None
+            if sol is not None:
+                g = sp.simplify(-fy.subs(Y, sol))
+                crit = _solve_or_none(sp.diff(g, T), T, sp.Interval(t0, Tend))
+                if crit is not None:
+                    pts = [t0, Tend] + [c for c in crit if c.is_real]
+                    lam = max((sp.simplify(g.subs(T, p)) for p in pts), key=lambda v: float(sp.N(v, 30)))
+        if lam is not None:
+            out['lambda'] = {'value': float(sp.N(lam, 30)), 'tex': sp.latex(lam) if len(sp.latex(lam)) < 60 else None}
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'lambda undecided: {e}'
+        lam = None
+    if not fixed or method == 'ieuler':
+        out['clauses']['stable'] = {'pass': True, 'detail': 'implicit Euler is A-stable: |1/(1 + z)| < 1 for every z > 0' if method == 'ieuler' else 'the controller chooses h'}
+        if lam is not None and fixed:
+            out['z'] = {'value': float(sp.N(h * lam, 30))}
+    elif lam is None:
+        out['clauses']['stable'] = {'pass': None, 'detail': 'lambda along the solution could not be decided exactly'}
+    else:
+        zz = h * lam
+        out['z'] = {'value': float(sp.N(zz, 30))}
+        diff = sp.N(zz - thr, 50)
+        if abs(diff) < 1e-40:
+            out['clauses']['stable'] = {'pass': None, 'detail': 'h*lambda sits on the threshold to 40 digits'}
+        else:
+            out['clauses']['stable'] = {'pass': bool(diff < 0), 'detail': f'h*lambda = {sp.N(zz, 8)} against the threshold {sp.N(thr, 10)}'}
+    st = out['clauses']['stable']['pass']
+    if st is False:
+        out['blockedAct'] = 'stable'
+        out['provenance'] = 'refuted' if exact else 'numeric'
+    elif st is True and ex['pass'] is True:
+        out['provenance'] = 'proved' if exact else 'numeric'
+    elif not exact:
+        out['provenance'] = 'numeric'
+    return out
+
+
+# ── 7.19 gradient: gradient descent on a quadratic ──────────────────────────────────────────────────────────────────
+def analyse_gradient(A_str, b_str, x0_str, eta_str):
+    """7.19 the exact side of gradient descent on f(x) = 1/2 x^T A x - b^T x. Flat result:
+    { id, provenance, exact, blockedAct, clauses: {convex, step}, n, eigenvalues: [values], lambdaMin: {value, tex}, lambdaMax: {value, tex}, etaMax: {value, tex}, rho: {value, tex},
+      etaStar: {value, tex}, rhoStar: {value, tex}, kappa: {value, tex}, minimiserTex, note }.
+    H1 (A symmetric with every leading principal minor > 0) is decided exactly with det over Q; the eigenvalues are the exact roots of the characteristic polynomial (radicals or CRootOf); H2 (0 < eta < 2/lambda_max)
+    is decided at 50 digits (exactly when both are rational); rho(eta) = max |1 - eta lambda_i|, eta* = 2/(lambda_min + lambda_max), rho* = (kappa - 1)/(kappa + 1) in closed form where SymPy simplifies them.
+    Provenance grades the hypotheses: proved / refuted; a decimal entry makes it numeric."""
+    import re as _re
+    try:
+        A, b, ex = _gel_parse(A_str, b_str)
+        if not 2 <= A.rows <= 8:
+            raise ValueError('A must be 2x2 .. 8x8')
+        es = str(eta_str).strip()
+        eta = sp.Rational(es)
+        if '.' in es or 'e' in es.lower():
+            ex = False
+        if not eta > 0:
+            raise ValueError('eta > 0')
+        xs = str(x0_str).strip()
+        toks = [t for t in _re.split(r'[\\s,;]+', xs) if t]
+        if xs.lower().startswith('zero'):
+            toks = ['0'] * A.rows
+        if len(toks) != A.rows:
+            raise ValueError('x0 has the wrong length')
+    except Exception as e:  # noqa: BLE001
+        return {'provenance': 'unknown', 'reason': f'bad input: {e}'}
+    n = A.rows
+    out = {'id': 'gradient', 'provenance': 'unknown', 'exact': ex, 'blockedAct': None, 'clauses': {}, 'n': n, 'eigenvalues': None, 'lambdaMin': None, 'lambdaMax': None, 'etaMax': None, 'rho': None,
+           'etaStar': None, 'rhoStar': None, 'kappa': None, 'minimiserTex': None, 'note': None}
+    tex = lambda v: sp.latex(v) if len(sp.latex(v)) < 60 else None  # noqa: E731
+    pack = lambda v: {'value': float(sp.N(v, 30)), 'tex': tex(v)}  # noqa: E731
+    try:
+        sym = A == A.T
+        minors = [A[:k, :k].det() for k in range(1, n + 1)]
+        pd = sym and all(m > 0 for m in minors)
+        z = sp.Symbol('z')
+        p = sp.Poly(A.charpoly(z).as_expr(), z, domain='QQ')
+        roots = p.all_roots()
+        real = all(sp.im(sp.N(r, 30)) == 0 for r in roots)
+        if real:
+            rs = sorted(roots, key=lambda r: sp.N(r, 50))
+            lmin, lmax = rs[0], rs[-1]
+            out['eigenvalues'] = [float(sp.N(r, 20)) for r in rs]
+            out['lambdaMin'], out['lambdaMax'] = pack(lmin), pack(lmax)
+            out['rho'] = {'value': float(max(sp.N(abs(1 - eta * r), 40) for r in rs)), 'tex': None}
+        out['clauses']['convex'] = {'pass': pd, 'detail': ('not symmetric' if not sym else ('every leading principal minor is positive: ' + ', '.join(str(m) for m in minors) if pd else 'a leading principal minor is not positive: ' + ', '.join(str(m) for m in minors)))}
+        if not pd:
+            out['blockedAct'] = 'convex'
+            out['clauses']['step'] = {'pass': False, 'detail': 'no positive definite A to compare with'}
+            out['provenance'] = calc_cap('refuted', ex)
+            return out
+        emax = sp.nsimplify(2 / lmax) if not isinstance(lmax, sp.CRootOf) else 2 / lmax
+        out['etaMax'] = pack(emax)
+        d = sp.N(eta - 2 / lmax, 50)
+        if abs(d) < 1e-40 and sp.simplify(eta - 2 / lmax) != 0:
+            out['clauses']['step'] = {'pass': None, 'detail': 'eta sits on 2/lambda_max to 40 digits'}
+        else:
+            ok = bool(d < 0)
+            out['clauses']['step'] = {'pass': ok, 'detail': f'eta = {eta} against 2/lambda_max = {sp.N(2 / lmax, 12)}'}
+            out['blockedAct'] = None if ok else 'step'
+        kap = sp.simplify(lmax / lmin)
+        out['kappa'] = pack(kap)
+        out['etaStar'] = pack(sp.simplify(2 / (lmin + lmax)))
+        out['rhoStar'] = pack(sp.simplify((kap - 1) / (kap + 1)))
+        xm = A.solve(b)
+        if n <= 4:
+            out['minimiserTex'] = sp.latex(xm.T)
+        st = out['clauses']['step']['pass']
+        if st is not None:
+            out['provenance'] = calc_cap('proved' if st else 'refuted', ex)
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact computation failed: {e}'
+        out['provenance'] = 'unknown'
+    return out
+
+
+# ── 7.20 numcap: choosing a method — the exact side of the error budget ─────────────────────────────
+_NCP_U = sp.Rational(1, 2 ** 53)
+
+
+def _ncp_pack(v):
+    v = sp.nsimplify(v) if isinstance(v, sp.Float) else v
+    t = sp.latex(v)
+    return {'value': float(sp.N(v, 30)), 'tex': t if len(t) < 60 else None}
+
+
+def analyse_numcap(task, f_str, a_str, b_str, y0_str, A_str, rhs_str, exact_str, eps_str):
+    """7.20 the exact side of the error budget. Flat result:
+    { id, provenance, exact, task, blockedAct, clauses: {wellPosed, reachable}, reference: {value, tex}|None, floor, roots, note }.
+    H1 (a certified answer exists) is decided per task: integral — f finite at every point of [a, b] (no real singularity, by solveset on 1/f's denominator) and sp.integrate returns a finite value;
+    root — f(a)f(b) < 0 decided exactly (the bracket every method of 7.2 needs), the real roots inside [a, b] by solveset where it can, else one certified by the sign change at 30 digits;
+    ode — 5.7's analyse_eulermethod, reused (the typed solution checked against the ODE, its singularities on [t0, T]); linear — det A != 0 over Q, the exact solution and kappa_inf = |A|_inf |A^-1|_inf.
+    H2 (eps above the rounding floor) uses the module's own floors: 100 u max(1, |ref|) for an integral or root, 1e-13 max|y| for an ODE with a typed solution, 10 kappa_inf u for a system — decided exactly
+    for rational references, at 40 digits otherwise. Which method is cheapest is a measurement and stays with the numeric tier. Provenance grades the clauses: proved / refuted; decimals make it numeric."""
+    out = {'id': 'numcap', 'provenance': 'unknown', 'exact': False, 'task': task, 'blockedAct': None, 'clauses': {}, 'reference': None, 'floor': None, 'roots': None, 'note': None}
+    if task not in ('integral', 'root', 'ode', 'linear'):
+        out['note'] = 'task must be integral, root, ode or linear'
+        return out
+    try:
+        eps = sp.Rational(str(eps_str).strip())
+        if not 0 < eps < 1:
+            raise ValueError('eps in (0, 1)')
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'cannot read eps: {e}'
+        return out
+    X = vec_sym('x')
+    exact = True
+    try:
+        if task == 'linear':
+            A, b, exact = _gel_parse(A_str, rhs_str)
+            if A.rows < 2:
+                raise ValueError('A: at least 2x2')
+        elif task == 'ode':
+            pass
+        else:
+            f = vec_parse(f_str, ('x',))
+            (a, e0), (b, e1) = calc_parse_scalar(a_str), calc_parse_scalar(b_str)
+            exact = bool(e0 and e1 and not f.has(sp.Float))
+            if not b > a:
+                raise ValueError('a < b')
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'cannot read the input: {e}'
+        return out
+    floor = None
+    try:
+        if task == 'integral':
+            sing = []
+            num, den = sp.fraction(sp.together(f))
+            if den.has(X):
+                zs = sp.solveset(den, X, sp.Interval(a, b))
+                if isinstance(zs, sp.FiniteSet):
+                    sing = sorted(zs, key=lambda z: sp.N(z, 30))
+                elif zs != sp.S.EmptySet:
+                    raise ValueError('the singular set of f is not decidable')
+            bad = [z for z in sing] + [z for z in (a, b) if not sp.simplify(f.subs(X, z)).is_finite]
+            val = sp.integrate(f, (X, a, b))
+            if bad:
+                ok = False
+                det = f'f is not finite at x = {sp.latex(bad[0])}' + (f'; the integral is {sp.latex(val)}' if val in (sp.oo, -sp.oo, sp.zoo) else '')
+            elif val.has(sp.Integral) or not val.is_finite:
+                raise ValueError('sp.integrate gives no finite closed form')
+            else:
+                ok = True
+                det = f'f is finite on [{sp.latex(a)}, {sp.latex(b)}] and the integral is {sp.latex(val)}'
+                out['reference'] = _ncp_pack(val)
+                floor = 100 * _NCP_U * sp.Max(1, sp.Abs(val))
+            out['clauses']['wellPosed'] = {'pass': ok, 'detail': det}
+        elif task == 'root':
+            fa, fb = sp.simplify(f.subs(X, a)), sp.simplify(f.subs(X, b))
+            sgn = sp.sign(sp.N(fa * fb, 50))
+            br = bool(sgn < 0)
+            rs = sp.solveset(f, X, sp.Interval(a, b))
+            roots = [] if rs == sp.S.EmptySet else (sorted(rs, key=lambda z: sp.N(z, 30)) if isinstance(rs, sp.FiniteSet) else None)
+            out['roots'] = [_ncp_pack(r) for r in roots] if roots is not None else None
+            if br:
+                ref = roots[0] if roots and len(roots) == 1 else sp.Float(_ncp_bisect(f, X, a, b), 30)
+                out['reference'] = _ncp_pack(ref)
+                floor = 100 * _NCP_U * sp.Max(1, sp.Abs(ref))
+                det = f'f(a) = {sp.latex(fa)} and f(b) = {sp.latex(fb)} have opposite signs: a bracket'
+            else:
+                det = f'f(a) = {sp.latex(fa)} and f(b) = {sp.latex(fb)}: no sign change, no bracket' + (
+                    ('; real roots in [a, b]: ' + ', '.join(sp.latex(r) for r in roots) + ' — touched, not crossed') if roots else ('; and no real root in [a, b] at all' if roots == [] else ''))
+            out['clauses']['wellPosed'] = {'pass': br, 'detail': det}
+        elif task == 'ode':
+            base = analyse_eulermethod(f_str, a_str, y0_str, b_str, '1/10', exact_str or None)
+            ex = base['exists']
+            exact = bool(base['exact'])
+            if ex['pass'] is None:
+                raise ValueError(base.get('note') or 'existence undecided')
+            out['clauses']['wellPosed'] = {'pass': bool(ex['pass']), 'detail': ex['detail']}
+            if ex['pass'] and exact_str and base['solutionChecks']:
+                T = vec_sym('t')
+                sol = vec_parse(exact_str, ('t',))
+                (t0, _), (Tend, _) = calc_parse_scalar(a_str), calc_parse_scalar(b_str)
+                out['reference'] = _ncp_pack(sp.simplify(sol.subs(T, Tend)))
+                scale = max([sp.Integer(1)] + [sp.Abs(sp.N(sol.subs(T, t0 + (Tend - t0) * sp.Rational(k, 400)), 30)) for k in range(401)])
+                floor = sp.Rational(1, 10 ** 13) * scale
+        else:
+            d = A.det()
+            ok = d != 0
+            if ok:
+                x = A.LUsolve(b)
+                Ai = A.inv()
+                ninf = lambda M: max(sum(sp.Abs(v) for v in M.row(i)) for i in range(M.rows))  # noqa: E731
+                kap = ninf(A) * ninf(Ai)
+                out['reference'] = {'value': None, 'tex': sp.latex(x.T) if A.rows <= 4 else None}
+                out['kappaInf'] = _ncp_pack(kap)
+                floor = 10 * kap * _NCP_U
+                det = f'det A = {d} != 0; kappa_inf = {sp.latex(kap)}'
+            else:
+                det = 'det A = 0 exactly: no unique solution'
+            out['clauses']['wellPosed'] = {'pass': ok, 'detail': det}
+    except Exception as e:  # noqa: BLE001
+        out['note'] = f'the exact computation abstained: {e}'
+        out['exact'] = exact
+        return out
+    out['exact'] = exact
+    if not out['clauses']['wellPosed']['pass']:
+        out['blockedAct'] = 'wellPosed'
+        out['clauses']['reachable'] = {'pass': None, 'detail': 'no certified answer to measure an error against'}
+        out['provenance'] = calc_cap('refuted', exact)
+        return out
+    if floor is None:
+        out['clauses']['reachable'] = {'pass': None, 'detail': 'no exact reference to set the floor by'}
+        out['provenance'] = 'numeric'
+        return out
+    out['floor'] = float(sp.N(floor, 20))
+    reach = bool(sp.N(eps - floor, 40) >= 0)
+    out['clauses']['reachable'] = {'pass': reach, 'detail': f'eps = {sp.N(eps, 4)} against the rounding floor {sp.N(floor, 4)}'}
+    if not reach:
+        out['blockedAct'] = 'reachable'
+    out['provenance'] = calc_cap('proved' if reach else 'refuted', exact)
+    return out
+
+
+def _ncp_bisect(f, X, a, b):
+    """bisection at 60 digits on a certified sign change: a root the bracket guarantees, to 30 digits."""
+    import mpmath as _mp
+    with _mp.workdps(60):
+        g = sp.lambdify(X, f, 'mpmath')
+        lo, hi = _mp.mpf(sp.N(a, 60)), _mp.mpf(sp.N(b, 60))
+        flo = g(lo)
+        for _ in range(200):
+            m = (lo + hi) / 2
+            fm = g(m)
+            if (fm > 0) == (flo > 0):
+                lo, flo = m, fm
+            else:
+                hi = m
+        return str(_mp.nstr((lo + hi) / 2, 35))
+
+
+# ── 8.1 proplogic: propositional logic decided by SymPy's own SAT solver (sympy.logic) ──────────────────────────────────────────────
+import re as _plg_re
+_PLG_TOKEN = _plg_re.compile(r'^(?:\\s|[a-z](?![A-Za-z0-9_])|And|Or|Not|Implies|Equivalent|true|false|[(),])*$')
+
+
+def _plg_parse(s):
+    """Parse one formula printed by proplogicEngine.toSympy (And/Or/Not/Implies/Equivalent over single-letter atoms, true/false).
+    The text is whitelisted token by token BEFORE sympify sees it, so nothing but those names can be evaluated."""
+    s = (s or '').strip()
+    if not s or not _PLG_TOKEN.match(s):
+        raise ValueError(f'not a propositional formula: {s!r}')
+    loc = {c: sp.Symbol(c) for c in 'abcdefghijklmnopqrstuvwxyz'}
+    loc.update({'And': sp.And, 'Or': sp.Or, 'Not': sp.Not, 'Implies': sp.Implies, 'Equivalent': sp.Equivalent, 'true': sp.true, 'false': sp.false})
+    e = sp.sympify(s, locals=loc)
+    if not isinstance(e, sp.logic.boolalg.Boolean):
+        raise ValueError(f'not a Boolean expression: {s!r}')
+    return e
+
+
+def _plg_models(e):
+    """every satisfying model of e (a list of dicts symbol -> bool); [] when unsatisfiable"""
+    if e is sp.true:
+        return [{}]
+    if e is sp.false:
+        return []
+    out = []
+    for m in sp.logic.inference.satisfiable(e, all_models=True):
+        if m is False:
+            break
+        out.append(m)
+    return out
+
+
+def _plg_count(e, vs):
+    """number of rows (assignments to ALL of vs) that make e true: each SAT model over e's own atoms stands for 2^(free) rows"""
+    return sum(2 ** (len(vs) - len(m)) for m in _plg_models(e))
+
+
+def _plg_row(m, vs):
+    return ', '.join(f"{v} = {'T' if bool(m.get(sp.Symbol(v), True)) else 'F'}" for v in vs)
+
+
+def analyse_proplogic(task, A_str, B_str, prem_str, vars_str):
+    """8.1 the exact side of a propositional claim, decided by SymPy's SAT solver — a route independent of the module's truth table.
+    Flat result: { id, provenance, task, verdict, blockedAct, rows, witnesses (satisfying rows / counter-rows), example (one witness row),
+      minimalDnf, minimalCnf (simplify_logic), note }.
+      formula  — satisfiable(A) and satisfiable(~A) classify it (tautology / contradiction / contingency); the satisfying rows are counted from all models.
+      equiv    — A and B are equivalent iff Xor(A, B) is unsatisfiable; otherwise its models are the counter-rows.
+      argument — P1, ..., Pk |= C iff P1 & ... & Pk & ~C is unsatisfiable; otherwise its models are the counter-rows.
+    Every verdict is exact (a finite search): proved when the claim holds, refuted when it fails; bad input abstains (unknown)."""
+    try:
+        vs = [v for v in (vars_str or '').split(',') if v]
+        if task not in ('formula', 'equiv', 'argument'):
+            raise ValueError(f'unknown task {task!r}')
+        if len(vs) > 6 or any(not _plg_re.fullmatch(r'[a-z]', v) for v in vs):
+            raise ValueError('at most six single-letter variables')
+        A = _plg_parse(A_str)
+        rows = 2 ** len(vs)
+        res = {'id': 'proplogic', 'task': task, 'rows': rows, 'note': ''}
+        if task == 'formula':
+            nsat = _plg_count(A, vs)
+            cls = 'tautology' if nsat == rows else 'contradiction' if nsat == 0 else 'contingency'
+            ms = _plg_models(A)
+            res.update(verdict=cls, provenance='proved', blockedAct=None if nsat else 'satisfiable', witnesses=nsat,
+                       example=_plg_row(ms[0], vs) if ms else None)
+            if cls == 'contingency':
+                res['minimalDnf'] = sp.latex(sp.simplify_logic(A, form='dnf', force=True))
+                res['minimalCnf'] = sp.latex(sp.simplify_logic(A, form='cnf', force=True))
+            else:
+                res['minimalDnf'] = res['minimalCnf'] = r'\\top' if cls == 'tautology' else r'\\bot'
+            res['note'] = f'{nsat} of {rows} rows satisfy it (SymPy SAT, all models).'
+            return res
+        if task == 'equiv':
+            B = _plg_parse(B_str)
+            bad = sp.Xor(A, B)
+        else:
+            P = [_plg_parse(x) for x in (prem_str or '').split(';') if x.strip()]
+            bad = sp.And(*P, sp.Not(A))
+            res['premisesConsistent'] = bool(sp.logic.inference.satisfiable(sp.And(*P))) if P else True
+        n = _plg_count(bad, vs)
+        ms = _plg_models(bad)
+        holds = n == 0
+        res.update(witnesses=n, example=_plg_row(ms[0], vs) if ms else None, provenance='proved' if holds else 'refuted',
+                   verdict=('equivalent' if holds else 'notEquivalent') if task == 'equiv' else ('valid' if holds else 'invalid'),
+                   blockedAct=None if holds else ('equivalent' if task == 'equiv' else 'valid'))
+        res['note'] = (f'{"Xor(A, B)" if task == "equiv" else "premises & ~conclusion"} is '
+                       + ('unsatisfiable: no counter-row.' if holds else f'satisfiable on {n} of {rows} rows, e.g. {res["example"]}.'))
+        return res
+    except Exception as e:  # abstain, never guess
+        return {'id': 'proplogic', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {e}'}
+
+
+# ── 8.2 quantifiers: a quantified statement over a finite domain, expanded by SymPy into a finite And / Or of exact integer relations ──────
+import re as _qnt_re
+from itertools import combinations as _qnt_combinations
+
+_QNT_TOKEN = _qnt_re.compile(r'^(?:\\s|-?\\d+|[a-z](?![A-Za-z0-9_])|All|Some|Not|And|Or|Implies|Equivalent|Eq|Ne|Lt|Le|Gt|Ge|Mod|Abs|IsEven|IsOdd|IsPrime|Rel|\\*\\*|[-+*(),])*$')
+
+
+class _QntMod(sp.Function):
+    """t % m with Python's sign rule, evaluated only on integers; a zero modulus is refused (the JS engine refuses it too)"""
+    @classmethod
+    def eval(cls, a, m):
+        if a.is_Integer and m.is_Integer:
+            if m == 0:
+                raise ValueError('t % 0 is undefined (a zero divisor occurs in the domain)')
+            return sp.Integer(int(a) % int(m))
+
+
+class _QntPred(sp.logic.boolalg.BooleanFunction):
+    kind = None
+    pairs = frozenset()
+
+    @classmethod
+    def eval(cls, *args):
+        if all(a.is_Integer for a in args):
+            k = [int(a) for a in args]
+            if cls.kind == 'even':
+                return sp.true if k[0] % 2 == 0 else sp.false
+            if cls.kind == 'odd':
+                return sp.true if k[0] % 2 == 1 else sp.false
+            if cls.kind == 'prime':
+                return sp.true if sp.isprime(k[0]) else sp.false
+            return sp.true if (k[0], k[1]) in cls.pairs else sp.false
+
+
+class _QntIsEven(_QntPred):
+    kind = 'even'
+
+
+class _QntIsOdd(_QntPred):
+    kind = 'odd'
+
+
+class _QntIsPrime(_QntPred):
+    kind = 'prime'
+
+
+class _QntRel(_QntPred):
+    kind = 'rel'
+
+
+def _qnt_eval(s, D, pairs, bind=None):
+    """the truth value of the SymPy-syntax statement s on the domain D (a list of ints); \`bind\` substitutes free variables (the outer one)"""
+    s = (s or '').strip()
+    if not s or not _QNT_TOKEN.match(s):
+        raise ValueError(f'not a quantified statement: {s!r}')
+    _QntRel.pairs = frozenset(pairs)
+    loc = {c: sp.Symbol(c, integer=True) for c in 'abcdefghijklmnopqrstuvwxyz'}
+    loc.update({
+        'All': lambda v, e: sp.And(*[e.subs(v, d) for d in D]),
+        'Some': lambda v, e: sp.Or(*[e.subs(v, d) for d in D]),
+        'Not': sp.Not, 'And': sp.And, 'Or': sp.Or, 'Implies': sp.Implies, 'Equivalent': sp.Equivalent,
+        'Eq': sp.Eq, 'Ne': sp.Ne, 'Lt': sp.Lt, 'Le': sp.Le, 'Gt': sp.Gt, 'Ge': sp.Ge, 'Mod': _QntMod, 'Abs': sp.Abs,
+        'IsEven': _QntIsEven, 'IsOdd': _QntIsOdd, 'IsPrime': _QntIsPrime, 'Rel': _QntRel,
+    })
+    e = sp.sympify(s, locals=loc)
+    if bind:
+        e = e.subs({loc[k]: v for k, v in bind.items()})
+    if e is sp.true or e is True:
+        return True
+    if e is sp.false or e is False:
+        return False
+    raise ValueError(f'the statement did not reduce to true or false (a free variable?): {e}')
+
+
+def _qnt_split(s):
+    """'All(x, body)' -> ('All', 'x', 'body'); None when s does not start with a quantifier"""
+    m = _qnt_re.match(r'^\\s*(All|Some)\\(([a-z]), (.*)\\)\\s*$', s or '')
+    return (m.group(1), m.group(2), m.group(3)) if m else None
+
+
+def analyse_quantifiers(task, S_str, N_str, domain_str, relation_str):
+    """8.2 the exact side of a quantified statement over a finite domain of integers, by a route independent of the module's evaluator:
+    SymPy expands every All(v, ·) into a finite And and every Some(v, ·) into a finite Or of exact integer relations and reduces it to true/false.
+    Flat result: { id, provenance, task, verdict, blockedAct, value, witnesses, firstWitness, valueSwap, bad, subdomains, note }.
+      evaluate — the value on D; the outer quantifier's witnesses (Some) or counterexamples (All) are counted.
+      order    — the value before and after swapping the first two quantifiers; H1 sameKind.
+      negate   — H1: N has the opposite value to S on D; H2: on every nonempty sub-domain of D (|D| <= 10).
+    Verdicts are about D only; every one is exact (proved / refuted); bad input abstains (unknown)."""
+    try:
+        if task not in ('evaluate', 'order', 'negate'):
+            raise ValueError(f'unknown task {task!r}')
+        D = [int(v) for v in (domain_str or '').split(',') if v.strip()]
+        if not D or len(D) > 40:
+            raise ValueError('a domain of 1 to 40 integers')
+        pairs = []
+        for p in (relation_str or '').split(','):
+            if p.strip():
+                a, b = _qnt_re.match(r'^\\s*(-?\\d+)-(-?\\d+)\\s*$', p).groups()
+                pairs.append((int(a), int(b)))
+        val = _qnt_eval(S_str, D, pairs)
+        res = {'id': 'quantifiers', 'task': task, 'value': val, 'note': ''}
+        top = _qnt_split(S_str)
+        if task in ('evaluate', 'order') and top:
+            q, v, body = top
+            hits = [d for d in D if _qnt_eval(body, D, pairs, {v: d}) == (q == 'Some')]
+            res['witnesses'] = len(hits)
+            res['firstWitness'] = hits[0] if hits else None
+        if task == 'evaluate':
+            res.update(verdict='true' if val else 'false', blockedAct=None if val else 'holds', provenance='proved' if val else 'refuted')
+            res['note'] = f'Expanded over the {len(D)} elements of D: {"true" if val else "false"} (on this domain only).'
+            return res
+        if task == 'order':
+            q1, v1, rest = top
+            q2, v2, inner = _qnt_split(rest)
+            swapped = f'{q2}({v2}, {q1}({v1}, {inner}))'
+            vs = _qnt_eval(swapped, D, pairs)
+            same = vs == val
+            res.update(valueSwap=vs, sameKind=q1 == q2, verdict='sameValue' if same else 'differs', blockedAct=None if q1 == q2 else 'sameKind',
+                       provenance='proved' if same else 'refuted')
+            res['note'] = f'{q1}{v1} {q2}{v2}: {val}; swapped: {vs}.'
+            return res
+        if len(D) > 10:
+            raise ValueError('checking every sub-domain needs |D| <= 10')
+        nval = _qnt_eval(N_str, D, pairs)
+        bad, total, smallest = 0, 0, None
+        for k in range(1, len(D) + 1):
+            for E in _qnt_combinations(D, k):
+                total += 1
+                if _qnt_eval(S_str, list(E), pairs) == _qnt_eval(N_str, list(E), pairs):
+                    bad += 1
+                    if smallest is None:
+                        smallest = list(E)
+        on_d = nval != val
+        blocked = None if on_d and bad == 0 else ('onDomain' if not on_d else 'everySubdomain')
+        res.update(valueN=nval, bad=bad, subdomains=total, smallestBad=smallest, blockedAct=blocked, witnesses=0,
+                   verdict='negation' if blocked is None else 'notNegation', provenance='proved' if blocked is None else 'refuted')
+        res['note'] = f'N is the opposite of S on {total - bad} of {total} nonempty sub-domains.'
+        return res
+    except Exception as e:  # abstain, never guess
+        return {'id': 'quantifiers', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {e}'}
+
+
+# ── 8.3 prooftech: proof methods decided on the four rows by SymPy's SAT solver; claims checked n by n in exact integers; √d by factorint ──
+def _ptc_parse(s):
+    """a quantifier-free predicate in n, in the 8.2 SymPy syntax (IsEven/IsOdd/IsPrime, Mod, Eq/Ne/…), parsed ONCE; the shared whitelist applies"""
+    s = (s or '').strip()
+    if not s or not _QNT_TOKEN.match(s) or 'All(' in s or 'Some(' in s or 'Rel(' in s:
+        raise ValueError(f'not a predicate in n: {s!r}')
+    loc = {c: sp.Symbol(c, integer=True) for c in 'abcdefghijklmnopqrstuvwxyz'}
+    loc.update({'Not': sp.Not, 'And': sp.And, 'Or': sp.Or, 'Implies': sp.Implies, 'Equivalent': sp.Equivalent,
+                'Eq': sp.Eq, 'Ne': sp.Ne, 'Lt': sp.Lt, 'Le': sp.Le, 'Gt': sp.Gt, 'Ge': sp.Ge, 'Mod': _QntMod, 'Abs': sp.Abs,
+                'IsEven': _QntIsEven, 'IsOdd': _QntIsOdd, 'IsPrime': _QntIsPrime})
+    e = sp.sympify(s, locals=loc)
+    if e.free_symbols - {loc['n']}:
+        raise ValueError('only the variable n may occur')
+    return e, loc['n']
+
+
+def _ptc_truth(e, n, v):
+    r = e.subs(n, v)
+    if r is sp.true or r is True:
+        return True
+    if r is sp.false or r is False:
+        return False
+    raise ValueError(f'did not reduce at n = {v}: {r}')
+
+
+_PTC_FORMS = {'direct': lambda p, q: sp.Implies(p, q), 'contrapositive': lambda p, q: sp.Implies(sp.Not(q), sp.Not(p)),
+              'contradiction': lambda p, q: sp.Not(sp.And(p, sp.Not(q))), 'converse': lambda p, q: sp.Implies(q, p), 'cases': lambda p, q: sp.Implies(p, q)}
+
+
+def analyse_prooftech(task, P_str, Q_str, method, cases_str, lo_str, hi_str, d_str, B_str):
+    """8.3 the exact side of a proof method. Flat result: { id, provenance, task, verdict, blockedAct, methodSound, counterexamples, firstCounterexample,
+      d, factorization, oddPrime, isRational, fractions, note }.
+      implication — the method's statement is equivalent to P -> Q iff Xor(form, P -> Q) is unsatisfiable over Boolean p, q (SymPy SAT: no truth table);
+                    for 'cases', the case predicates must cover every n in [lo, hi]. The claim is checked n by n in exact integers (one sympify, then subs).
+      sqrt        — sqrt(d) is rational iff every exponent in factorint(d) is even; SymPy's own sqrt(d).is_rational agrees; fractions a/b, b <= B, by integer_nthroot.
+    A check on [lo, hi] is reported as such (never 'for all n'); the sqrt verdict is structural (all a, b). Bad input abstains (unknown)."""
+    try:
+        if task == 'sqrt':
+            d, B = int(d_str), int(B_str)
+            if d < 1 or d > 10 ** 6 or B < 1 or B > 2000:
+                raise ValueError('d in 1..10^6, B in 1..2000')
+            fac = sp.factorint(d)
+            odd = sorted(p for p, e in fac.items() if e % 2)
+            rational = not odd
+            if bool(sp.sqrt(d).is_rational) != rational:
+                raise ValueError('factorint and sqrt(d).is_rational disagree')
+            fr = [(int(sp.integer_nthroot(d * b * b, 2)[0]), b) for b in range(1, B + 1) if sp.integer_nthroot(d * b * b, 2)[1]]
+            return {'id': 'prooftech', 'task': task, 'd': d, 'factorization': {int(p): int(e) for p, e in fac.items()}, 'oddPrime': odd[0] if odd else None,
+                    'isRational': rational, 'fractions': len(fr), 'firstFraction': f'{fr[0][0]}/{fr[0][1]}' if fr else None,
+                    'verdict': 'rational' if rational else 'irrational', 'blockedAct': 'notSquare' if rational else None,
+                    'provenance': 'refuted' if rational else 'proved',
+                    'note': f'factorint({d}) = {dict(fac)}: ' + (f'{odd[0]} has an odd exponent, so a^2 = {d} b^2 is impossible.' if odd else 'every exponent even: a perfect square.')}
+        if task != 'implication' or method not in _PTC_FORMS:
+            raise ValueError(f'unknown task or method {task!r} {method!r}')
+        lo, hi = int(lo_str), int(hi_str)
+        if hi < lo or hi - lo + 1 > 20000:
+            raise ValueError('a range lo <= hi of at most 20000 values')
+        P, n = _ptc_parse(P_str)
+        Q, _ = _ptc_parse(Q_str)
+        p, q = sp.symbols('p q')
+        sound = not sp.logic.inference.satisfiable(sp.Xor(_PTC_FORMS[method](p, q), sp.Implies(p, q)))
+        ns = range(lo, hi + 1)
+        pv = [_ptc_truth(P, n, v) for v in ns]
+        qv = [_ptc_truth(Q, n, v) for v in ns]
+        ce = [v for v, a, b in zip(ns, pv, qv) if a and not b]
+        uncovered = []
+        if method == 'cases':
+            cs = [_ptc_parse(c)[0] for c in (cases_str or '').split(';') if c.strip()]
+            if not cs:
+                raise ValueError('no case predicates')
+            uncovered = [v for v in ns if not any(_ptc_truth(c, n, v) for c in cs)]
+            sound = sound and not uncovered
+        holds = not ce
+        return {'id': 'prooftech', 'task': task, 'methodSound': sound, 'counterexamples': len(ce), 'firstCounterexample': ce[0] if ce else None,
+                'uncovered': len(uncovered), 'verdict': 'holds' if holds else 'fails', 'blockedAct': None if sound and holds else ('methodSound' if not sound else 'holds'),
+                'provenance': 'proved' if holds else 'refuted',
+                'note': f'checked n = {lo}..{hi}: ' + ('no counterexample' if holds else f'{len(ce)} counterexamples, first n = {ce[0]}') + f'; the method is {"" if sound else "NOT "}sound.'}
+    except Exception as e:  # abstain, never guess
+        return {'id': 'prooftech', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {e}'}
+
+
+# ── 8.4 induction: the inductive step decided as an identity in a symbolic k (for ALL k); bases and instances in exact rationals ──────────
+def _ind_parse(s, names):
+    s = (s or '').strip()
+    if not s or not _ind_re.fullmatch(r'[0-9a-z+\\-*/()\\s]*', s.replace('**', '*')):
+        raise ValueError(f'not an expression: {s!r}')
+    loc = {nm: sp.Symbol(nm, integer=True) for nm in names}
+    loc['factorial'] = sp.factorial
+    e = sp.sympify(s, locals=loc)
+    extra = {str(x) for x in e.free_symbols} - set(names)
+    if extra:
+        raise ValueError(f'unknown names {extra}')
+    return e
+
+
+import re as _ind_re
+
+
+def analyse_induction(kind, t_str, f_str, g_str, rel, rec_str, init_str, bases_str, n0_str, N_str):
+    """8.4 the exact side of an induction. Flat result: { id, provenance, kind, verdict, blockedAct, base, step, stepForAllK, stepFailK, counterexamples,
+      firstCounterexample, closedSum, note }.
+      sum        — the step f(k+1) - f(k) = t(k+1) is simplified as an identity in a symbolic integer k: true means the step holds for ALL k;
+                   SymPy's own summation Sum(t, (i, n0, n)).doit() is compared with f(n) symbolically — a third route, for all n.
+      ineq       — base exact; step on instances k < N (S(k) true and S(k+1) false); no general symbolic step is claimed.
+      recurrence — the step f(k+1) = rec(f(k), f(k-1)) as an identity in k; bases a(n0), a(n0+1) exact; one base checked cannot cover the lag of 2.
+      horses     — the base holds; the step's overlap k - 1 is empty at k = 1.
+    Instances n <= N in exact rationals. Bad input abstains (unknown)."""
+    try:
+        n0, N = int(n0_str), int(N_str)
+        if n0 < 0 or n0 > 50 or N < n0 or N > 400:
+            raise ValueError('0 <= n0 <= 50, n0 <= N <= 400')
+        n, k, i = sp.Symbol('n', integer=True), sp.Symbol('k', integer=True), sp.Symbol('i', integer=True)
+        res = {'id': 'induction', 'kind': kind}
+        if kind == 'horses':
+            ce = [m for m in range(n0, N + 1) if m >= 2]
+            res.update(base=True, step=False, stepForAllK=False, stepFailK=1, counterexamples=len(ce), firstCounterexample=ce[0] if ce else None,
+                       verdict='fails' if ce else 'holds', blockedAct='step', provenance='refuted' if ce else 'proved',
+                       note='The two groups of k horses overlap in k - 1 horses: none when k = 1.')
+            return res
+        if kind == 'sum':
+            t = _ind_parse(t_str, ['i'])
+            f = _ind_parse(f_str, ['n'])
+            base = sp.simplify(t.subs(i, n0) - f.subs(n, n0)) == 0
+            step_all = sp.simplify(f.subs(n, k + 1) - f.subs(n, k) - t.subs(i, k + 1)) == 0
+            fails = [m for m in range(n0, N) if sp.simplify(f.subs(n, m + 1) - f.subs(n, m) - t.subs(i, m + 1)) != 0]
+            S = sp.summation(t, (i, n0, n))
+            res['closedSum'] = bool(sp.simplify(S - f) == 0)
+            run, ce = sp.Integer(0), []
+            for m in range(n0, N + 1):
+                run += t.subs(i, m)
+                if run != f.subs(n, m):
+                    ce.append(m)
+        elif kind == 'ineq':
+            f = _ind_parse(f_str, ['n'])
+            g = _ind_parse(g_str, ['n'])
+            if rel not in ('<', '<=', '>', '>='):
+                raise ValueError('relation')
+            op = {'<': sp.Lt, '<=': sp.Le, '>': sp.Gt, '>=': sp.Ge}[rel]
+            Sv = {m: bool(op(f.subs(n, m), g.subs(n, m))) for m in range(n0, N + 1)}
+            base = Sv[n0]
+            fails = [m for m in range(n0, N) if Sv[m] and not Sv[m + 1]]
+            step_all = None
+            ce = [m for m in range(n0, N + 1) if not Sv[m]]
+        elif kind == 'recurrence':
+            a1, a2 = sp.Symbol('a1', integer=True), sp.Symbol('a2', integer=True)
+            rec = _ind_parse(rec_str, ['n', 'a1', 'a2'])
+            f = _ind_parse(f_str, ['n'])
+            init = [sp.Rational(sp.sympify(v.strip())) for v in (init_str or '').split(',') if v.strip()]
+            bases = int(bases_str)
+            if len(init) != 2 or bases not in (1, 2):
+                raise ValueError('two initial values; bases 1 or 2')
+            base = (init[0] == f.subs(n, n0)) and bases == 2 and (init[1] == f.subs(n, n0 + 1))
+            step_all = sp.simplify(f.subs(n, k + 1) - rec.subs({a1: f.subs(n, k), a2: f.subs(n, k - 1), n: k + 1})) == 0
+            fails = [m for m in range(n0 + 1, N) if sp.simplify(f.subs(n, m + 1) - rec.subs({a1: f.subs(n, m), a2: f.subs(n, m - 1), n: m + 1})) != 0]
+            a, ce = [], []
+            for idx, m in enumerate(range(n0, N + 1)):
+                v = init[idx] if idx < 2 else sp.nsimplify(rec.subs({a1: a[-1], a2: a[-2], n: m}))
+                a.append(v)
+                if v != f.subs(n, m):
+                    ce.append(m)
+        else:
+            raise ValueError(f'unknown kind {kind!r}')
+        step = not fails
+        res.update(base=bool(base), step=step, stepForAllK=step_all, stepFailK=fails[0] if fails else None, counterexamples=len(ce),
+                   firstCounterexample=ce[0] if ce else None, verdict='holds' if not ce else 'fails',
+                   blockedAct=None if base and step else ('base' if not base else 'step'), provenance='proved' if not ce else 'refuted')
+        res['note'] = (f'step {"proved for every k (an identity in k)" if step_all else "checked on k < N" if step_all is None else "NOT an identity in k"}; '
+                       + (f'S(n) checked for n = {n0}..{N}' if not ce else f'{len(ce)} counterexamples, first n = {ce[0]}'))
+        return res
+    except Exception as e:  # abstain, never guess
+        return {'id': 'induction', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {e}'}
+
+
+# ── 8.5 relations: properties by SymPy integer-matrix algebra; classes by sympy's connected_components; closure by matrix powers ────────
+def _rel_matrix(A_str, pairs_str):
+    A = [int(v) for v in (A_str or '').split(',') if v.strip()]
+    if not A or len(A) > 16 or len(set(A)) != len(A):
+        raise ValueError('a set of 1 to 16 distinct integers')
+    idx = {a: i for i, a in enumerate(A)}
+    n = len(A)
+    M = sp.zeros(n, n)
+    for p in (pairs_str or '').split(','):
+        if p.strip():
+            a, b = _rel_re.fullmatch(r'\\s*(-?\\d+)-(-?\\d+)\\s*', p).groups()
+            M[idx[int(a)], idx[int(b)]] = 1
+    return A, M
+
+
+import re as _rel_re
+
+
+def _rel_bool(M):
+    return M.applyfunc(lambda v: 1 if v != 0 else 0)
+
+
+def analyse_relations(task, A_str, pairs_str):
+    """8.5 the exact side of a relation on a finite set, by integer-matrix algebra (a route independent of the module's pair loops).
+    Flat result: { id, provenance, task, verdict, blockedAct, reflexive, symmetric, antisymmetric, transitive, classes, covers, closureAdded, note }.
+      reflexive: every diagonal entry is 1; symmetric: M = M^T; antisymmetric: M o M^T (entrywise) has nothing off the diagonal;
+      transitive: every nonzero entry of M^2 is already in M.  Equivalence classes: the connected components of the graph of R
+      (sympy.utilities.iterables.connected_components) — equal to the classes exactly when R is an equivalence. Transitive closure:
+      the support of M + M^2 + ... + M^n. Every verdict is exact (proved / refuted); bad input abstains (unknown)."""
+    try:
+        if task not in ('equivalence', 'order', 'closure'):
+            raise ValueError(f'unknown task {task!r}')
+        A, M = _rel_matrix(A_str, pairs_str)
+        n = len(A)
+        MT = M.T
+        M2 = _rel_bool(M * M)
+        props = {
+            'reflexive': all(M[i, i] == 1 for i in range(n)),
+            'symmetric': M == MT,
+            'antisymmetric': all(M[i, j] * MT[i, j] == 0 for i in range(n) for j in range(n) if i != j),
+            'transitive': all(M2[i, j] <= M[i, j] for i in range(n) for j in range(n)),
+        }
+        res = {'id': 'relations', 'task': task, **props}
+        P = sp.zeros(n, n)
+        Pk = sp.eye(n)
+        for _ in range(n):
+            Pk = _rel_bool(Pk * M)
+            P = _rel_bool(P + Pk)
+        res['closureAdded'] = int(sum(1 for i in range(n) for j in range(n) if P[i, j] and not M[i, j]))
+        if task == 'closure':
+            res.update(verdict='holds', blockedAct=None, provenance='proved',
+                       note=f'the transitive closure (support of M + ... + M^{n}) adds {res["closureAdded"]} pairs')
+            return res
+        hyps = ['reflexive', 'symmetric', 'transitive'] if task == 'equivalence' else ['reflexive', 'antisymmetric', 'transitive']
+        blocked = next((h for h in hyps if not props[h]), None)
+        if task == 'equivalence':
+            from sympy.utilities.iterables import connected_components
+            comps = connected_components((list(range(n)), [(i, j) for i in range(n) for j in range(n) if M[i, j] and i != j]))
+            # with all three properties the components are the classes; the conclusion: same component <=> related
+            same = all((M[i, j] == 1) == any(i in c and j in c for c in comps) for i in range(n) for j in range(n))
+            res['classes'] = len(comps)
+            ok = same
+        else:
+            lt = [(i, j) for i in range(n) for j in range(n) if i != j and M[i, j]]
+            ltset = set(lt)
+            covers = [(i, j) for i, j in lt if not any((i, k) in ltset and (k, j) in ltset for k in range(n))]
+            C = sp.eye(n)
+            for i, j in covers:
+                C[i, j] = 1
+            Q = sp.eye(n)
+            for _ in range(n):
+                Q = _rel_bool(Q * C + sp.eye(n))
+            res['covers'] = len(covers)
+            ok = Q == M
+        res.update(verdict='holds' if ok else 'fails', blockedAct=blocked, provenance='proved' if ok else 'refuted',
+                   note=f'properties: {", ".join(h for h in props if props[h]) or "none"}; ' + (f'{res.get("classes")} classes' if task == 'equivalence' else f'{res.get("covers")} covering pairs'))
+        return res
+    except Exception as e:  # abstain, never guess
+        return {'id': 'relations', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {e}'}
+
+
+
+
+# ── 8.6 pigeonhole: fibres counted with exact binomials; the bound by sp.ceiling(|D|/|C|) ─────────────────────────────────────────────
+def analyse_pigeonhole(D_str, C_str, table_str):
+    """8.6 the exact side of the pigeonhole principle for a finite function given as its table.
+    Flat result: { id, provenance, verdict, blockedAct, isFunction, injective, surjective, collisions, bound, maxFibre, note }.
+    The fibres f^-1(y) are counted; collisions = sum of binomial(|fibre|, 2) (sp.binomial — a count, not a list); the generalised bound is
+    sp.ceiling(Rational(|D|, |C|)) and must not exceed the fullest fibre. Exact throughout: proved when two inputs collide, refuted otherwise;
+    bad input abstains (unknown)."""
+    try:
+        D = [int(v) for v in (D_str or '').split(',') if v.strip()]
+        C = [int(v) for v in (C_str or '').split(',') if v.strip()]
+        if not D or not C or len(D) > 64 or len(C) > 64 or len(set(D)) != len(D) or len(set(C)) != len(C):
+            raise ValueError('D and C: 1 to 64 distinct integers')
+        img = {}
+        for p in (table_str or '').split(','):
+            if p.strip():
+                m = _rel_re.fullmatch(r'\\s*(-?\\d+)-(-?\\d+)\\s*', p)
+                if not m:
+                    raise ValueError(f'bad table entry {p!r}')
+                img.setdefault(int(m.group(1)), []).append(int(m.group(2)))
+        if any(x not in D for x in img):
+            raise ValueError('a table entry outside D')
+        is_fn = all(len(img.get(x, [])) == 1 and img[x][0] in C for x in D)
+        bound = int(sp.ceiling(sp.Rational(len(D), len(C))))
+        res = {'id': 'pigeonhole', 'isFunction': is_fn, 'bound': bound, 'bigger': len(D) > len(C)}
+        if not is_fn:
+            res.update(verdict='injective', blockedAct='isFunction', provenance='refuted', collisions=0, injective=False, surjective=False, maxFibre=None,
+                       note='not a function into C: some input has no image, two images, or an image outside C')
+            return res
+        fib = {y: sum(1 for x in D if img[x][0] == y) for y in C}
+        coll = int(sum(sp.binomial(c, 2) for c in fib.values()))
+        mx = max(fib.values())
+        if mx < bound:
+            raise ValueError('the counting bound is violated — impossible')
+        res.update(collisions=coll, maxFibre=mx, injective=coll == 0, surjective=all(c > 0 for c in fib.values()),
+                   verdict='collision' if coll else 'injective', blockedAct=None if len(D) > len(C) else 'bigger',
+                   provenance='proved' if coll else 'refuted',
+                   note=f'{coll} colliding pairs; the fullest image has {mx} preimages (bound ceiling({len(D)}/{len(C)}) = {bound})')
+        return res
+    except Exception as e:  # abstain, never guess
+        return {'id': 'pigeonhole', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {e}'}
+
+
+# ── 8.7 inclexcl: inclusion–exclusion on explicit FiniteSets, derangements by sp.subfactorial, binomial identities by sp.binomial / sp.expand ──────
+def analyse_inclexcl(task, U_str, sets_str, order, n, identity, n0, N, x, y, r):
+    """8.7 the exact side of inclusion–exclusion, derangements and the binomial identities.
+    Flat result: { id, provenance, verdict, blockedAct, union, formula, complement, rows, firstFail, note }.
+    union    — the sets arrive as explicit member lists; |∪| from sp.Union of FiniteSets, the kept terms (orders 1..order) from sp.Intersection over
+               itertools.combinations. verdict exact | over | under; blockedAct 'allTerms' when order < number of sets.
+    derange  — D_n = sp.subfactorial(n); |∪ F_i| = n! − D_n; the kept terms Σ_{j ≤ order} (−1)^{j+1} C(n, j)(n − j)!.
+    pascal   — the identity checked for n = n0..N with sp.binomial (the binomial theorem as a polynomial identity in symbols X, Y by sp.expand, then at
+               x, y); blockedAct 'range' when n0 is below the stated range. A bounded check: proved means "exact for every n checked".
+    Exact throughout; bad input abstains (unknown)."""
+    import itertools as _iex_it
+    try:
+        task = str(task)
+        if task in ('union', 'derange'):
+            k = int(order)
+            if task == 'union':
+                m = _rel_re.fullmatch(r'\\s*(-?\\d+)\\.\\.(-?\\d+)\\s*', str(U_str or ''))
+                if not m:
+                    raise ValueError('U is a..b')
+                a, b = int(m.group(1)), int(m.group(2))
+                if b < a or b - a + 1 > 2000:
+                    raise ValueError('U: 1 to 2000 elements')
+                parts = str(sets_str).split(';')
+                if not 1 <= len(parts) <= 5:
+                    raise ValueError('1 to 5 sets')
+                S = [sp.FiniteSet(*[sp.Integer(int(v)) for v in p.split(',') if v.strip()]) for p in parts]
+                if any(not (a <= int(e) <= b) for s in S for e in s):
+                    raise ValueError('a member outside U')
+                nS = len(S)
+                if not 1 <= k <= nS:
+                    raise ValueError('order out of range')
+                union = len(sp.Union(*S)) if nS > 1 else len(S[0])
+                formula = 0
+                for j in range(1, k + 1):
+                    for c in _iex_it.combinations(S, j):
+                        inter = c[0] if j == 1 else sp.Intersection(*c)
+                        formula += (-1) ** (j + 1) * len(inter)
+                complement = (b - a + 1) - union
+            else:
+                nn = int(n)
+                if not 1 <= nn <= 8 or not 1 <= k <= nn:
+                    raise ValueError('n: 1 to 8, order: 1 to n')
+                nS = nn
+                d = int(sp.subfactorial(nn))
+                union = int(sp.factorial(nn)) - d
+                formula = int(sum((-1) ** (j + 1) * sp.binomial(nn, j) * sp.factorial(nn - j) for j in range(1, k + 1)))
+                complement = d
+            verdict = 'exact' if formula == union else ('over' if formula > union else 'under')
+            return {'id': 'inclexcl', 'provenance': 'proved' if verdict == 'exact' else 'refuted', 'verdict': verdict,
+                    'blockedAct': None if k == nS else 'allTerms', 'union': int(union), 'formula': int(formula), 'complement': int(complement),
+                    'rows': None, 'firstFail': None,
+                    'note': f'kept orders 1..{k} of {nS}: sum {formula}, direct count {union}' + (f'; D_{n} = subfactorial({n}) = {complement}' if task == 'derange' else '')}
+        if task != 'pascal':
+            raise ValueError('task: union, derange or pascal')
+        n0, N, x, y, r = int(n0), int(N), int(x), int(y), int(r)
+        if not (0 <= n0 <= N <= 30) or not (-9 <= x <= 9 and -9 <= y <= 9) or not 0 <= r <= 30:
+            raise ValueError('0 <= n0 <= N <= 30, |x|, |y| <= 9, 0 <= r <= 30')
+        mins = {'rowsum': 0, 'alt': 1, 'pascal': 1, 'binomial': 0, 'hockey': r}
+        if identity not in mins:
+            raise ValueError('unknown identity')
+        B = sp.binomial
+        X, Y = sp.symbols('X Y')
+        first = None
+        for nv in range(n0, N + 1):
+            if identity == 'rowsum':
+                ok = sum(B(nv, kk) for kk in range(nv + 1)) == 2 ** nv
+            elif identity == 'alt':
+                ok = sum((-1) ** kk * B(nv, kk) for kk in range(nv + 1)) == 0
+            elif identity == 'pascal':
+                ok = all(B(nv, kk) == B(nv - 1, kk - 1) + B(nv - 1, kk) for kk in range(nv + 1))
+            elif identity == 'binomial':
+                poly = sp.expand((X + Y) ** nv - sum(B(nv, kk) * X ** kk * Y ** (nv - kk) for kk in range(nv + 1)))
+                ok = poly == 0 and ((x + y) ** nv == sum(B(nv, kk) * x ** kk * y ** (nv - kk) for kk in range(nv + 1)))
+            else:
+                ok = sum(B(i, r) for i in range(r, nv + 1)) == B(nv + 1, r + 1)
+            if not ok and first is None:
+                first = nv
+        holds = first is None
+        return {'id': 'inclexcl', 'provenance': 'proved' if holds else 'refuted', 'verdict': 'exact' if holds else 'fails',
+                'blockedAct': None if n0 >= mins[identity] else 'range', 'union': None, 'formula': None, 'complement': None,
+                'rows': N - n0 + 1, 'firstFail': first,
+                'note': (f'checked exactly for n = {n0}..{N} (a bounded check, not a proof for all n)' if holds else f'fails at n = {first}')}
+    except Exception as e:  # abstain, never guess
+        return {'id': 'inclexcl', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {e}'}
+
+
+def analyse_recurrence(task, order, c1, c2, a0, a1, k, s, form, N, a, b, c, d, e, t1, K):
+    """8.8 recurrence relations — the exact side.
+    Flat result: { id, provenance, task, kind, verdict, blockedAct, firstFail, aN, stepIdentity, rsolveAgrees, closedForm, caseNo, TK, limit, note }.
+    linear — a_n = c1 a_{n-1} + c2 a_{n-2} + k s^n (order 1: c2 = 0). Roots from sp.roots of x^2 - c1 x - c2 (with multiplicities); the trial form
+             'match' uses (A + Bn) r^n for a double root and alpha n^m s^n for a forcing base of multiplicity m, 'plain' never adds the factor n.
+             The closed form (exact radicals / I) is compared with exact iteration for n = 0..N; when it is exact, its substitution into the recurrence
+             with a SYMBOLIC n simplifies to 0 (stepIdentity: a proof for every n, with the bases). sp.rsolve with the initial values is an independent
+             route (rsolveAgrees, checked for n <= 12). verdict exact | fails | noFit; blockedAct 'form' when the plain trial ignores a multiplicity.
+    divide — T(n) = a T(n/b) + c n^d (log_b n)^e at n = b^k, T(1) = t1. T_k by recursion; the recursion tree's level sum by sp.summation in a symbolic
+             k (equal to T_k for k <= K); the class from a vs b^d, and the EXACT limit of T/g as k -> oo by sp.limit — for e = 1 too, where the JS tier
+             only has numeric evidence (SymPy decides more here). verdict theta | wrong; blockedAct 'pure' when e = 1.
+    Exact throughout; bad input or a SymPy failure abstains (unknown)."""
+    try:
+        task = str(task)
+        if task == 'linear':
+            order = int(order)
+            if order not in (1, 2):
+                raise ValueError('order must be 1 or 2')
+            c1, c2, a0, a1, k, s = (sp.Rational(str(v)) for v in (c1, c2, a0, a1, k, s))
+            if order == 1:
+                c2, a1 = sp.Integer(0), sp.Integer(0)
+            if (order == 1 and c1 == 0) or (order == 2 and c2 == 0) or (k != 0 and s == 0):
+                raise ValueError('degenerate coefficients')
+            N = int(N)
+            if not (order <= N <= 60):
+                raise ValueError('N out of range')
+            form = 'plain' if str(form) == 'plain' else 'match'
+            x = sp.Symbol('x')
+            nn = sp.Symbol('n', integer=True, nonnegative=True)
+            charp = x ** 2 - c1 * x - c2 if order == 2 else x - c1
+            rts = sp.roots(sp.Poly(charp, x))
+            if order == 1:
+                kind = 'single'
+            else:
+                D = c1 ** 2 + 4 * c2
+                kind = 'repeated' if D == 0 else 'complex' if D < 0 else ('rational' if sp.sqrt(D).is_rational else 'irrational')
+            seq = [a0] + ([a1] if order == 2 else [])
+            for m in range(order, N + 1):
+                seq.append(c1 * seq[m - 1] + (c2 * seq[m - 2] if order == 2 else 0) + k * s ** m)
+            mult_s = rts.get(s, 0) if k != 0 else 0
+            repeated = any(mu == 2 for mu in rts.values())
+            form_ok = form == 'match' or (not repeated and mult_s == 0)
+            m_used = mult_s if form == 'match' else 0
+            al = sp.Symbol('alpha')
+            part = sp.Integer(0)
+            no_fit = False
+            if k != 0:
+                trial = al * nn ** m_used * s ** nn
+                lhs = sp.simplify((trial - c1 * trial.subs(nn, nn - 1) - c2 * trial.subs(nn, nn - 2) - k * s ** nn) / s ** nn)
+                sol = sp.solve(sp.Eq(lhs, 0), al)
+                if not sol:
+                    no_fit = True
+                else:
+                    part = trial.subs(al, sol[0])
+            if no_fit:
+                return {'id': 'recurrence', 'provenance': 'refuted', 'task': 'linear', 'kind': kind, 'verdict': 'noFit', 'blockedAct': None if form_ok else 'form',
+                        'firstFail': 0, 'aN': str(seq[N]), 'stepIdentity': False, 'rsolveAgrees': None, 'closedForm': None,
+                        'note': f'the trial alpha*{s}^n gives 0*alpha = {k}: no particular solution of that form'}
+            A, B = sp.symbols('A B')
+            roots = sorted(rts.keys(), key=sp.default_sort_key)
+            if order == 1:
+                hom = A * roots[0] ** nn
+            elif repeated:
+                r = roots[0]
+                hom = (A + B * nn) * r ** nn if form == 'match' else A * r ** nn
+            else:
+                hom = A * roots[0] ** nn + B * roots[1] ** nn
+            gen = hom + part
+            unknowns = [u for u in (A, B) if gen.has(u)]
+            eqs = [sp.Eq(gen.subs(nn, i), seq[i]) for i in range(len(unknowns))]
+            csol = sp.solve(eqs, unknowns, dict=True)
+            if not csol:
+                raise ValueError('constants not solvable')
+            cf = sp.simplify(gen.subs(csol[0]))
+            first = None
+            for m in range(N + 1):
+                if sp.simplify(sp.expand(cf.subs(nn, m)) - seq[m]) != 0:
+                    first = m
+                    break
+            exact = first is None
+            step = exact and sp.simplify(sp.expand(cf - c1 * cf.subs(nn, nn - 1) - c2 * cf.subs(nn, nn - 2) - k * s ** nn)) == 0
+            rs_ok = None
+            try:
+                af = sp.Function('a')
+                ini = {af(0): a0}
+                if order == 2:
+                    ini[af(1)] = a1
+                rs = sp.rsolve(af(nn) - c1 * af(nn - 1) - c2 * af(nn - 2) - k * s ** nn, af(nn), ini)
+                rs_ok = rs is not None and all(sp.simplify(sp.expand(rs.subs(nn, m)) - seq[m]) == 0 for m in range(min(N, 12) + 1))
+            except Exception:
+                rs_ok = None
+            return {'id': 'recurrence', 'provenance': 'proved' if exact else 'refuted', 'task': 'linear', 'kind': kind, 'verdict': 'exact' if exact else 'fails',
+                    'blockedAct': None if form_ok else 'form', 'firstFail': first, 'aN': str(seq[N]), 'stepIdentity': bool(step), 'rsolveAgrees': rs_ok,
+                    'closedForm': str(cf), 'note': (f'a_n = {cf}, exact for n = 0..{N} and for every n (the step simplifies to 0)' if step else
+                                                    f'exact for n = 0..{N}' if exact else f'the closed form {cf} misses the iteration at n = {first}')}
+        if task == 'divide':
+            a, b, d, e, K = int(a), int(b), int(d), int(e), int(K)
+            c, t1 = sp.Rational(str(c)), sp.Rational(str(t1))
+            if not (1 <= a <= 16 and 2 <= b <= 10 and 0 <= d <= 3 and e in (0, 1) and 4 <= K <= 40 and c > 0 and t1 > 0):
+                raise ValueError('parameters out of range')
+            T = [t1]
+            for kk in range(1, K + 1):
+                T.append(a * T[-1] + c * sp.Integer(b) ** (d * kk) * (kk if e else 1))
+            kk, j = sp.symbols('k j', integer=True, positive=True)
+            tree = sp.Integer(a) ** kk * t1 + sp.summation(sp.Integer(a) ** j * c * sp.Integer(b) ** (d * (kk - j)) * (kk - j) ** e, (j, 0, kk - 1))
+            tree_ok = all(sp.simplify(tree.subs(kk, m) - T[m]) == 0 for m in range(1, K + 1))
+            bd = b ** d
+            case_no = 1 if a > bd else 2 if a == bd else 3
+            g = sp.Integer(a) ** kk if case_no == 1 else sp.Integer(b) ** (d * kk) * kk if case_no == 2 else sp.Integer(b) ** (d * kk)
+            lim = sp.limit(sp.simplify(tree / g), kk, sp.oo)
+            theta = lim.is_finite and lim.is_positive
+            return {'id': 'recurrence', 'provenance': 'proved' if (theta and tree_ok) else 'refuted', 'task': 'divide', 'caseNo': case_no,
+                    'verdict': 'theta' if theta else 'wrong', 'blockedAct': None if e == 0 else 'pure', 'TK': str(T[K]), 'limit': str(lim), 'treeAgrees': bool(tree_ok),
+                    'note': f'T/g -> {lim} as k -> oo (exact limit of the level sum)'}
+        raise ValueError('unknown task')
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'recurrence', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_genfunc(task, rule, M, k, order, c1, c2, a0, a1, x, N):
+    """8.9 generating functions — the exact side.
+    Flat result: { id, provenance, task, verdict, blockedAct, coef, value, R, naiveR, note }.
+    partition — the coefficient of x^M in the product of 1/(1 - x^c) (or 1 + x^c for distinct parts) by truncated sp.Poly multiplication; for 'all' it must
+                equal sp.npartitions(M), for 'odd'/'distinct' the other product (Euler's theorem). verdict exact | fails; no breakable hypothesis.
+    series    — A(x) = P(x)/Q(x) from a_n = c1 a_{n-1} + c2 a_{n-2}: sp.cancel removes common factors, the poles of the reduced fraction give the TRUE radius R,
+                the roots of Q's reversal the naive radius; the series converges at the rational x iff |x| < R (exact comparison of algebraic numbers), to
+                P(x)/Q(x). blockedAct 'radius' when |x| >= the naive radius. verdict converges | diverges.
+    Exact throughout; bad input abstains (unknown)."""
+    try:
+        task = str(task)
+        X = sp.Symbol('x')
+        if task == 'partition':
+            M, k = int(M), int(k)
+            if not (0 <= M <= 400 and 1 <= k <= 400) or rule not in ('all', 'odd', 'distinct', 'atmost'):
+                raise ValueError('bad partition input')
+
+            def prod_coef(r):
+                parts = [c for c in range(1, M + 1) if (r != 'odd' or c % 2 == 1) and (r != 'atmost' or c <= k)]
+                poly = sp.Poly(1, X)
+                for c in parts:
+                    fac = sp.Poly(1 + X ** c, X) if r == 'distinct' else sp.Poly(sum(X ** (c * j) for j in range(M // c + 1)), X)
+                    poly = sp.Poly(sum(cf * X ** e[0] for e, cf in (poly * fac).terms() if e[0] <= M), X)
+                return int(poly.coeff_monomial(X ** M)) if M > 0 else int(poly.coeff_monomial(1))
+            coef = prod_coef(rule)
+            if rule == 'all':
+                other = int(sp.functions.combinatorial.numbers.partition(M))
+            elif rule in ('odd', 'distinct'):
+                other = prod_coef('distinct' if rule == 'odd' else 'odd')
+            else:
+                other = coef
+            ok = coef == other
+            return {'id': 'genfunc', 'provenance': 'proved' if ok else 'refuted', 'task': 'partition', 'verdict': 'exact' if ok else 'fails', 'blockedAct': None,
+                    'coef': str(coef), 'value': None, 'R': None, 'naiveR': None, 'note': f'[x^{M}] = {coef}' + (f'; the second route gives {other}' if rule != 'atmost' else '')}
+        if task == 'series':
+            order, N = int(order), int(N)
+            if order not in (1, 2):
+                raise ValueError('order must be 1 or 2')
+            c1, c2, a0, a1, xv = (sp.Rational(str(v)) for v in (c1, c2, a0, a1, x))
+            if order == 1:
+                c2, a1 = sp.Integer(0), sp.Integer(0)
+            if (order == 1 and c1 == 0) or (order == 2 and c2 == 0):
+                raise ValueError('degenerate coefficients')
+            Qx = 1 - c1 * X - c2 * X ** 2
+            seq = [a0] + ([a1] if order == 2 else [])
+            P = sp.expand(sum(seq[i] * X ** i for i in range(order)) * Qx)
+            P = sum(P.coeff(X, i) * X ** i for i in range(order))
+            A = sp.cancel(P / Qx)
+            num, den = sp.fraction(A)
+            pole_mods = [sp.Abs(r) for r in sp.roots(sp.Poly(den, X)).keys()] if sp.degree(den, X) > 0 else []
+            naive_mods = [sp.Abs(r) for r in sp.roots(sp.Poly(Qx, X)).keys()]
+            R = sp.Min(*pole_mods) if pole_mods else sp.oo
+            R0 = sp.Min(*naive_mods)
+            ax = sp.Abs(xv)
+            converges = bool(sp.simplify(ax - R) < 0) if R != sp.oo else True
+            inside_naive = bool(sp.simplify(ax - R0) < 0)
+            Qv = Qx.subs(X, xv)
+            value = None if Qv == 0 else sp.nsimplify(P.subs(X, xv) / Qv)
+            return {'id': 'genfunc', 'provenance': 'proved' if converges else 'refuted', 'task': 'series', 'verdict': 'converges' if converges else 'diverges',
+                    'blockedAct': None if inside_naive else 'radius', 'coef': None, 'value': None if value is None else str(value),
+                    'R': 'inf' if R == sp.oo else f'{float(R):.4g}', 'naiveR': f'{float(R0):.4g}',
+                    'note': f'A(x) = {A}; true radius {R}, naive {R0}; ' + (f'the series converges to {value}' if converges else 'the series diverges at this x')}
+        raise ValueError('unknown task')
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'genfunc', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_bigo(f, g, rel):
+    """8.10 big-O — the exact side.
+    Flat result: { id, provenance, verdict, blockedAct, U, D, limit, note } with U, D the classes ('0' | 'finite' | 'inf') of lim sup and lim inf of f/g.
+    lim f/g as n -> oo by sp.limit (n a positive integer symbol). When it does not exist (sp.limit raises, or returns AccumBounds — e.g. a factor (-1)**n),
+    the even and odd subsequences n = 2m and n = 2m + 1 are taken separately (with (-1)**(2m) = 1, (-1)**(2m+1) = -1); their limits bound the ratio.
+    f in O(g) iff lim sup < oo, Omega(g) iff lim inf > 0, Theta both. blockedAct 'limit' when the limit does not exist. Exact; bad input abstains."""
+    try:
+        rel = str(rel)
+        if rel not in ('O', 'Omega', 'Theta'):
+            raise ValueError('rel must be O, Omega or Theta')
+        n = sp.Symbol('n', integer=True, positive=True)
+        m = sp.Symbol('m', integer=True, positive=True)
+        loc = {'n': n, 'Rational': lambda s: sp.Rational(str(s)), 'log': sp.log, 'sqrt': sp.sqrt, 'factorial': sp.factorial, 'exp': sp.exp}
+        F, G = sp.sympify(str(f), locals=loc), sp.sympify(str(g), locals=loc)
+        if F.free_symbols - {n} or G.free_symbols - {n}:
+            raise ValueError('only n may appear')
+        r = F / G
+
+        def cls(v):
+            if v == sp.oo:
+                return 'inf'
+            if v == 0:
+                return '0'
+            if v.is_finite and v.is_positive:
+                return 'finite'
+            raise ValueError(f'unexpected limit {v}')
+        L = None
+        try:
+            L = sp.limit(r, n, sp.oo)
+            if isinstance(L, sp.AccumBounds) or L.has(sp.AccumBounds) or not (L == sp.oo or L.is_finite):
+                L = None
+        except Exception:
+            L = None
+        if L is not None:
+            U = D = cls(L)
+            exists = True
+        else:
+            ev = sp.limit(sp.simplify(r.subs(n, 2 * m).subs((-1) ** (2 * m), 1)), m, sp.oo)
+            od = sp.limit(sp.simplify(r.subs(n, 2 * m + 1).subs((-1) ** (2 * m + 1), -1)), m, sp.oo)
+            ce, co = cls(ev), cls(od)
+            order = {'0': 0, 'finite': 1, 'inf': 2}
+            U, D = (ce, co) if order[ce] >= order[co] else (co, ce)
+            exists = ce == co and (ce != 'finite' or sp.simplify(ev - od) == 0)
+            L = sp.Tuple(ev, od)
+        isO, isOm = U != 'inf', D != '0'
+        holds = isO if rel == 'O' else isOm if rel == 'Omega' else (isO and isOm)
+        return {'id': 'bigo', 'provenance': 'proved' if holds else 'refuted', 'verdict': 'holds' if holds else 'fails', 'blockedAct': None if exists else 'limit',
+                'U': U, 'D': D, 'limit': str(L),
+                'note': (f'lim f/g = {L}' if exists else f'no limit: along even and odd n the ratio tends to {L[0]} and {L[1]}') + f'; f is {"" if holds else "not "}in {rel}(g)'}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'bigo', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_modular(a, b, m):
+    """8.11 the linear congruence a*x = b (mod m) — the exact side.
+    Flat result: { id, provenance, verdict, blockedAct, g, count, first, steps, note }.
+    g = sp.igcd(a mod m, m); solvable iff g | b; the solutions come from sp.mod_inverse of (a/g) modulo m/g (or every residue when a = 0 = b mod m).
+    Euclid's step count is recounted here with plain division. Exact; bad input abstains (unknown)."""
+    try:
+        a, b, m = int(str(a)), int(str(b)), int(str(m))
+        if m < 1:
+            raise ValueError('m must be at least 1')
+        ar, br = a % m, b % m
+        g = sp.igcd(ar, m)
+        u, v, steps = m, ar, 0
+        while v:
+            u, v = v, u % v
+            steps += 1
+        if br % g != 0:
+            return {'id': 'modular', 'provenance': 'refuted', 'verdict': 'none', 'blockedAct': 'divides', 'g': str(g), 'count': '0', 'first': None, 'steps': steps,
+                    'note': f'gcd({ar}, {m}) = {g} does not divide {br}: no solution'}
+        mg = m // g
+        x0 = 0 if mg == 1 else (sp.mod_inverse(ar // g, mg) * (br // g)) % mg
+        assert (ar * x0 - br) % m == 0
+        return {'id': 'modular', 'provenance': 'proved', 'verdict': 'solvable', 'blockedAct': None, 'g': str(g), 'count': str(g), 'first': str(x0), 'steps': steps,
+                'note': f'x = {x0} + k*{mg} (mod {m}), k = 0..{g - 1}'}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'modular', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_rsa(p, q, e, M):
+    """8.12 toy RSA — the exact side.
+    Flat result: { id, provenance, verdict, blockedAct, d, C, allFail, note }.
+    H1 sp.isprime(p), sp.isprime(q), p != q; H2 gcd(e, (p-1)(q-1)) = 1 with d = sp.mod_inverse(e, phi); H3 0 <= M < n. C = pow(M, e, n); for n <= 20000 every
+    message is round-tripped (allFail counts failures), and the count is cross-checked against the criterion "n squarefree and reduced_totient(n) | e*d - 1".
+    Exact; bad input abstains (unknown)."""
+    try:
+        p, q, e, M = int(str(p)), int(str(q)), int(str(e)), int(str(M))
+        if p < 2 or q < 2 or e < 2 or M < 0:
+            raise ValueError('p, q, e at least 2; M at least 0')
+        n, phi = p * q, (p - 1) * (q - 1)
+        primes = bool(sp.isprime(p) and sp.isprime(q) and p != q)
+        if sp.igcd(e, phi) != 1:
+            return {'id': 'rsa', 'provenance': 'refuted', 'verdict': 'noKey', 'blockedAct': 'primes' if not primes else 'coprime', 'd': None, 'C': None, 'allFail': None,
+                    'note': f'gcd({e}, {phi}) = {sp.igcd(e, phi)}: no private exponent'}
+        d = int(sp.mod_inverse(e, phi))
+        C = pow(M, e, n)
+        okM = pow(C, d, n) == M
+        allf = None
+        if n <= 20000:
+            allf = sum(1 for m in range(n) if pow(pow(m, e, n), d, n) != m)
+            sqfree = all(k == 1 for k in sp.factorint(n).values())
+            assert (allf == 0) == (sqfree and (e * d - 1) % int(sp.reduced_totient(n)) == 0)
+        works = okM and (allf is None or allf == 0)
+        blocked = None if primes else 'primes'
+        if blocked is None and M >= n:
+            blocked = 'range'
+        return {'id': 'rsa', 'provenance': 'proved' if works else 'refuted', 'verdict': 'works' if works else 'fails', 'blockedAct': blocked, 'd': str(d), 'C': str(C),
+                'allFail': None if allf is None else str(allf), 'note': f'd = {d}, C = {C}, decrypts to {pow(C, d, n)}' + ('' if allf is None else f'; {allf} of {n} messages fail')}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'rsa', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_graphbasics(n, edges, claim):
+    """8.13 Euler circuits and paths — the exact side.
+    Flat result: { id, provenance, verdict, blockedAct, odd, components, count, hamCycle, note }.
+    The degrees are the row sums of the adjacency matrix (a loop counts 2); connectivity is read EXACTLY from the rank of the graph Laplacian L = D - A
+    (number of components = n - rank L, over the rationals — no search), both for the whole graph (H1) and for the vertices that carry edges (what Euler's
+    theorem really needs). H2: 0 odd vertices for a circuit, 0 or 2 for a path. Independently, the Euler trails are COUNTED by a memoised recursion over
+    (vertex, set of used edges) when |E| <= 14, and must agree with the theorem; a Hamiltonian cycle is searched over vertex permutations when n <= 8.
+    Exact; bad input abstains (unknown)."""
+    try:
+        n = int(str(n))
+        if n < 1 or n > 16:
+            raise ValueError('1 to 16 vertices')
+        claim = str(claim)
+        if claim not in ('circuit', 'path'):
+            raise ValueError('claim is circuit or path')
+        E = []
+        for tok in [t for t in str(edges).split(',') if t.strip()]:
+            a, b = (int(x) for x in tok.strip().split('-'))
+            if not (0 <= a < n and 0 <= b < n):
+                raise ValueError(f'edge {tok} out of range')
+            E.append((a, b))
+        m = len(E)
+        A = sp.zeros(n, n)
+        for a, b in E:
+            if a == b:
+                A[a, a] += 2
+            else:
+                A[a, b] += 1
+                A[b, a] += 1
+        deg = [sum(A.row(i)) for i in range(n)]
+        assert sum(deg) == 2 * m                                                           # the handshake lemma
+        odd = [i for i in range(n) if deg[i] % 2]
+        Lap = sp.diag(*deg) - A
+        comps = n - Lap.rank()
+        busy = [i for i in range(n) if deg[i] > 0]
+        busy_comps = len(busy) - Lap.extract(busy, busy).rank() if busy else 0
+        degrees_ok = len(odd) == 0 if claim == 'circuit' else len(odd) in (0, 2)
+        theorem = busy_comps <= 1 and degrees_ok
+        blocked = 'connected' if comps > 1 else ('degrees' if not degrees_ok else None)
+        count = None
+        if m <= 14:
+            from functools import lru_cache
+            inc = [[i for i, (a, b) in enumerate(E) if v in (a, b)] for v in range(n)]
+            full = (1 << m) - 1
+
+            @lru_cache(maxsize=None)
+            def ways(v, used, start):
+                if used == full:
+                    return 1 if (claim == 'path' or v == start) else 0
+                t = 0
+                for i in inc[v]:
+                    if not used >> i & 1:
+                        a, b = E[i]
+                        t += ways(b if a == v else a, used | 1 << i, start)
+                return t
+            if m == 0:
+                count = 0
+            elif claim == 'circuit':
+                count = ways(E[0][0], 0, E[0][0])
+            else:
+                count = sum(ways(s, 0, s) for s in range(n))
+            assert m == 0 or (count > 0) == theorem, ('theorem and count disagree', count, theorem)
+        exists = m == 0 or theorem
+        ham = None
+        if n <= 8:
+            import itertools
+            adj = [[A[i, j] > 0 and i != j for j in range(n)] for i in range(n)]
+            ham = n == 1 or (n > 2 and any(all(adj[c[i]][c[(i + 1) % n]] for i in range(n)) for c in ((0,) + p for p in itertools.permutations(range(1, n)))))
+        return {'id': 'graphbasics', 'provenance': 'proved' if exists else 'refuted', 'verdict': 'exists' if exists else 'none', 'blockedAct': blocked,
+                'odd': len(odd), 'components': int(comps), 'count': None if count is None else str(count), 'hamCycle': ham,
+                'note': f'{len(odd)} odd vertices, {comps} component(s) (n - rank L)' + ('' if count is None else f'; {count} Euler trails counted')}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'graphbasics', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def _tvl_parse(n, edges):
+    n = int(str(n))
+    if n < 1 or n > 16:
+        raise ValueError('1 to 16 vertices')
+    E = []
+    for tok in [t for t in str(edges).split(',') if t.strip()]:
+        tok = tok.strip()
+        body, w = tok.split(':') if ':' in tok else (tok, '1')
+        directed = '>' in body
+        a, b = (int(x) for x in body.split('>' if directed else '-'))
+        w = int(w)
+        if not (0 <= a < n and 0 <= b < n) or w < 1:
+            raise ValueError(f'edge {tok} out of range')
+        E.append((a, b, sp.Integer(w), directed))
+    return n, E
+
+
+def _tvl_minplus_closure(n, E):
+    """All-pairs least weight by repeated min-plus SQUARING of the one-step matrix (log n squarings) — a different algorithm from Floyd–Warshall."""
+    INF = sp.oo
+    D = [[sp.Integer(0) if i == j else INF for j in range(n)] for i in range(n)]
+    for a, b, w, d in E:
+        D[a][b] = sp.Min(D[a][b], w)
+        if not d:
+            D[b][a] = sp.Min(D[b][a], w)
+    k = 1
+    while k < n:
+        D = [[sp.Min(*[D[i][m] + D[m][j] for m in range(n)]) for j in range(n)] for i in range(n)]
+        k *= 2
+    return D
+
+
+def analyse_traversal(n, edges, start, algo):
+    """8.14 BFS / DFS — the exact side.
+    Flat result: { id, provenance, verdict, blockedAct, order, bipartite, cycle, components, note }.
+    The traversal is re-run (neighbours in index order — the JS printer sends vertices in label order of first appearance, and the JS engine sorts by
+    label, so the index order equals the label order only when labels were introduced alphabetically; the order is therefore reported for the presets,
+    whose labels are), and its tree-path weights are compared with all-pairs least weights by min-plus matrix squaring (not Floyd–Warshall).
+    Structure exactly, by linear algebra: components = n - rank L (L = D - A of the underlying undirected graph); bipartite iff the signless
+    Laplacian Q = D + A has the same nullity as L (nullity Q = number of bipartite components); cycles: undirected, iff |E| > n - components;
+    with any directed edge, iff the arc adjacency matrix (an undirected edge = two arcs) is NOT nilpotent (A^n != 0). Exact; bad input abstains."""
+    try:
+        n, E = _tvl_parse(n, edges)
+        s = int(str(start))
+        algo = str(algo)
+        if not 0 <= s < n or algo not in ('bfs', 'dfs'):
+            raise ValueError('bad start or algorithm')
+        directed = any(d for *_, d in E)
+        out = [[] for _ in range(n)]
+        for i, (a, b, w, d) in enumerate(E):
+            out[a].append((b, w, i))
+            if not d and a != b:
+                out[b].append((a, w, i))
+        for l in out:
+            l.sort(key=lambda t: (t[0], t[2]))
+        treeW = {s: sp.Integer(0)}
+        order = [s]
+        if algo == 'bfs':
+            q = [s]
+            while q:
+                v = q.pop(0)
+                for u, w, _ in out[v]:
+                    if u not in treeW:
+                        treeW[u] = treeW[v] + w
+                        order.append(u)
+                        q.append(u)
+        else:
+            def rec(v):
+                for u, w, _ in out[v]:
+                    if u not in treeW:
+                        treeW[u] = treeW[v] + w
+                        order.append(u)
+                        rec(u)
+            rec(s)
+        D = _tvl_minplus_closure(n, E)
+        reach_ok = all((D[s][v] != sp.oo) == (v in treeW) for v in range(n))
+        agree = reach_ok and all(sp.simplify(treeW[v] - D[s][v]) == 0 for v in order)
+        unit = len({w for _, _, w, _ in E}) <= 1
+        blocked = 'breadth' if algo != 'bfs' else ('unitWeights' if not unit else None)
+        A = sp.zeros(n, n)
+        for a, b, _, _ in E:
+            if a == b:
+                A[a, a] += 2
+            else:
+                A[a, b] += 1
+                A[b, a] += 1
+        deg = [sum(A.row(i)) for i in range(n)]
+        Lap, Q = sp.diag(*deg) - A, sp.diag(*deg) + A
+        comps = n - Lap.rank()
+        bipartite = (n - Q.rank()) == comps
+        if directed:
+            Arc = sp.zeros(n, n)
+            for a, b, _, d in E:
+                Arc[a, b] = 1
+                if not d:
+                    Arc[b, a] = 1
+            cycle = not (Arc ** n).is_zero_matrix
+        else:
+            cycle = len(E) > n - comps
+        if algo == 'bfs' and unit:
+            assert agree, ('BFS on unit weights must agree', order)
+        return {'id': 'traversal', 'provenance': 'proved' if agree else 'refuted', 'verdict': 'agree' if agree else 'differ', 'blockedAct': blocked,
+                'order': ','.join(str(v) for v in order), 'bipartite': bool(bipartite), 'cycle': bool(cycle), 'components': int(comps),
+                'note': f'{len(order)} reached; tree weights {"=" if agree else "differ from"} min-plus closure; {comps} component(s) (n - rank L); '
+                        f'{"bipartite" if bipartite else "not bipartite"} (nullity of D + A); {"a cycle" if cycle else "acyclic"}'}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'traversal', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_dijkstra(n, edges, source):
+    """8.15 Dijkstra against exact shortest distances — the exact side.
+    Flat result: { id, provenance, verdict (agree | wrong | negcycle), blockedAct, order, dist, note }.
+    Exact distances by min-plus matrix squaring (_tvl_minplus_closure, 8.14), never Bellman–Ford; a negative cycle reachable from the source shows as a
+    negative diagonal entry D[c][c] with D[s][c] finite. Dijkstra is re-run here (settled set, relax only unsettled neighbours, ties by index — the presets'
+    labels are introduced alphabetically, so index order = label order) and compared. H1 non-negative weights. Exact integers; bad input abstains."""
+    try:
+        nn = int(str(n))
+        if nn < 1 or nn > 16:
+            raise ValueError('1 to 16 vertices')
+        E = []
+        for tok in [t for t in str(edges).split(',') if t.strip()]:
+            body, w = tok.strip().rsplit(':', 1)
+            d = '>' in body
+            a, b = (int(x) for x in body.split('>' if d else '-'))
+            if not (0 <= a < nn and 0 <= b < nn):
+                raise ValueError(f'edge {tok} out of range')
+            E.append((a, b, sp.Integer(int(w)), d))
+        s = int(str(source))
+        if not 0 <= s < nn:
+            raise ValueError('bad source')
+        D = _tvl_minplus_closure(nn, E)
+        negcycle = any(D[s][c] != sp.oo and D[c][c] < 0 for c in range(nn))
+        out = [[] for _ in range(nn)]
+        for i, (a, b, w, d) in enumerate(E):
+            out[a].append((b, w, i))
+            if not d and a != b:
+                out[b].append((a, w, i))
+        for l in out:
+            l.sort(key=lambda t: (t[0], t[2]))
+        import heapq
+        dist = [sp.oo] * nn
+        dist[s] = sp.Integer(0)
+        done = [False] * nn
+        heap = [(0, s)]
+        order = []
+        while heap:
+            dv, v = heapq.heappop(heap)
+            if done[v] or dv != dist[v]:
+                continue
+            done[v] = True
+            order.append(v)
+            for u, w, _ in out[v]:
+                if not done[u] and dist[v] + w < dist[u]:
+                    dist[u] = dist[v] + w
+                    heapq.heappush(heap, (int(dist[u]), u))
+        nonneg = all(w >= 0 for _, _, w, _ in E)
+        if negcycle:
+            verdict = 'negcycle'
+        else:
+            verdict = 'agree' if all(dist[v] == D[s][v] for v in range(nn)) else 'wrong'
+        if nonneg:
+            assert verdict == 'agree', ('the theorem: non-negative weights', order)
+        return {'id': 'dijkstra', 'provenance': 'proved' if verdict == 'agree' else 'refuted', 'verdict': verdict, 'blockedAct': None if nonneg else 'nonNegative',
+                'order': ','.join(str(v) for v in order), 'dist': None if negcycle else ','.join('oo' if D[s][v] == sp.oo else str(D[s][v]) for v in range(nn)),
+                'note': 'a negative cycle is reachable: no shortest distances (negative diagonal of the min-plus closure)' if negcycle else
+                        f'Dijkstra {"=" if verdict == "agree" else "differs from"} the exact min-plus closure'}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'dijkstra', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_spanning(n, edges):
+    """8.16 spanning trees — the exact side.
+    Flat result: { id, provenance, verdict (unique | tie | forest), blockedAct, weight, trees, minTrees, isTree, note }.
+    Kirchhoff: the number of spanning trees is det of the Laplacian with row and column 0 deleted — sympy's own determinant (Bareiss), not 1.7's cofactor
+    expansion. Connectivity: n - rank L. The minimum weight and how many trees attain it: every (n - 1)-subset of the edges (itertools, m <= 16), each
+    tested for being a tree by rank: n - 1 edges with an incidence submatrix of full rank n - 1 (over the rationals). Kruskal is re-run and must match.
+    isTree: connected with m = n - 1 and no loop. Exact; bad input abstains."""
+    try:
+        import itertools
+        nn = int(str(n))
+        if nn < 1 or nn > 12:
+            raise ValueError('1 to 12 vertices')
+        E = []
+        for tok in [t for t in str(edges).split(',') if t.strip()]:
+            body, w = tok.strip().split(':')
+            a, b = (int(x) for x in body.split('-'))
+            if not (0 <= a < nn and 0 <= b < nn) or int(w) < 1:
+                raise ValueError(f'edge {tok} out of range')
+            E.append((a, b, int(w)))
+        Lap = sp.zeros(nn, nn)
+        for a, b, _ in E:
+            if a != b:
+                Lap[a, a] += 1
+                Lap[b, b] += 1
+                Lap[a, b] -= 1
+                Lap[b, a] -= 1
+        comps = nn - Lap.rank()
+        trees = 1 if nn == 1 else int(Lap[1:, 1:].det())
+        connected = comps == 1
+
+        def _spn_is_tree(es):
+            if any(a == b for a, b, _ in es) or len(es) != nn - 1:
+                return False
+            if nn == 1:
+                return True
+            B = sp.zeros(nn, len(es))
+            for j, (a, b, _) in enumerate(es):
+                B[a, j], B[b, j] = 1, -1
+            return B.rank() == nn - 1
+        weight, min_trees, brute_count = None, None, None
+        if len(E) <= 16:
+            ws = [sum(E[i][2] for i in c) for c in itertools.combinations(range(len(E)), nn - 1) if _spn_is_tree([E[i] for i in c])] if nn > 1 else [0]
+            brute_count = len(ws)
+            assert brute_count == trees, ('Kirchhoff and the subsets disagree', brute_count, trees)
+            if ws:
+                weight = min(ws)
+                min_trees = ws.count(weight)
+        # Kruskal, re-run (edges by weight then index)
+        parent = list(range(nn))
+
+        def _spn_find(x):
+            while parent[x] != x:
+                x = parent[x]
+            return x
+        kw, kcount = 0, 0
+        for i in sorted(range(len(E)), key=lambda i: (E[i][2], i)):
+            a, b, w = E[i]
+            ra, rb = _spn_find(a), _spn_find(b)
+            if ra != rb:
+                parent[ra] = rb
+                kw += w
+                kcount += 1
+        assert kcount == nn - comps
+        if connected and weight is not None:
+            assert kw == weight, ('Kruskal is not minimal', kw, weight)
+        is_tree = connected and len(E) == nn - 1 and not any(a == b for a, b, _ in E)
+        verdict = 'forest' if not connected else ('tie' if (min_trees or 1) > 1 else 'unique')
+        return {'id': 'spanning', 'provenance': 'proved' if connected else 'refuted', 'verdict': verdict, 'blockedAct': None if connected else 'connected',
+                'weight': kw, 'trees': trees, 'minTrees': min_trees if connected else 0, 'isTree': bool(is_tree),
+                'note': f'{comps} component(s) (n - rank L); det of the reduced Laplacian = {trees}' + ('' if weight is None else f'; least tree weight {weight} by every subset')}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'spanning', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_maxflow(n, edges, s, t, residual):
+    """8.17 max-flow min-cut — the exact side.
+    Flat result: { id, provenance, verdict (maxflow | stuck | infeasible), blockedAct, value, max, paths, backward, note }.
+    The maximum is decided as the least capacity over EVERY s-t cut (itertools over the other vertices; exact integers) — weak duality makes any flow
+    meeting it maximal. The algorithm is re-run: residual 'yes' -> shortest augmenting paths in the residual graph (backward arcs allowed, ties by index —
+    the presets introduce labels in an order that makes index order = label order where it matters); 'no' -> first forward path found depth-first.
+    H1 non-negative capacities (otherwise not even the zero flow is feasible: infeasible). Exact; bad input abstains."""
+    try:
+        import itertools
+        nn, s, t = int(str(n)), int(str(s)), int(str(t))
+        if nn < 2 or nn > 14 or not (0 <= s < nn and 0 <= t < nn) or s == t:
+            raise ValueError('bad size, source or sink')
+        E = []
+        for tok in [x for x in str(edges).split(',') if x.strip()]:
+            body, c = tok.strip().split(':')
+            a, b = (int(x) for x in body.split('>'))
+            if not (0 <= a < nn and 0 <= b < nn) or a == b:
+                raise ValueError(f'edge {tok}')
+            E.append((a, b, sp.Integer(int(c))))
+        use_res = str(residual) == 'yes'
+        if any(c < 0 for _, _, c in E):
+            return {'id': 'maxflow', 'provenance': 'refuted', 'verdict': 'infeasible', 'blockedAct': 'nonNegative', 'value': 0, 'max': None, 'paths': 0,
+                    'backward': False, 'note': 'a negative capacity: 0 <= f <= c has no solution even for f = 0'}
+        others = [v for v in range(nn) if v not in (s, t)]
+        best = None
+        for k in range(len(others) + 1):
+            for sub in itertools.combinations(others, k):
+                S = set(sub) | {s}
+                cap = sum((c for a, b, c in E if a in S and b not in S), sp.Integer(0))
+                best = cap if best is None or cap < best else best
+        f = [sp.Integer(0)] * len(E)
+        paths, backward = 0, False
+        while True:
+            arcs = {v: [] for v in range(nn)}
+            for i, (a, b, c) in enumerate(E):
+                if c - f[i] > 0:
+                    arcs[a].append((b, i, 1, c - f[i]))
+                if use_res and f[i] > 0:
+                    arcs[b].append((a, i, -1, f[i]))
+            for v in arcs:
+                arcs[v].sort(key=lambda x: (x[0], x[1], -x[2]))
+            via, seen = {}, {s}
+            if use_res:
+                q = [s]
+                while q:
+                    v = q.pop(0)
+                    for w, i, d, cap in arcs[v]:
+                        if w not in seen:
+                            seen.add(w)
+                            via[w] = (v, i, d, cap)
+                            q.append(w)
+            else:
+                def _mxf_dfs(v):
+                    if v == t:
+                        return True
+                    for w, i, d, cap in arcs[v]:
+                        if w not in seen:
+                            seen.add(w)
+                            via[w] = (v, i, d, cap)
+                            if _mxf_dfs(w):
+                                return True
+                    return False
+                _mxf_dfs(s)
+            if t not in seen:
+                break
+            path, v = [], t
+            while v != s:
+                path.append(via[v])
+                v = via[v][0]
+            bott = min(x[3] for x in path)
+            for _, i, d, _ in path:
+                f[i] += d * bott
+            paths += 1
+            backward = backward or any(x[2] < 0 for x in path)
+        value = sum((f[i] for i, (a, b, c) in enumerate(E) if a == s), sp.Integer(0)) - sum((f[i] for i, (a, b, c) in enumerate(E) if b == s), sp.Integer(0))
+        assert value <= best
+        if use_res:
+            assert value == best, ('max-flow min-cut', value, best)
+        verdict = 'maxflow' if value == best else 'stuck'
+        return {'id': 'maxflow', 'provenance': 'proved' if verdict == 'maxflow' else 'refuted', 'verdict': verdict, 'blockedAct': None if use_res else 'residual',
+                'value': int(value), 'max': int(best), 'paths': paths, 'backward': bool(backward),
+                'note': f'flow {value}; the least of all s-t cuts has capacity {best}'}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'maxflow', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def analyse_boolean(n, on, dc, groups):
+    """8.18 Karnaugh maps — the exact side.
+    Flat result: { id, provenance, verdict (minimal | equivalent | wrong), blockedAct, minTerms, minLiterals, wrong, note }.
+    The minimum sum of products is SymPy's own SOPform (with the don't-cares), its cost counted as (terms, literals). Groups: a group is valid iff its
+    cells are exactly a subcube (size 2^k, and their XOR spread spans exactly k bits); the term written for a group is the AND of the literals its cells
+    share; the written sum is compared with f on every cared-for row via satisfiable(written XOR f, restricted to care rows) — SymPy's SAT solver, not a
+    table. With no groups, the SOPform cover itself is checked. Exact; bad input abstains."""
+    try:
+        from sympy.logic import SOPform
+        from sympy.logic.inference import satisfiable
+        nn = int(str(n))
+        if nn < 2 or nn > 4:
+            raise ValueError('2 to 4 variables')
+        ones = [int(x) for x in str(on).split(',') if x.strip()]
+        dcs = [int(x) for x in str(dc).split(',') if x.strip()]
+        if any(not 0 <= x < (1 << nn) for x in ones + dcs):
+            raise ValueError('cell out of range')
+        X = sp.symbols('a b c d')[:nn]
+        bits = lambda m: [(m >> (nn - 1 - i)) & 1 for i in range(nn)]
+        def _bln_minterm(m):
+            return sp.And(*[X[i] if b else sp.Not(X[i]) for i, b in enumerate(bits(m))])
+        F = sp.Or(*[_bln_minterm(m) for m in ones]) if ones else sp.false
+        CARE = sp.Not(sp.Or(*[_bln_minterm(m) for m in dcs])) if dcs else sp.true
+        best = SOPform(list(X), [bits(m) for m in ones], [bits(m) for m in dcs]) if ones else sp.false
+        def _bln_cost(e):
+            if e in (sp.true, True):
+                return (1, 0)
+            if e in (sp.false, False):
+                return (0, 0)
+            terms = e.args if isinstance(e, sp.Or) else (e,)
+            return (len(terms), sum(len(t.args) if isinstance(t, sp.And) else 1 for t in terms))
+        mt, ml = _bln_cost(best)
+        zeros = [m for m in range(1 << nn) if m not in ones and m not in dcs]
+        gtext = str(groups).strip()
+        blocked = None
+        if gtext:
+            gs = [[int(x) for x in g.split(',') if x.strip()] for g in gtext.split(';') if g.strip()]
+            terms = []
+            valid, nozero = True, True
+            for g in gs:
+                g = sorted(set(g))
+                spread = 0
+                for c in g:
+                    spread |= c ^ g[0]
+                k = len(g)
+                if (k & (k - 1)) or bin(spread).count('1') != k.bit_length() - 1:
+                    valid = False
+                if any(c in zeros for c in g):
+                    nozero = False
+                fixed = [i for i in range(nn) if not (spread >> (nn - 1 - i)) & 1]
+                terms.append(sp.And(*[X[i] if bits(g[0])[i] else sp.Not(X[i]) for i in fixed]))
+            covered = set(c for g in gs for c in g)
+            blocked = 'validGroups' if not valid else 'noZero' if not nozero else ('covers' if any(m not in covered for m in ones) else None)
+            W = sp.Or(*terms)
+        else:
+            W = best
+        wrong = [m for m in range(1 << nn) if m not in dcs and bool(W.subs({X[i]: bool(b) for i, b in enumerate(bits(m))})) != (m in ones)]
+        assert (satisfiable(sp.And(sp.Xor(W, F), CARE)) is False) == (not wrong), 'SAT and the table disagree'
+        cost = _bln_cost(W) if W not in (sp.true, sp.false) else ((1, 0) if W == sp.true else (0, 0))
+        verdict = 'wrong' if wrong else ('minimal' if cost == (mt, ml) else 'equivalent')
+        return {'id': 'boolean', 'provenance': 'refuted' if wrong else 'proved', 'verdict': verdict, 'blockedAct': blocked, 'minTerms': mt, 'minLiterals': ml,
+                'wrong': ', '.join(str(m) for m in wrong), 'note': f'SOPform minimum {best} ({mt} terms, {ml} literals); the written sum {"differs on rows " + ", ".join(map(str, wrong)) if wrong else "is equivalent (SAT: no distinguishing care row)"}'}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'boolean', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+_ATM_REF = {  # reference minimal DFAs (state 0 start): delta as {state: (on a, on b)}, accepting set; None = not regular
+    'evenA': ({0: (1, 0), 1: (0, 1)}, {0}), 'endsAB': ({0: (1, 0), 1: (1, 2), 2: (1, 0)}, {2}), 'hasAA': ({0: (1, 0), 1: (2, 0), 2: (2, 2)}, {2}),
+    'len3': ({0: (1, 1), 1: (2, 2), 2: (0, 0)}, {0}), 'onlyA': ({0: (0, 1), 1: (1, 1)}, {0}), 'all': ({0: (0, 0)}, {0}), 'none': ({0: (0, 0)}, set()),
+    'anbn': None, 'equalAB': None,
+}
+
+
+def _atm_member(target, w):
+    if target == 'anbn':
+        k = len(w) - len(w.lstrip('a'))
+        return w == 'a' * k + 'b' * k
+    if target == 'equalAB':
+        return w.count('a') == w.count('b')
+    delta, acc = _ATM_REF[target]
+    q = 0
+    for c in w:
+        q = delta[q][0 if c == 'a' else 1]
+    return q in acc
+
+
+def analyse_automata(k, moves, acc, target, N):
+    """8.19 finite automata — the exact side.
+    Flat result: { id, provenance, verdict (recognises | wrong | notRegular), blockedAct, dfa, min, counter, note }.
+    Subset construction over frozensets; minimisation by Moore refinement on the subset DFA; for a regular target the PRODUCT of the minimal DFA with an
+    independently coded reference DFA, searched breadth-first for the shortest disagreement (exact, all lengths); for aⁿbⁿ and "as many a as b" the
+    pigeonhole pair among a⁰…a^p. H1: a DFA (no state has two moves on one symbol) must have every move. Exact; bad input abstains."""
+    try:
+        kk, NN = int(str(k)), int(str(N))
+        if not 1 <= kk <= 12 or str(target) not in _ATM_REF:
+            raise ValueError('bad size or target')
+        tgt = str(target)
+        mv = {}
+        for tok in [x for x in str(moves).split(',') if x.strip()]:
+            tok = tok.strip()
+            i = tok.index('a') if 'a' in tok else tok.index('b')
+            q, sym, r = int(tok[:i]), tok[i], int(tok[i + 1:])
+            if not (0 <= q < kk and 0 <= r < kk):
+                raise ValueError(f'move {tok}')
+            mv.setdefault((q, sym), set()).add(r)
+        A = {int(x) for x in str(acc).split(',') if x.strip()}
+        det = all(len(v) <= 1 for v in mv.values())
+        complete = all((q, s) in mv for q in range(kk) for s in 'ab')
+        st, delta = [frozenset([0])], {}
+        for S in st:
+            for s in 'ab':
+                T = frozenset(r for q in S for r in mv.get((q, s), ()))
+                delta[(S, s)] = T
+                if T not in st:
+                    st.append(T)
+        accS = {S for S in st if S & A}
+        cls = {S: (1 if S in accS else 0) for S in st}
+        while True:
+            sig = {S: (cls[S], cls[delta[(S, 'a')]], cls[delta[(S, 'b')]]) for S in st}
+            ids = {}
+            new = {S: ids.setdefault(sig[S], len(ids)) for S in st}
+            if len(ids) == len(set(cls.values())):
+                break
+            cls = new
+        mink = len(set(cls.values()))
+        blocked = 'regular' if _ATM_REF[tgt] is None else ('complete' if det and not complete else None)
+        counter = None
+        if _ATM_REF[tgt] is not None:
+            rdelta, racc = _ATM_REF[tgt]
+            from collections import deque
+            seen, q = {(st[0], 0): ''}, deque([(st[0], 0)])
+            while q:
+                S, r = q.popleft()
+                w = seen[(S, r)]
+                if (S in accS) != (r in racc):
+                    counter = w
+                    break
+                for i, s in enumerate('ab'):
+                    nxt = (delta[(S, s)], rdelta[r][i])
+                    if nxt not in seen:
+                        seen[nxt] = w + s
+                        q.append(nxt)
+            verdict = 'recognises' if counter is None else 'wrong'
+        else:
+            def _atm_reach(w):
+                S = st[0]
+                for c in w:
+                    S = delta[(S, c)]
+                return S
+            seen = {}
+            for i in range(len(st) + 1):
+                R = _atm_reach('a' * i)
+                if R in seen:
+                    j0 = seen[R]
+                    break
+                seen[R] = i
+            inL, outL = 'a' * j0 + 'b' * j0, 'a' * i + 'b' * j0
+            assert _atm_member(tgt, inL) and not _atm_member(tgt, outL)
+            verdict_on = bool(_atm_reach(inL) & A)
+            assert verdict_on == bool(_atm_reach(outL) & A)
+            counter = outL if verdict_on else inL
+            verdict = 'notRegular'
+        return {'id': 'automata', 'provenance': 'proved' if verdict == 'recognises' else 'refuted', 'verdict': verdict, 'blockedAct': blocked,
+                'dfa': len(st), 'min': mink, 'counter': '' if counter is None else counter,
+                'note': f'{len(st)} subsets, minimal {mink}; ' + ('equivalent to the reference DFA (product construction)' if verdict == 'recognises' else f'wrong on "{counter or "ε"}"')}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'automata', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+import math as _dcp_math
+_DCP_TESTS = {}
+
+
+def _dcp_euclid(u, v, variant, cap=2000, check=True):
+    a, b, steps, inv_ok = u, v, 0, True
+    G = _dcp_math.gcd(u, v)
+    while b != 0 and steps < cap:
+        steps += 1
+        if variant == 'correct':
+            a, b = b, a % b
+        elif variant == 'subtractive':
+            a -= b
+            if a < b:
+                a, b = b, a
+        else:
+            a = abs(a - b)
+        inv_ok = inv_ok and (not check or _dcp_math.gcd(a, b) == G)
+    return a, steps, b == 0, inv_ok
+
+
+def _dcp_modexp(a, E, m, variant):
+    target = pow(a, E, m)
+    r, b, e, ops, inv_ok = 1 % m, a % m, E, 0, True
+    if variant == 'naive':
+        while e > 0:
+            r, e, ops = r * b % m, e - 1, ops + 1
+        return r, ops, True
+    while e > 0:
+        if variant == 'swapped':
+            b = b * b % m
+            ops += 1
+            if e & 1:
+                r = r * b % m
+                ops += 1
+            e >>= 1
+        else:
+            if e & 1:
+                r = r * b % m
+                ops += 1
+            e >>= 1
+            if e > 0:
+                b = b * b % m
+                ops += 1
+        inv_ok = inv_ok and r * pow(b, e, m) % m == target
+    return r, ops, inv_ok
+
+
+def _dcp_dijkstra(nn, E, s):
+    import heapq
+    out = [[] for _ in range(nn)]
+    for i, (a, b, w, d) in enumerate(E):
+        out[a].append((b, int(w), i))
+        if not d and a != b:
+            out[b].append((a, int(w), i))
+    for l in out:
+        l.sort(key=lambda t: (t[0], t[2]))
+    dist, done, heap, pushes, order = [sp.oo] * nn, [False] * nn, [(0, s)], 1, []
+    dist[s] = 0
+    while heap:
+        dv, v = heapq.heappop(heap)
+        if done[v] or dv != dist[v]:
+            continue
+        done[v] = True
+        order.append(v)
+        for u, w, _ in out[v]:
+            if not done[u] and dv + w < dist[u]:
+                dist[u] = dv + w
+                heapq.heappush(heap, (dist[u], u))
+                pushes += 1
+    return dist, pushes, order
+
+
+def analyse_discretecap(algo, variant, inv, a='', b='', c='', edges='', source=0):
+    """8.20 prove · analyse · test — the exact side.
+    Flat result: { id, provenance, verdict (verified | slow | wrong), blockedAct, out, ops, bound, tests, note }.
+    Euclid: sp.gcd for the specification and the invariant gcd(a, b) = gcd(u, v); Lamé's bound from sympy's fibonacci. Square-and-multiply: Python's
+    built-in pow(a, E, m) as the specification and for the invariant r·bᵉ ≡ aᴱ. Dijkstra: 8.14's min-plus closure as the specification; the invariant
+    "settled distances are final" checked on the settle order. The exhaustive suites (gcd for 1 ≤ v ≤ u ≤ 120; aᴱ mod m for m ≤ 40, a < m, E ≤ 40;
+    every digraph on 3 vertices with weights from {absent, 0, 1, 3} — or {absent, −1, 1, 3} for the negative variant, negative cycles skipped) are rerun
+    here, once per variant. A wrong invariant (inv = 'wrong') is checked as stated. Exact; bad input abstains."""
+    try:
+        algo, variant, inv = str(algo), str(variant), str(inv)
+        if algo == 'euclid':
+            u, v = int(str(a)), int(str(b))
+            if u < 1 or v < 0 or u < v:
+                raise ValueError('need u >= v >= 0, u >= 1')
+            out, ops, term, inv_ok = _dcp_euclid(u, v, variant)
+            if inv == 'wrong':
+                aa, bb, inv_ok = u, v, True
+                for _ in range(min(ops, 2000)):
+                    if bb == 0:
+                        break
+                    if variant == 'correct':
+                        aa, bb = bb, aa % bb
+                    elif variant == 'subtractive':
+                        aa -= bb
+                        if aa < bb:
+                            aa, bb = bb, aa
+                    else:
+                        aa = abs(aa - bb)
+                    inv_ok = inv_ok and aa + bb == u + v
+            k = 0
+            while v and sp.fibonacci(k + 2) <= v:
+                k += 1
+            bound = k
+            spec_ok = term and out == sp.gcd(u, v)
+            meas_ok = term
+            key = ('euclid', variant)
+            if key not in _DCP_TESTS:
+                fails = 0
+                for x in range(1, 121):
+                    for y in range(0, x + 1):
+                        o, _, t, _ = _dcp_euclid(x, y, variant, 300, False)
+                        fails += (not t) or o != _dcp_math.gcd(x, y)
+                _DCP_TESTS[key] = fails
+            tests_fail = _DCP_TESTS[key]
+            out_s = str(out)
+        elif algo == 'modexp':
+            x, E, m = int(str(a)), int(str(b)), int(str(c))
+            if m < 2 or E < 0 or x < 0 or E > 10 ** 6:
+                raise ValueError('bad a, E or m')
+            out, ops, inv_ok = _dcp_modexp(x, E, m, variant)
+            if inv == 'wrong':
+                r, bb, e, inv_ok = 1 % m, x % m, E, True
+                while e > 0:
+                    if e & 1:
+                        r = r * bb % m
+                    e >>= 1
+                    if e > 0:
+                        bb = bb * bb % m
+                    inv_ok = inv_ok and r == pow(x, E - e, m)
+            bound = 0 if E == 0 else 2 * (E.bit_length() - 1) + 1
+            spec_ok, meas_ok = out == pow(x, E, m), True
+            key = ('modexp', variant)
+            if key not in _DCP_TESTS:
+                _DCP_TESTS[key] = sum(_dcp_modexp(aa, EE, mm, variant)[0] != pow(aa, EE, mm) for mm in range(2, 41) for aa in range(mm) for EE in range(41))
+            tests_fail = _DCP_TESTS[key]
+            out_s = str(out)
+        elif algo == 'dijkstra':
+            nn = int(str(a))
+            E = []
+            for tok in [t for t in str(edges).split(',') if t.strip()]:
+                body, w = tok.strip().rsplit(':', 1)
+                d = '>' in body
+                p, q = (int(z) for z in body.split('>' if d else '-'))
+                E.append((p, q, sp.Integer(int(w)), d))
+            src = int(str(source))
+            D = _tvl_minplus_closure(nn, E)
+            negcycle = any(D[src][cc] != sp.oo and D[cc][cc] < 0 for cc in range(nn))
+            dist, ops, order = _dcp_dijkstra(nn, E, src)
+            inv_ok = not negcycle and all(dist[v] == D[src][v] for v in order)
+            if inv == 'wrong':  # "every tentative distance is final": false as soon as a tentative distance is not the true one
+                inv_ok = not negcycle and _dcp_tentative_final(nn, E, src, D)
+            bound = sum(2 if (not d and p != q) else 1 for p, q, _, d in E) + 1
+            spec_ok, meas_ok = (not negcycle) and all(dist[v] == D[src][v] for v in range(nn)), True
+            key = ('dijkstra', variant)
+            if key not in _DCP_TESTS:
+                W = [None, -1, 1, 3] if variant == 'negative' else [None, 0, 1, 3]
+                arcs = [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)]
+                fails = 0
+                for code in range(4 ** 6):
+                    EE, cc = [], code
+                    for p, q in arcs:
+                        w = W[cc % 4]
+                        cc //= 4
+                        if w is not None:
+                            EE.append((p, q, sp.Integer(w), True))
+                    INF = float('inf')  # plain integer Floyd-Warshall for the 4 096 small cases (SymPy's Min is far too slow here)
+                    DD = [[0 if i == j else INF for j in range(3)] for i in range(3)]
+                    for p, q, w, _ in EE:
+                        DD[p][q] = min(DD[p][q], int(w))
+                    for kk in range(3):
+                        for i in range(3):
+                            for j in range(3):
+                                DD[i][j] = min(DD[i][j], DD[i][kk] + DD[kk][j])
+                    if any(DD[z][z] < 0 for z in range(3)):
+                        continue
+                    dd, _, _ = _dcp_dijkstra(3, EE, 0)
+                    fails += any((float('inf') if dd[z] == sp.oo else dd[z]) != DD[0][z] for z in range(3))
+                _DCP_TESTS[key] = fails
+            tests_fail = _DCP_TESTS[key]
+            out_s = ','.join('oo' if x == sp.oo else str(x) for x in dist)
+        else:
+            raise ValueError('unknown algorithm')
+        claim = spec_ok and tests_fail == 0
+        blocked = 'invariant' if not inv_ok else ('variant' if not meas_ok else None)
+        verdict = ('verified' if ops <= bound else 'slow') if claim else 'wrong'
+        return {'id': 'discretecap', 'provenance': 'proved' if claim else 'refuted', 'verdict': verdict, 'blockedAct': blocked, 'out': out_s, 'ops': ops,
+                'bound': bound, 'tests': tests_fail, 'note': f'{ops} operations against the bound {bound}; {tests_fail} failing tests'}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'discretecap', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+def _dcp_tentative_final(nn, E, s, D):
+    """True iff no tentative distance is ever lowered after being set (re-running Dijkstra and watching every relaxation)."""
+    import heapq
+    out = [[] for _ in range(nn)]
+    for i, (a, b, w, d) in enumerate(E):
+        out[a].append((b, int(w), i))
+        if not d and a != b:
+            out[b].append((a, int(w), i))
+    for l in out:
+        l.sort(key=lambda t: (t[0], t[2]))
+    dist, done, heap = [sp.oo] * nn, [False] * nn, [(0, s)]
+    dist[s] = 0
+    while heap:
+        dv, v = heapq.heappop(heap)
+        if done[v] or dv != dist[v]:
+            continue
+        done[v] = True
+        if any(dist[x] != sp.oo and dist[x] != D[s][x] for x in range(nn)):
+            return False
+        for u, w, _ in out[v]:
+            if not done[u] and dv + w < dist[u]:
+                dist[u] = dv + w
+                heapq.heappush(heap, (dist[u], u))
+    return all(dist[x] == sp.oo or dist[x] == D[s][x] for x in range(nn))
+`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),triple:(e,t)=>e.globals.get(`analyse_triple`)(t.expr,t.solid),cylsph:(e,t)=>e.globals.get(`analyse_cylsph`)(t.expr,t.solid),massmoments:(e,t)=>e.globals.get(`analyse_massmoments`)(t.expr,t.region),fields:(e,t)=>e.globals.get(`analyse_fields`)(t.P,t.Q,t.f),lineint:(e,t)=>e.globals.get(`analyse_lineint`)(t.P,t.Q,t.f,t.x,t.y,t.t0,t.t1),conservative:(e,t)=>e.globals.get(`analyse_conservative`)(t.P,t.Q,t.domain),green:(e,t)=>e.globals.get(`analyse_green`)(t.P,t.Q,t.region,t.boundary,t.form),surfaces:(e,t)=>e.globals.get(`analyse_surfaces`)(t.x,t.y,t.z,t.u0,t.u1,t.v0,t.v1,t.mode,t.f,t.F),stokes:(e,t)=>e.globals.get(`analyse_stokes`)(t.F,t.x,t.y,t.z,t.u,t.v,t.glue,t.degenerate,t.reverse),gauss:(e,t)=>e.globals.get(`analyse_gauss`)(t.F,t.patches,t.solid),picard:(e,t)=>e.globals.get(`analyse_picard`)(t.f,t.t0,t.y0,t.a,t.b,t.override??null),slopefield:(e,t)=>e.globals.get(`analyse_slopefield`)(t.f,t.phi,t.t0,t.y0,t.tA,t.tB),autonomous:(e,t)=>e.globals.get(`analyse_autonomous`)(t.f,t.y0,t.ymin,t.ymax,t.tmax??null),separable:(e,t)=>e.globals.get(`analyse_separable`)(t.f,t.t0,t.y0,t.ymin,t.ymax,t.tmax),exact:(e,t)=>e.globals.get(`analyse_exact`)(t.M,t.N,t.t0,t.y0,t.tmin,t.tmax,t.ymin,t.ymax,t.domain??`plane`),eulermethod:(e,t)=>e.globals.get(`analyse_eulermethod`)(t.f,t.t0,t.y0,t.T,t.h,t.exact??null),secondorder:(e,t)=>e.globals.get(`analyse_secondorder`)(t.p,t.q,t.g,t.y1??``,t.t0,t.y0,t.v0,t.ymin,t.ymax,t.tmax,t.a1,t.b1,t.a2,t.b2),odesystems:(e,t)=>e.globals.get(`analyse_odesystems`)(t.A,t.x0,t.f,t.tmax),phaseplane:(e,t)=>e.globals.get(`analyse_phaseplane`)(t.A),linearize:(e,t)=>e.globals.get(`analyse_linearize`)(t.f,t.g,t.xmin,t.xmax,t.ymin,t.ymax,t.px,t.py,t.H??``),limitcycles:(e,t)=>e.globals.get(`analyse_limitcycles`)(t.mode,t.f,t.g,t.B??`1`,t.region,t.xmin,t.xmax,t.ymin,t.ymax),forced:(e,t)=>e.globals.get(`analyse_forced`)(t.p,t.q,t.g,t.method??`uc`,t.shift??`auto`,t.t0,t.y0,t.v0,t.ymin,t.ymax,t.tmax),resonance:(e,t)=>e.globals.get(`analyse_resonance`)(t.m,t.c,t.k,t.F,t.w,t.x0,t.v0,t.tmax,t.xmax),damping:(e,t)=>e.globals.get(`analyse_damping`)(t.m,t.c,t.k,t.x0,t.v0,t.tmax,t.xmax),seriessol:(e,t)=>e.globals.get(`analyse_seriessol`)(t.P,t.Q,t.R,t.t0,t.y0,t.v0,t.exact??`1`,t.n??`10`),lyapunov:(e,t)=>e.globals.get(`analyse_lyapunov`)(t.f,t.g,t.V,t.rad??`1`),frobenius:(e,t)=>e.globals.get(`analyse_frobenius`)(t.A,t.B,t.C,t.t0,t.exact??`1`,t.n??`8`),bvp:(e,t)=>e.globals.get(`analyse_bvp`)(t.lam,t.L,t.bc,t.g,t.alpha,t.beta),odemodel:(e,t)=>e.globals.get(`analyse_odemodel`)(t.g,t.L,t.th0,t.c,t.F,t.w,t.cycles,t.tolA,t.tolV),fourierseries:(e,t)=>e.globals.get(`analyse_fourierseries`)(t.f,t.L,t.x0,t.N),ztransform:(e,t)=>e.globals.get(`analyse_ztransform`)(t.termsJson,t.z0re,t.z0im),laplace:(e,t)=>e.globals.get(`analyse_laplace`)(t.f,t.s),laplaceprops:(e,t)=>e.globals.get(`analyse_laplaceprops`)(t.prop,t.f,t.g??null,t.a??null,t.b??null,t.n??null,t.T??null,t.s,!!t.slip),invlaplace:(e,t)=>e.globals.get(`analyse_invlaplace`)(t.num,t.den,t.s,t.slip??null),laplaceivp:(e,t)=>e.globals.get(`analyse_laplaceivp`)(t.p,t.q,t.g,t.y0,t.v0,t.s,t.slip??null),stepimpulse:(e,t)=>e.globals.get(`analyse_stepimpulse`)(t.p,t.q,t.g,t.steps,t.imps,t.y0,t.v0,t.slip??null),convolution:(e,t)=>e.globals.get(`analyse_convolution`)(t.f,t.g,t.h??``,t.s,t.slip??null),transferfn:(e,t)=>e.globals.get(`analyse_transferfn`)(t.num,t.den),fouriergibbs:(e,t)=>e.globals.get(`analyse_fouriergibbs`)(t.f,t.L,t.x0),fouriercomplex:(e,t)=>e.globals.get(`analyse_fouriercomplex`)(t.f,t.L),fouriertransform:(e,t)=>e.globals.get(`analyse_fouriertransform`)(t.f,t.t0),ftprops:(e,t)=>e.globals.get(`analyse_ftprops`)(t.prop,t.f,t.a,t.g),sampling:(e,t)=>e.globals.get(`analyse_sampling`)(t.kind,t.tones,t.fs,t.A,t.f0),dft:(e,t)=>e.globals.get(`analyse_dft`)(t.f,t.N),zstability:(e,t)=>e.globals.get(`analyse_zstability`)(t.num,t.den,!!t.dec),interp:(e,t)=>e.globals.get(`analyse_interp`)(t.f,t.nodes,t.x0),discretize:(e,t)=>e.globals.get(`analyse_discretize`)(t.num,t.den,t.T,t.method,!!t.dec),signalcap:(e,t)=>e.globals.get(`analyse_signalcap`)(t.num,t.den,t.fs,t.method,t.sig,t.hum,t.sigma,!!t.dec),floatpoint:(e,t)=>e.globals.get(`analyse_floatpoint`)(t.formula,t.alg,t.x),bisection:(e,t)=>e.globals.get(`analyse_bisection`)(t.f,t.a,t.b,t.tol),fixedpoint:(e,t)=>e.globals.get(`analyse_fixedpoint`)(t.g,t.a,t.b,t.x0,t.tol),newton:(e,t)=>e.globals.get(`analyse_newton`)(t.f,t.x0,t.a,t.b,t.m),secant:(e,t)=>e.globals.get(`analyse_secant`)(t.method,t.f,t.x0,t.x1,t.a,t.b),runge:(e,t)=>e.globals.get(`analyse_runge`)(t.f,t.a,t.b,t.family,Number(t.N)),spline:(e,t)=>e.globals.get(`analyse_spline`)(t.f,t.knots,t.end),lsqnum:(e,t)=>e.globals.get(`analyse_lsqnum`)(t.f,t.a,t.b,Number(t.m),Number(t.n),t.basis),numdiff:(e,t)=>e.globals.get(`analyse_numdiff`)(t.f,t.x0,t.formula),quadrature:(e,t)=>e.globals.get(`analyse_quadrature`)(t.f,t.a,t.b,t.rule,Number(t.n)),romberg:(e,t)=>e.globals.get(`analyse_romberg`)(t.mode,t.f,t.a,t.b,t.x0,t.h0,Number(t.K)),gaussquad:(e,t)=>e.globals.get(`analyse_gaussquad`)(t.f,t.a,t.b,t.rule,Number(t.n)),gausselim:(e,t)=>e.globals.get(`analyse_gausselim`)(t.A,t.b,t.strategy),condition:(e,t)=>e.globals.get(`analyse_condition`)(t.A,t.b,t.eps),iterative:(e,t)=>e.globals.get(`analyse_iterative`)(t.A,t.b,t.method),poweriter:(e,t)=>e.globals.get(`analyse_poweriter`)(t.A,t.x0,t.method,t.sigma),rungekutta:(e,t)=>e.globals.get(`analyse_rungekutta`)(t.f,t.t0,t.y0,t.T,t.method,t.h,t.exact),gradient:(e,t)=>e.globals.get(`analyse_gradient`)(t.A,t.b,t.x0,t.eta),numcap:(e,t)=>e.globals.get(`analyse_numcap`)(t.task,t.f,t.a,t.b,t.y0,t.A,t.rhs,t.exact,t.eps),proplogic:(e,t)=>e.globals.get(`analyse_proplogic`)(t.task,t.A,t.B,t.premises,t.vars),quantifiers:(e,t)=>e.globals.get(`analyse_quantifiers`)(t.task,t.S,t.N,t.domain,t.relation),prooftech:(e,t)=>e.globals.get(`analyse_prooftech`)(t.task,t.P,t.Q,t.method,t.cases,t.lo,t.hi,t.d,t.B),induction:(e,t)=>e.globals.get(`analyse_induction`)(t.kind,t.t,t.f,t.g,t.rel,t.rec,t.init,t.bases,t.n0,t.N),relations:(e,t)=>e.globals.get(`analyse_relations`)(t.task,t.A,t.pairs),pigeonhole:(e,t)=>e.globals.get(`analyse_pigeonhole`)(t.D,t.C,t.table),inclexcl:(e,t)=>e.globals.get(`analyse_inclexcl`)(t.task,t.U,t.sets,t.order,t.n,t.identity,t.n0,t.N,t.x,t.y,t.r),recurrence:(e,t)=>e.globals.get(`analyse_recurrence`)(t.task,t.order,t.c1,t.c2,t.a0,t.a1,t.k,t.s,t.form,t.N,t.a,t.b,t.c,t.d,t.e,t.t1,t.K),genfunc:(e,t)=>e.globals.get(`analyse_genfunc`)(t.task,t.rule,t.M,t.k,t.order,t.c1,t.c2,t.a0,t.a1,t.x,t.N),bigo:(e,t)=>e.globals.get(`analyse_bigo`)(t.f,t.g,t.rel),modular:(e,t)=>e.globals.get(`analyse_modular`)(t.a,t.b,t.m),rsa:(e,t)=>e.globals.get(`analyse_rsa`)(t.p,t.q,t.e,t.M),graphbasics:(e,t)=>e.globals.get(`analyse_graphbasics`)(t.n,t.edges,t.claim),traversal:(e,t)=>e.globals.get(`analyse_traversal`)(t.n,t.edges,t.start,t.algo),dijkstra:(e,t)=>e.globals.get(`analyse_dijkstra`)(t.n,t.edges,t.source),spanning:(e,t)=>e.globals.get(`analyse_spanning`)(t.n,t.edges),maxflow:(e,t)=>e.globals.get(`analyse_maxflow`)(t.n,t.edges,t.s,t.t,t.residual),boolean:(e,t)=>e.globals.get(`analyse_boolean`)(t.n,t.on,t.dc,t.groups),automata:(e,t)=>e.globals.get(`analyse_automata`)(t.k,t.moves,t.acc,t.target,t.N),discretecap:(e,t)=>e.globals.get(`analyse_discretecap`)(t.algo,t.variant,t.inv,t.u??t.a??t.n,t.v??t.E??``,t.m??``,t.edges??``,t.source??0),invz:(e,t)=>e.globals.get(`analyse_invz`)(t.num,t.den,t.rho,t.slip||``,!!t.dec),windowing:(e,t)=>e.globals.get(`analyse_windowing`)(t.f1,t.A1,t.f2,t.A2,t.fs,t.N,t.win,!!t.dec),cauchyeuler:(e,t)=>e.globals.get(`analyse_cauchyeuler`)(t.c2,t.c1,t.c0,t.t0,t.tend,t.y0,t.v0,t.ymax),linear1:(e,t)=>e.globals.get(`analyse_linear1`)(t.p,t.q,t.n,t.t0,t.y0,t.ymin,t.ymax,t.tmax),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
