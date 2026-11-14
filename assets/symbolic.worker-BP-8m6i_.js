@@ -20949,4 +20949,4057 @@ def _dcp_tentative_final(nn, E, s, D):
                 dist[u] = dv + w
                 heapq.heappush(heap, (dist[u], u))
     return all(dist[x] == sp.oo or dist[x] == D[s][x] for x in range(nn))
-`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),triple:(e,t)=>e.globals.get(`analyse_triple`)(t.expr,t.solid),cylsph:(e,t)=>e.globals.get(`analyse_cylsph`)(t.expr,t.solid),massmoments:(e,t)=>e.globals.get(`analyse_massmoments`)(t.expr,t.region),fields:(e,t)=>e.globals.get(`analyse_fields`)(t.P,t.Q,t.f),lineint:(e,t)=>e.globals.get(`analyse_lineint`)(t.P,t.Q,t.f,t.x,t.y,t.t0,t.t1),conservative:(e,t)=>e.globals.get(`analyse_conservative`)(t.P,t.Q,t.domain),green:(e,t)=>e.globals.get(`analyse_green`)(t.P,t.Q,t.region,t.boundary,t.form),surfaces:(e,t)=>e.globals.get(`analyse_surfaces`)(t.x,t.y,t.z,t.u0,t.u1,t.v0,t.v1,t.mode,t.f,t.F),stokes:(e,t)=>e.globals.get(`analyse_stokes`)(t.F,t.x,t.y,t.z,t.u,t.v,t.glue,t.degenerate,t.reverse),gauss:(e,t)=>e.globals.get(`analyse_gauss`)(t.F,t.patches,t.solid),picard:(e,t)=>e.globals.get(`analyse_picard`)(t.f,t.t0,t.y0,t.a,t.b,t.override??null),slopefield:(e,t)=>e.globals.get(`analyse_slopefield`)(t.f,t.phi,t.t0,t.y0,t.tA,t.tB),autonomous:(e,t)=>e.globals.get(`analyse_autonomous`)(t.f,t.y0,t.ymin,t.ymax,t.tmax??null),separable:(e,t)=>e.globals.get(`analyse_separable`)(t.f,t.t0,t.y0,t.ymin,t.ymax,t.tmax),exact:(e,t)=>e.globals.get(`analyse_exact`)(t.M,t.N,t.t0,t.y0,t.tmin,t.tmax,t.ymin,t.ymax,t.domain??`plane`),eulermethod:(e,t)=>e.globals.get(`analyse_eulermethod`)(t.f,t.t0,t.y0,t.T,t.h,t.exact??null),secondorder:(e,t)=>e.globals.get(`analyse_secondorder`)(t.p,t.q,t.g,t.y1??``,t.t0,t.y0,t.v0,t.ymin,t.ymax,t.tmax,t.a1,t.b1,t.a2,t.b2),odesystems:(e,t)=>e.globals.get(`analyse_odesystems`)(t.A,t.x0,t.f,t.tmax),phaseplane:(e,t)=>e.globals.get(`analyse_phaseplane`)(t.A),linearize:(e,t)=>e.globals.get(`analyse_linearize`)(t.f,t.g,t.xmin,t.xmax,t.ymin,t.ymax,t.px,t.py,t.H??``),limitcycles:(e,t)=>e.globals.get(`analyse_limitcycles`)(t.mode,t.f,t.g,t.B??`1`,t.region,t.xmin,t.xmax,t.ymin,t.ymax),forced:(e,t)=>e.globals.get(`analyse_forced`)(t.p,t.q,t.g,t.method??`uc`,t.shift??`auto`,t.t0,t.y0,t.v0,t.ymin,t.ymax,t.tmax),resonance:(e,t)=>e.globals.get(`analyse_resonance`)(t.m,t.c,t.k,t.F,t.w,t.x0,t.v0,t.tmax,t.xmax),damping:(e,t)=>e.globals.get(`analyse_damping`)(t.m,t.c,t.k,t.x0,t.v0,t.tmax,t.xmax),seriessol:(e,t)=>e.globals.get(`analyse_seriessol`)(t.P,t.Q,t.R,t.t0,t.y0,t.v0,t.exact??`1`,t.n??`10`),lyapunov:(e,t)=>e.globals.get(`analyse_lyapunov`)(t.f,t.g,t.V,t.rad??`1`),frobenius:(e,t)=>e.globals.get(`analyse_frobenius`)(t.A,t.B,t.C,t.t0,t.exact??`1`,t.n??`8`),bvp:(e,t)=>e.globals.get(`analyse_bvp`)(t.lam,t.L,t.bc,t.g,t.alpha,t.beta),odemodel:(e,t)=>e.globals.get(`analyse_odemodel`)(t.g,t.L,t.th0,t.c,t.F,t.w,t.cycles,t.tolA,t.tolV),fourierseries:(e,t)=>e.globals.get(`analyse_fourierseries`)(t.f,t.L,t.x0,t.N),ztransform:(e,t)=>e.globals.get(`analyse_ztransform`)(t.termsJson,t.z0re,t.z0im),laplace:(e,t)=>e.globals.get(`analyse_laplace`)(t.f,t.s),laplaceprops:(e,t)=>e.globals.get(`analyse_laplaceprops`)(t.prop,t.f,t.g??null,t.a??null,t.b??null,t.n??null,t.T??null,t.s,!!t.slip),invlaplace:(e,t)=>e.globals.get(`analyse_invlaplace`)(t.num,t.den,t.s,t.slip??null),laplaceivp:(e,t)=>e.globals.get(`analyse_laplaceivp`)(t.p,t.q,t.g,t.y0,t.v0,t.s,t.slip??null),stepimpulse:(e,t)=>e.globals.get(`analyse_stepimpulse`)(t.p,t.q,t.g,t.steps,t.imps,t.y0,t.v0,t.slip??null),convolution:(e,t)=>e.globals.get(`analyse_convolution`)(t.f,t.g,t.h??``,t.s,t.slip??null),transferfn:(e,t)=>e.globals.get(`analyse_transferfn`)(t.num,t.den),fouriergibbs:(e,t)=>e.globals.get(`analyse_fouriergibbs`)(t.f,t.L,t.x0),fouriercomplex:(e,t)=>e.globals.get(`analyse_fouriercomplex`)(t.f,t.L),fouriertransform:(e,t)=>e.globals.get(`analyse_fouriertransform`)(t.f,t.t0),ftprops:(e,t)=>e.globals.get(`analyse_ftprops`)(t.prop,t.f,t.a,t.g),sampling:(e,t)=>e.globals.get(`analyse_sampling`)(t.kind,t.tones,t.fs,t.A,t.f0),dft:(e,t)=>e.globals.get(`analyse_dft`)(t.f,t.N),zstability:(e,t)=>e.globals.get(`analyse_zstability`)(t.num,t.den,!!t.dec),interp:(e,t)=>e.globals.get(`analyse_interp`)(t.f,t.nodes,t.x0),discretize:(e,t)=>e.globals.get(`analyse_discretize`)(t.num,t.den,t.T,t.method,!!t.dec),signalcap:(e,t)=>e.globals.get(`analyse_signalcap`)(t.num,t.den,t.fs,t.method,t.sig,t.hum,t.sigma,!!t.dec),floatpoint:(e,t)=>e.globals.get(`analyse_floatpoint`)(t.formula,t.alg,t.x),bisection:(e,t)=>e.globals.get(`analyse_bisection`)(t.f,t.a,t.b,t.tol),fixedpoint:(e,t)=>e.globals.get(`analyse_fixedpoint`)(t.g,t.a,t.b,t.x0,t.tol),newton:(e,t)=>e.globals.get(`analyse_newton`)(t.f,t.x0,t.a,t.b,t.m),secant:(e,t)=>e.globals.get(`analyse_secant`)(t.method,t.f,t.x0,t.x1,t.a,t.b),runge:(e,t)=>e.globals.get(`analyse_runge`)(t.f,t.a,t.b,t.family,Number(t.N)),spline:(e,t)=>e.globals.get(`analyse_spline`)(t.f,t.knots,t.end),lsqnum:(e,t)=>e.globals.get(`analyse_lsqnum`)(t.f,t.a,t.b,Number(t.m),Number(t.n),t.basis),numdiff:(e,t)=>e.globals.get(`analyse_numdiff`)(t.f,t.x0,t.formula),quadrature:(e,t)=>e.globals.get(`analyse_quadrature`)(t.f,t.a,t.b,t.rule,Number(t.n)),romberg:(e,t)=>e.globals.get(`analyse_romberg`)(t.mode,t.f,t.a,t.b,t.x0,t.h0,Number(t.K)),gaussquad:(e,t)=>e.globals.get(`analyse_gaussquad`)(t.f,t.a,t.b,t.rule,Number(t.n)),gausselim:(e,t)=>e.globals.get(`analyse_gausselim`)(t.A,t.b,t.strategy),condition:(e,t)=>e.globals.get(`analyse_condition`)(t.A,t.b,t.eps),iterative:(e,t)=>e.globals.get(`analyse_iterative`)(t.A,t.b,t.method),poweriter:(e,t)=>e.globals.get(`analyse_poweriter`)(t.A,t.x0,t.method,t.sigma),rungekutta:(e,t)=>e.globals.get(`analyse_rungekutta`)(t.f,t.t0,t.y0,t.T,t.method,t.h,t.exact),gradient:(e,t)=>e.globals.get(`analyse_gradient`)(t.A,t.b,t.x0,t.eta),numcap:(e,t)=>e.globals.get(`analyse_numcap`)(t.task,t.f,t.a,t.b,t.y0,t.A,t.rhs,t.exact,t.eps),proplogic:(e,t)=>e.globals.get(`analyse_proplogic`)(t.task,t.A,t.B,t.premises,t.vars),quantifiers:(e,t)=>e.globals.get(`analyse_quantifiers`)(t.task,t.S,t.N,t.domain,t.relation),prooftech:(e,t)=>e.globals.get(`analyse_prooftech`)(t.task,t.P,t.Q,t.method,t.cases,t.lo,t.hi,t.d,t.B),induction:(e,t)=>e.globals.get(`analyse_induction`)(t.kind,t.t,t.f,t.g,t.rel,t.rec,t.init,t.bases,t.n0,t.N),relations:(e,t)=>e.globals.get(`analyse_relations`)(t.task,t.A,t.pairs),pigeonhole:(e,t)=>e.globals.get(`analyse_pigeonhole`)(t.D,t.C,t.table),inclexcl:(e,t)=>e.globals.get(`analyse_inclexcl`)(t.task,t.U,t.sets,t.order,t.n,t.identity,t.n0,t.N,t.x,t.y,t.r),recurrence:(e,t)=>e.globals.get(`analyse_recurrence`)(t.task,t.order,t.c1,t.c2,t.a0,t.a1,t.k,t.s,t.form,t.N,t.a,t.b,t.c,t.d,t.e,t.t1,t.K),genfunc:(e,t)=>e.globals.get(`analyse_genfunc`)(t.task,t.rule,t.M,t.k,t.order,t.c1,t.c2,t.a0,t.a1,t.x,t.N),bigo:(e,t)=>e.globals.get(`analyse_bigo`)(t.f,t.g,t.rel),modular:(e,t)=>e.globals.get(`analyse_modular`)(t.a,t.b,t.m),rsa:(e,t)=>e.globals.get(`analyse_rsa`)(t.p,t.q,t.e,t.M),graphbasics:(e,t)=>e.globals.get(`analyse_graphbasics`)(t.n,t.edges,t.claim),traversal:(e,t)=>e.globals.get(`analyse_traversal`)(t.n,t.edges,t.start,t.algo),dijkstra:(e,t)=>e.globals.get(`analyse_dijkstra`)(t.n,t.edges,t.source),spanning:(e,t)=>e.globals.get(`analyse_spanning`)(t.n,t.edges),maxflow:(e,t)=>e.globals.get(`analyse_maxflow`)(t.n,t.edges,t.s,t.t,t.residual),boolean:(e,t)=>e.globals.get(`analyse_boolean`)(t.n,t.on,t.dc,t.groups),automata:(e,t)=>e.globals.get(`analyse_automata`)(t.k,t.moves,t.acc,t.target,t.N),discretecap:(e,t)=>e.globals.get(`analyse_discretecap`)(t.algo,t.variant,t.inv,t.u??t.a??t.n,t.v??t.E??``,t.m??``,t.edges??``,t.source??0),invz:(e,t)=>e.globals.get(`analyse_invz`)(t.num,t.den,t.rho,t.slip||``,!!t.dec),windowing:(e,t)=>e.globals.get(`analyse_windowing`)(t.f1,t.A1,t.f2,t.A2,t.fs,t.N,t.win,!!t.dec),cauchyeuler:(e,t)=>e.globals.get(`analyse_cauchyeuler`)(t.c2,t.c1,t.c0,t.t0,t.tend,t.y0,t.v0,t.ymax),linear1:(e,t)=>e.globals.get(`analyse_linear1`)(t.p,t.q,t.n,t.t0,t.y0,t.ymin,t.ymax,t.tmax),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
+
+
+# ═════════════════════════════ 9.1 complexnum — Complex numbers: arithmetic, polar form & roots ═════════════════════════════
+def _cxn_parse(text):
+    """Mirror of complex.mjs parseGaussian (same grammar): a signed sum of terms [number][i][/integer], number = integer | a/b | decimal, i or j the
+    imaginary unit. Returns (re, im, exact) with SymPy Rationals; exact is False as soon as a decimal point is typed (decimal input is numeric)."""
+    import re as _re
+    s = _re.sub(r'\\s+', '', str(text)).replace('−', '-').replace('–', '-').replace('j', 'i').replace('I', 'i')
+    if not s or not _re.fullmatch(r'[0-9+\\-./i]+', s):
+        raise ValueError(f'cannot read "{text}"')
+    terms = _re.findall(r'[+-]?[^+-]+', s)
+    if ''.join(terms) != s:
+        raise ValueError(f'cannot read "{text}"')
+    re_, im_, exact = sp.Integer(0), sp.Integer(0), True
+    for t in terms:
+        sign = -1 if t[0] == '-' else 1
+        body = t.lstrip('+-')
+        m = _re.fullmatch(r'([0-9./]*)(i?)(?:/(\\d+))?', body)
+        if not m:
+            raise ValueError(f'cannot read the term "{t}"')
+        coef, unit, den = m.groups()
+        if not unit and den:
+            raise ValueError(f'cannot read the term "{t}"')
+        if coef == '':
+            if not unit:
+                raise ValueError(f'cannot read the term "{t}"')
+            v = sp.Integer(1)
+        else:
+            mm = _re.fullmatch(r'(\\d+(?:\\.\\d+)?)(?:/(\\d+(?:\\.\\d+)?))?', coef)
+            if not mm:
+                raise ValueError(f'cannot read the number "{coef}"')
+            v = sp.Rational(mm.group(1)) / (sp.Rational(mm.group(2)) if mm.group(2) else 1)
+        if '.' in coef:
+            exact = False
+        if den is not None:
+            v = v / sp.Integer(den)
+        v = sign * v
+        if unit:
+            im_ += v
+        else:
+            re_ += v
+    return re_, im_, exact
+
+
+def _cxn_upper(x, y):
+    """Arg in (0, pi] — the upper half plane including the negative real axis (exact, by signs)."""
+    return y > 0 or (y == 0 and x < 0)
+
+
+def _cxn_wrap(x1, y1, x2, y2):
+    """The integer k in {-1,0,1} with Arg z + Arg w = Arg(zw) + 2*pi*k, decided by the signs of the product's parts only (no angle computed)."""
+    pr, pi_ = x1 * x2 - y1 * y2, x1 * y2 + y1 * x2
+    uz, uw = _cxn_upper(x1, y1), _cxn_upper(x2, y2)
+    if uz and uw:
+        return 1 if (pi_ < 0 or (pi_ == 0 and pr > 0)) else 0
+    if (not uz) and (not uw):
+        return -1 if (pi_ > 0 or (pi_ == 0 and pr < 0)) else 0
+    return 0
+
+
+def analyse_complexnum(z, w, n, c, laps):
+    """9.1 complexnum — the exact side. Flat result: { id, provenance, verdict (holds | noargument | ambiguity | branchswap | closesanyway), blockedAct
+    (nonzero | principal | branch | None), k, wind, sameRay, field, modulus, root0, roots, note }.
+    Everything verdict-bearing is exact Gaussian-rational arithmetic on SymPy Rationals: the field axioms (associativity, distributivity, z*z^-1 = 1),
+    |zw|^2 = |z|^2|w|^2, H1 (z, w != 0), the wrap integer k (signs of the product only, cross-checked against a 60-digit sp.arg computation — a
+    disagreement abstains), the winding number of the loop (|c|^2 against |z-c|^2) and the triangle-equality test Im(z conj w) = 0, Re > 0.
+    Decimal input is numeric, never promoted to proved. The n-th roots are computed with mpmath at 50 digits and checked root^n = z, but they are
+    reported as numeric (an irrational root is not a Gaussian rational). Bad input abstains."""
+    try:
+        zr, zi, ze = _cxn_parse(z)
+        wr, wi, we = _cxn_parse(w)
+        nn = int(str(n))
+        if not 1 <= nn <= 12:
+            raise ValueError('n must be 1 to 12')
+        lp = int(str(laps))
+        if lp == 0 or abs(lp) > 4:
+            raise ValueError('laps must be 1 to 4 (negative = clockwise)')
+        ce = True
+        if str(c).strip() != '':
+            cr, ci, ce = _cxn_parse(c)
+        else:
+            cr, ci = sp.Rational(3, 2) * zr, sp.Rational(3, 2) * zi
+        exact = ze and we and ce
+        Z, W = zr + zi * sp.I, wr + wi * sp.I
+        U = sp.conjugate(Z) + W
+        # FIELD
+        checks = [sp.expand(Z * W - W * Z) == 0, sp.expand((Z * W) * U - Z * (W * U)) == 0, sp.expand(Z * (W + U) - (Z * W + Z * U)) == 0,
+                  sp.expand(sp.conjugate(Z * W) - sp.conjugate(Z) * sp.conjugate(W)) == 0]
+        if Z != 0:
+            checks.append(sp.simplify(Z * (sp.conjugate(Z) / (zr ** 2 + zi ** 2)) - 1) == 0)
+        if W != 0:
+            checks.append(sp.simplify(W * (sp.conjugate(W) / (wr ** 2 + wi ** 2)) - 1) == 0)
+        field = all(checks)
+        # MODULUS (squared, exact)
+        prod = sp.expand(Z * W)
+        pr, pi_ = sp.re(prod), sp.im(prod)
+        modulus = (pr ** 2 + pi_ ** 2) == (zr ** 2 + zi ** 2) * (wr ** 2 + wi ** 2)
+        # TRIANGLE equality
+        cs = sp.expand(Z * sp.conjugate(W))
+        same_ray = Z == 0 or W == 0 or (sp.im(cs) == 0 and sp.re(cs) > 0)
+        nonzero = Z != 0 and W != 0
+        k = None
+        if nonzero:
+            k = _cxn_wrap(zr, zi, wr, wi)
+            kn = sp.N((sp.arg(Z) + sp.arg(W) - sp.arg(prod)) / (2 * sp.pi), 60)
+            if abs(kn - k) > sp.Float('1e-40'):
+                raise ValueError(f'exact wrap integer {k} disagrees with the 60-digit argument computation {kn}')
+        # LOOP: circle through z with centre c, traversed \`lp\` times
+        wind = None
+        through0 = False
+        if nonzero:
+            r2 = (zr - cr) ** 2 + (zi - ci) ** 2
+            d2 = cr ** 2 + ci ** 2
+            if r2 == d2:
+                through0 = True
+            else:
+                wind = lp if d2 < r2 else 0
+        # ROOTS (numeric)
+        mp = mpmath
+        with mp.workdps(50):  # a local precision, never the global one other analyse_* functions rely on
+            zc = mp.mpc(mp.mpf(zr.p) / zr.q, mp.mpf(zi.p) / zi.q)
+            roots = [mp.mpc(0)] if Z == 0 else [mp.root(zc, nn, kk) for kk in range(nn)]
+            for r in roots:
+                if abs(r ** nn - zc) > mp.mpf(10) ** -35:
+                    raise ValueError('a computed root failed root^n = z')
+            root0 = [float(roots[0].real), float(roots[0].imag)]
+        # verdict
+        if not nonzero:
+            blocked, verdict = 'nonzero', 'noargument'
+        elif k != 0:
+            blocked, verdict = 'principal', 'ambiguity'
+        elif wind is None or wind != 0:
+            blocked = 'branch'
+            verdict = 'closesanyway' if (wind is not None and wind % nn == 0) else 'branchswap'
+        else:
+            blocked, verdict = None, 'holds'
+        good = verdict in ('holds', 'closesanyway')
+        prov = 'numeric' if not exact else ('proved' if good else 'refuted')
+        note = {'holds': 'products multiply moduli and add angles; the roots form a regular n-gon',
+                'noargument': 'zero has no argument (|zw| = |z||w| still holds)',
+                'ambiguity': f'Arg z + Arg w = Arg(zw) + {k}*2pi: congruent mod 2pi, not equal',
+                'branchswap': f'the loop winds {wind} time(s) about 0, not a multiple of n: the continuous root arrives at a different root' if wind is not None else 'the loop passes through 0',
+                'closesanyway': f'the loop winds {wind} times about 0, a multiple of n: the hypothesis fails, the root closes up'}[verdict]
+        return {'id': 'complexnum', 'provenance': prov, 'verdict': verdict, 'blockedAct': blocked, 'k': k, 'wind': wind, 'sameRay': bool(same_ray),
+                'field': bool(field), 'modulus': bool(modulus), 'root0': root0, 'rootsProvenance': 'numeric', 'note': note}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'complexnum', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+# ═════════════════════════════ 9.2 cxmaps — Complex functions as maps of the plane ═══════════════════════════════
+_CXM_Z = sp.Symbol('z')
+_CXM_DOMAINS = ('plane', 'upper', 'right', 'disc', 'outside', 'strip')
+
+
+def _cxm_parse(text):
+    """Mirror of cxmapsEngine.parseMap's grammar: z, i/j, numbers (decimals allowed), + - * / ^ (whole-number exponents), parentheses, implicit products
+    (2z, (z+1)(z-1)), or exp(z) / e^z. Returns (kind, f, exact): f in lowest terms for a rational map. exact is False as soon as a decimal point is typed."""
+    import re as _re
+    s = _re.sub(r'\\s+', '', str(text)).replace('−', '-').replace('–', '-').replace('·', '*').replace('×', '*').replace('J', 'j').replace('I', 'i')
+    if not s:
+        raise ValueError('enter a map such as z^2')
+    if _re.fullmatch(r'(?i)(exp\\(z\\)|e\\^z|e\\^\\(z\\))', s):
+        return 'exp', sp.exp(_CXM_Z), True
+    if not _re.fullmatch(r'[0-9zij+\\-*/^().]+', s):
+        raise ValueError(f'cannot read "{text}"')
+    toks = _re.findall(r'\\d+(?:\\.\\d+)?|[ijz+\\-*/^()]', s)
+    if ''.join(toks) != s:
+        raise ValueError(f'cannot read "{text}"')
+    out, prev = [], None
+    for t in toks:
+        kind = 'num' if t[0].isdigit() else ('i' if t in ('i', 'j') else ('z' if t == 'z' else t))
+        if prev in ('num', 'i', 'z', ')') and kind in ('num', 'i', 'z', '('):
+            out.append('*')
+        out.append({'num': f"Rational('{t}')", 'i': 'I', 'z': 'z', '^': '**'}.get(kind, t))
+        prev = kind
+    expr = sp.sympify(''.join(out), locals={'z': _CXM_Z, 'I': sp.I, 'Rational': sp.Rational})
+    f = sp.cancel(sp.together(expr))
+    if f.has(sp.zoo) or f.has(sp.nan) or f.has(sp.oo) or f.free_symbols - {_CXM_Z}:
+        raise ValueError('not a rational function of z')
+    num, den = sp.fraction(f)
+    if max(sp.Poly(num, _CXM_Z).degree(), sp.Poly(den, _CXM_Z).degree()) > 12:
+        raise ValueError('degree at most 12')
+    return 'rational', f, '.' not in s
+
+
+def _cxm_roots(expr):
+    """The roots of a polynomial in z with multiplicities: [(root, mult, kind)], kind 'gauss' (a Gaussian rational), 'radical' (a closed form) or 'numeric'."""
+    z = _CXM_Z
+    if not sp.Poly(expr, z).degree() > 0:
+        return []
+    out = []
+    for fac, m in sp.sqf_list(expr, z)[1]:
+        fp = sp.Poly(fac, z)
+        rs = sp.roots(fp)
+        if sum(rs.values()) == fp.degree():
+            for r, k in rs.items():
+                kind = 'gauss' if (r.is_number and sp.re(r).is_Rational and sp.im(r).is_Rational) else 'radical'
+                out.append((r, m, kind))
+        else:
+            out.extend((r, m, 'numeric') for r in fp.nroots(n=40, maxsteps=300))
+    return out
+
+
+def _cxm_where(dom, r):
+    """'in' | 'boundary' | 'out' for the open domain, decided on a 60-digit evaluation (a margin below 1e-40 is the boundary)."""
+    v = sp.N(r, 60)
+    x, y = sp.re(v), sp.im(v)
+    m = {'plane': sp.Float(1), 'upper': y, 'right': x, 'disc': 1 - sp.sqrt(x * x + y * y), 'outside': sp.sqrt(x * x + y * y) - 1, 'strip': sp.pi.evalf(60) - sp.Abs(y)}[dom]
+    return 'in' if m > sp.Float('1e-40') else ('boundary' if abs(m) <= sp.Float('1e-40') else 'out')
+
+
+def _cxm_pow_collides(dom, n):
+    return n > 2 if dom in ('upper', 'right') else n >= 2
+
+
+def analyse_cxmaps(f, domain, w, z0):
+    """9.2 cxmaps — the exact side. Flat result: { id, provenance, verdict (holds | restricted | pole | critical | collision), blockedAct (finite | critical |
+    injective | None), degree, distinct, nInD, fprime2 (string), pairExact, planeInjective, rule, collisionFactor, note }.
+    f is held as P/Q in lowest terms (sp.cancel). H1: the roots of Q in D; H2: the roots of the reduced numerator of f' in D (every point if f is constant);
+    H3: degree 1 (injective); c z^n + a and a(z + 1/z) + b by their collision rules (z -> zeta z, z -> 1/z, confirmed by the factorisation of f(a) - f(b));
+    exp by its period 2*pi*i (the identity exp(z + 2*pi*i) = exp(z) is simplified, not sampled); anything else by a search over Gaussian-rational points of D
+    (a witness found is exact, none found is \`numeric\` sampling). The fibre of w: roots of P - wQ with multiplicities (sqf_list), the distinct count from
+    deg R - deg gcd(R, R'). |f'(z0)|^2 is simplified exactly. Decimal input is numeric. SymPy decides MORE than the JS tier on exp and on irrational colliding
+    pairs (exact radicals), because it works with closed forms rather than Gaussian rationals only. Bad input abstains."""
+    z = _CXM_Z
+    try:
+        kind, fx, ex_f = _cxm_parse(f)
+        dom = str(domain).strip()
+        if dom not in _CXM_DOMAINS:
+            raise ValueError(f'unknown domain "{domain}"')
+        wr, wi, ex_w = _cxn_parse(w)
+        zr, zi, ex_z = _cxn_parse(z0)
+        W, Z0 = wr + wi * sp.I, zr + zi * sp.I
+        exact_in = ex_f and ex_w and ex_z
+        if kind == 'exp':
+            P, Q = sp.exp(z), sp.Integer(1)
+            degree = None
+            poles, crit, call = [], [], False
+            dP = dQ = None
+            cls = 'exp'
+        else:
+            P, Q = sp.fraction(fx)
+            P, Q = sp.expand(P), sp.expand(Q)
+            dP, dQ = sp.Poly(P, z).degree(), sp.Poly(Q, z).degree()
+            if P == 0:
+                dP = -1
+            degree = max(dP, dQ, 0)
+            poles = _cxm_roots(Q)
+            fp = sp.cancel(sp.together(sp.diff(fx, z)))
+            if fp == 0:
+                crit, call = [], True
+            else:
+                crit, call = _cxm_roots(sp.fraction(fp)[0]), False
+            if dP <= 0 and dQ == 0:
+                cls = 'const'
+            elif degree == 1:
+                cls = 'degree1'
+            else:
+                Pc = sp.Poly(P, z).all_coeffs()[::-1]
+                nzP = [k for k, c in enumerate(Pc) if c != 0 and k > 0]
+                Qc = sp.Poly(Q, z).all_coeffs()[::-1]
+                nzQ = [k for k, c in enumerate(Qc) if c != 0]
+                lead = sp.Poly(Q, z).LC()
+                if dQ == 0 and len(nzP) == 1:
+                    cls, n_pow = 'power', nzP[0]
+                elif dP == 0 and dQ >= 2 and len(nzQ) == 1:
+                    cls, n_pow = 'invpower', dQ
+                elif dQ == 1 and Qc[0] == 0 and dP == 2 and sp.simplify(Pc[0] / lead - Pc[2] / lead) == 0 and Pc[0] != 0:
+                    cls = 'joukowski'
+                else:
+                    cls = 'general'
+        # H1 / H2
+        def _inside(lst):
+            return [(r, m, k) for (r, m, k) in lst if _cxm_where(dom, r) == 'in']
+        h1_in = _inside(poles)
+        h1_pass = not h1_in
+        h1_exact = all(k != 'numeric' for (_, _, k) in (h1_in if h1_in else poles))
+        h2_in = _inside(crit)
+        h2_pass = not call and not h2_in
+        h2_exact = True if (call or kind == 'exp') else all(k != 'numeric' for (_, _, k) in (h2_in if h2_in else crit))
+        # H3
+        def _grid():
+            pts = []
+            for a in range(-6, 7):
+                for b in range(-6, 7):
+                    pts.append(sp.Rational(a, 2) + sp.Rational(b, 2) * sp.I)
+            pts.sort(key=lambda p: (float(sp.Abs(p)), float(sp.re(p)), float(sp.im(p))))
+            return pts
+
+        def _injective(dm):
+            """(pass, exact, rule, pair or None)"""
+            if cls == 'const':
+                pts = [p for p in _grid()[:40] if _cxm_where(dm, p) == 'in']
+                return False, True, 'constant', (pts[0], pts[1]) if len(pts) > 1 else None
+            if cls == 'degree1':
+                return True, True, 'degree 1', None
+            if cls == 'exp':
+                shift = 2 * sp.pi * sp.I
+                assert sp.simplify(sp.exp(shift) - 1) == 0
+                for p in _grid()[:60]:
+                    if _cxm_where(dm, p) != 'in':
+                        continue
+                    for k in (1, -1, 2, -2):
+                        if _cxm_where(dm, p + k * shift) == 'in':
+                            return False, True, 'z -> z + 2 pi i k', (p, p + k * shift)
+                return True, True, 'z -> z + 2 pi i k', None
+            if cls in ('power', 'invpower'):
+                collides = _cxm_pow_collides(dm, n_pow)
+                if not collides:
+                    return True, True, f'z -> zeta z, zeta^{n_pow} = 1', None
+                for p in _grid()[:80]:
+                    if _cxm_where(dm, p) != 'in':
+                        continue
+                    for k in range(1, n_pow):
+                        zeta = sp.exp(2 * sp.pi * sp.I * k / n_pow)
+                        if _cxm_where(dm, sp.simplify(zeta * p)) == 'in':
+                            return False, True, f'z -> zeta z, zeta^{n_pow} = 1', (p, sp.simplify(zeta * p))
+                return False, True, f'z -> zeta z, zeta^{n_pow} = 1', None
+            if cls == 'joukowski':
+                for p in _grid()[:80]:
+                    if _cxm_where(dm, p) != 'in' or p == 0 or abs(p) == 1:
+                        continue
+                    if _cxm_where(dm, 1 / p) == 'in':
+                        return False, True, 'z -> 1/z', (p, 1 / p)
+                return True, True, 'z -> 1/z', None
+            # general: a fibre search over Gaussian-rational points of D
+            checked = 0
+            for p in _grid():
+                if _cxm_where(dm, p) != 'in':
+                    continue
+                qv = sp.simplify(Q.subs(z, p))
+                if qv == 0:
+                    continue
+                checked += 1
+                if checked > 40:
+                    break
+                w1 = sp.simplify(P.subs(z, p) / qv)
+                R = sp.expand(P - w1 * Q)
+                if R == 0:
+                    continue
+                quo = sp.cancel(R / (z - p))
+                for (r, m, k) in _cxm_roots(sp.expand(sp.fraction(sp.together(quo))[0])):
+                    if abs(sp.N(r - p, 30)) > sp.Float('1e-9') and _cxm_where(dm, r) == 'in':
+                        return False, k != 'numeric', 'search', (p, r)
+            return True, False, 'search', None
+        h3_pass, h3_exact, rule, pair = _injective(dom)
+        plane_pass = h3_pass if dom == 'plane' else _injective('plane')[0]
+        # the collision factorisation, as supporting closed form (rational maps only)
+        a_, b_ = sp.symbols('a b')
+        cfac = None
+        if kind == 'rational' and degree >= 1:
+            cfac = str(sp.factor(sp.together(fx.subs(z, a_) - fx.subs(z, b_))))
+        # verdict
+        if not h1_pass:
+            blocked, dec_exact = 'finite', h1_exact
+        elif not h2_pass:
+            blocked, dec_exact = 'critical', h2_exact
+        elif not h3_pass:
+            blocked, dec_exact = 'injective', h3_exact
+        else:
+            blocked, dec_exact = None, h1_exact and h2_exact and h3_exact
+        holds = blocked is None
+        restricted = holds and dom != 'plane' and not plane_pass
+        verdict = ('restricted' if restricted else 'holds') if holds else {'finite': 'pole', 'critical': 'critical', 'injective': 'collision'}[blocked]
+        prov = 'numeric' if not exact_in else (('proved' if holds else 'refuted') if dec_exact else 'numeric')
+        # the fibre
+        distinct, n_in = None, None
+        if kind == 'exp':
+            if W != 0:
+                Lw = sp.log(W)
+                sols = [Lw + 2 * sp.pi * sp.I * k for k in (0, 1, -1, 2, -2, 3, -3, 4, -4)]
+                n_in = sum(1 for s_ in sols if _cxm_where(dom, s_) == 'in')
+            else:
+                distinct, n_in = 0, 0
+        else:
+            R = sp.expand(P - W * Q)
+            if R == 0:
+                distinct, n_in = None, 0
+            elif sp.Poly(R, z).degree() == 0:
+                distinct, n_in = 0, 0
+            else:
+                Rp = sp.Poly(R, z)
+                distinct = Rp.degree() - sp.Poly(sp.gcd(R, sp.diff(R, z)), z).degree()
+                n_in = sum(1 for (r, _m, _k) in _cxm_roots(R) if _cxm_where(dom, r) == 'in')
+        # the area scale
+        fprime2 = None
+        if kind == 'exp':
+            fprime2 = str(sp.simplify(sp.exp(2 * zr)))
+        elif sp.simplify(Q.subs(z, Z0)) != 0:
+            v = sp.simplify(sp.diff(fx, z).subs(z, Z0))
+            fprime2 = str(sp.simplify(sp.expand(v * sp.conjugate(v))))
+        pair_exact = None
+        if pair is not None:
+            pair_exact = bool(all(sp.re(sp.N(q, 30)).is_number for q in pair)) and all(sp.re(q).is_Rational and sp.im(q).is_Rational for q in pair)
+        note = {'holds': 'f has a pole-free, critical-point-free, one-to-one restriction: an inverse on D',
+                'restricted': 'not one-to-one on the plane, yet every clause holds on D: the inverse exists there',
+                'pole': 'f has a pole in D: the image is undefined there',
+                'critical': 'f\\' vanishes in D: angles are multiplied there and no local inverse exists',
+                'collision': 'two points of D share an image: no inverse'}[verdict]
+        return {'id': 'cxmaps', 'provenance': prov, 'verdict': verdict, 'blockedAct': blocked, 'degree': degree, 'distinct': distinct, 'nInD': n_in, 'fprime2': fprime2,
+                'pairExact': pair_exact, 'planeInjective': bool(plane_pass), 'rule': rule, 'class': cls, 'collisionFactor': cfac, 'note': note}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'cxmaps', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'note': f'abstained: {ex}'}
+
+
+# ═════════════════════════════ 9.3 cxlimits — Limits & continuity in the complex plane ═══════════════════════════════
+import re as _cxl_re
+
+_CXL_X = sp.Symbol('x', real=True)
+_CXL_Y = sp.Symbol('y', real=True)
+_CXL_W = sp.Symbol('w')                      # the complex variable of an analytic formula (z = z0 + u)
+_CXL_R = sp.Symbol('r', positive=True)
+_CXL_TH = sp.Symbol('theta', real=True)
+_CXL_T = sp.Symbol('t', positive=True)
+_CXL_FNS = {'conj', 're', 'im', 'abs', 'exp', 'sin', 'cos', 'log', 'ln'}
+_CXL_RAYS = [(1, 0), (0, 1), (-1, 0), (0, -1), (1, 1), (-1, 1), (-1, -1), (1, -1), (2, 1), (1, 2), (-1, 2), (-2, 1), (-2, -1), (-1, -2), (1, -2), (2, -1)]
+_CXL_PARAB = [(1, 0, 1), (1, 0, -1), (-1, 0, 1), (-1, 0, -1), (0, 1, 1), (0, 1, -1), (0, -1, 1), (0, -1, -1)]
+
+
+def _cxl_parse(text, zval=None):
+    """Mirror of cxlimitsEngine.parseFn's grammar: z, x, y, i/j, numbers (decimals allowed), + - * / ^ (whole-number exponents, at most 12), parentheses, implicit
+    products (2z, x y, (x)(y)), conj(.), Re(.), Im(.), abs(.) or |.|, exp, sin, cos. z is x + I*y with x, y REAL symbols (or \`zval\` — the complex variable w — for the
+    analytic pass). Returns (expr, exact, analytic). exact is False as soon as a decimal point is typed."""
+    s = _cxl_re.sub(r'\\s+', '', str(text)).replace('−', '-').replace('–', '-').replace('·', '*').replace('×', '*')
+    s = s.replace('|z|', 'abs(z)')
+    if not s:
+        raise ValueError('enter f(z)')
+    toks, i = [], 0
+    while i < len(s):
+        ch = s[i]
+        if ch.isdigit():
+            m = _cxl_re.match(r'\\d+(?:\\.\\d+)?', s[i:]).group(0)
+            toks.append(('num', m)); i += len(m)
+        elif ch.isalpha():
+            run = _cxl_re.match(r'[A-Za-z]+', s[i:]).group(0)
+            low = run.lower()
+            if low in _CXL_FNS:
+                toks.append(('fn', low))
+            elif _cxl_re.fullmatch(r'[zxyij]+', low):
+                toks.extend(('i' if c == 'j' else c, c) for c in low)
+            else:
+                raise ValueError(f'cannot read "{run}"')
+            i += len(run)
+        elif ch in '+-*/^()|':
+            toks.append((ch, ch)); i += 1
+        else:
+            raise ValueError(f'cannot read "{ch}"')
+    flags = {'exact': True, 'analytic': True}
+    zz = (_CXL_X + sp.I * _CXL_Y) if zval is None else zval
+    pos = [0]
+    bar = [0]
+
+    def peek():
+        return toks[pos[0]][0] if pos[0] < len(toks) else None
+
+    def atom():
+        if pos[0] >= len(toks):
+            raise ValueError('f(z) ends unexpectedly')
+        k, v = toks[pos[0]]
+        if k == 'num':
+            pos[0] += 1
+            if '.' in v:
+                flags['exact'] = False
+            return sp.Rational(v)
+        if k == 'i':
+            pos[0] += 1; return sp.I
+        if k == 'z':
+            pos[0] += 1; return zz
+        if k in ('x', 'y'):
+            pos[0] += 1; flags['analytic'] = False
+            if zval is not None:
+                raise ValueError('x, y are not analytic')
+            return _CXL_X if k == 'x' else _CXL_Y
+        if k == 'fn':
+            pos[0] += 1
+            if peek() != '(':
+                raise ValueError(f'{v} needs parentheses')
+            pos[0] += 1
+            a = expr()
+            if peek() != ')':
+                raise ValueError('missing )')
+            pos[0] += 1
+            return fnapply(v, a)
+        if k == '(':
+            pos[0] += 1
+            e = expr()
+            if peek() != ')':
+                raise ValueError('missing )')
+            pos[0] += 1
+            return e
+        if k == '|':
+            pos[0] += 1; bar[0] += 1
+            e = expr()
+            bar[0] -= 1
+            if peek() != '|':
+                raise ValueError('missing the closing |')
+            pos[0] += 1
+            return fnapply('abs', e)
+        raise ValueError(f'unexpected "{k}"')
+
+    def fnapply(name, a):
+        if name in ('conj', 're', 'im', 'abs'):
+            flags['analytic'] = False
+            if zval is not None:
+                raise ValueError('not analytic')
+        if name == 'conj':
+            return sp.conjugate(a)
+        if name == 're':
+            return sp.re(a)
+        if name == 'im':
+            return sp.im(a)
+        if name == 'abs':
+            return sp.sqrt(sp.expand(a * sp.conjugate(a)))
+        return {'exp': sp.exp, 'sin': sp.sin, 'cos': sp.cos, 'log': sp.log, 'ln': sp.log}[name](a)
+
+    def power():
+        b = atom()
+        if peek() == '^':
+            pos[0] += 1
+            sign = 1
+            if peek() == '-':
+                sign = -1; pos[0] += 1
+            elif peek() == '+':
+                pos[0] += 1
+            if pos[0] >= len(toks) or toks[pos[0]][0] != 'num' or '.' in toks[pos[0]][1]:
+                raise ValueError('exponents must be whole numbers')
+            n = int(toks[pos[0]][1]); pos[0] += 1
+            if n > 12:
+                raise ValueError('exponent at most 12')
+            return b ** (sign * n)
+        return b
+
+    def unary():
+        if peek() == '-':
+            pos[0] += 1; return -unary()
+        if peek() == '+':
+            pos[0] += 1; return unary()
+        return power()
+
+    def starts_atom():
+        return peek() in ('num', 'i', 'z', 'x', 'y', 'fn', '(') or (peek() == '|' and bar[0] == 0)
+
+    def term():
+        a = unary()
+        while True:
+            if peek() == '*':
+                pos[0] += 1; a = a * unary()
+            elif peek() == '/':
+                pos[0] += 1; a = a / unary()
+            elif starts_atom():
+                a = a * power()
+            else:
+                return a
+
+    def expr():
+        a = term()
+        while True:
+            if peek() == '+':
+                pos[0] += 1; a = a + term()
+            elif peek() == '-':
+                pos[0] += 1; a = a - term()
+            else:
+                return a
+
+    out = expr()
+    if pos[0] < len(toks):
+        raise ValueError(f'cannot read f(z) from "{toks[pos[0]][0]}" on')
+    return out, flags['exact'], flags['analytic']
+
+
+def _cxl_num(v, nd=8):
+    """a clean string for a SymPy number: exact rationals/Gaussian rationals stay exact"""
+    v = sp.nsimplify(v) if v.is_number and v.is_Float else v
+    return str(sp.simplify(v))
+
+
+def _cxl_den_zero_hits(den, a, b):
+    """Is (a, b) in the closure of the zero set of the polynomial-like denominator, WITHOUT being isolated? Returns True if a zero CURVE passes through (a, b), False if
+    the zeros are isolated points or absent, None when SymPy cannot decide. sqrt(S) factors are replaced by S (same zero set where S >= 0)."""
+    d = den.replace(lambda e: e.is_Pow and e.exp.is_Rational and not e.exp.is_Integer, lambda e: e.base)
+    if d.has(sp.sin, sp.cos, sp.exp, sp.Abs, sp.conjugate):
+        return None
+    d = sp.expand(d)
+    if d.free_symbols - {_CXL_X, _CXL_Y}:
+        return None
+    if d == 0:
+        return True
+    sols = sp.solve([sp.re(d), sp.im(d)], [_CXL_X, _CXL_Y], dict=True)
+    for s_ in sols:
+        xv, yv = sp.sympify(s_.get(_CXL_X, _CXL_X)), sp.sympify(s_.get(_CXL_Y, _CXL_Y))
+        fs = (xv.free_symbols | yv.free_symbols) & {_CXL_X, _CXL_Y}
+        if not fs:
+            continue  # an isolated zero
+        if len(fs) > 1:
+            return True  # a whole region
+        f0 = next(iter(fs))
+        # a REAL curve: both coordinates real for generic values of the free one (sympy also returns complex branches such as x = -I*y)
+        if not all(sp.simplify(sp.im(c.subs(f0, v))) == 0 for c in (xv, yv) for v in (sp.Rational(1, 3), sp.Rational(7, 5))):
+            continue
+        eq = [q for q in (xv - a, yv - b) if sp.simplify(q) != 0]
+        if not eq:
+            return True
+        for c in sp.solve(eq[0], f0):
+            if all(sp.simplify(q.subs(f0, c)) == 0 for q in eq):
+                return True
+    return False
+
+
+def _cxl_path_limit(e, a, b, dr, di, s_curv):
+    """limit t -> 0+ of f along z0 + d (t + i s t^2), d = dr + i di; 'undef' | 'inf' | a SymPy number | None (cannot decide)"""
+    t = _CXL_T
+    zt = (a + sp.I * b) + (dr + sp.I * di) * (t + sp.I * s_curv * t ** 2)
+    ex = e.subs({_CXL_X: sp.re(zt), _CXL_Y: sp.im(zt)}, simultaneous=True)
+    ex = sp.simplify(ex)
+    if ex.has(sp.zoo) or ex.has(sp.nan):
+        return 'undef'
+    try:
+        L = sp.limit(ex, t, 0, '+')
+    except Exception:  # noqa: BLE001
+        return None
+    if L == sp.zoo or L.is_infinite:
+        return 'inf'
+    if L.has(sp.Limit) or L.has(sp.nan) or L.has(sp.AccumBounds):
+        return None
+    return sp.simplify(L)
+
+
+def analyse_cxlimits(f, z0, override=''):
+    """9.3 cxlimits — the exact side. Flat result: { id, provenance, limitProvenance, verdict (continuous | undefinedNear | noLimit | infinite | removable | mismatch),
+    blockedAct (definedNear | limitExists | valueDefined | agree | None), limit (string, exact), limitKind ('finite' | 'inf' | None), gap ('direction' | 'parabola' | None),
+    cert, note }.
+    f is read in the SAME grammar as the JS tier (Gaussian-rational z, x = Re z, y = Im z, conj/Re/Im/abs, exp/sin/cos) with x, y REAL SymPy symbols.
+    H1 (defined near): the denominator at z0 is non-zero (proved), or the zero set of the polynomial denominator is solved — isolated points are fine, a zero CURVE through
+    z0 refutes. H2 (the limit): (a) a denominator non-zero at z0 gives lim = f(z0); (b) a z-only formula: put z = w and cancel (coprime P/Q: Q(z0) != 0 -> the value,
+    else infinity) or sp.limit for exp/sin/cos; (c) otherwise POLAR SUBSTITUTION about z0 (x = a + r cos(theta), y = b + r sin(theta)): lim r -> 0+ with theta free — if it
+    DEPENDS on theta the limit does not exist (refuted, 'direction'); if it is constant, f - L = r^k g(theta) with g free of r and bounded SQUEEZES the limit (proved);
+    a constant radial limit that cannot be squeezed is NOT enough — eight parabolas z0 + d(t +- i t^2) and the sixteen rays are then compared exactly (a disagreement refutes,
+    'parabola'); surviving all of that abstains (\`unknown\`): radial and parabolic agreement is evidence, never a proof. H3: f(z0) by the denominator-first rule (the .subs() trap
+    of analyse_partials: Mul(0, y) hides 0/0), or the override. H4: exact comparison. A decimal anywhere makes the verdict numeric. SymPy DECIDES MORE than the JS tier on
+    sin z / z and on the squeeze examples (Re z Im z / |z|), where the JS tier can only report 'no disagreement found'."""
+    try:
+        e, ex_f, analytic = _cxl_parse(f)
+        if e.has(sp.zoo) or e.has(sp.nan) or e.has(sp.oo):
+            raise ValueError('division by zero')
+        zr, zi, ex_z = _cxn_parse(z0)
+        a, b = zr, zi
+        ov = None
+        ex_o = True
+        if str(override).strip() != '':
+            orr, oii, ex_o = _cxn_parse(override)
+            ov = orr + sp.I * oii
+        exact_in = ex_f and ex_z and ex_o
+        x_, y_ = _CXL_X, _CXL_Y
+        # ── H1 ──
+        num_, den_ = sp.fraction(sp.together(e))
+        den0 = sp.simplify(den_.subs({x_: a, y_: b}))
+        h1_pass, h1_exact, cert = True, True, None
+        if den0 == 0:
+            curve = _cxl_den_zero_hits(den_, a, b)
+            if curve is True:
+                h1_pass = False
+            elif curve is None:
+                # cannot solve the zero set: look for an exact ray along which f is identically undefined
+                for (p, q) in _CXL_RAYS:
+                    if _cxl_path_limit(e, a, b, p, q, 0) == 'undef':
+                        h1_pass = False
+                        break
+                else:
+                    h1_exact = False
+        if not h1_pass:
+            prov = 'refuted' if exact_in else 'numeric'
+            return {'id': 'cxlimits', 'provenance': prov, 'limitProvenance': None, 'verdict': 'undefinedNear', 'blockedAct': 'definedNear', 'limit': None, 'limitKind': None, 'gap': None,
+                    'cert': None, 'note': 'f is undefined along a curve through z0: no punctured disc on which it has a value'}
+        # ── H2 ──
+        limit, limit_kind, gap, l_prov = None, None, None, 'proved'
+        if den0 != 0 and not e.has(sp.Piecewise):
+            limit, limit_kind, cert = sp.simplify(e.subs({x_: a, y_: b})), 'finite', 'continuous'
+        elif analytic:
+            g, _ex, _an = _cxl_parse(f, zval=_CXL_W)
+            g = sp.cancel(sp.together(g))
+            n2, d2 = sp.fraction(g)
+            if g.has(sp.sin, sp.cos, sp.exp):
+                L = sp.limit(g, _CXL_W, a + sp.I * b)
+                if L == sp.zoo or L.is_infinite:
+                    limit_kind, cert = 'inf', 'analytic'
+                elif L.has(sp.Limit) or L.has(sp.nan):
+                    raise ValueError('limit of the analytic formula did not evaluate')
+                else:
+                    limit, limit_kind, cert = sp.simplify(L), 'finite', 'analytic'
+            else:
+                d0 = sp.simplify(d2.subs(_CXL_W, a + sp.I * b))
+                if d0 != 0:
+                    limit, limit_kind, cert = sp.simplify(n2.subs(_CXL_W, a + sp.I * b) / d0), 'finite', 'analytic'
+                else:
+                    limit_kind, cert = 'inf', 'analytic'
+        else:
+            r, th = _CXL_R, _CXL_TH
+            pol = sp.simplify(e.subs({x_: a + r * sp.cos(th), y_: b + r * sp.sin(th)}, simultaneous=True))
+            try:
+                lp = sp.limit(pol, r, 0, '+')
+            except Exception as ex_:  # noqa: BLE001
+                raise ValueError(f'polar limit failed: {ex_}') from ex_
+            lp = sp.simplify(lp)
+            if lp.has(sp.Limit) or lp.has(sp.nan) or lp.has(sp.AccumBounds):
+                raise ValueError('polar limit did not evaluate in closed form')
+            if th in lp.free_symbols:
+                v1 = complex(sp.N(lp.subs(th, sp.Rational(1, 7)), 30))
+                v2 = complex(sp.N(lp.subs(th, sp.Rational(2, 7)), 30))
+                if abs(v1 - v2) > 1e-9:
+                    gap, limit_kind = 'direction', None
+                else:
+                    lp = sp.nsimplify(sp.N(lp.subs(th, sp.Rational(1, 7)), 30))
+            if gap is None:
+                if lp == sp.zoo or lp.is_infinite:
+                    raise ValueError('the radial limit is infinite; uniform divergence is not decided symbolically')
+                # SQUEEZE: f - L = r^k g(theta), g free of r and bounded
+                h = sp.simplify(pol - lp)
+                squeezed = False
+                for k in range(1, 5):
+                    q = sp.simplify(h / r ** k)
+                    if r not in q.free_symbols:
+                        dq = sp.fraction(sp.together(q))[1]
+                        squeezed = not dq.has(th)
+                        break
+                if squeezed or (h == 0):
+                    limit, limit_kind, cert = lp, 'finite', 'squeeze'
+                else:
+                    # a constant radial limit is NOT a proof: compare the rays and the parabolas exactly
+                    seen = {}
+                    disagreements = []
+                    for (p, q) in _CXL_RAYS:
+                        L = _cxl_path_limit(e, a, b, p, q, 0)
+                        if L is None:
+                            raise ValueError('a ray limit did not evaluate')
+                        seen[('ray', p, q)] = L
+                    for (dr, di, s_) in _CXL_PARAB:
+                        L = _cxl_path_limit(e, a, b, dr, di, s_)
+                        if L is None:
+                            raise ValueError('a parabola limit did not evaluate')
+                        seen[('par', dr, di, s_)] = L
+                    ref_ = lp
+                    bad = [k for k, L in seen.items() if L != 'undef' and (L == 'inf' or sp.simplify(L - ref_) != 0)]
+                    if bad:
+                        gap = 'parabola' if all(k[0] == 'par' for k in bad) else 'direction'
+                    else:
+                        raise ValueError('radial, linear and parabolic limits agree but no squeeze bound was found: evidence, not a proof')
+        # ── H2 verdict ──
+        if gap is not None:
+            prov = 'refuted' if exact_in else 'numeric'
+            return {'id': 'cxlimits', 'provenance': prov, 'limitProvenance': prov, 'verdict': 'noLimit', 'blockedAct': 'limitExists', 'limit': None, 'limitKind': None, 'gap': gap,
+                    'cert': None, 'note': 'two paths into z0 lead to different values: the limit does not exist' + (' (every straight line agrees; a parabola does not)' if gap == 'parabola' else '')}
+        l_prov = 'proved' if exact_in else 'numeric'
+        if limit_kind == 'inf':
+            return {'id': 'cxlimits', 'provenance': 'refuted' if exact_in else 'numeric', 'limitProvenance': 'refuted' if exact_in else 'numeric', 'verdict': 'infinite', 'blockedAct': 'limitExists',
+                    'limit': 'inf', 'limitKind': 'inf', 'gap': None, 'cert': cert, 'note': '|f| grows without bound: the limit is infinity in the extended plane, not a complex number'}
+        lstr = _cxl_num(limit)
+        # ── H3 / H4 ──
+        if ov is not None:
+            fv = ov
+        elif den0 == 0:
+            fv = None
+        else:
+            fv = sp.simplify(e.subs({x_: a, y_: b}))
+        if fv is None or fv.has(sp.zoo) or fv.has(sp.nan):
+            return {'id': 'cxlimits', 'provenance': 'refuted' if exact_in else 'numeric', 'limitProvenance': l_prov, 'verdict': 'removable', 'blockedAct': 'valueDefined', 'limit': lstr, 'limitKind': 'finite',
+                    'gap': None, 'cert': cert, 'note': 'the limit exists but f(z0) is undefined: a removable discontinuity'}
+        if sp.simplify(fv - limit) != 0:
+            return {'id': 'cxlimits', 'provenance': 'refuted' if exact_in else 'numeric', 'limitProvenance': l_prov, 'verdict': 'mismatch', 'blockedAct': 'agree', 'limit': lstr, 'limitKind': 'finite',
+                    'gap': None, 'cert': cert, 'note': 'the limit exists and f(z0) is defined, but they differ: a jump'}
+        return {'id': 'cxlimits', 'provenance': 'proved' if exact_in else 'numeric', 'limitProvenance': l_prov, 'verdict': 'continuous', 'blockedAct': None, 'limit': lstr, 'limitKind': 'finite',
+                'gap': None, 'cert': cert, 'note': 'the limit exists, f(z0) is defined, and they agree: f is continuous at z0'}
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'cxlimits', 'provenance': 'unknown', 'limitProvenance': 'unknown', 'verdict': None, 'blockedAct': None, 'limit': None, 'limitKind': None, 'gap': None, 'cert': None, 'note': f'abstained: {ex}'}
+
+
+# ═════════════════════ 9.4 cauchyriemann — Complex differentiability & the Cauchy–Riemann equations ═════════════════════
+_CRI_T = sp.Symbol('t', positive=True)
+
+
+def _cri_nonsmooth_root(e, a, b):
+    """True when e contains a fractional power (an abs / sqrt) whose base vanishes at (a, b): u, v are not smooth there"""
+    for p_ in e.atoms(sp.Pow):
+        if p_.exp.is_Rational and not p_.exp.is_Integer:
+            bv = sp.simplify(p_.base.subs({_CXL_X: a, _CXL_Y: b}))
+            if bv == 0:
+                return True
+    return False
+
+
+def _cri_dir(e, a, b, p, q, f0):
+    """one-sided complex directional derivative lim_{t->0+} (f(z0 + t (p + iq)) - f0) / t  ('undef' | 'inf' | SymPy number | None)"""
+    t = _CRI_T
+    ex = e.subs({_CXL_X: a + p * t, _CXL_Y: b + q * t}, simultaneous=True)
+    quo = sp.simplify((ex - f0) / t)
+    if quo.has(sp.nan):
+        return 'undef'
+    try:
+        L = sp.limit(quo, t, 0, '+')
+    except Exception:  # noqa: BLE001
+        return None
+    if L == sp.zoo or L.is_infinite:
+        return 'inf'
+    if L.has(sp.Limit) or L.has(sp.nan) or L.has(sp.AccumBounds):
+        return None
+    return sp.simplify(L)
+
+
+def analyse_cauchyriemann(f, z0, override=''):
+    """9.4 cauchyriemann — the exact side. Flat result: { id, provenance, verdict (differentiable | undefined | notRealDiff | crFails), blockedAct (definedNear | realDiff |
+    cr | None), crHolds (True | False | None), fprime (string | None), residual ([u_x - v_y, u_y + v_x] strings | None), h2kind, note }.
+    f is read in the SAME grammar as the JS tier (9.3's: z, x = Re z, y = Im z with REAL SymPy symbols, conj/Re/Im/abs, exp/sin/cos).
+    H1: f(z0) by the denominator-first rule (the .subs() trap: Mul(0, y) hides 0/0) or the override; a denominator zero CURVE through z0 refutes.
+    SMOOTH case (denominator non-zero at z0 and no sqrt/abs vanishing there): u = Re f, v = Im f are infinitely differentiable, so H2 holds; the partials are diff() at
+    the point, the residuals (u_x - v_y, u_y + v_x) are simplified exactly, f' = u_x + i v_x. NON-SMOOTH case: the four partials are one-sided directional limits along
+    +-1, +-i (a partial exists iff the two sides agree); then the linear-approximation error ratio is taken in POLAR form about z0 with theta free — limit 0 proves H2, a
+    non-zero value refutes it (z^5/|z|^4 at 0: CR holds, the error ratio e^(5 i theta) - e^(i theta) does not vanish). SymPy DECIDES MORE than the JS tier on exp and sin
+    (the JS tier samples their partials). A decimal anywhere makes the verdict numeric."""
+    try:
+        e, ex_f, _analytic = _cxl_parse(f)
+        if e.has(sp.zoo) or e.has(sp.nan) or e.has(sp.oo):
+            raise ValueError('division by zero')
+        zr, zi, ex_z = _cxn_parse(z0)
+        a, b = zr, zi
+        ov, ex_o = None, True
+        if str(override).strip() != '':
+            orr, oii, ex_o = _cxn_parse(override)
+            ov = orr + sp.I * oii
+        exact_in = ex_f and ex_z and ex_o
+        x_, y_ = _CXL_X, _CXL_Y
+
+        def out(verdict, blocked, prov, cr, fp, resid, kind, note):
+            return {'id': 'cauchyriemann', 'provenance': prov, 'verdict': verdict, 'blockedAct': blocked, 'crHolds': cr, 'fprime': fp, 'residual': resid, 'h2kind': kind, 'note': note}
+
+        # ── H1 ──
+        num_, den_ = sp.fraction(sp.together(e))
+        den0 = sp.simplify(den_.subs({x_: a, y_: b}))
+        if den0 == 0:
+            curve = _cxl_den_zero_hits(den_, a, b)
+            if curve is True or (ov is None):
+                if ov is None:
+                    return out('undefined', 'definedNear', 'refuted' if exact_in else 'numeric', None, None, None, None, 'f has no value at z0: a zero denominator when z0 is substituted')
+                return out('undefined', 'definedNear', 'refuted' if exact_in else 'numeric', None, None, None, None, 'f is undefined along a curve through z0')
+            if curve is None:
+                raise ValueError('cannot decide where f is defined near z0')
+            f0 = ov
+        else:
+            f0 = ov if ov is not None else sp.simplify(e.subs({x_: a, y_: b}))
+        if f0.has(sp.zoo) or f0.has(sp.nan):
+            return out('undefined', 'definedNear', 'refuted' if exact_in else 'numeric', None, None, None, None, 'f(z0) is undefined')
+        smooth = den0 != 0 and ov is None and not _cri_nonsmooth_root(e, a, b)
+
+        def decide(fx, fy, kind):
+            """fx = f_x(z0), fy = f_y(z0) (complex): the CR residuals and the verdict, once H2 holds"""
+            ux, vx, uy, vy = sp.re(fx), sp.im(fx), sp.re(fy), sp.im(fy)
+            r1, r2 = sp.simplify(ux - vy), sp.simplify(uy + vx)
+            cr = bool(r1 == 0 and r2 == 0)
+            resid = [_cxl_num(r1), _cxl_num(r2)]
+            prov_t = 'proved' if exact_in else 'numeric'
+            prov_f = 'refuted' if exact_in else 'numeric'
+            if cr:
+                return out('differentiable', None, prov_t, True, _cxl_num(sp.simplify(fx)), resid, kind, 'u, v are real-differentiable and the Cauchy-Riemann equations hold: f is complex differentiable, f\\' = u_x + i v_x')
+            return out('crFails', 'cr', prov_f, False, None, resid, kind, 'u, v are real-differentiable but the Cauchy-Riemann equations fail: the Jacobian is not a rotation-scaling')
+
+        if smooth:
+            ee = sp.expand_complex(e)
+            u, v = sp.re(ee), sp.im(ee)
+            sub = {x_: a, y_: b}
+            fx = sp.simplify(sp.diff(u, x_).subs(sub) + sp.I * sp.diff(v, x_).subs(sub))
+            fy = sp.simplify(sp.diff(u, y_).subs(sub) + sp.I * sp.diff(v, y_).subs(sub))
+            if any(c.has(sp.zoo) or c.has(sp.nan) for c in (fx, fy)):
+                raise ValueError('derivatives did not evaluate at z0')
+            return decide(fx, fy, 'smooth')
+
+        # ── non-smooth: one-sided directional limits along the axes ──
+        D = {k: _cri_dir(e, a, b, p, q, f0) for k, (p, q) in {'xp': (1, 0), 'xm': (-1, 0), 'yp': (0, 1), 'ym': (0, -1)}.items()}
+        if any(v_ is None for v_ in D.values()):
+            raise ValueError('a one-sided limit did not evaluate')
+        if any(v_ == 'undef' for v_ in D.values()):
+            return out('undefined', 'definedNear', 'refuted' if exact_in else 'numeric', None, None, None, None, 'f is undefined along an axis through z0')
+        bad = any(v_ == 'inf' for v_ in D.values()) or sp.simplify(D['xp'] + D['xm']) != 0 or sp.simplify(D['yp'] + D['ym']) != 0
+        if bad:
+            return out('notRealDiff', 'realDiff', 'refuted' if exact_in else 'numeric', None, None, None, 'partials', 'a partial derivative of u or v does not exist at z0 (the quotients to the two sides of an axis differ)')
+        fx, fy = D['xp'], D['yp']
+        r_, th_ = _CXL_R, _CXL_TH
+        pol = e.subs({x_: a + r_ * sp.cos(th_), y_: b + r_ * sp.sin(th_)}, simultaneous=True)
+        err = sp.simplify((pol - f0 - fx * r_ * sp.cos(th_) - fy * r_ * sp.sin(th_)) / r_)
+        try:
+            lim = sp.simplify(sp.limit(err, r_, 0, '+'))
+        except Exception as ex_:  # noqa: BLE001
+            raise ValueError(f'polar error limit failed: {ex_}') from ex_
+        if lim.has(sp.Limit) or lim.has(sp.nan) or lim.has(sp.AccumBounds):
+            raise ValueError('polar error limit did not evaluate in closed form')
+        if sp.simplify(lim) == 0:
+            return decide(fx, fy, 'polar')
+        # a non-zero error ratio: the CR residual is still reported (the sufficiency subtlety)
+        ux, vx, uy, vy = sp.re(fx), sp.im(fx), sp.re(fy), sp.im(fy)
+        r1, r2 = sp.simplify(ux - vy), sp.simplify(uy + vx)
+        return out('notRealDiff', 'realDiff', 'refuted' if exact_in else 'numeric', bool(r1 == 0 and r2 == 0), None, [_cxl_num(r1), _cxl_num(r2)], 'ratio',
+                   'the partials exist but the linear-approximation error ratio does not tend to 0 (it depends on the direction): u, v are not real-differentiable')
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'cauchyriemann', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'crHolds': None, 'fprime': None, 'residual': None, 'h2kind': None, 'note': f'abstained: {ex}'}
+
+
+# ═════════════════════════ 9.5 analytic — Analytic functions, harmonic conjugates & conformality ═════════════════════════
+# Prefix _ana_. Reads f in the SAME grammar as the JS tier (9.3's, plus log / ln): z = x + I*y with REAL symbols x, y.
+_ANA_DOMAINS = {'plane': (True, False), 'disc': (True, False), 'punctured': (False, True), 'annulus': (False, True)}   # (simply connected, has a hole at 0)
+
+
+def _ana_in_domain(domain, px, py):
+    """is the point (px, py) (SymPy numbers) in the open domain D? exact comparisons"""
+    r2 = sp.simplify(px ** 2 + py ** 2)
+    if domain == 'disc':
+        return bool(r2 < 4)
+    if domain == 'punctured':
+        return bool(r2 > 0)
+    if domain == 'annulus':
+        return bool(r2 > sp.Rational(1, 4) and r2 < 4)
+    return True
+
+
+def _ana_singular_in_domain(e, domain):
+    """True / False: does e have a point of non-definition inside D?  None: cannot decide (abstain).
+    Poles: the real common zeros of re/im of the denominator (a polynomial system, sp.solve). Logarithms: only log(c*(x**2+y**2)**q) is recognised (singular at 0)."""
+    x_, y_ = _CXL_X, _CXL_Y
+    pts = []
+    logs = [a for a in e.atoms(sp.log)]
+    for lg in logs:
+        arg = sp.simplify(lg.args[0])
+        if not (arg.free_symbols & {x_, y_}):
+            continue
+        if sp.simplify(arg ** 2 - (x_ ** 2 + y_ ** 2)) == 0 or sp.simplify(arg - (x_ ** 2 + y_ ** 2)) == 0:
+            pts.append((sp.Integer(0), sp.Integer(0)))   # log |z| and log |z|^2 are singular at 0 only
+        else:
+            return None
+    num, den = sp.fraction(sp.together(e))
+    den = sp.expand(den)
+    if den.free_symbols & {x_, y_}:
+        dc = sp.expand_complex(den)
+        r, i = sp.re(dc), sp.im(dc)
+        if sp.simplify(r) == 0 and sp.simplify(i) == 0:
+            return True
+        sols = sp.solve([r, i], [x_, y_], dict=True)
+        for s_ in sols:
+            xs, ys = s_.get(x_, x_), s_.get(y_, y_)
+            free = list((xs.free_symbols | ys.free_symbols) & {x_, y_})
+            conds = [c for c in (sp.simplify(sp.im(sp.expand_complex(xs))), sp.simplify(sp.im(sp.expand_complex(ys)))) if c != 0]
+            if free:
+                if not conds:
+                    return None        # a whole real curve of singularities: not decided here
+                sub = sp.solve(conds, free, dict=True)
+                if any(len(t_) != len(free) for t_ in sub):
+                    return None
+                cand = [(sp.simplify(xs.subs(t_)), sp.simplify(ys.subs(t_))) for t_ in sub]
+            else:
+                cand = [] if conds else [(xs, ys)]
+            for px, py in cand:
+                if px.free_symbols or py.free_symbols:
+                    return None
+                pts.append((sp.re(px), sp.re(py)))
+    return any(_ana_in_domain(domain, px, py) for px, py in pts)
+
+
+def _ana_lap(q):
+    return sp.simplify(sp.diff(q, _CXL_X, 2) + sp.diff(q, _CXL_Y, 2))
+
+
+def _ana_uv(e):
+    ee = sp.expand_complex(e)
+    return sp.simplify(sp.re(ee)), sp.simplify(sp.im(ee))
+
+
+def _ana_period(u, rho):
+    """P / (2 pi) for dv = -u_y dx + u_x dy round |z| = rho: the integral of rho (u_x cos t + u_y sin t) dt over [0, 2 pi], divided by 2 pi. None: undecided."""
+    t_ = sp.Symbol('t_', real=True)
+    ux, uy = sp.diff(u, _CXL_X), sp.diff(u, _CXL_Y)
+    integrand = sp.simplify(rho * (ux * sp.cos(t_) + uy * sp.sin(t_)).subs({_CXL_X: rho * sp.cos(t_), _CXL_Y: rho * sp.sin(t_)}, simultaneous=True))
+    integrand = sp.simplify(sp.trigsimp(integrand))
+    if not (integrand.free_symbols & {t_}):
+        return sp.simplify(integrand)
+    val = _integrate_or_none(integrand, (t_, 0, 2 * sp.pi))
+    return None if val is None else sp.simplify(val / (2 * sp.pi))
+
+
+def _ana_conjugate(u):
+    """v with v_y = u_x, v_x = -u_y by integrating the Cauchy-Riemann equations, verified exactly; None when SymPy cannot"""
+    x_, y_ = _CXL_X, _CXL_Y
+    V0 = _integrate_or_none(sp.diff(u, x_), y_)
+    if V0 is None:
+        return None
+    hp = sp.simplify(-sp.diff(u, y_) - sp.diff(V0, x_))
+    if hp.free_symbols & {y_}:
+        return None
+    H = sp.Integer(0) if hp == 0 else _integrate_or_none(hp, x_)
+    if H is None:
+        return None
+    v = sp.simplify(V0 + H)
+    if sp.simplify(sp.diff(v, x_) + sp.diff(u, y_)) != 0 or sp.simplify(sp.diff(v, y_) - sp.diff(u, x_)) != 0:
+        return None
+    return v
+
+
+def analyse_analytic(facet, g, domain='plane', z0='0'):
+    """9.5 analytic — the exact side. Flat result { id, provenance, facet, verdict, blockedAct, ... }.
+    facet 'analytic':  H1 f analytic on D (CR residual identically 0 and no pole / log singularity in D) => u, v harmonic (symbolic Laplacians): fields harmonic, residual, laplacians.
+    facet 'conjugate': H1 u = Re g harmonic on D (Laplacian 0 and defined on D); H2 D simply connected (a fact about the domain). conjugateExists is computed whatever H2 says,
+                       from the period of dv round the loop |z| = 1 (0.8 on a simply connected D) and an exact v built by integrating the CR equations: fields conjugate, periodOver2pi.
+    facet 'conformal': H1 f analytic at z0 (9.4's analyse_cauchyriemann + the CR residual identically 0 near z0), H2 f'(z0) != 0; at a critical point the order m (first non-zero
+                       derivative, from the analytic form of f) is the factor by which angles are multiplied: fields fprime, m.
+    SymPy DECIDES MORE than the JS tier on exp / rational input (the JS tier samples). A decimal anywhere makes the verdict numeric. Abstains (unknown) on a log with a branch cut
+    in D, on singular sets it cannot solve, and on integrals it cannot do."""
+    def unk(note):
+        return {'id': 'analytic', 'provenance': 'unknown', 'facet': facet, 'verdict': None, 'blockedAct': None, 'note': f'abstained: {note}'}
+    try:
+        if domain not in _ANA_DOMAINS:
+            raise ValueError('unknown domain')
+        simply, hole = _ANA_DOMAINS[domain]
+        e, ex_f, analytic = _cxl_parse(g)
+        if e.has(sp.zoo) or e.has(sp.nan) or e.has(sp.oo):
+            raise ValueError('division by zero')
+        x_, y_ = _CXL_X, _CXL_Y
+        if facet == 'analytic':
+            u, v = _ana_uv(e)
+            r1, r2 = sp.simplify(sp.diff(u, x_) - sp.diff(v, y_)), sp.simplify(sp.diff(u, y_) + sp.diff(v, x_))
+            cr = bool(r1 == 0 and r2 == 0)
+            if cr and e.has(sp.log) and analytic:
+                # the principal logarithm jumps across the negative axis; the cut lies in every domain that contains it (all four do)
+                raise ValueError('the principal logarithm has a branch cut in D')
+            sing = _ana_singular_in_domain(e, domain) if cr else False
+            if sing is None:
+                raise ValueError('cannot decide where f is defined on D')
+            h1 = bool(cr and not sing)
+            lu, lv = _ana_lap(u), _ana_lap(v)
+            harmonic = bool(lu == 0 and lv == 0 and not sing)
+            if _ana_singular_in_domain(e, domain) is None and not cr:
+                harmonic = bool(lu == 0 and lv == 0)
+            prov = 'proved' if ex_f and h1 and harmonic else ('refuted' if ex_f else 'numeric')
+            return {'id': 'analytic', 'provenance': prov, 'facet': facet, 'verdict': 'harmonic' if h1 else 'notAnalytic', 'blockedAct': None if h1 else 'analytic',
+                    'harmonic': harmonic, 'residual': [_cxl_num(r1), _cxl_num(r2)], 'laplacians': [str(lu), str(lv)], 'u': str(u), 'v': str(v),
+                    'note': 'f analytic on D: both parts harmonic' if h1 else ('not analytic on D: ' + ('a pole inside D' if cr else 'the Cauchy-Riemann equations fail'))}
+        if facet == 'conjugate':
+            u, _v = _ana_uv(e)
+            lu = _ana_lap(u)
+            sing = _ana_singular_in_domain(u, domain)
+            if sing is None:
+                raise ValueError('cannot decide where u is defined on D')
+            h1 = bool(lu == 0 and not sing)
+            verdict = 'notHarmonic' if not h1 else ('conjugate' if simply else 'notSimply')
+            blocked = None if verdict == 'conjugate' else ('harmonic' if not h1 else 'simply')
+            prov_t = 'proved' if ex_f else 'numeric'
+            prov_f = 'refuted' if ex_f else 'numeric'
+            if not h1:
+                return {'id': 'analytic', 'provenance': prov_f, 'facet': facet, 'verdict': verdict, 'blockedAct': blocked, 'conjugateExists': False, 'periodOver2pi': None,
+                        'conjugate': None, 'laplacian': str(lu), 'note': 'u is not harmonic on D (Laplacian nonzero or u undefined inside D): no conjugate'}
+            rho = sp.Integer(1) if hole else sp.Rational(4, 5)
+            vv = _ana_conjugate(u)
+            per = sp.Integer(0) if simply else _ana_period(u, rho)   # Green: on a simply connected D every period of a harmonic u vanishes
+            if per is None:
+                raise ValueError('the period of the conjugate round the loop could not be computed')
+            exists = bool(per == 0)
+            return {'id': 'analytic', 'provenance': prov_t if verdict == 'conjugate' else (prov_f if verdict == 'notSimply' else prov_t), 'facet': facet, 'verdict': verdict, 'blockedAct': blocked,
+                    'conjugateExists': exists, 'periodOver2pi': None if per is None else str(sp.simplify(per)), 'conjugate': None if vv is None else str(vv), 'laplacian': str(lu),
+                    'note': ('a single-valued harmonic conjugate exists on D' if exists else 'the conjugate is multivalued on D: continuing it once round the hole changes it by the period')}
+        if facet == 'conformal':
+            cr = analyse_cauchyriemann(g, z0, '')
+            exact_in = ex_f and _cxn_parse(z0)[2]
+            if cr.get('provenance') == 'unknown':
+                raise ValueError(cr.get('note', 'the derivative could not be decided'))
+            ok = cr['verdict'] == 'differentiable'
+            if ok:
+                u, v = _ana_uv(e)
+                r1, r2 = sp.simplify(sp.diff(u, x_) - sp.diff(v, y_)), sp.simplify(sp.diff(u, y_) + sp.diff(v, x_))
+                ok = bool(r1 == 0 and r2 == 0)
+            if not ok:
+                return {'id': 'analytic', 'provenance': 'refuted' if exact_in else 'numeric', 'facet': facet, 'verdict': 'notAnalytic', 'blockedAct': 'atZ0', 'fprime': None, 'm': None,
+                        'note': 'f is not analytic at z0 (not complex differentiable there, or the Cauchy-Riemann equations fail at nearby points)'}
+            fp = sp.nsimplify(sp.sympify(cr['fprime'].replace('I', 'I')))
+            fp = sp.simplify(fp)
+            if fp != 0:
+                return {'id': 'analytic', 'provenance': 'proved' if exact_in else 'numeric', 'facet': facet, 'verdict': 'conformal', 'blockedAct': None, 'fprime': str(fp), 'm': 1,
+                        'note': "f analytic with f'(z0) != 0: conformal at z0"}
+            m = None
+            try:
+                ew, _ex, an = _cxl_parse(g, zval=_CXL_W)
+                zr, zi, _e = _cxn_parse(z0)
+                d = ew
+                for k in range(1, 13):
+                    d = sp.diff(d, _CXL_W)
+                    if sp.simplify(d.subs(_CXL_W, zr + sp.I * zi)) != 0:
+                        m = k
+                        break
+            except Exception:  # noqa: BLE001
+                m = None
+            return {'id': 'analytic', 'provenance': 'proved' if exact_in else 'numeric', 'facet': facet, 'verdict': 'critical', 'blockedAct': 'derivative', 'fprime': '0', 'm': m,
+                    'note': "f'(z0) = 0: angles at z0 are multiplied by the order m of the zero of f - f(z0)"}
+        raise ValueError('unknown facet')
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ═══ 9.6 cxexp — the exponential, trigonometric & hyperbolic functions (prefix _cxe_) ═══
+_CXE_N = sp.Symbol('N')
+
+
+def _cxe_parse_pi(text):
+    """Mirror of cxexpEngine.js parsePi: a signed sum of terms, each a product of numbers (integer | decimal), '/' division by a number, at most one 'pi' and at most one 'i',
+    joined by '*' or juxtaposed. Returns (re, im, exact) as SymPy expressions q + p*pi; exact is False as soon as a decimal point is typed."""
+    import re as _re
+    s = _re.sub(r'\\s+', '', str(text)).replace('−', '-').replace('–', '-').replace('π', 'pi').lower().replace('j', 'i')
+    if not s or not _re.fullmatch(r'[0-9+\\-./*ip]+', s):
+        raise ValueError(f'cannot read "{text}"')
+    terms = _re.findall(r'[+-]?[^+-]+', s)
+    if ''.join(terms) != s:
+        raise ValueError(f'cannot read "{text}"')
+    re_, im_, exact = sp.Integer(0), sp.Integer(0), True
+    for t in terms:
+        sign = -1 if t[0] == '-' else 1
+        body = t.lstrip('+-')
+        toks = _re.findall(r'\\d+\\.\\d*|\\.\\d+|\\d+|pi|i|\\*|/', body)
+        if ''.join(toks) != body:
+            raise ValueError(f'cannot read the term "{t}"')
+        c, n_pi, n_i, div, anyt = sp.Integer(1), 0, 0, False, False
+        for k in toks:
+            if k == '*':
+                continue
+            if k == '/':
+                if div:
+                    raise ValueError('cannot read the term')
+                div = True
+                continue
+            if k in ('pi', 'i'):
+                if div:
+                    raise ValueError('cannot divide by pi or i')
+                if k == 'pi':
+                    n_pi += 1
+                else:
+                    n_i += 1
+                anyt = True
+                continue
+            if '.' in k:
+                exact = False
+            v = sp.Rational(k)
+            if div:
+                if v == 0:
+                    raise ValueError('division by zero')
+                c, div = c / v, False
+            else:
+                c = c * v
+            anyt = True
+        if div or not anyt or n_pi > 1 or n_i > 1:
+            raise ValueError(f'cannot read the term "{t}"')
+        c = sign * c * (sp.pi if n_pi else 1)
+        if n_i:
+            im_ += c
+        else:
+            re_ += c
+    return re_, im_, exact
+
+
+def _cxe_real_a(text):
+    re_, im_, exact = _cxn_parse(text)
+    if im_ != 0:
+        raise ValueError('a must be a real number')
+    return re_, exact
+
+
+def analyse_cxexp(facet, z='0', w='0', a='1', domain='plane'):
+    """9.6 cxexp — the exact side. Flat result { id, provenance, facet, verdict, blockedAct, ... }.
+    facet 'exp':   Euler's formula (expand_complex of e^z = e^x (cos y + i sin y)), the exponential law e^(z+w) = e^z e^w, the period e^(z+2 pi i) = e^z and |e^z| = e^x are
+                   decided by simplification; the series-level identity (E_N(x) E_N(y) - E_N(x+y) has only monomials of total degree > N) is checked on the polynomial. Fields: euler, law, period, modulus.
+    facet 'strip': H1 e^z one-to-one on D. solveset gives the preimages of w exactly (log|w| + i(arg w + 2 pi n)); on the plane two of them differ by 2 pi i and have the same exponential
+                   (refuted); in the strip exactly one n works (proved); w = 0 has none (solveset returns the empty set). Fields: preimages, count, zeroFree.
+    facet 'trig':  H1 |sin z| <= 1 and |cos z| <= 1 at z, decided by a 60-digit evaluation of sin^2 x + sinh^2 y (certified: an adaptive-precision evaluation, margin checked), sin^2 + cos^2 = 1 exactly
+                   (rewrite to exponentials and expand), cos(iz) = cosh z, sin(iz) = i sinh z, sin unbounded (limit of sinh), the zeros of sin (solveset: all real). Fields: identity, unbounded, zerosReal.
+    facet 'power': k = ceiling((Im z - pi) / (2 pi)) exactly; (e^z)^a = exp(a (x + i (y - 2 pi k))) against e^(az): equal iff a k is an integer (exact). Fields: k, equal, failsYetHolds.
+    A decimal anywhere makes the verdict numeric. Abstains (unknown) on input it cannot read or decide."""
+    def unk(note):
+        return {'id': 'cxexp', 'provenance': 'unknown', 'facet': facet, 'verdict': None, 'blockedAct': None, 'note': f'abstained: {note}'}
+    try:
+        if facet == 'exp':
+            xr, yr, ex1 = _cxn_parse(z)
+            ur, vr, ex2 = _cxn_parse(w)
+            exact = bool(ex1 and ex2)
+            zz, ww = xr + sp.I * yr, ur + sp.I * vr
+            ez = sp.expand_complex(sp.exp(zz))
+            euler = bool(sp.simplify(ez - sp.exp(xr) * (sp.cos(yr) + sp.I * sp.sin(yr))) == 0)
+            law = bool(sp.simplify(sp.expand(sp.exp(zz + ww) - sp.exp(zz) * sp.exp(ww))) == 0)
+            period = bool(sp.simplify(sp.exp(zz + 2 * sp.pi * sp.I) - sp.exp(zz)) == 0)
+            modulus = bool(sp.simplify(sp.Abs(sp.exp(zz)) - sp.exp(xr)) == 0)
+            xs, ys = sp.symbols('xs ys')
+            E = lambda n, v: sum(v ** k / sp.factorial(k) for k in range(n + 1))
+            poly = sp.Poly(sp.expand(E(6, xs) * E(6, ys) - E(6, xs + ys)), xs, ys)
+            series = bool(all(m[0] + m[1] > 6 for m in poly.monoms()))
+            ok = euler and law and period and modulus and series
+            return {'id': 'cxexp', 'provenance': ('proved' if ok else 'refuted') if exact else 'numeric', 'facet': facet, 'verdict': 'holds' if ok else 'fails', 'blockedAct': None,
+                    'euler': euler, 'law': law, 'period': period, 'modulus': modulus, 'seriesLevel': series, 'value': str(sp.simplify(sp.exp(zz))),
+                    'note': "Euler's formula, the exponential law, the period 2 pi i and |e^z| = e^x are exact identities"}
+        if facet == 'strip':
+            if domain not in ('plane', 'strip'):
+                raise ValueError('unknown domain')
+            ur, vr, exact = _cxe_parse_pi(w)
+            ww = ur + sp.I * vr
+            zs = sp.Symbol('zs')
+            if ww == 0:
+                sol = sp.solveset(sp.exp(zs), zs, sp.S.Complexes)
+                if sol != sp.S.EmptySet:
+                    raise ValueError('could not show that e^z = 0 has no solution')
+                return {'id': 'cxexp', 'provenance': 'proved' if exact else 'numeric', 'facet': facet, 'verdict': 'injective', 'blockedAct': None, 'count': 0, 'zeroFree': True, 'preimages': '{}',
+                        'note': '|e^z| = e^x > 0: e^z = 0 has no solution'}
+            lg = sp.log(sp.Abs(ww)) + sp.I * sp.arg(ww)
+            check = bool(sp.simplify(sp.expand_complex(sp.exp(lg)) - ww) == 0) if exact else bool(abs(complex(sp.N(sp.exp(lg) - ww, 30))) < 1e-12)
+            if not check:
+                raise ValueError('could not verify the principal preimage')
+            if domain == 'strip':
+                argv = sp.N(sp.arg(ww), 50)
+                n0 = 0 if (argv >= 0) else 1
+                im = sp.N(sp.arg(ww) + 2 * sp.pi * n0, 50)
+                inside = bool(0 <= im < 2 * sp.pi)
+                return {'id': 'cxexp', 'provenance': 'proved' if (exact and inside) else 'numeric', 'facet': facet, 'verdict': 'injective', 'blockedAct': None, 'count': 1, 'zeroFree': True,
+                        'preimages': str(sp.simplify(sp.log(sp.Abs(ww)) + sp.I * (sp.arg(ww) + 2 * sp.pi * n0))), 'note': 'exactly one preimage in the strip'}
+            same = bool(sp.simplify(sp.exp(lg + 2 * sp.pi * sp.I) - sp.exp(lg)) == 0) if exact else True
+            return {'id': 'cxexp', 'provenance': ('refuted' if same else 'unknown') if exact else 'numeric', 'facet': facet, 'verdict': 'notInjective', 'blockedAct': 'injective', 'count': 'infinite', 'zeroFree': True,
+                    'preimages': str(sp.simplify(lg)) + ' + 2*pi*I*n, n in Z', 'note': 'z and z + 2 pi i have the same exponential: not one-to-one on the plane'}
+        if facet == 'trig':
+            xr, yr, exact = _cxn_parse(z)
+            zz = xr + sp.I * yr
+            sin_, cos_ = sp.sin(zz), sp.cos(zz)
+            s2 = sp.expand(sp.sin(zz).rewrite(sp.exp) ** 2 + sp.cos(zz).rewrite(sp.exp) ** 2)
+            identity = bool(sp.simplify(s2 - 1) == 0)
+            ms = sp.N(sp.sin(xr) ** 2 + sp.sinh(yr) ** 2, 60)
+            mc = sp.N(sp.cos(xr) ** 2 + sp.sinh(yr) ** 2, 60)
+            tol = sp.Float('1e-45', 60)
+
+            def le1(num, ex):
+                # certified comparison with 1: a margin above 1e-45 decides; an apparent tie is decided by exact simplification (equality counts as <= 1)
+                if abs(num - 1) < tol:
+                    if sp.simplify(ex - 1) == 0:
+                        return True
+                    raise ValueError('a modulus equals 1 to working precision: cannot certify the comparison')
+                return bool(num <= 1)
+            sin_ok = le1(ms, sp.sin(xr) ** 2 + sp.sinh(yr) ** 2)
+            cos_ok = le1(mc, sp.cos(xr) ** 2 + sp.sinh(yr) ** 2)
+            h1 = sin_ok and cos_ok
+            t_ = sp.Symbol('t', positive=True)
+            unbounded = bool(sp.limit(sp.sinh(t_), t_, sp.oo) == sp.oo)
+            y_ = sp.Symbol('y_', real=True)
+            hyp = bool(sp.simplify(sp.cos(sp.I * y_) - sp.cosh(y_)) == 0 and sp.simplify(sp.sin(sp.I * y_) - sp.I * sp.sinh(y_)) == 0)
+            zsym = sp.Symbol('zsym')
+            sol = sp.solveset(sp.sin(zsym), zsym, sp.S.Complexes)
+            parts = sol.args if isinstance(sol, sp.Union) else (sol,)
+            zeros_real = bool(parts and all(isinstance(p, sp.ImageSet) and not p.lamda.expr.has(sp.I) for p in parts))
+            prov = 'numeric' if not exact else ('proved' if h1 else 'refuted')
+            return {'id': 'cxexp', 'provenance': prov, 'facet': facet, 'verdict': 'bounded' if h1 else 'unbounded', 'blockedAct': None if h1 else 'bound',
+                    'identity': identity, 'unbounded': unbounded, 'hyperbolic': hyp, 'zerosReal': zeros_real, 'sinBounded': sin_ok, 'cosBounded': cos_ok,
+                    'sinModulusSquared': str(sp.N(ms, 12)), 'cosModulusSquared': str(sp.N(mc, 12)),
+                    'note': 'sin^2 z + cos^2 z = 1 holds; ' + ('both moduli are at most 1 here' if h1 else 'a modulus exceeds 1: the real bound does not carry over')}
+        if facet == 'power':
+            xr_, yr_, ex1 = _cxe_parse_pi(z)
+            ar, ex2 = _cxe_real_a(a)
+            exact = bool(ex1 and ex2)
+            t_exact = sp.simplify((yr_ - sp.pi) / (2 * sp.pi))
+            if t_exact.is_Rational:
+                kk = sp.Integer(sp.ceiling(t_exact))
+            else:
+                tn = sp.N(t_exact, 50)
+                if abs(tn - sp.floor(tn + sp.Rational(1, 2))) < sp.Float('1e-40', 50):
+                    raise ValueError('cannot decide the wrap count')
+                kk = sp.Integer(sp.ceiling(tn))
+            ak = sp.simplify(ar * kk)
+            equal = bool(ak.is_integer)
+            zz = xr_ + sp.I * yr_
+            lhs = sp.exp(ar * (xr_ + sp.I * (yr_ - 2 * sp.pi * kk)))
+            rhs = sp.exp(ar * zz)
+            ratio_one = bool(sp.simplify(sp.expand_complex(lhs / rhs) - 1) == 0) if exact else (abs(complex(sp.N(lhs - rhs, 30))) < 1e-9)
+            if bool(ratio_one) != equal:
+                raise ValueError('inconsistent comparison')
+            a_int = bool(ar.is_integer)
+            h1 = (kk == 0) or a_int
+            verdict = 'holds' if h1 else 'branch'
+            prov = ('proved' if equal else 'refuted') if exact else 'numeric'
+            return {'id': 'cxexp', 'provenance': prov, 'facet': facet, 'verdict': verdict, 'blockedAct': None if h1 else 'branch', 'k': int(kk), 'equal': equal,
+                    'failsYetHolds': bool((not h1) and equal), 'lhs': str(sp.simplify(lhs)), 'rhs': str(sp.simplify(rhs)),
+                    'note': 'the two sides differ by the factor exp(-2 pi i a k): equal iff a k is an integer'}
+        raise ValueError('unknown facet')
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ═══ 9.7 cxlog — logarithms, branches & complex powers (prefix _cxg_) ═══
+def _cxg_real(text, label):
+    re_, im_, exact = _cxn_parse(text)
+    if im_ != 0:
+        raise ValueError(f'{label} must be a real number')
+    if abs(re_) > 12:
+        raise ValueError(f'keep |{label}| <= 12')
+    return re_, exact
+
+
+def _cxg_int(text, lo, hi, label):
+    import re as _re
+    s = str(text).strip()
+    if not _re.fullmatch(r'-?\\d+', s) or not (lo <= int(s) <= hi):
+        raise ValueError(f'{label} must be a whole number from {lo} to {hi}')
+    return int(s)
+
+
+def _cxg_crossings(zc, r2, cc):
+    """Signed crossings per lap of the circle (centre cc, radius^2 r2) with the negative real axis, counted COUNTER-clockwise round 0: +1 where the circle moves downward across it.
+    Independent of the winding-number test |c|^2 against r^2: solve the circle against y = 0 exactly and read the direction of motion (dz/dphi = i (z - c), so vy = x - Re c)."""
+    cr, ci = sp.re(cc), sp.im(cc)
+    disc = r2 - ci ** 2
+    if disc < 0:
+        return 0, 0
+    s = sp.sqrt(disc)
+    xs = [cr] if disc == 0 else [cr - s, cr + s]
+    net, count = 0, 0
+    for x in xs:
+        if disc == 0:
+            continue  # tangent: touches the axis, never crosses it
+        if x == 0:
+            raise ValueError('the circle passes through 0')
+        if sp.N(x, 50) < 0:
+            count += 1
+            net += 1 if sp.N(x - cr, 50) < 0 else -1
+    return net, count
+
+
+def analyse_cxlog(facet, z='1', w='1', a='1', b='1', c='', laps='1', n='2'):
+    """9.7 cxlog — the exact side. Flat result { id, provenance, facet, verdict, blockedAct, ... }.
+    facet 'branch':  H1 z != 0 and the loop (the circle through z with centre c; blank c: centre 3z/2) avoids 0; H2 the loop does not go round 0. The winding number is decided
+                     exactly (|c|^2 against |z - c|^2) AND by an independent route: the circle is solved against the negative real axis (sp.sqrt of an exact discriminant) and the direction of
+                     motion at each crossing is read off, which also gives the principal jumps. W mod n decides whether the continuous n-th root closes up. Fields: wind, jumps, rootCloses, failsYetHolds.
+    facet 'product': k in Arg z + Arg w = Arg(zw) + 2 pi k from sp.arg of the exact numbers, certified at 50 digits (|difference - 2 pi k| < 1e-40). Fields: k, congruent.
+    facet 'power':   (z^a)^b against z^(ab). m with a Arg z - 2 pi m in (-pi, pi]: exact when sp.arg(z) is a rational multiple of pi (z on an axis or a diagonal) or a is an integer; the
+                     identity holds iff b m is an integer. Any other z with a non-integer a is decided numerically and reported as numeric, mirroring the JS tier. Fields: k, equal, count, failsYetHolds.
+    A decimal anywhere makes the verdict numeric. Abstains (unknown) on input it cannot read or decide."""
+    def unk(note):
+        return {'id': 'cxlog', 'provenance': 'unknown', 'facet': facet, 'verdict': None, 'blockedAct': None, 'note': f'abstained: {note}'}
+    try:
+        zr, zi, ex1 = _cxn_parse(z)
+        zz = zr + sp.I * zi
+        if facet == 'branch':
+            nn_ = _cxg_int(n, 2, 12, 'n')
+            lp = _cxg_int(laps, -4, 4, 'laps')
+            if lp == 0:
+                raise ValueError('laps must not be 0')
+            exact = ex1
+            if zz == 0:
+                return {'id': 'cxlog', 'provenance': 'refuted' if exact else 'numeric', 'facet': facet, 'verdict': 'undefined', 'blockedAct': 'nonzero', 'wind': None, 'jumps': None, 'rootCloses': None,
+                        'failsYetHolds': False, 'note': 'e^w = 0 has no solution: 0 has no logarithm'}
+            if str(c).strip() == '':
+                cc = sp.Rational(3, 2) * zz
+            else:
+                cr, ci, ex2 = _cxn_parse(c)
+                cc = cr + sp.I * ci
+                exact = exact and ex2
+            r2 = sp.Rational(sp.expand(sp.Abs(zz - cc) ** 2))
+            d2 = sp.Rational(sp.expand(sp.Abs(cc) ** 2))
+            if r2 == d2:
+                return {'id': 'cxlog', 'provenance': 'refuted' if exact else 'numeric', 'facet': facet, 'verdict': 'undefined', 'blockedAct': 'nonzero', 'wind': None, 'jumps': None, 'rootCloses': None,
+                        'failsYetHolds': False, 'note': 'the loop passes through 0, where log is undefined'}
+            W = lp if d2 < r2 else 0
+            net, cnt = _cxg_crossings(zz, r2, cc)
+            if net * lp != W:
+                raise ValueError('the two winding-number routes disagree')
+            jumps = cnt * abs(lp)
+            closes = (W % nn_ == 0)
+            holds = (W == 0)
+            fyh = (not holds) and closes
+            verdict = 'holds' if holds else 'closesanyway' if closes else 'swap'
+            prov = ('proved' if (holds or fyh) else 'refuted') if exact else 'numeric'
+            return {'id': 'cxlog', 'provenance': prov, 'facet': facet, 'verdict': verdict, 'blockedAct': None if holds else 'continuous', 'wind': int(W), 'jumps': int(jumps), 'rootCloses': bool(closes),
+                    'failsYetHolds': bool(fyh), 'note': 'the winding number is decided exactly, twice (radius against distance to 0; crossings of the cut); W mod n decides the n-th root'}
+        if facet == 'product':
+            wr, wi, ex2 = _cxn_parse(w)
+            ww = wr + sp.I * wi
+            exact = ex1 and ex2
+            if zz == 0 or ww == 0:
+                return {'id': 'cxlog', 'provenance': 'refuted' if exact else 'numeric', 'facet': facet, 'verdict': 'undefined', 'blockedAct': 'nonzero', 'k': None, 'note': '0 has no logarithm'}
+            pp = sp.expand(zz * ww)
+            ang = sp.N(sp.arg(zz) + sp.arg(ww) - sp.arg(pp), 60)
+            kk = int(sp.floor(ang / (2 * sp.pi) + sp.Rational(1, 2)))
+            if abs(ang - 2 * sp.pi * kk) > sp.Float('1e-40', 60):
+                raise ValueError('could not certify the wrap count')
+            diff = sp.N(sp.log(zz) + sp.log(ww) - sp.log(pp) - 2 * sp.pi * sp.I * kk, 60)
+            if abs(diff) > sp.Float('1e-40', 60):
+                raise ValueError('log z + log w - log(zw) is not 2 pi i k')
+            holds = (kk == 0)
+            return {'id': 'cxlog', 'provenance': ('proved' if holds else 'refuted') if exact else 'numeric', 'facet': facet, 'verdict': 'holds' if holds else 'branch',
+                    'blockedAct': None if holds else 'principal', 'k': kk, 'congruent': True, 'note': 'Log z + Log w - Log(zw) = 2 pi i k, k certified at 60 digits; the identity of sets of values always holds'}
+        if facet == 'power':
+            ar, ex2 = _cxg_real(a, 'a')
+            br, ex3 = _cxg_real(b, 'b')
+            exact = ex1 and ex2 and ex3
+            if zz == 0:
+                return {'id': 'cxlog', 'provenance': 'refuted' if exact else 'numeric', 'facet': facet, 'verdict': 'undefined', 'blockedAct': 'nonzero', 'k': None, 'equal': None, 'count': None, 'failsYetHolds': False,
+                        'note': '0 has no logarithm, so z^a is undefined'}
+            t_exact = sp.simplify(ar * sp.arg(zz) / (2 * sp.pi))
+            if t_exact.is_Rational:
+                mm = int(sp.ceiling(t_exact - sp.Rational(1, 2)))
+                m_exact = True
+            else:
+                tn = sp.N(t_exact, 60)
+                if abs(tn - sp.Rational(1, 2) - sp.floor(tn - sp.Rational(1, 2) + sp.Rational(1, 2))) < sp.Float('1e-40', 60):
+                    raise ValueError('cannot decide the wrap count')
+                mm = int(sp.ceiling(tn - sp.Rational(1, 2)))
+                m_exact = bool(ar.is_integer)
+            bm = sp.nsimplify(br * mm)
+            equal = bool(bm.is_integer)
+            lz = sp.log(zz)
+            za = sp.exp(ar * lz)
+            lhs = sp.N(sp.exp(br * sp.log(za)), 50) if sp.N(sp.arg(za), 50) < sp.N(sp.pi, 50) - sp.Float('1e-30', 50) else None
+            rhs = sp.N(sp.exp(ar * br * lz), 50)
+            if lhs is not None and (abs(lhs - rhs) < sp.Float('1e-30', 50)) != equal:
+                raise ValueError('inconsistent comparison')
+            b_int = bool(br.is_integer)
+            h2 = (mm == 0) or b_int
+            exact = exact and m_exact
+            return {'id': 'cxlog', 'provenance': ('proved' if equal else 'refuted') if exact else 'numeric', 'facet': facet, 'verdict': 'holds' if h2 else 'branch', 'blockedAct': None if h2 else 'branch',
+                    'k': mm, 'equal': equal, 'count': int(sp.Rational(ar).q), 'failsYetHolds': bool((not h2) and equal),
+                    'note': 'the two sides differ by the factor exp(-2 pi i b m): equal iff b m is an integer'}
+        raise ValueError('unknown facet')
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ═══ 9.8 mobius — Möbius transformations & the Riemann sphere (prefix _mob_) ═══
+_MOB_INF = 'INF'
+_MOB_UNDEF = 'UNDEF'
+
+
+def _mob_str(v):
+    """Mirror of complex.mjs gqToString: 3/2, -i, 1/2-3/4i, plus ∞ / undefined."""
+    if v == _MOB_INF:
+        return '∞'
+    if v == _MOB_UNDEF:
+        return 'undefined'
+    v = sp.nsimplify(sp.simplify(v))
+    re_, im_ = sp.Rational(sp.re(v)), sp.Rational(sp.im(v))
+
+    def f(q):
+        return f'{q.p}' + (f'/{q.q}' if q.q != 1 else '')
+
+    def fi(q):
+        a = abs(q)
+        return ('' if a == 1 else f(a)) + 'i'
+    if im_ == 0:
+        return f(re_)
+    if re_ == 0:
+        return ('-' if im_ < 0 else '') + fi(im_)
+    return f(re_) + ('-' if im_ < 0 else '+') + fi(im_)
+
+
+def _mob_root_str(r_):
+    """A fixed point: exact text when it is a Gaussian rational, else a 12-digit numeric text (a radical is never promoted)."""
+    try:
+        v = sp.simplify(r_)
+        if sp.Rational(sp.re(v)).q and sp.im(v).is_rational and sp.re(v).is_rational:
+            return _mob_str(v)
+    except Exception:
+        pass
+    return str(sp.N(r_, 12))
+
+
+def _mob_g(text, label):
+    re_, im_, exact = _cxn_parse(text)
+    return re_ + sp.I * im_, exact
+
+
+def _mob_T(M, z):
+    """T(z) in the extended plane, exact: a SymPy number, 'INF' or 'UNDEF' (0/0). Never sp.zoo (zoo * 0 is nan)."""
+    a, b, c, d = M
+    if z == _MOB_UNDEF:
+        return _MOB_UNDEF
+    if z == _MOB_INF:
+        if c != 0:
+            return sp.simplify(a / c)
+        if d == 0:
+            return _MOB_UNDEF
+        return sp.simplify(b / d) if a == 0 else _MOB_INF
+    num, den = sp.expand(a * z + b), sp.expand(c * z + d)
+    if sp.simplify(den) == 0:
+        return _MOB_UNDEF if sp.simplify(num) == 0 else _MOB_INF
+    return sp.simplify(num / den)
+
+
+def _mob_eq(u, v):
+    if u == _MOB_UNDEF or v == _MOB_UNDEF:
+        return False
+    if u == _MOB_INF or v == _MOB_INF:
+        return u == v
+    return sp.simplify(u - v) == 0
+
+
+def _mob_cr(p):
+    if _MOB_UNDEF in p:
+        return _MOB_UNDEF
+    infs = [i for i, q in enumerate(p) if q == _MOB_INF]
+    if len(infs) > 1:
+        return _MOB_UNDEF
+    z1, z2, z3, z4 = p
+    if not infs:
+        num, den = (z1 - z3) * (z2 - z4), (z1 - z4) * (z2 - z3)
+    else:
+        k = infs[0]
+        num, den = {0: lambda: (z2 - z4, z2 - z3), 1: lambda: (z1 - z3, z1 - z4), 2: lambda: (z2 - z4, z1 - z4), 3: lambda: (z1 - z3, z2 - z3)}[k]()
+    num, den = sp.simplify(num), sp.simplify(den)
+    if den == 0:
+        return _MOB_UNDEF if num == 0 else _MOB_INF
+    return sp.simplify(num / den)
+
+
+def _mob_circle3(p, q, r):
+    """The circle through three finite points (centre, radius^2), by solving the linear system for |z|^2 + x Re z + y Im z + u = 0; None when collinear."""
+    x, y, u = sp.symbols('x y u')
+    s = sp.solve([sp.expand(sp.re(w) ** 2 + sp.im(w) ** 2 + x * sp.re(w) + y * sp.im(w) + u) for w in (p, q, r)], [x, y, u], dict=True)
+    if not s:
+        return None
+    s = s[0]
+    cc = -s[x] / 2 - sp.I * s[y] / 2
+    return sp.simplify(cc), sp.simplify(sp.re(cc) ** 2 + sp.im(cc) ** 2 - s[u])
+
+
+def analyse_mobius(facet, a='1', b='0', c='0', d='1', shape='circle', p1='0', p2='1', a2='1', b2='0', c2='0', d2='1', z1='1', z2='2', z3='3', z4='4'):
+    """9.8 mobius — the exact side, by routes that differ from the JS tier's (JS: the Hermitian form N*HN, an extended-plane evaluation, a discriminant count;
+    here: images of sample points, circumcircles by solving linear systems, sp.solve for the fixed points). Flat result { id, provenance, facet, verdict, blockedAct, ... }.
+    facet 'image':      H1 ad - bc != 0. Four points of the input are mapped; three finite images decide line (collinear) or circle (exact centre, radius^2). passesPole: the pole -d/c lies on
+                        the input (for c = 0: the input is a line). Fields: imageKind, passesPole, imageCentre, imageR2.
+    facet 'compose':    H1 both determinants non-zero; H2 T2(z) is finite. T1(T2 z) against T_{M1M2}(z) at z and at fixed test points, exactly. Fields: valueS, identityHolds, detS, failsYetHolds.
+    facet 'crossratio': H1; H2 no image is infinity. The cross-ratio of the points against that of the images (factors containing infinity dropped). Fields: crS, crOutS, failsYetHolds.
+    facet 'fixed':      H1; H2 not a scalar matrix. sp.solve of cz^2 + (d - a)z - b = 0 plus infinity when c = 0; sigma = tr^2/det classifies. Fields: count, cls, sigmaS, fixed.
+    A decimal anywhere makes the verdict numeric. Abstains (unknown) on input it cannot read."""
+    def unk(note):
+        return {'id': 'mobius', 'provenance': 'unknown', 'facet': facet, 'verdict': None, 'blockedAct': None, 'note': f'abstained: {note}'}
+
+    def prov(exact, good):
+        return ('proved' if good else 'refuted') if exact else 'numeric'
+    try:
+        A, ea = _mob_g(a, 'a')
+        B, eb = _mob_g(b, 'b')
+        Cc, ec = _mob_g(c, 'c')
+        D, ed = _mob_g(d, 'd')
+        M = (A, B, Cc, D)
+        exact = ea and eb and ec and ed
+        det = sp.simplify(A * D - B * Cc)
+        nondeg = det != 0
+        if facet == 'image':
+            if shape not in ('circle', 'line'):
+                raise ValueError('shape must be circle or line')
+            P1, e1 = _mob_g(p1, 'p1')
+            P2, e2 = _mob_g(p2, 'p2')
+            exact = exact and e1 and e2
+            pole = None if Cc == 0 else sp.simplify(-D / Cc)
+            if shape == 'circle':
+                if sp.im(P2) != 0 or sp.re(P2) <= 0:
+                    raise ValueError('the radius must be a positive real number')
+                pts = [P1 + P2, P1 - P2, P1 + sp.I * P2, P1 - sp.I * P2]
+                through = pole is not None and sp.simplify(sp.Abs(pole - P1) ** 2 - P2 ** 2) == 0
+            else:
+                if P2 == 0:
+                    raise ValueError('the direction must not be 0')
+                pts = [P1 + t * P2 for t in (0, 1, -1, 2, 3)]
+                through = True if pole is None else sp.simplify(sp.im((pole - P1) * sp.conjugate(P2))) == 0
+            if not nondeg:
+                return {'id': 'mobius', 'provenance': prov(exact, False), 'facet': facet, 'verdict': 'degenerate', 'blockedAct': 'nondegenerate', 'imageKind': 'point', 'passesPole': bool(through),
+                        'imageCentre': None, 'imageR2': None, 'note': 'ad = bc: T is a constant, the input collapses to a point'}
+            ims = [w for w in (_mob_T(M, z) for z in pts) if w not in (_MOB_INF, _MOB_UNDEF)]
+            if len(ims) < 3:
+                raise ValueError('not enough finite image points')
+            collinear = sp.simplify(sp.im((ims[1] - ims[0]) * sp.conjugate(ims[2] - ims[0]))) == 0
+            if collinear:
+                if any(sp.simplify(sp.im((w - ims[0]) * sp.conjugate(ims[1] - ims[0]))) != 0 for w in ims[2:]):
+                    raise ValueError('image points not collinear')
+                kind, cen, r2 = 'line', None, None
+            else:
+                cen, r2 = _mob_circle3(*ims[:3])
+                if any(sp.simplify(sp.Abs(w - cen) ** 2 - r2) != 0 for w in ims[3:]):
+                    raise ValueError('image points not concyclic')
+                kind = 'circle'
+            if (kind == 'line') != bool(through):
+                raise ValueError('the pole rule disagrees with the image')
+            return {'id': 'mobius', 'provenance': prov(exact, True), 'facet': facet, 'verdict': 'holds', 'blockedAct': None, 'imageKind': kind, 'passesPole': bool(through),
+                    'imageCentre': None if cen is None else _mob_str(cen), 'imageR2': None if r2 is None else _mob_str(r2),
+                    'note': 'the image of the sample points is a circle or a line (exact circumcircle / collinearity); it is a line iff the input passes through the pole'}
+        if facet == 'compose':
+            A2, e1 = _mob_g(a2, 'a2')
+            B2, e2 = _mob_g(b2, 'b2')
+            C2, e3 = _mob_g(c2, 'c2')
+            D2, e4 = _mob_g(d2, 'd2')
+            Z, e5 = _mob_g(z1, 'z')
+            exact = exact and e1 and e2 and e3 and e4 and e5
+            M2 = (A2, B2, C2, D2)
+            Pm = (sp.expand(A * A2 + B * C2), sp.expand(A * B2 + B * D2), sp.expand(Cc * A2 + D * C2), sp.expand(Cc * B2 + D * D2))
+            d2_ = sp.simplify(A2 * D2 - B2 * C2)
+            dP = sp.simplify(Pm[0] * Pm[3] - Pm[1] * Pm[2])
+            if sp.simplify(dP - det * d2_) != 0:
+                raise ValueError('det(M1 M2) != det M1 det M2')
+            tests = [Z] + [sp.Integer(0), sp.Integer(1), sp.I, 2 - sp.I, sp.Rational(1, 3) + sp.I / 2, -3 + 2 * sp.I]
+            inner = _mob_T(M2, Z)
+            pairs = [(_mob_T(M, _mob_T(M2, t)), _mob_T(Pm, t)) for t in tests]
+            pairs = [(u, v) for (u, v) in pairs if _MOB_UNDEF not in (u, v)]
+            holds_id = len(pairs) > 0 and all(_mob_eq(u, v) for u, v in pairs)
+            out_main, prod_main = _mob_T(M, inner), _mob_T(Pm, Z)
+            h1 = det != 0 and d2_ != 0
+            finite = inner not in (_MOB_INF, _MOB_UNDEF)
+            if not holds_id:
+                verdict, blocked, good = 'fails', None, False
+            elif not h1:
+                verdict, blocked, good = 'degenerate', 'nondegenerate', False
+            elif not finite:
+                verdict, blocked, good = 'extended', 'finite', True
+            else:
+                verdict, blocked, good = 'holds', None, True
+            return {'id': 'mobius', 'provenance': prov(exact, good), 'facet': facet, 'verdict': verdict, 'blockedAct': blocked, 'valueS': _mob_str(prod_main), 'identityHolds': bool(holds_id),
+                    'detS': _mob_str(dP), 'failsYetHolds': verdict == 'extended', 'note': 'T1(T2 z) and T_{M1M2}(z) agree exactly at the point and at six fixed test points; the determinants multiply'}
+        if facet == 'crossratio':
+            zs = []
+            for t in (z1, z2, z3, z4):
+                v, ex = _mob_g(t, 'z')
+                zs.append(v)
+                exact = exact and ex
+            ws = [_mob_T(M, z) for z in zs]
+            cin, cout = _mob_cr(zs), _mob_cr(ws)
+            finite = all(w not in (_MOB_INF, _MOB_UNDEF) for w in ws)
+            if not nondeg:
+                return {'id': 'mobius', 'provenance': prov(exact, False), 'facet': facet, 'verdict': 'degenerate', 'blockedAct': 'nondegenerate', 'crS': _mob_str(cin), 'crOutS': _mob_str(cout),
+                        'failsYetHolds': False, 'note': 'ad = bc: the images coincide and the cross-ratio of the images is 0/0'}
+            holds = _mob_eq(cin, cout)
+            if not holds:
+                verdict, blocked, good = 'fails', None, False
+            elif not finite:
+                verdict, blocked, good = 'extended', 'finite', True
+            else:
+                verdict, blocked, good = 'holds', None, True
+            return {'id': 'mobius', 'provenance': prov(exact, good), 'facet': facet, 'verdict': verdict, 'blockedAct': blocked, 'crS': _mob_str(cin), 'crOutS': _mob_str(cout),
+                    'failsYetHolds': verdict == 'extended', 'note': 'the cross-ratio of the images equals that of the originals (factors containing infinity dropped)'}
+        if facet == 'fixed':
+            ident = Cc == 0 and B == 0 and sp.simplify(A - D) == 0 and A != 0
+            if not nondeg:
+                return {'id': 'mobius', 'provenance': prov(exact, False), 'facet': facet, 'verdict': 'degenerate', 'blockedAct': 'nondegenerate', 'count': None, 'cls': None, 'sigmaS': None,
+                        'failsYetHolds': False, 'note': 'ad = bc: T is constant'}
+            if ident:
+                return {'id': 'mobius', 'provenance': prov(exact, False), 'facet': facet, 'verdict': 'identity', 'blockedAct': 'notidentity', 'count': None, 'cls': None, 'sigmaS': None,
+                        'failsYetHolds': False, 'note': 'M is a scalar multiple of the identity: every point is fixed'}
+            zz = sp.symbols('zz')
+            roots = sp.solve(sp.Eq(A * zz + B, zz * (Cc * zz + D)), zz)
+            roots = list(dict.fromkeys(sp.simplify(r_) for r_ in roots))
+            count = len(roots) + (1 if Cc == 0 else 0)
+            for r_ in roots:
+                if abs(sp.N(_mob_T(M, r_) - r_, 40)) > sp.Float('1e-30', 40):
+                    raise ValueError('a reported fixed point is not fixed')
+            tr = A + D
+            sigma = sp.simplify(tr ** 2 / det)
+            if sigma == 4:
+                cls = 'parabolic'
+            elif sp.simplify(sp.im(sigma)) == 0:
+                sr = sp.simplify(sp.re(sigma))
+                cls = 'elliptic' if (sr >= 0 and sr < 4) else 'hyperbolic' if sr > 4 else 'loxodromic'
+            else:
+                cls = 'loxodromic'
+            if count not in (1, 2):
+                raise ValueError('a non-identity Mobius map cannot have this many fixed points')
+            return {'id': 'mobius', 'provenance': prov(exact, True), 'facet': facet, 'verdict': 'holds', 'blockedAct': None, 'count': int(count), 'cls': cls, 'sigmaS': _mob_str(sigma),
+                    'fixed': ['∞'] * (1 if Cc == 0 else 0) + [_mob_root_str(r_) for r_ in roots], 'failsYetHolds': False,
+                    'note': 'fixed points from sp.solve (plus infinity when c = 0), classified by sigma = tr^2/det'}
+        raise ValueError('unknown facet')
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ═══ 9.9 cxintegral — complex line integrals and the ML-inequality (prefix _cxi_) ═══
+_CXI_T = sp.Symbol('t', real=True)
+_CXI_S = sp.Symbol('s', real=True)
+_CXI_W = sp.Symbol('w')
+_CXI_Z = sp.Symbol('zz')
+
+
+def _cxi_ratstr(q):
+    q = sp.Rational(q)
+    return f'{q.p}' + (f'/{q.q}' if q.q != 1 else '')
+
+
+def _cxi_gstr(v):
+    """Gaussian rational → the JS text of complex.mjs gqToString (3/2, -i, 1/2-3/4i)"""
+    v = sp.nsimplify(sp.simplify(v))
+    re_, im_ = sp.Rational(sp.re(v)), sp.Rational(sp.im(v))
+    if im_ == 0:
+        return _cxi_ratstr(re_)
+    iu = ('' if abs(im_) == 1 else _cxi_ratstr(abs(im_))) + 'i'
+    if re_ == 0:
+        return ('-' if im_ < 0 else '') + iu
+    return _cxi_ratstr(re_) + ('-' if im_ < 0 else '+') + iu
+
+
+def _cxi_valstr(v):
+    """u + v·pi for Gaussian rationals u, v, in the JS text of cxintegralEngine.exStr; any other closed form (exp(2*I) - 1) is its SymPy text"""
+    v = sp.expand(sp.simplify(v))
+    a = sp.simplify(v.subs(sp.pi, 0))
+    b = sp.simplify((v - a) / sp.pi)
+    if b.has(sp.pi) or not (a.is_number and b.is_number) or a.has(sp.exp) or b.has(sp.exp):
+        return str(v)
+    try:
+        sa, sb = (_cxi_gstr(a) if a != 0 else ''), ''
+        if b != 0:
+            sbs = _cxi_gstr(b)
+            if sp.im(b) == 0:
+                sb = 'π' if b == 1 else '-π' if b == -1 else f'{sbs}π'
+            elif sp.re(b) == 0:
+                core = sbs[:-1]
+                sb = 'πi' if core == '' else '-πi' if core == '-' else f'{core}πi'
+            else:
+                sb = f'({sbs})π'
+        if not sb:
+            return sa or '0'
+        if not sa:
+            return sb
+        return sa + ('' if sb.startswith('-') else '+') + sb
+    except Exception:  # noqa: BLE001
+        return str(v)
+
+
+def _cxi_numstr(v):
+    """a numeric result as a decimal text: 1.609437912+2.034443936i"""
+    v = sp.N(v, 12)
+    re_, im_ = float(sp.re(v)), float(sp.im(v))
+    if abs(im_) < 1e-12:
+        return f'{re_:.10g}'
+    return f'{re_:.10g}{"-" if im_ < 0 else "+"}{abs(im_):.10g}i'
+
+
+def _cxi_prim_value(f, kind, vs, c_, r_, q0_, n_):
+    """route C for an analytic f with a single-valued primitive P: P(end) − P(start); None when there is none (or the primitive has a pole)"""
+    eZ, _ex, _an = _cxl_parse(f, zval=_CXI_Z)
+    prim = _integrate_or_none(eZ, _CXI_Z)
+    if prim is None or prim.has(sp.log, sp.atan, sp.zoo, sp.nan):
+        return None
+    if kind == 'polygon':
+        a, b = vs[0], vs[-1]
+    else:
+        a = c_ + r_ * sp.exp(sp.I * q0_ * sp.pi / 2)
+        b = c_ + r_ * sp.exp(sp.I * (q0_ + n_) * sp.pi / 2)
+    return sp.simplify(prim.subs(_CXI_Z, b) - prim.subs(_CXI_Z, a))
+
+
+def _cxi_pts(text):
+    parts = [p.strip() for p in str(text).split(',') if p.strip() != '']
+    if len(parts) < 2 or len(parts) > 12:
+        raise ValueError('vertices: give between 2 and 12 points')
+    out, ex = [], True
+    for p in parts:
+        re_, im_, e_ = _cxn_parse(p)
+        out.append(re_ + sp.I * im_)
+        ex = ex and e_
+    for a, b in zip(out, out[1:]):
+        if sp.simplify(a - b) == 0:
+            raise ValueError('two consecutive vertices coincide')
+    return out, ex
+
+
+def _cxi_seg_integral(e, a, b):
+    """∫ of f(z) dz along the segment a → b by t in [0,1]. Returns (value | None, kind) with kind exact | numeric | pole | removable | None."""
+    x_, y_, t = _CXL_X, _CXL_Y, _CXI_T
+    zt = a + (b - a) * t
+    ex = e.subs({x_: sp.re(zt), y_: sp.im(zt)}, simultaneous=True) * (b - a)
+    ex = sp.together(ex)  # NOT simplified yet: simplify would cancel a removable factor and hide it
+    num_, den_ = sp.fraction(ex)
+    if den_.has(t):
+        try:
+            poly = sp.Poly(sp.expand(den_), t)
+            roots = [r for r in sp.roots(poly, t).keys() if r.is_real is not False]
+        except Exception:  # noqa: BLE001
+            return None, None
+        hit = [r for r in roots if r.is_real and 0 <= r <= 1]
+        if hit:
+            canc = sp.cancel(ex)
+            den2 = sp.fraction(canc)[1]
+            still = [r for r in hit if den2.has(t) and sp.simplify(den2.subs(t, r)) == 0]
+            if still:
+                return None, 'pole'
+            ex = canc
+            res = _integrate_or_none(ex, (t, 0, 1))
+            return res, 'removable' if res is not None else None
+    res = _integrate_or_none(ex, (t, 0, 1))
+    if res is None:
+        return None, None
+    return res, 'numeric' if res.has(sp.log, sp.atan) else 'exact'
+
+
+def _cxi_circle_integral(e, c, r, q0, n):
+    """∫ f dz along z = c + r e^{is}: with w = e^{is}, z = c + r w, z-bar = conj(c) + r/w, dz = r dw. f must reduce to a rational function of w; its partial fractions
+    c_k w^k are integrated exactly (k ≠ −1: powers; k = −1: i·n·π/2), a pole p ≠ 0 of order ≥ 2 has a single-valued primitive, a simple pole gives 2πi·laps·[|p| < 1] on a
+    whole number of laps. Returns (value | None, kind) with kind exact | numeric | pole | None."""
+    x_, y_, w = _CXL_X, _CXL_Y, _CXI_W
+    zz = c + r * w
+    zb = sp.conjugate(c) + r / w
+    ew = e.subs({x_: (zz + zb) / 2, y_: (zz - zb) / (2 * sp.I)}, simultaneous=True)
+    if ew.has(sp.sqrt, sp.Abs, sp.exp, sp.sin, sp.cos, sp.log):
+        # |z| with c = 0 is the constant r on the circle
+        ew = ew.subs(sp.sqrt(sp.expand(zz * zb)), r)
+        ew = sp.simplify(ew)
+        if ew.has(sp.sqrt, sp.Abs, sp.exp, sp.sin, sp.cos, sp.log):
+            return None, None
+    F = sp.cancel(sp.together(ew * r))
+    if F == 0:
+        return sp.Integer(0), 'exact'
+    num_, den_ = sp.fraction(F)
+    w0, w1 = sp.exp(sp.I * q0 * sp.pi / 2), sp.exp(sp.I * (q0 + n) * sp.pi / 2)
+    full = n % 4 == 0
+    laps = sp.Rational(n, 4)
+    poles = []
+    if den_.has(w):
+        try:
+            rts = sp.roots(sp.Poly(sp.expand(den_), w))
+            if sum(rts.values()) != sp.Poly(sp.expand(den_), w).degree():
+                return None, None
+            poles = [p for p in rts.keys() if p != 0]
+        except Exception:  # noqa: BLE001
+            return None, None
+    for p in poles:
+        if sp.simplify(sp.Abs(p) - 1) == 0:
+            ang = sp.N(sp.arg(p))
+            th0 = float(q0) * float(sp.pi) / 2
+            rel = ((float(ang) - th0) / (1 if n >= 0 else -1)) % (2 * float(sp.pi))
+            if full or rel <= abs(n) * float(sp.pi) / 2 + 1e-9:
+                return None, 'pole'
+    try:
+        parts = sp.apart(F, w)
+    except Exception:  # noqa: BLE001
+        return None, None
+    tot = sp.Integer(0)
+    numeric = False
+    for term in sp.Add.make_args(sp.expand(parts)):
+        cc, rest = term.as_independent(w)
+        if rest == 1:
+            tot += cc * (w1 - w0)  # a constant term c: ∫ c dw = c (w1 − w0)
+            continue
+        base, ex = rest.as_base_exp()
+        if not ex.is_Integer:
+            return None, None
+        lin = sp.Poly(base, w)
+        if lin.degree() == 1:
+            a_, b_ = lin.all_coeffs()
+            p = -b_ / a_
+            cc2 = cc * a_ ** ex  # (a w + b)^k = a^k (w − p)^k
+            k = int(ex)
+        elif lin.degree() == 0:
+            return None, None
+        else:
+            return None, None
+        if p == 0:
+            if k == -1:
+                tot += cc2 * sp.I * n * sp.pi / 2
+            else:
+                tot += cc2 * (w1 ** (k + 1) - w0 ** (k + 1)) / (k + 1)
+        elif k != -1:
+            tot += cc2 * ((w1 - p) ** (k + 1) - (w0 - p) ** (k + 1)) / (k + 1)
+        elif full:
+            inside = sp.simplify(sp.Abs(p) - 1) < 0
+            tot += cc2 * 2 * sp.pi * sp.I * laps if inside else 0
+        else:
+            numeric = True
+            f_ = sp.lambdify(sp.Symbol('s'), cc2 * sp.I * sp.exp(sp.I * sp.Symbol('s')) / (sp.exp(sp.I * sp.Symbol('s')) - p), 'mpmath')
+            import mpmath as _mp
+            tot += sp.sympify(complex(_mp.quad(f_, [q0 * _mp.pi / 2, (q0 + n) * _mp.pi / 2])))
+    tot = sp.simplify(sp.expand(tot))
+    return tot, 'numeric' if numeric else 'exact'
+
+
+def _cxi_ml(e, kind, pts, c, r, q0, n, value):
+    """the ML check, numeric: M by sampling |f| along the path (mpmath), L exactly; returns (holds, M, L, ratio)"""
+    import mpmath as _mp
+    x_, y_ = _CXL_X, _CXL_Y
+    g = sp.lambdify((x_, y_), e, 'mpmath')
+
+    def mag(zv):
+        try:
+            return abs(complex(g(zv.real, zv.imag)))
+        except Exception:  # noqa: BLE001
+            return 0.0
+    M, L = 0.0, 0.0
+    if kind == 'polygon':
+        for a, b in zip(pts, pts[1:]):
+            af, bf = complex(sp.N(a)), complex(sp.N(b))
+            L += abs(bf - af)
+            for k in range(0, 801):
+                M = max(M, mag(af + (bf - af) * k / 800))
+    else:
+        cf, rf = complex(sp.N(c)), float(r)
+        L = rf * abs(n) * float(sp.pi) / 2
+        for k in range(0, 1601):
+            th = (q0 + n * k / 1600) * float(sp.pi) / 2
+            M = max(M, mag(cf + rf * complex(_mp.cos(th), _mp.sin(th))))
+    modv = abs(complex(sp.N(value)))
+    ML = M * L
+    return modv <= ML * (1 + 1e-7) + 1e-12, M, L, (modv / ML if ML > 1e-14 else None)
+
+
+def analyse_cxintegral(f, kind, pts='0, 1', c='0', r='1', q0='0', n='4', ra='1', rd='1'):
+    """9.9 cxintegral — the exact side. Flat result: { id, provenance, verdict (holds | infinitePath | poleOnPath | removable), blockedAct (finitePath | continuous | None),
+    IS (the exact integral as text, or None), closed, anti (exact | none | unknown), mlHolds, ratio, improper (converges | diverges | None), failsYetHolds, note }.
+    f is read in the SAME grammar as the JS tier (9.3's). SEGMENTS: z(t) is linear, the integrand is a rational function of t, integrated exactly (a pole in [0, 1] refutes H2; a
+    pole that cancels is removable). CIRCLES / ARCS: with w = e^{is}, z = c + r w and z-bar = conj(c) + r/w turn f dz into a rational function of w, taken apart into partial
+    fractions (powers w^k, k ≠ −1, are exact; w^-1 gives i n π/2; an off-centre simple pole gives 2πi·laps when it is inside the unit w-circle). RAYS: sp.integrate to oo.
+    SymPy DECIDES MORE than the JS tier on exp / sin / cos (the exact closed form exp(2i) − 1) and on 1/(z − p) round a circle about p ≠ 0. The ML inequality is checked with a
+    sampled M (numeric): \`mlHolds\`. A decimal anywhere makes the verdict numeric."""
+    def unk(note):
+        return {'id': 'cxintegral', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'IS': None, 'closed': None, 'anti': 'unknown', 'mlHolds': None, 'ratio': None,
+                'improper': None, 'failsYetHolds': False, 'note': note}
+    try:
+        e, ex_f, analytic = _cxl_parse(f)
+        if kind not in ('polygon', 'circle', 'ray'):
+            raise ValueError('unknown contour kind')
+        exact = ex_f
+        # the antiderivative question (analytic f only): sp.integrate in z, a log or atan means the primitive is not single-valued
+        anti = 'none' if not analytic else 'unknown'
+        if analytic:
+            eZ, _ex, _an = _cxl_parse(f, zval=_CXI_Z)
+            prim = _integrate_or_none(eZ, _CXI_Z)
+            if prim is not None:
+                anti = 'none' if prim.has(sp.log, sp.atan) else 'exact'
+        if kind == 'ray':
+            ar, ai, ea = _cxn_parse(ra)
+            dr, di, ed = _cxn_parse(rd)
+            exact = exact and ea and ed
+            a_, d_ = ar + sp.I * ai, dr + sp.I * di
+            if sp.simplify(d_) == 0:
+                raise ValueError('the direction of the ray must not be 0')
+            imp, val, IS = None, None, None
+            if analytic:
+                eZ, _ex, _an = _cxl_parse(f, zval=_CXI_Z)
+                t = sp.Symbol('t', positive=True)
+                res = _integrate_or_none((eZ.subs(_CXI_Z, a_ + d_ * t) * d_), (t, 0, sp.oo))
+                if res is not None:
+                    if res.has(sp.oo, -sp.oo, sp.zoo, sp.AccumBounds):
+                        imp = 'diverges'
+                    else:
+                        imp, val, IS = 'converges', res, _cxi_valstr(res)
+                else:
+                    # a divergent integral: sympy reports it as unevaluated; read the antiderivative's growth
+                    tt = sp.Symbol('t', positive=True)
+                    prim = _integrate_or_none((eZ.subs(_CXI_Z, a_ + d_ * tt) * d_), tt)
+                    if prim is not None and sp.limit(sp.Abs(prim), tt, sp.oo) == sp.oo:
+                        imp = 'diverges'
+            return {'id': 'cxintegral', 'provenance': 'refuted', 'verdict': 'infinitePath', 'blockedAct': 'finitePath', 'IS': IS, 'closed': False, 'anti': anti, 'mlHolds': None, 'ratio': None,
+                    'improper': imp, 'failsYetHolds': imp == 'converges', 'note': 'the ray has infinite length, so M·L = ∞ and the ML-inequality says nothing; the improper integral is decided separately'}
+        if kind == 'polygon':
+            vs, ev = _cxi_pts(pts)
+            exact = exact and ev
+            closed = sp.simplify(vs[0] - vs[-1]) == 0
+            tot, kinds = sp.Integer(0), []
+            for a, b in zip(vs, vs[1:]):
+                v, k = _cxi_seg_integral(e, a, b)
+                if k == 'pole':
+                    return {'id': 'cxintegral', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'poleOnPath', 'blockedAct': 'continuous', 'IS': None, 'closed': closed, 'anti': anti,
+                            'mlHolds': None, 'ratio': None, 'improper': None, 'failsYetHolds': False, 'note': 'a pole of f lies on the path'}
+                if v is None:
+                    return unk('SymPy could not integrate f along the polygon')
+                tot += v
+                kinds.append(k)
+            removable = 'removable' in kinds
+            numeric_val = 'numeric' in kinds
+            c_, r_, q0_, n_ = None, None, None, None
+        else:
+            cr, ci, ec = _cxn_parse(c)
+            rr, ri, er = _cxn_parse(r)
+            exact = exact and ec and er
+            if ri != 0 or rr <= 0:
+                raise ValueError('the radius must be a positive real number')
+            q0_, n_ = int(str(q0).strip()), int(str(n).strip())
+            if n_ == 0 or abs(n_) > 16:
+                raise ValueError('the sweep must be between 1 and 16 quarter-turns')
+            c_, r_ = cr + sp.I * ci, rr
+            closed = n_ % 4 == 0
+            v, k = _cxi_circle_integral(e, c_, r_, q0_, n_)
+            if k == 'pole':
+                return {'id': 'cxintegral', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'poleOnPath', 'blockedAct': 'continuous', 'IS': None, 'closed': closed, 'anti': anti,
+                        'mlHolds': None, 'ratio': None, 'improper': None, 'failsYetHolds': False, 'note': 'a pole of f lies on the circle'}
+            if v is None and analytic:
+                v = _cxi_prim_value(f, kind, None, c_, r_, q0_, n_)
+                k = 'exact' if v is not None else None
+            if v is None:
+                return unk('SymPy could not reduce f dz on the circle to a rational function of w')
+            tot, removable, numeric_val, vs = v, False, k == 'numeric', None
+        tot = sp.simplify(tot)
+        holds, M, L, ratio = _cxi_ml(e, kind, vs, c_, r_, q0_, n_, tot)
+        IS = _cxi_numstr(tot) if (numeric_val or not exact) else _cxi_valstr(tot)
+        prov = 'numeric' if (not exact or numeric_val) else 'proved'
+        if removable:
+            prov = 'refuted' if exact else 'numeric'
+        return {'id': 'cxintegral', 'provenance': prov, 'verdict': 'removable' if removable else 'holds' if holds else 'fails', 'blockedAct': 'continuous' if removable else None,
+                'IS': IS, 'closed': bool(closed), 'anti': anti, 'mlHolds': bool(holds), 'ratio': None if ratio is None else round(ratio, 4), 'improper': None,
+                'failsYetHolds': bool(removable), 'note': 'the integral is exact (segments: a rational function of t; circles: partial fractions in w); M is sampled, so the ML check is numeric'}
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ═══ 9.10 cauchythm — Cauchy's integral theorem and the deformation of contours (prefix _ct_) ═══
+_CT_Z = sp.Symbol('zct')
+
+
+def _ct_gz(text):
+    re_, im_, ex_ = _cxn_parse(text)
+    return re_ + sp.I * im_, ex_
+
+
+def _ct_less(a, b):
+    """exact a < b for real algebraic a, b (None when SymPy cannot decide)"""
+    d = sp.simplify(a - b)
+    try:
+        return bool(d < 0)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _ct_in_domain(dom, p, z):
+    """is the exact point z in D? (None when undecidable)"""
+    if dom == 'plane':
+        return True
+    if dom == 'disc':
+        dc, dr = p
+        d2 = sp.simplify(sp.re(z - dc) ** 2 + sp.im(z - dc) ** 2)
+        return _ct_less(d2, dr * dr)
+    if dom == 'slit':
+        sa, sd = p
+        q = sp.simplify((z - sa) / sd)
+        if sp.im(q) != 0:
+            return True
+        return not (sp.re(q) >= 0)
+    return all(sp.simplify(z - h) != 0 for h in p)
+
+
+def _ct_path_in_domain(dom, p, kind, vs, c_, r_):
+    """does the closed contour lie in D? exact where decidable. Returns (pass | None, detail)"""
+    if dom == 'plane':
+        return True, 'D is the whole plane'
+    if kind == 'polygon':
+        segs = list(zip(vs, vs[1:]))
+        if dom == 'disc':
+            mem = [_ct_in_domain('disc', p, v) for v in vs]
+            ok = None if any(m is None for m in mem) else all(mem)  # a disc is convex: its sides are inside iff the vertices are
+            return ok, 'the vertices lie in the open disc' if ok else 'a vertex is not in the open disc'
+        if dom == 'slit':
+            sa, sd = p
+            for a, b in segs:
+                e = b - a
+                cr = sp.simplify(sp.re(e) * sp.im(sd) - sp.im(e) * sp.re(sd))
+                if cr != 0:
+                    w = sa - a
+                    s = sp.simplify((sp.re(w) * sp.im(sd) - sp.im(w) * sp.re(sd)) / cr)
+                    t = sp.simplify((sp.re(w) * sp.im(e) - sp.im(w) * sp.re(e)) / cr)
+                    if s >= 0 and s <= 1 and t >= 0:
+                        return False, 'a side meets the cut'
+                else:  # parallel: collinear overlap
+                    w = sa - a
+                    if sp.simplify(sp.re(w) * sp.im(sd) - sp.im(w) * sp.re(sd)) == 0:
+                        # collinear: the segment meets the ray iff an endpoint is on the ray or the cut start is on the segment
+                        if any(not _ct_in_domain('slit', p, v) for v in (a, b)):
+                            return False, 'a side lies along the cut'
+                        L2 = sp.re(e) ** 2 + sp.im(e) ** 2
+                        s0 = sp.simplify((sp.re(w) * sp.re(e) + sp.im(w) * sp.im(e)) / L2)
+                        if s0 >= 0 and s0 <= 1:
+                            return False, 'a side runs through the start of the cut'
+            return True, 'no side meets the cut'
+        for h in p:  # punctured
+            for a, b in segs:
+                e, w = b - a, h - a
+                if sp.simplify(sp.re(e) * sp.im(w) - sp.im(e) * sp.re(w)) == 0:
+                    s0 = sp.simplify((sp.re(w) * sp.re(e) + sp.im(w) * sp.im(e)) / (sp.re(e) ** 2 + sp.im(e) ** 2))
+                    if s0 >= 0 and s0 <= 1:
+                        return False, 'the contour passes through a removed point'
+        return True, 'the contour passes through no removed point'
+    # a full circle
+    if dom == 'disc':
+        dc, dr = p
+        gap = dr - r_
+        d2 = sp.simplify(sp.re(c_ - dc) ** 2 + sp.im(c_ - dc) ** 2)
+        ok = False if not bool(gap > 0) else _ct_less(d2, gap * gap)
+        return ok, 'the circle is inside the open disc' if ok else 'the circle is not inside the open disc'
+    if dom == 'slit':
+        sa, sd = p
+        ac = sa - c_
+        A = sp.simplify(sp.re(sd) ** 2 + sp.im(sd) ** 2)
+        B = sp.simplify(2 * (sp.re(ac) * sp.re(sd) + sp.im(ac) * sp.im(sd)))
+        Cc = sp.simplify(sp.re(ac) ** 2 + sp.im(ac) ** 2 - r_ ** 2)
+        disc = sp.simplify(B ** 2 - 4 * A * Cc)
+        if disc < 0:
+            return True, 'the circle misses the cut'
+        roots = [(-B + sp.sqrt(disc)) / (2 * A), (-B - sp.sqrt(disc)) / (2 * A)] if disc > 0 else [-B / (2 * A)]
+        if any(sp.simplify(t) >= 0 for t in roots):
+            return False, 'the circle meets the cut'
+        return True, 'the circle misses the cut'
+    for h in p:
+        if sp.simplify(sp.re(h - c_) ** 2 + sp.im(h - c_) ** 2 - r_ ** 2) == 0:
+            return False, 'the circle passes through a removed point'
+    return True, 'the circle passes through no removed point'
+
+
+def _ct_numeric_integral(e, kind, vs, c_, r_, q0_, n_):
+    import mpmath as _mp
+    g = sp.lambdify((_CXL_X, _CXL_Y), e, 'mpmath')
+    if kind == 'polygon':
+        tot = _mp.mpc(0)
+        for a, b in zip(vs, vs[1:]):
+            af, bf = complex(sp.N(a)), complex(sp.N(b))
+            tot += _mp.quad(lambda t: g(*[(af + (bf - af) * t).real, (af + (bf - af) * t).imag]) * (bf - af), [0, 0.5, 1])
+        return sp.sympify(complex(tot))
+    cf, rf = complex(sp.N(c_)), float(r_)
+    th0, sw = q0_ * _mp.pi / 2, n_ * _mp.pi / 2
+    def h(s):
+        z_ = cf + rf * _mp.e ** (1j * (th0 + sw * s))
+        return g(z_.real, z_.imag) * 1j * rf * sw * _mp.e ** (1j * (th0 + sw * s))
+    return sp.sympify(complex(_mp.quad(h, _mp.linspace(0, 1, 9))))
+
+
+def _ct_residue_loop(f, c_, r_, n_):
+    """∮ f dz round a full circle (n_ quarter-turns, a whole number of laps) of a rational f with all its poles known: 2πi·laps·Σ Res over the poles inside. None when undecided."""
+    try:
+        eZ, _ex, _an = _cxl_parse(f, zval=_CT_Z)
+        if eZ.has(sp.sin, sp.cos, sp.exp, sp.log):
+            return None
+        den = sp.fraction(sp.together(eZ))[1]
+        tot = sp.Integer(0)
+        if den.has(_CT_Z):
+            pol = sp.Poly(sp.expand(den), _CT_Z)
+            rts = sp.roots(pol)
+            if sum(rts.values()) != pol.degree():
+                return None
+            for rho in rts.keys():
+                d2 = sp.simplify(sp.re(rho - c_) ** 2 + sp.im(rho - c_) ** 2 - r_ ** 2)
+                if d2 == 0:
+                    return None
+                if d2 < 0:
+                    tot += sp.residue(eZ, _CT_Z, rho)
+        return sp.simplify(2 * sp.pi * sp.I * sp.Rational(n_, 4) * tot)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def analyse_cauchythm(f, kind, pts='0, 1', c='0', r='1', q0='0', n='4', dom='plane', dc='0', dr='2', sa='0', sd='-1', holes='0'):
+    """9.10 cauchythm — the exact side. Flat result: { id, provenance, verdict (holds | broken | fails), blockedAct (closed | inDomain | holomorphic | simplyConnected | None), IS (the integral as text,
+    or None when a pole lies on the path), closed, valueKnown, integralZero, failsYetHolds, note }.
+    f is read in the SAME grammar as the JS tier (9.3's). The four clauses are decided EXACTLY: closedness from the data; γ ⊂ D by exact incidence (rational cross products, a quadratic for a
+    circle meeting a ray); f holomorphic on D by the absence of z-bar and by the poles of the denominator in D (a zero of a denominator whose limit of f·(z − ρ) is 0 is removable); D simply
+    connected by its kind. The integral is the SECOND honest fact, computed whatever the clauses say, by 9.9's exact helpers (rational functions of t on segments, partial fractions in e^{is} on
+    circles), so SymPy DECIDES MORE than the JS tier on exp / sin / cos (an exact 0) and on a pole off the origin. A decimal anywhere makes the verdict numeric."""
+    def unk(note):
+        return {'id': 'cauchythm', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'IS': None, 'closed': None, 'valueKnown': None, 'integralZero': None, 'failsYetHolds': False, 'note': note}
+    try:
+        e, ex_f, analytic = _cxl_parse(f)
+        if kind not in ('polygon', 'circle'):
+            raise ValueError('the contour must be a closed polygon or circle')
+        exact = ex_f
+        if kind == 'polygon':
+            vs, ev = _cxi_pts(pts)
+            exact = exact and ev
+            closed = sp.simplify(vs[0] - vs[-1]) == 0
+            c_ = r_ = q0_ = n_ = None
+        else:
+            cr, ci_, ec = _cxn_parse(c)
+            rr, ri, er = _cxn_parse(r)
+            exact = exact and ec and er
+            if ri != 0 or rr <= 0:
+                raise ValueError('the radius must be a positive real number')
+            q0_, n_ = int(str(q0).strip()), int(str(n).strip())
+            if n_ == 0 or abs(n_) > 16:
+                raise ValueError('the sweep must be between 1 and 16 quarter-turns')
+            c_, r_ = cr + sp.I * ci_, rr
+            closed = n_ % 4 == 0
+            vs = None
+        # the declared domain
+        if dom == 'plane':
+            dp = None
+        elif dom == 'disc':
+            dcv, e1 = _ct_gz(dc)
+            drv, e2 = _ct_gz(dr)
+            if sp.im(drv) != 0 or sp.re(drv) <= 0:
+                raise ValueError('the disc radius must be a positive real number')
+            exact = exact and e1 and e2
+            dp = (dcv, sp.re(drv))
+        elif dom == 'slit':
+            sav, e1 = _ct_gz(sa)
+            sdv, e2 = _ct_gz(sd)
+            if sp.simplify(sdv) == 0:
+                raise ValueError('the direction of the cut must not be 0')
+            exact = exact and e1 and e2
+            dp = (sav, sdv)
+        elif dom == 'punctured':
+            parts = [q.strip() for q in str(holes).split(',') if q.strip() != '']
+            if not parts or len(parts) > 6:
+                raise ValueError('give between 1 and 6 removed points')
+            dp = []
+            for q in parts:
+                v, ex_ = _ct_gz(q)
+                exact = exact and ex_
+                dp.append(v)
+        else:
+            raise ValueError('unknown domain')
+        # H2 (only meaningful for a closed contour; an arc already fails H1)
+        if closed:
+            inD, _why = _ct_path_in_domain(dom, dp, kind, vs, c_, r_)
+        else:
+            inD = None
+        # H3
+        singular_in_D = False
+        hol_decided = True
+        if not analytic:
+            holo = False
+        else:
+            eZ, _ex, _an = _cxl_parse(f, zval=_CT_Z)
+            den = sp.fraction(sp.together(eZ))[1]
+            holo = True
+            if den.has(_CT_Z):
+                try:
+                    pol = sp.Poly(sp.expand(den), _CT_Z)
+                    rts = sp.roots(pol)
+                    if sum(rts.values()) != pol.degree():
+                        return unk('SymPy could not find all the poles of f in closed form')
+                except Exception:  # noqa: BLE001
+                    return unk('SymPy could not factor the denominator of f')
+                for rho in rts.keys():
+                    lim = sp.limit(eZ * (_CT_Z - rho), _CT_Z, rho)
+                    if lim == 0:
+                        continue  # removable
+                    member = _ct_in_domain(dom, dp, rho)
+                    if member is None:
+                        hol_decided = False
+                    elif member:
+                        holo = False
+                        singular_in_D = True
+        simply = not (dom == 'punctured')
+        gates = [('closed', closed), ('inDomain', inD), ('holomorphic', holo), ('simplyConnected', simply)]
+        blocked, undecided = None, not hol_decided
+        for nm, ok in gates:  # the chain: decisions after the first failing clause do not matter
+            if ok is False:
+                blocked = nm
+                break
+            if ok is None:
+                undecided = True
+        # the integral (second honest fact)
+        tot, numeric_val, valueKnown = sp.Integer(0), False, True
+        den_f = sp.fraction(sp.together(e))[1]
+        if (e.has(sp.sin) or e.has(sp.cos) or e.has(sp.exp)) and (den_f.has(_CXL_X) or den_f.has(_CXL_Y)):
+            # a transcendental numerator over a denominator (sin z / z): the closed form is a special function and slow — decided numerically (mpmath), never promoted
+            tot, valueKnown = _ct_numeric_integral(e, kind, vs, c_, r_, q0_, n_), True
+            numeric_val = True
+        elif kind == 'polygon':
+            for a, b in zip(vs, vs[1:]):
+                v, k = _cxi_seg_integral(e, a, b)
+                if k == 'pole':
+                    valueKnown = False
+                    break
+                if v is None:
+                    return unk('SymPy could not integrate f along the contour')
+                numeric_val = numeric_val or k == 'numeric'
+                tot += v
+        else:
+            v, k = _cxi_circle_integral(e, c_, r_, q0_, n_)
+            if k == 'pole':
+                valueKnown = False
+            elif v is None and analytic:
+                v = _cxi_prim_value(f, kind, None, c_, r_, q0_, n_)
+                k = 'exact' if v is not None else None
+                if v is None and closed:
+                    v = _ct_residue_loop(f, c_, r_, n_)  # a rational f whose partial fractions in w are not linear: the residue theorem, exactly
+                    k = 'exact' if v is not None else None
+            if valueKnown:
+                if v is None:
+                    return unk('SymPy could not reduce f dz on the circle to a rational function of w')
+                tot, numeric_val = v, k == 'numeric'
+        if valueKnown:
+            tot = sp.simplify(tot)
+            zero = (tot == 0) or abs(complex(sp.N(tot))) < 1e-9
+            IS = _cxi_numstr(tot) if (numeric_val or not exact) else _cxi_valstr(tot)
+            if zero and exact and not numeric_val:
+                IS = '0'
+        else:
+            zero, IS = None, None
+        allhold = blocked is None and not undecided
+        if allhold:
+            verdict = 'holds' if zero else 'fails'
+            prov = 'proved' if (exact and not numeric_val and valueKnown and zero) else 'numeric'
+        else:
+            verdict = 'broken' if blocked else None
+            prov = 'refuted' if (exact and blocked and not undecided) else 'numeric'
+            if blocked is None:
+                return unk('a clause is undecidable in closed form')
+        return {'id': 'cauchythm', 'provenance': prov, 'verdict': verdict, 'blockedAct': blocked, 'IS': IS, 'closed': bool(closed), 'valueKnown': bool(valueKnown),
+                'integralZero': None if zero is None else bool(zero), 'failsYetHolds': bool(blocked and zero),
+                'note': 'the four clauses are decided exactly (incidence, poles of the denominator, the kind of D); the integral is the second fact, exact on segments (a rational function of t) and circles (partial fractions in w)'}
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ── 9.11 cauchyformula: Cauchy's integral formula and the derivative formulas (prefix _cf_) ─────────────────────────────────────────────────
+_CF_Z = sp.Symbol('zcf')
+
+
+def _cf_gstr(v):
+    """an exact value as text: a Gaussian rational in the JS text of complex.mjs gqToString, otherwise its SymPy closed form (exp(1/2), ...)"""
+    v = sp.simplify(v)
+    try:
+        re_, im_ = sp.simplify(sp.re(v)), sp.simplify(sp.im(v))
+        if re_.is_Rational and im_.is_Rational:
+            return _cxi_gstr(v)
+    except Exception:  # noqa: BLE001
+        pass
+    return str(v)
+
+
+def _cf_num(v):
+    v = sp.N(v, 12)
+    re_, im_ = float(sp.re(v)), float(sp.im(v))
+    if abs(re_) < 1e-9 and abs(im_) < 1e-9:
+        return '≈ 0'
+    return f'{re_:.8g}{"-" if im_ < 0 else "+"}{abs(im_):.8g}i'
+
+
+def _cf_on_path(kind, vs, c_, r_, p):
+    """exact incidence of the point p with the closed contour"""
+    if kind == 'circle':
+        return sp.simplify(sp.re(p - c_) ** 2 + sp.im(p - c_) ** 2 - r_ ** 2) == 0
+    for a, b in zip(vs, vs[1:]):
+        d, w = b - a, p - a
+        if sp.simplify(sp.re(d) * sp.im(w) - sp.im(d) * sp.re(w)) != 0:
+            continue
+        dt, L = sp.simplify(sp.re(d) * sp.re(w) + sp.im(d) * sp.im(w)), sp.simplify(sp.re(d) ** 2 + sp.im(d) ** 2)
+        if 0 <= dt <= L:
+            return True
+    return False
+
+
+def _cf_winding(kind, vs, c_, r_, n_, p):
+    """winding number of the closed contour about p (off the contour): a circle by |p − c| < r (times the laps), a polygon by the angle sum over its edges"""
+    import math as _m
+    if kind == 'circle':
+        return sp.Rational(n_, 4) if sp.simplify(sp.re(p - c_) ** 2 + sp.im(p - c_) ** 2 - r_ ** 2) < 0 else sp.Integer(0)
+    tot = 0.0
+    pf = complex(sp.N(p))
+    for a, b in zip(vs, vs[1:]):
+        u, w = complex(sp.N(a)) - pf, complex(sp.N(b)) - pf
+        tot += _m.atan2((u.conjugate() * w).imag, (u.conjugate() * w).real)
+    return sp.Integer(round(tot / (2 * _m.pi)))
+
+
+def analyse_cauchyformula(f, kind, pts='0, 1', c='0', r='1', q0='0', n='4', z0='0', k='0'):
+    """9.11 cauchyformula — the exact side. Flat result: { id, provenance, verdict (holds | broken | fails), blockedAct (closed | offContour | analytic | None), n (winding number of the contour about z0, None
+    when z0 is on it), valueKnown (the integral exists), QS (Q = k!/(2πi)∮ f/(z−z0)^{k+1} dz, None when it diverges), RS (n·f^(k)(z0), None when undefined), agree, failsYetHolds, note }.
+    f is read in the SAME grammar as the JS tier (9.3's). The clauses are decided EXACTLY: closedness from the data, z0 on the contour by exact incidence (rational cross products, a circle's |z0 − c|² = r²), f holomorphic
+    by the absence of z-bar / Re / Im and by the non-removable poles of its denominator on or inside the contour (the winding number of a circle is |p − c| < r times its laps, of a polygon an angle sum). The two sides
+    are independent routes: for holomorphic f, Q is the RESIDUE sum k!·Σ n(p)·Res(f/(z−z0)^{k+1}, p) over z0 and the poles of f (sp.residue: a series), and the right side is n·sp.diff(f, z, k) at z0;
+    for a non-holomorphic f the integral itself is evaluated exactly with 9.9's helpers on f/(z−z0)^{k+1}. So SymPy DECIDES MORE than the JS tier on rational and transcendental f (the JS tier is numeric there)."""
+    def unk(note):
+        return {'id': 'cauchyformula', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'n': None, 'valueKnown': None, 'QS': None, 'RS': None, 'agree': None, 'failsYetHolds': False, 'note': note}
+    try:
+        e, ex_f, analytic = _cxl_parse(f)
+        if kind not in ('polygon', 'circle'):
+            raise ValueError('the contour must be a closed polygon or circle')
+        exact = ex_f
+        if kind == 'polygon':
+            vs, ev = _cxi_pts(pts)
+            exact = exact and ev
+            closed = sp.simplify(vs[0] - vs[-1]) == 0
+            c_ = r_ = q0_ = n_ = None
+        else:
+            cr, ci_, ec = _cxn_parse(c)
+            rr, ri, er = _cxn_parse(r)
+            exact = exact and ec and er
+            if ri != 0 or rr <= 0:
+                raise ValueError('the radius must be a positive real number')
+            q0_, n_ = int(str(q0).strip()), int(str(n).strip())
+            if n_ == 0 or abs(n_) > 16:
+                raise ValueError('the sweep must be between 1 and 16 quarter-turns')
+            c_, r_ = cr + sp.I * ci_, rr
+            closed = n_ % 4 == 0
+            vs = None
+        zr, zi, ez = _cxn_parse(z0)
+        z0v, exact = zr + sp.I * zi, exact and ez
+        kk = int(str(k).strip())
+        if not 0 <= kk <= 4:
+            raise ValueError('the order k must be from 0 to 4')
+        if not closed:
+            return {'id': 'cauchyformula', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'closed', 'n': None, 'valueKnown': False, 'QS': None, 'RS': None, 'agree': None,
+                    'failsYetHolds': False, 'note': 'the contour is not closed'}
+        on = _cf_on_path(kind, vs, c_, r_, z0v)
+        nw = None if on else _cf_winding(kind, vs, c_, r_, n_, z0v)
+        # poles of f (holomorphic case): non-removable roots of the denominator
+        eZ = None
+        poles = []
+        if analytic:
+            eZ, _ex, _an = _cxl_parse(f, zval=_CF_Z)
+            den = sp.fraction(sp.together(eZ))[1]
+            if den.has(_CF_Z):
+                pol = sp.Poly(sp.expand(den), _CF_Z)
+                rts = sp.roots(pol)
+                if sum(rts.values()) != pol.degree():
+                    return unk('SymPy could not find all the poles of f in closed form')
+                for rho in rts.keys():
+                    if sp.limit(eZ * (_CF_Z - rho), _CF_Z, rho) == 0:
+                        continue  # removable
+                    poles.append(rho)
+        pole_on = [p for p in poles if _cf_on_path(kind, vs, c_, r_, p)]
+        pole_w = [(p, _cf_winding(kind, vs, c_, r_, n_, p)) for p in poles if p not in pole_on]
+        bad_in = [p for p, w in pole_w if w != 0]
+        holo = analytic and not pole_on and not bad_in
+        gates = [('closed', True), ('offContour', not on), ('analytic', holo)]
+        blocked = next((nm for nm, ok in gates if not ok), None)
+        value_known = not on and not pole_on
+        QS = RS = None
+        agree = None
+        prov_num = False
+        if value_known:
+            zt = f'(({sp.nsimplify(zr)})+({sp.nsimplify(zi)})*i)'
+            if analytic:
+                g = eZ / (_CF_Z - z0v) ** (kk + 1)
+                cand = [(z0v, nw)] + pole_w
+                tot = sp.Integer(0)
+                for p, w in cand:
+                    if w == 0:
+                        continue
+                    tot += w * sp.residue(g, _CF_Z, p)
+                Q = sp.simplify(sp.factorial(kk) * tot)
+                is_pole_z0 = any(sp.simplify(p - z0v) == 0 for p in poles)
+                if is_pole_z0:
+                    R = None
+                else:
+                    dk = sp.diff(eZ, _CF_Z, kk)
+                    val = dk.subs(_CF_Z, z0v)
+                    if val.has(sp.nan, sp.zoo):
+                        val = sp.limit(dk, _CF_Z, z0v)
+                    R = sp.simplify(nw * val)
+            else:
+                ei, _ex, _an = _cxl_parse(f'({f})/((z-{zt})^{kk + 1})')
+                tot = sp.Integer(0)
+                if kind == 'polygon':
+                    for a, b in zip(vs, vs[1:]):
+                        v, kd = _cxi_seg_integral(ei, a, b)
+                        if kd == 'pole':
+                            value_known = False
+                            break
+                        if v is None:
+                            return unk('SymPy could not integrate the integrand along the contour')
+                        prov_num = prov_num or kd == 'numeric'
+                        tot += v
+                else:
+                    v, kd = _cxi_circle_integral(ei, c_, r_, q0_, n_)
+                    if kd == 'pole':
+                        value_known = False
+                    elif v is None:
+                        return unk('SymPy could not reduce the integrand on the circle to a rational function of w')
+                    else:
+                        tot, prov_num = v, kd == 'numeric'
+                if value_known:
+                    Q = sp.simplify(sp.factorial(kk) * tot / (2 * sp.pi * sp.I))
+                    R = sp.simplify(nw * sp.sympify(e.subs({_CXL_X: zr, _CXL_Y: zi}))) if kk == 0 else None
+            if value_known:
+                QS = _cf_num(Q) if (prov_num or not exact) else ('0' if sp.simplify(Q) == 0 else _cf_gstr(Q))
+                if R is not None:
+                    RS = _cf_num(R) if (prov_num or not exact) else ('0' if sp.simplify(R) == 0 else _cf_gstr(R))
+                    agree = bool(sp.simplify(Q - R) == 0 or abs(complex(sp.N(Q - R))) < 1e-9)
+        allhold = blocked is None
+        if allhold:
+            verdict = 'holds' if agree else 'fails'
+            prov = 'proved' if (exact and agree and not prov_num) else 'numeric'
+        else:
+            verdict = 'broken'
+            prov = 'refuted' if exact else 'numeric'
+        return {'id': 'cauchyformula', 'provenance': prov, 'verdict': verdict, 'blockedAct': blocked, 'n': None if nw is None else int(nw), 'valueKnown': bool(value_known), 'QS': QS, 'RS': RS, 'agree': agree,
+                'failsYetHolds': bool(blocked and agree is True),
+                'note': 'the clauses are decided exactly (incidence, winding number, poles of the denominator); the integral side is the residue sum for a holomorphic f and the exact integral otherwise, the other side is sp.diff'}
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ── 9.12 liouville: Liouville's theorem, the maximum modulus principle, the fundamental theorem of algebra (prefix _lv_) ─────────────────────
+_LV_Z = sp.Symbol('zlv')
+_LV_T = sp.Symbol('tlv', positive=True)
+
+
+def _lv_poles(eZ):
+    """the non-removable poles of an analytic f(w) = eZ(_LV_Z): (list of poles, ok). exp in a denominator never vanishes; sin/cos in a denominator abstain."""
+    den = sp.fraction(sp.together(eZ))[1]
+    if not den.has(_LV_Z):
+        return [], True
+    if den.has(sp.sin) or den.has(sp.cos):
+        return None, False
+    if not den.is_polynomial(_LV_Z):
+        return [], True  # a denominator built from exp only: never 0
+    pol = sp.Poly(sp.expand(den), _LV_Z)
+    rts = sp.roots(pol)
+    if sum(rts.values()) != pol.degree():
+        return None, False
+    out = []
+    for rho in rts.keys():
+        if sp.limit(eZ * (_LV_Z - rho), _LV_Z, rho) == 0:
+            continue  # removable
+        out.append(rho)
+    return out, True
+
+
+def _lv_nonholo(e):
+    """f(x, y) is holomorphic iff d f/d conj(z) = (f_x + i f_y)/2 vanishes identically; True means PROVED not holomorphic"""
+    fb = sp.simplify(sp.diff(e, _CXL_X) + sp.I * sp.diff(e, _CXL_Y))
+    return fb != 0
+
+
+def analyse_liouville(facet, f, region='disc', c='0', r='1', p0='-1-i', p1='1+i'):
+    """9.12 liouville — the exact side. Flat result: { id, facet, provenance, verdict (holds | broken | None), blockedAct, holdsConclusion, failsYetHolds, deg, distinct, count, constant, poles, note }.
+    f is read in the SAME grammar as the JS tier (9.3's). Facet liouville: H1 entire = no non-removable pole of the (cancelled) quotient, no non-holomorphic part (f_x + i f_y != 0 refutes it);
+    H2 bounded: sp.simplify(f') == 0 proves f constant (hence bounded: sin^2 + cos^2, e^z e^-z), a polynomial of degree >= 1 or a limit |f(t u)| -> oo along a ray (u = 1, -1, i, -i) refutes it;
+    otherwise the verdict is unknown. Facet maxmod: only H1 is decided (exact incidence of the poles with the closed region, non-holomorphy by f_z-bar); with H1 proved the theorem gives the conclusion;
+    the grid verification belongs to the JS tier, and the conclusion of a failed H1 is not decided here (None). Facet fta: the polynomial is expanded exactly, its degree and its squarefree degree are the
+    count with multiplicity and the number of distinct roots; a non-polynomial f gets solveset (exp has no root: EmptySet; sin has infinitely many). Provenance: proved / refuted only for exact input."""
+    def unk(note):
+        return {'id': 'liouville', 'facet': facet, 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'holdsConclusion': None, 'failsYetHolds': False, 'deg': None, 'distinct': None, 'count': None,
+                'constant': None, 'poles': [], 'note': note}
+
+    def res(exact, verdict, blocked, hold, **kw):
+        prov = ('proved' if verdict == 'holds' else 'refuted') if exact else 'numeric'
+        out = {'id': 'liouville', 'facet': facet, 'provenance': prov, 'verdict': verdict, 'blockedAct': blocked, 'holdsConclusion': hold, 'failsYetHolds': bool(blocked and hold is True),
+               'deg': None, 'distinct': None, 'count': None, 'constant': None, 'poles': [], 'note': ''}
+        out.update(kw)
+        return out
+    try:
+        e, exact, analytic = _cxl_parse(f)
+        eZ = _cxl_parse(f, zval=_LV_Z)[0] if analytic else None
+        if eZ is not None and eZ.is_rational_function(_LV_Z):
+            eZ = sp.cancel(sp.together(eZ))
+        if facet == 'liouville':
+            if not analytic:
+                if _lv_nonholo(e):
+                    return res(exact, 'broken', 'entire', False, note='f is not holomorphic: f_x + i f_y is not identically 0, so the Cauchy-Riemann equations fail (the conclusion is not decided here)')
+                return unk('f is written with x, y but the Cauchy-Riemann equations hold; enter it in z')
+            poles, ok = _lv_poles(eZ)
+            if not ok:
+                return unk('SymPy could not find the poles of f in closed form')
+            if poles:
+                return res(exact, 'broken', 'entire', False, constant=False, poles=[str(sp.simplify(p)) for p in poles], note='f has a pole (the denominator of the cancelled quotient vanishes), so it is not entire; non-constant')
+            if sp.simplify(sp.diff(eZ, _LV_Z)) == 0:
+                return res(exact, 'holds', None, True, constant=True, note='f\\' simplifies to 0: f is constant, hence bounded')
+            if eZ.is_polynomial(_LV_Z):
+                return res(exact, 'broken', 'bounded', False, constant=False, deg=int(sp.Poly(sp.expand(eZ), _LV_Z).degree()), note='a polynomial of degree at least 1 tends to infinity with |z|')
+            for u in (1, sp.I, -1, -sp.I):
+                try:
+                    lim = sp.limit(sp.Abs(sp.simplify(eZ.subs(_LV_Z, _LV_T * u))), _LV_T, sp.oo)
+                except Exception:  # noqa: BLE001
+                    continue
+                if lim == sp.oo:
+                    return res(exact, 'broken', 'bounded', False, constant=False, note=f'|f(t u)| -> oo as t -> oo along the ray u = {u}: f is not bounded, so not constant')
+            return unk('SymPy could neither simplify f\\' to 0 nor find a ray along which |f| tends to infinity')
+        if facet == 'maxmod':
+            if not analytic:
+                if _lv_nonholo(e):
+                    return res(exact, 'broken', 'holomorphic', None, note='f is not holomorphic (f_x + i f_y != 0); whether the maximum is on the boundary is not decided here')
+                return unk('f is written with x, y but the Cauchy-Riemann equations hold; enter it in z')
+            poles, ok = _lv_poles(eZ)
+            if not ok:
+                return unk('SymPy could not find the poles of f in closed form')
+            if region == 'disc':
+                cr, ci_, ec = _cxn_parse(c)
+                rr, ri, er = _cxn_parse(r)
+                if ri != 0 or rr <= 0:
+                    raise ValueError('the radius must be a positive real number')
+                exact = exact and ec and er
+                inreg = lambda p: sp.simplify((sp.re(p) - cr) ** 2 + (sp.im(p) - ci_) ** 2 - rr ** 2) <= 0  # noqa: E731
+            else:
+                ar, ai, ea = _cxn_parse(p0)
+                br, bi, eb = _cxn_parse(p1)
+                exact = exact and ea and eb
+                x0, x1, y0, y1 = min(ar, br), max(ar, br), min(ai, bi), max(ai, bi)
+                inreg = lambda p: bool(x0 <= sp.re(p) <= x1 and y0 <= sp.im(p) <= y1)  # noqa: E731
+            inside = [p for p in poles if inreg(p)]
+            if inside:
+                return res(exact, 'broken', 'holomorphic', None, poles=[str(sp.simplify(p)) for p in inside], note='f has a pole inside or on the region (exact incidence); whether the maximum is on the boundary is not decided here')
+            return res(exact, 'holds', None, True, note='f is holomorphic on the closed region (decided exactly), so by the maximum modulus theorem the maximum of |f| is on the boundary; the grid verification is the numeric tier\\'s')
+        # fta
+        if analytic and eZ.is_polynomial(_LV_Z):
+            pol = sp.Poly(sp.expand(eZ), _LV_Z)
+            if pol.is_zero:
+                return res(exact, 'broken', 'nonconstant', True, deg=-1, distinct=0, count=0, constant=True, note='the zero polynomial: every z is a root, there is no count to compare')
+            d = int(pol.degree())
+            if d == 0:
+                return res(exact, 'broken', 'nonconstant', False, deg=0, distinct=0, count=0, constant=True, note='a non-zero constant has no root')
+            dist = int(sp.Poly(sp.sqf_part(pol), _LV_Z).degree())
+            return res(exact, 'holds', None, True, deg=d, distinct=dist, count=d, note='an exact polynomial of degree >= 1: it has deg roots in C counted with multiplicity (fundamental theorem), dist = the degree of its squarefree part')
+        if analytic:
+            sols = sp.solveset(eZ, _LV_Z, sp.S.Complexes)
+            if sols == sp.S.EmptySet:
+                return res(exact, 'broken', 'polynomial', False, count=0, distinct=0, note='f is not a polynomial and solveset proves it has no root (exp never vanishes)')
+            if sols.is_empty is False or not isinstance(sols, sp.ConditionSet):
+                return res(exact, 'broken', 'polynomial', True, note='f is not a polynomial, yet solveset finds roots: the theorem is sufficient, not necessary')
+            return unk('SymPy could not decide whether f has a root')
+        return res(exact, 'broken', 'polynomial', None, note='f is not a polynomial in z (it uses conj, Re, Im, abs, x or y)')
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ── 9.13 cxseries — series in the complex plane (prefix _cxs_) ──────────────────────────────────────────────────
+import re as _cxs_re
+_CXS_N = sp.Symbol('n', integer=True, positive=True)
+_CXS_K = sp.Symbol('k', integer=True, positive=True)
+_CXS_PERIODS = (1, 2, 4, 3, 6)
+
+
+def _cxs_parse(text):
+    """c_n from the module's sympy text (n, I, E, pi, Abs, exp, sqrt, sin, cos, log, re, im, conjugate, arg, factorial). Returns (expr, exact): a decimal anywhere makes it numeric."""
+    s = str(text).replace('^', '**').replace('\\u2212', '-')
+    exact = _cxs_re.search(r'\\d\\.|\\.\\d', s) is None
+    names = {'i': 'I', 'j': 'I', 'e': 'E', 'abs': 'Abs', 'conj': 'conjugate'}
+    s = _cxs_re.sub(r'[A-Za-z_]+', lambda m: names.get(m.group(0), m.group(0)), s)
+    s = _cxs_re.sub(r'(\\d)\\s*I\\b', r'\\1*I', s)
+    e = sp.sympify(s, locals={'n': _CXS_N, 'I': sp.I, 'E': sp.E})
+    return e, exact
+
+
+def _cxs_sub(e, m):
+    """e(n = m) with the unit-modulus bases I, -I, -1 reduced: I**(a*k + b) -> I**b when 4 divides a (and -1 when 2 divides a). sp.simplify leaves I**(4*k + 1) alone, and sp.limit then fails with
+    'Result depends on the sign of I'."""
+    out = e.subs(_CXS_N, m)
+
+    def red(x):
+        per = {sp.I: 4, -sp.I: 4, sp.Integer(-1): 2}.get(x.base)
+        a = sp.expand(x.exp).coeff(_CXS_K)
+        if per is None or a == 0 or not a.is_integer or a % per != 0:
+            return x
+        return x.base ** sp.expand(x.exp - a * _CXS_K)
+    return out.replace(lambda x: x.is_Pow and x.base in (sp.I, -sp.I, sp.Integer(-1)), red)
+
+
+def _cxs_class_values(fn, period):
+    """fn(m) for m = period*k + r, r = 0 .. period-1, as a list of sympy limits as k -> oo (None when a class fails); fn takes the expression in m."""
+    out = []
+    for r in range(period):
+        m = period * _CXS_K + r
+        try:
+            v = fn(m)
+            v = sp.simplify(v) if not isinstance(v, (int, float)) else v
+            out.append(v)
+        except Exception:  # noqa: BLE001
+            return None
+    return out
+
+
+def _cxs_root_limsup(e):
+    """limsup |c_n|^(1/n) for a (eventually) periodically modulated c_n: the maximum of the class limits over the first period that gives all limits. Returns (value | None, period)."""
+    for p in _CXS_PERIODS:
+        vals = []
+        ok = True
+        for r in range(p):
+            m = p * _CXS_K + r
+            try:
+                ex = sp.simplify(_cxs_sub(e, m))
+                if ex == 0:
+                    vals.append(sp.Integer(0))
+                    continue
+                v = sp.limit(sp.Abs(ex) ** (1 / m), _CXS_K, sp.oo)
+                if not (v.is_number or v == sp.oo):
+                    ok = False
+                    break
+                vals.append(v)
+            except Exception:  # noqa: BLE001
+                ok = False
+                break
+        if ok and vals:
+            best = vals[0]
+            for v in vals[1:]:
+                best = v if sp.simplify(v - best) > 0 else best
+            return best, p
+    return None, None
+
+
+def _cxs_ratio_limit(e):
+    """(exists, value) for lim |c_{n+1}/c_n|: every residue class must give the same limit; a zero coefficient makes the ratio undefined (exists False, reason 'undefined')."""
+    for p in _CXS_PERIODS:
+        vals = []
+        ok = True
+        for r in range(p):
+            m = p * _CXS_K + r
+            try:
+                a = sp.simplify(_cxs_sub(e, m))
+                if a == 0:
+                    return False, 'undefined'
+                v = sp.limit(sp.Abs(sp.simplify(_cxs_sub(e, m + 1) / a)), _CXS_K, sp.oo)
+                if not (v.is_number or v == sp.oo):
+                    ok = False
+                    break
+                vals.append(v)
+            except Exception:  # noqa: BLE001
+                ok = False
+                break
+        if ok and vals:
+            same = all(sp.simplify(v - vals[0]) == 0 for v in vals) if vals[0] != sp.oo else all(v == sp.oo for v in vals)
+            return (True, vals[0]) if same else (False, 'oscillates')
+    return None, None
+
+
+def analyse_cxseries(facet, cn, z0='0', startN='0', z=''):
+    """9.13 cxseries — the exact side. Flat result: { id, facet, provenance, verdict (holds | broken | None), blockedAct, holdsConclusion, failsYetHolds, converges, absconv, radius, rKind, ratioExists, discSurvives, L, note }.
+    c_n is read in the JS grammar (n, i, e, pi, abs, conj, factorial, ^) and normalised here to sympy. The limsup |c_n|^(1/n) is taken exactly per residue class of n modulo 1, 2, 4, 3, 6 (an oscillating factor such as (-1)**n or I**n is
+    constant on each class; sp.limit on the raw expression raises 'Result depends on the sign of I' or returns AccumBounds); the ratio limit exists iff every class gives the same value, and is undefined
+    when a coefficient is 0. Facet power: radius R = 1/limsup (oo -> R = 0, 0 -> R infinite), verdict holds when the ratio limit exists and broken (blockedAct ratioLimit) when it does not, with discSurvives True
+    (Cauchy-Hadamard is exact). Facet series: limsup < 1 proves absolute convergence, > 1 refutes it (terms unbounded); at 1 the sum of |a_n| decides (summation finite / oo), the nth-term limit refutes
+    convergence, and for a conditionally convergent series summation of a_n itself gives the value. Provenance: proved / refuted for exact input, numeric when a decimal was typed, unknown when SymPy abstains."""
+    def unk(note):
+        return {'id': 'cxseries', 'facet': facet, 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'holdsConclusion': None, 'failsYetHolds': False, 'converges': None, 'absconv': None,
+                'radius': None, 'rKind': None, 'ratioExists': None, 'discSurvives': None, 'L': None, 'note': note}
+    try:
+        e, exact = _cxs_parse(cn)
+        if facet == 'power':
+            # the centre does not enter the radius; a decimal in it only marks the input numeric
+            exact = exact and _cxs_re.search(r'\\d\\.|\\.\\d', str(z0)) is None
+        n = _CXS_N
+        if e == 0:
+            if facet == 'series':
+                return {**unk('every term is 0'), 'provenance': 'proved' if exact else 'numeric', 'verdict': 'holds', 'holdsConclusion': True, 'converges': True, 'absconv': True, 'L': '0'}
+            return unk('every coefficient is 0: the series is the constant 0 and the ratio is undefined')
+        L, per = _cxs_root_limsup(e)
+        if L is None:
+            return unk('SymPy could not find the limsup of |c_n|^(1/n) per residue class')
+        prov = lambda v: ('proved' if v == 'holds' else 'refuted') if exact else 'numeric'  # noqa: E731
+        Lf = None if L == sp.oo else float(L)
+        if facet == 'power':
+            ratio_ok, ratio_val = _cxs_ratio_limit(e)
+            radius = None if (L == 0) else (0.0 if L == sp.oo else float(1 / L))
+            rKind = 'everywhere' if L == 0 else 'pointOnly' if L == sp.oo else 'finite'
+            verdict = 'holds' if ratio_ok else 'broken'
+            return {'id': 'cxseries', 'facet': facet, 'provenance': prov(verdict), 'verdict': verdict, 'blockedAct': None if ratio_ok else 'ratioLimit', 'holdsConclusion': bool(ratio_ok),
+                    'failsYetHolds': False, 'converges': None, 'absconv': None, 'radius': radius, 'rKind': rKind, 'ratioExists': bool(ratio_ok) if ratio_ok is not None else None,
+                    'discSurvives': True, 'L': str(L), 'note': (f'limsup |c_n|^(1/n) = {L} (period {per} classes), so R = {sp.nsimplify(1 / L) if L not in (0, sp.oo) else ("oo" if L == 0 else "0")}; ' + ('the ratio limit exists and gives the same R' if ratio_ok else f'the ratio limit does not exist ({ratio_val}): the ratio test names no radius, the root route does'))}
+        # facet series
+        start = int(startN)
+        base = {'id': 'cxseries', 'facet': 'series', 'radius': None, 'rKind': None, 'ratioExists': None, 'discSurvives': None, 'L': str(L)}
+        if L != sp.oo and L < 1:
+            return {**base, 'provenance': prov('holds'), 'verdict': 'holds', 'blockedAct': None, 'holdsConclusion': True, 'failsYetHolds': False, 'converges': True, 'absconv': True, 'note': f'limsup |a_n|^(1/n) = {L} < 1: the moduli are dominated by a geometric series, so the series converges absolutely'}
+        if L == sp.oo or L > 1:
+            return {**base, 'provenance': prov('broken'), 'verdict': 'broken', 'blockedAct': 'absconv', 'holdsConclusion': False, 'failsYetHolds': False, 'converges': False, 'absconv': False, 'note': f'limsup |a_n|^(1/n) = {L} > 1: the terms are unbounded, so the series diverges'}
+        # limsup = 1: the root test is silent
+        s_abs = None
+        try:
+            s_abs = sp.summation(sp.simplify(sp.Abs(e)), (n, max(start, 1), sp.oo))
+        except Exception:  # noqa: BLE001
+            s_abs = None
+        if s_abs is not None and not s_abs.has(sp.Sum) and s_abs != sp.nan and s_abs.is_finite:
+            return {**base, 'provenance': prov('holds'), 'verdict': 'holds', 'blockedAct': None, 'holdsConclusion': True, 'failsYetHolds': False, 'converges': True, 'absconv': True, 'note': f'the root test is silent (limsup 1); the sum of the moduli is {s_abs}, finite'}
+        if s_abs is not None and (s_abs == sp.oo or s_abs.is_infinite):
+            try:
+                t_lim = sp.limit(sp.Abs(e), n, sp.oo)
+            except Exception:  # noqa: BLE001
+                t_lim = None
+            if t_lim is not None and t_lim != 0:
+                return {**base, 'provenance': prov('broken'), 'verdict': 'broken', 'blockedAct': 'absconv', 'holdsConclusion': False, 'failsYetHolds': False, 'converges': False, 'absconv': False, 'note': f'the moduli sum to infinity and |a_n| does not tend to 0 (limit {t_lim}): the series diverges by the nth-term test'}
+            if t_lim == 0:
+                try:
+                    s_val = sp.summation(e, (n, max(start, 1), sp.oo))
+                except Exception:  # noqa: BLE001
+                    s_val = None
+                if s_val is not None and not s_val.has(sp.Sum) and s_val != sp.nan and s_val.is_finite is not False and not s_val.has(sp.zoo, sp.oo):
+                    return {**base, 'provenance': prov('broken'), 'verdict': 'broken', 'blockedAct': 'absconv', 'holdsConclusion': True, 'failsYetHolds': True, 'converges': True, 'absconv': False, 'note': f'the moduli sum to infinity but the series itself sums to {sp.simplify(s_val)}: conditional convergence'}
+                if s_val is not None and (s_val == sp.oo) and e.is_positive:
+                    return {**base, 'provenance': prov('broken'), 'verdict': 'broken', 'blockedAct': 'absconv', 'holdsConclusion': False, 'failsYetHolds': False, 'converges': False, 'absconv': False, 'note': 'the terms are positive and their sum is infinite: the series diverges'}
+                return {**unk('the moduli sum to infinity and SymPy could not sum the series itself'), 'absconv': False, 'verdict': 'broken', 'blockedAct': 'absconv', 'L': str(L)}
+        return unk('SymPy could not sum the moduli')
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ── 9.14 laurent: Taylor and Laurent series on an annulus (prefix _lau_) ────────────────────────────────────────────────────────────────────
+_LAU_Z = sp.Symbol('zlau')
+
+
+def _lau_sign(d):
+    """the sign of an exact real expression: 1, -1 or 0 (numeric fallback with a tight tolerance when SymPy cannot decide)"""
+    d = sp.simplify(d)
+    if d.is_zero:
+        return 0
+    if d.is_positive:
+        return 1
+    if d.is_negative:
+        return -1
+    v = float(sp.N(d, 30))
+    return 0 if abs(v) < 1e-20 else (1 if v > 0 else -1)
+
+
+def _lau_series_at_inf(e, z0v, nmax):
+    """f(z) = f(z0 + 1/t): when this is analytic at t = 0 its Taylor series in t IS the Laurent series about z0 valid outside every singular point: c_{-k} is the coefficient of t^k"""
+    t = sp.Symbol('tlau')
+    g = e.subs(_LAU_Z, z0v + 1 / t)
+    try:
+        ser = sp.series(g, t, 0, nmax + 2).removeO()
+    except Exception:  # noqa: BLE001
+        return None
+    if not ser.is_polynomial(t):
+        return None
+    chk = sp.simplify(g - ser)
+    if chk.has(sp.Order):
+        return None
+    ser = sp.expand(ser)
+    return {-k: ser.coeff(t, k) for k in range(0, nmax + 1)}
+
+
+def analyse_laurent(f, z0='0', r1='0', r2='inf'):
+    """9.14 laurent — the exact side. Flat result: { id, provenance, verdict (holds | broken), blockedAct (analytic | annulus | None), coefs ({n: exact text} for n = -4..4, or None when SymPy could not
+    derive them), res (c_{-1}), circleDependent (the coefficients differ between circles on the two sides of an enclosed pole: the measured break), nAnnuli, declared (the index of the annulus of holomorphy
+    the input sits in, -1 when it contains a singular point), taylor (r1 = 0 and f holomorphic on the whole disc), failsYetHolds (always False, a documented exception), note }.
+    f is read in the SAME grammar as the JS tier (9.3's). H1 f holomorphic: no z-bar / Re / Im. H2 no singular point strictly between the radii: for a rational f the roots of the reduced denominator (sp.roots, all
+    of them or abstain), for a transcendental f sp.singularities with a removable point (a finite limit) dropped. The coefficients are INDEPENDENT of the JS tier's quadrature and partial fractions: for a
+    rational f c_n is the sum of sp.residue(f/(z-z0)^(n+1)) over z0 and the poles inside the inner circle (the ring integral by the residue theorem); for a transcendental f the series about z0 (a pole) or the
+    series about infinity (f(z0 + 1/t) analytic at t = 0: e^(1/z)). TRAP: sp.residue silently returns 0 for z**k*exp(1/z) (an essential singularity) instead of raising, so the residue route is NEVER used for a
+    non-rational f."""
+    def unk(note):
+        return {'id': 'laurent', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'coefs': None, 'res': None, 'circleDependent': None, 'nAnnuli': None, 'declared': None, 'taylor': None,
+                'failsYetHolds': False, 'note': note}
+    try:
+        e, ex_f, analytic = _cxl_parse(f, zval=_LAU_Z)
+    except Exception:  # noqa: BLE001 - a non-analytic f cannot be parsed with a complex variable: reparse in x, y only to learn that
+        try:
+            _e, ex_f, analytic = _cxl_parse(f)
+            e = None
+        except Exception as ex:  # noqa: BLE001
+            return unk(str(ex))
+    try:
+        zr, zi, ez = _cxn_parse(z0)
+        z0v = zr + sp.I * zi
+        a_re, a_im, e1 = _cxn_parse(r1)
+        if a_im != 0 or a_re < 0:
+            raise ValueError('the inner radius must be a real number, 0 or larger')
+        ra = a_re
+        if str(r2).strip().lower() in ('inf', '+inf', 'oo', '∞', 'infinity'):
+            rb, e2 = sp.oo, True
+        else:
+            b_re, b_im, e2 = _cxn_parse(r2)
+            if b_im != 0:
+                raise ValueError('the outer radius must be a real number or inf')
+            rb = b_re
+            if rb <= ra:
+                raise ValueError('the annulus is empty: it needs r1 < r2')
+        exact = bool(ex_f and ez and e1 and e2)
+        if not analytic or e is None:
+            return {'id': 'laurent', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'analytic', 'coefs': None, 'res': None, 'circleDependent': None, 'nAnnuli': None,
+                    'declared': None, 'taylor': False, 'failsYetHolds': False, 'note': 'f is built from z-bar, Re or Im: it is complex differentiable nowhere, so it has no Laurent series'}
+        # singular points
+        rational = False
+        poles = []
+        e2c = sp.cancel(sp.together(e))
+        num_, den_ = sp.fraction(e2c)
+        if num_.is_polynomial(_LAU_Z) and den_.is_polynomial(_LAU_Z):
+            rational = True
+            if den_.has(_LAU_Z):
+                pol = sp.Poly(sp.expand(den_), _LAU_Z)
+                rts = sp.roots(pol)
+                if sum(rts.values()) != pol.degree():
+                    return unk('SymPy could not find all the poles of f in closed form')
+                poles = list(rts.keys())
+        else:
+            try:
+                sg = sp.singularities(e, _LAU_Z)
+            except Exception as ex:  # noqa: BLE001
+                return unk(f'SymPy could not locate the singular points of f ({ex})')
+            if not isinstance(sg, (set, frozenset, sp.FiniteSet)):
+                return unk('SymPy could not list the singular points of f')
+            for p in sg:
+                try:
+                    lim = sp.limit(e, _LAU_Z, p)
+                except Exception:  # noqa: BLE001
+                    lim = sp.zoo
+                if lim.is_finite is True:
+                    continue  # removable
+                poles.append(p)
+        d2 = [(p, sp.simplify(sp.re(p - z0v) ** 2 + sp.im(p - z0v) ** 2)) for p in poles]
+        rasq = ra ** 2
+        between = [p for p, q in d2 if _lau_sign(q - rasq) > 0 and (rb == sp.oo or _lau_sign(q - rb ** 2) < 0)]
+        inner = [p for p, q in d2 if _lau_sign(q - rasq) <= 0]
+        # the annuli: distinct nonzero singular moduli
+        mods = []
+        for _p, q in d2:
+            if _lau_sign(q) > 0 and not any(_lau_sign(q - m) == 0 for m in mods):
+                mods.append(q)
+        mods.sort(key=lambda m: float(sp.N(m)))
+        bounds = [sp.Integer(0)] + [sp.sqrt(m) for m in mods]
+        nann = len(bounds)
+        declared = -1
+        for k in range(nann):
+            lo = bounds[k]
+            hi = bounds[k + 1] if k + 1 < nann else sp.oo
+            if _lau_sign(ra - lo) >= 0 and (hi == sp.oo or (rb != sp.oo and _lau_sign(rb - hi) <= 0)):
+                declared = k
+        taylor = bool(ra == 0 and not any(_lau_sign(q - (rb ** 2 if rb != sp.oo else 10 ** 30)) < 0 for _p, q in d2))
+        if between:
+            circle_dep = None
+            if rational:
+                p0 = between[0]
+                dp = sp.sqrt(sp.simplify(sp.re(p0 - z0v) ** 2 + sp.im(p0 - z0v) ** 2))
+                w = _LAU_Z - z0v
+                enc_lo = [z0v] + [p for p, q in d2 if _lau_sign(sp.sqrt(q) - (ra + dp) / 2) < 0 and sp.simplify(p - z0v) != 0]
+                enc_hi = [z0v] + [p for p, q in d2 if _lau_sign(sp.sqrt(q) - (dp + (rb if rb != sp.oo else dp + 1)) / 2) < 0 and sp.simplify(p - z0v) != 0]
+                circle_dep = False
+                for n in range(-4, 3):
+                    g = e / w ** (n + 1)
+                    a = sum(sp.residue(g, _LAU_Z, p) for p in enc_lo)
+                    b = sum(sp.residue(g, _LAU_Z, p) for p in enc_hi)
+                    if sp.simplify(a - b) != 0:
+                        circle_dep = True
+                        break
+            return {'id': 'laurent', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'annulus', 'coefs': None, 'res': None, 'circleDependent': circle_dep,
+                    'nAnnuli': nann, 'declared': -1, 'taylor': False, 'failsYetHolds': False,
+                    'note': 'a singular point lies strictly inside the annulus: the ring integral changes when the circle crosses it, so the coefficients are not a function of f alone'}
+        # the coefficients
+        coefs = None
+        if rational:
+            w = _LAU_Z - z0v
+            enc = [z0v] + [p for p in inner if sp.simplify(p - z0v) != 0]
+            coefs = {}
+            for n in range(-4, 5):
+                coefs[n] = sp.simplify(sum(sp.residue(e / w ** (n + 1), _LAU_Z, p) for p in enc))
+        else:
+            if rb == sp.oo and all(_lau_sign(q - rasq) <= 0 for _p, q in d2):
+                inf = _lau_series_at_inf(e, z0v, 4)
+                if inf is not None:
+                    coefs = {n: sp.Integer(0) for n in range(-4, 5)}
+                    coefs.update({n: sp.nsimplify(v) for n, v in inf.items()})
+            if coefs is None and ra == 0 and all(sp.simplify(p - z0v) == 0 for p in poles):
+                w = sp.Symbol('wlau')
+                try:
+                    ser = sp.series(e.subs(_LAU_Z, z0v + w), w, 0, 6).removeO()
+                    if ser.has(sp.Order) or not sp.expand(ser * w ** 8).is_polynomial(w):
+                        raise ValueError('not a Laurent polynomial')
+                    ser = sp.expand(ser)
+                    coefs = {n: ser.coeff(w, n) for n in range(-4, 5)}
+                except Exception:  # noqa: BLE001
+                    coefs = None
+        res_s = None
+        out = None
+        if coefs is not None:
+            out = {str(n): _cf_gstr(v) for n, v in coefs.items()}
+            res_s = out['-1']
+        return {'id': 'laurent', 'provenance': 'proved' if (exact and coefs is not None) else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'coefs': out, 'res': res_s, 'circleDependent': False,
+                'nAnnuli': nann, 'declared': declared, 'taylor': taylor, 'failsYetHolds': False,
+                'note': 'the clauses are decided exactly (the poles of the reduced denominator against the radii); the coefficients are residue sums for a rational f, series for a transcendental one'}
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ── 9.15 singularities: zeros and isolated singularities, removable / pole / essential (prefix _sng_) ─────────────────────────────────────────
+_SNG_Z = sp.Symbol('zsng')
+_SNG_W = sp.Symbol('wsng')
+_SNG_ACC = sp.calculus.accumulationbounds.AccumBounds
+
+
+def _sng_trig_accum(den, num, z0v):
+    """a certificate that the zeros of the denominator ACCUMULATE at z0: for each sin(a(z)) / cos(a(z)) in it, solve a(z) = k pi (resp. pi/2 + k pi), k an integer, for z; if z_k is a zero of the
+    denominator, the numerator does not vanish there, and z_k -> z0 as k -> +oo or -oo, the poles pile up at z0 (1/sin(1/z): z_k = 1/(k pi)). True / False."""
+    k = sp.Symbol('ksng', integer=True)
+    for a in den.atoms(sp.sin, sp.cos):
+        target = k * sp.pi if isinstance(a, sp.sin) else sp.pi / 2 + k * sp.pi
+        try:
+            sols = sp.solve(sp.Eq(a.args[0], target), _SNG_Z)
+        except Exception:  # noqa: BLE001
+            continue
+        for zk in sols:
+            try:
+                if sp.simplify(den.subs(_SNG_Z, zk)) != 0 or sp.simplify(num.subs(_SNG_Z, zk)) == 0:
+                    continue
+                for d in (sp.oo, -sp.oo):
+                    if sp.simplify(sp.limit(zk, k, d) - z0v) == 0:
+                        return True
+            except Exception:  # noqa: BLE001
+                continue
+    return False
+
+
+def _sng_singular_set(sg, z0v):
+    """classify the set sp.singularities returned: True (finite, empty, or discrete ImageSet families that do not tend to z0), False (a family tends to z0), None (a ConditionSet or anything else)"""
+    parts = list(sg.args) if isinstance(sg, sp.Union) else [sg]
+    verdict = True
+    for part in parts:
+        if isinstance(part, (sp.FiniteSet,)) or part == sp.S.EmptySet:
+            continue
+        if isinstance(part, sp.ImageSet):
+            lam = part.lamda
+            if len(lam.variables) != 1:
+                return None
+            kk = lam.variables[0]
+            for d in (sp.oo, -sp.oo):
+                try:
+                    lim = sp.limit(lam.expr, kk, d)
+                except Exception:  # noqa: BLE001
+                    return None
+                if lim.is_finite is True and sp.simplify(lim - z0v) == 0:
+                    return False
+            continue
+        verdict = None
+    return verdict
+
+
+def analyse_singularities(f, z0='0', R='1', w='2+i'):
+    """9.15 singularities — the exact side. Flat result: { id, provenance, verdict (holds | broken), blockedAct (analytic | isolated | None), kind (pole | removable | regular | essential | zero | None),
+    order (the pole order or the zero order, None for essential), nu (the order nu = min{n: c_n != 0}, None), isolated (True | False | None), coefs ({n: exact text} for n = -4..4 or None), res (c_{-1}), note }.
+    f is read in the SAME grammar as the JS tier (9.3's). H1 f holomorphic: no z-bar / Re / Im. H2 isolated: a rational f has finitely many poles (decided exactly); otherwise the zeros of the
+    denominator are solved with solveset and an ImageSet z_k -> z0 (1/sin(1/z): z_k = 1/(k pi)) is the certificate that they accumulate (refuted); a finite sp.singularities set is the certificate that
+    z0 is isolated. The kind is decided EXACTLY, independent of the JS tier's quadrature and rays: for a pole / zero / removable point from the Laurent polynomial of sp.series about z0 (the first non-zero
+    term is nu), for an essential singularity from the one-sided real limits g(w) as w -> 0+ and w -> 0-: a limit that is infinite on one side and finite on the other, or that oscillates (AccumBounds),
+    is neither a finite limit (removable) nor |g| -> oo on every ray (pole) — with z0 isolated that is exactly "essential" — and the coefficients c_{-k} come from the series of f(z0 + 1/t) about t = 0.
+    The target w is only validated here: the Casorati-Weierstrass density is a numeric search, never promoted. TRAPS: sp.limit(sin(1/w), w, 0) is AccumBounds, which prints as finite — it must be tested
+    with isinstance, never with .is_finite; sp.series raises (or returns an Order) on an essential singularity, so that failure is the cue for the limit test, not an abstention; sp.residue silently returns
+    0 for z**k*exp(1/z) (cf. 9.14)."""
+    def unk(note, **kw):
+        base = {'id': 'singularities', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'kind': None, 'order': None, 'nu': None, 'isolated': None, 'coefs': None, 'res': None, 'note': note}
+        base.update(kw)
+        return base
+    try:
+        try:
+            e, ex_f, analytic = _cxl_parse(f, zval=_SNG_Z)
+        except Exception:  # noqa: BLE001 - a non-analytic f cannot be parsed with a complex variable: reparse in x, y only to learn that
+            _e, ex_f, analytic = _cxl_parse(f)
+            e = None
+        zr, zi, ez = _cxn_parse(z0)
+        z0v = zr + sp.I * zi
+        r_re, r_im, er = _cxn_parse(R)
+        if r_im != 0 or r_re <= 0:
+            raise ValueError('the search radius must be a positive real number')
+        _wr, _wi, ew = _cxn_parse(w)
+        exact = bool(ex_f and ez and er and ew)
+        if not analytic or e is None:
+            return unk('f is built from z-bar, Re or Im: it is complex differentiable nowhere, so it has no Laurent series', provenance='refuted' if exact else 'numeric', verdict='broken', blockedAct='analytic', isolated=None)
+        e = sp.sympify(e)
+        if e == 0:
+            return {'id': 'singularities', 'provenance': 'proved' if exact else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'kind': 'zero', 'order': None, 'nu': None, 'isolated': True,
+                    'coefs': {str(n): '0' for n in range(-4, 5)}, 'res': '0', 'note': 'f is identically zero: every Laurent coefficient vanishes, a zero of no finite order'}
+        # H2: is z0 an isolated singularity?
+        e2c = sp.cancel(sp.together(e))
+        num_, den_ = sp.fraction(e2c)
+        rational = bool(num_.is_polynomial(_SNG_Z) and den_.is_polynomial(_SNG_Z))
+        isolated = None
+        if rational:
+            isolated = True
+        else:
+            if den_.has(_SNG_Z) and _sng_trig_accum(den_, num_, z0v):
+                return unk('the denominator vanishes at z_k -> z0 (solving sin(a(z)) = 0 gives z_k = a^-1(k pi)): the poles accumulate at z0, so no punctured disc about z0 is free of singularities and f has no Laurent series there',
+                           provenance='refuted' if exact else 'numeric', verdict='broken', blockedAct='isolated', isolated=False)
+            try:
+                isolated = _sng_singular_set(sp.singularities(e, _SNG_Z), z0v)
+            except Exception:  # noqa: BLE001
+                isolated = None
+            if isolated is False:
+                return unk('the singular points of f form a family tending to z0: they accumulate there and f has no Laurent series about z0', provenance='refuted' if exact else 'numeric', verdict='broken', blockedAct='isolated', isolated=False)
+        if isolated is None:
+            return unk('SymPy could not decide whether z0 is an isolated singularity of f')
+        # the kind at z0
+        g = e.subs(_SNG_Z, z0v + _SNG_W)
+        defined = False
+        try:
+            v0 = g.subs(_SNG_W, 0)
+            defined = bool(v0.is_finite) and v0 != sp.nan
+        except Exception:  # noqa: BLE001
+            defined = False
+        kind = nu = None
+        coefs = None
+        ser = None
+        try:
+            ser = sp.series(g, _SNG_W, 0, 9).removeO()
+            ser = sp.expand(ser)
+            if ser.has(sp.Order) or not sp.expand(ser * _SNG_W ** 20).is_polynomial(_SNG_W):
+                ser = None
+        except Exception:  # noqa: BLE001
+            ser = None
+        if ser is not None and ser != 0:
+            pw = sorted({int(t.as_coeff_exponent(_SNG_W)[1]) for t in sp.Add.make_args(ser)})
+            nu = pw[0]
+            coefs = {n: ser.coeff(_SNG_W, n) for n in range(-4, 5)}
+            kind = 'pole' if nu < 0 else ('regular' if defined else 'removable')
+        else:
+            try:
+                lp = sp.limit(g, _SNG_W, 0, '+')
+                lm = sp.limit(g, _SNG_W, 0, '-')
+            except Exception:  # noqa: BLE001
+                return unk('SymPy could not take the limits of f at z0')
+            osc = isinstance(lp, _SNG_ACC) or isinstance(lm, _SNG_ACC)
+            fin = lambda v: (not isinstance(v, _SNG_ACC)) and v.is_finite is True
+            inf_ = lambda v: v in (sp.oo, -sp.oo, sp.zoo)
+            if osc or (fin(lp) and inf_(lm)) or (inf_(lp) and fin(lm)):
+                kind = 'essential'
+                t = sp.Symbol('tsng')
+                try:
+                    gi = e.subs(_SNG_Z, z0v + 1 / t)
+                    si = sp.expand(sp.series(gi, t, 0, 6).removeO())
+                    if not si.has(sp.Order) and si.is_polynomial(t):
+                        coefs = {n: sp.Integer(0) for n in range(-4, 5)}
+                        coefs.update({-k: si.coeff(t, k) for k in range(0, 5)})
+                except Exception:  # noqa: BLE001
+                    coefs = None
+            elif fin(lp) and fin(lm) and sp.simplify(lp - lm) == 0:
+                return unk('SymPy found a finite limit but could not expand the Laurent series at z0')
+            else:
+                return unk('SymPy could not classify the singularity: the one-sided limits at z0 are neither a finite common value, nor infinite on both sides, nor a certificate of an essential singularity')
+        out = None
+        res_s = None
+        if coefs is not None:
+            out = {str(n): _cf_gstr(v) for n, v in coefs.items()}
+            res_s = out['-1']
+        order = -nu if (kind == 'pole') else (nu if kind in ('regular', 'removable') else None)
+        return {'id': 'singularities', 'provenance': 'proved' if exact else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'kind': kind, 'order': order, 'nu': nu if kind != 'essential' else None, 'isolated': True,
+                'coefs': out, 'res': res_s,
+                'note': 'decided exactly: the first non-zero term of the Laurent polynomial from sp.series (pole / zero / removable), or the one-sided real limits (essential); the Casorati-Weierstrass density is a numeric search'}
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ── 9.16 residues: the residue theorem (prefix _rsd_) ──────────────────────────────────────────────────────────────────────────────────────────
+_RSD_Z = sp.Symbol('zrsd')
+
+
+def _rsd_cross(a, b):
+    return sp.simplify(sp.re(a) * sp.im(b) - sp.im(a) * sp.re(b))
+
+
+def _rsd_meet(a, b, c, d):
+    """do the closed segments ab and cd meet? (exact: signs of rational cross products)"""
+    def o(p, q, r):
+        return sp.sign(_rsd_cross(q - p, r - p))
+
+    def on(p, q, r):
+        return sp.simplify(sp.re(r - p) * sp.re(r - q) + sp.im(r - p) * sp.im(r - q)) <= 0
+    o1, o2, o3, o4 = o(a, b, c), o(a, b, d), o(c, d, a), o(c, d, b)
+    if o1 != o2 and o3 != o4 and not (o1 == 0 and o2 == 0):
+        return True
+    return (o1 == 0 and on(a, b, c)) or (o2 == 0 and on(a, b, d)) or (o3 == 0 and on(c, d, a)) or (o4 == 0 and on(c, d, b))
+
+
+def _rsd_shape(kind, vs, n_):
+    """(simple, counter-clockwise) of the closed contour, decided exactly: a circle is simple iff one lap; a polygon by pairwise side intersections and the sign of the shoelace area"""
+    if kind == 'circle':
+        return abs(n_) == 4, n_ > 0
+    m = len(vs) - 1
+    simple = True
+    for i in range(m):
+        for j in range(i + 1, m):
+            if j == i + 1 or (i == 0 and j == m - 1):
+                di, dj = vs[i + 1] - vs[i], vs[j + 1] - vs[j]
+                first, second = (dj, di) if (i == 0 and j == m - 1) else (di, dj)
+                if _rsd_cross(first, second) == 0 and sp.simplify(sp.re(first) * sp.re(second) + sp.im(first) * sp.im(second)) < 0:
+                    simple = False
+            elif _rsd_meet(vs[i], vs[i + 1], vs[j], vs[j + 1]):
+                simple = False
+    area2 = sum(sp.re(a) * sp.im(b) - sp.im(a) * sp.re(b) for a, b in zip(vs, vs[1:]))
+    return simple, sp.simplify(area2) > 0
+
+
+def _rsd_pole_order(eZ, p):
+    """the order m of the pole p: the least k with lim (z − p)^k f finite (and then non-zero)"""
+    for k in range(1, 10):
+        v = sp.limit(eZ * (_RSD_Z - p) ** k, _RSD_Z, p)
+        if v.has(sp.zoo, sp.oo, -sp.oo, sp.nan):
+            continue
+        return k if sp.simplify(v) != 0 else None
+    return None
+
+
+def analyse_residues(f, kind, pts='0, 1', c='0', r='1', q0='0', n='4'):
+    """9.16 residues — the exact side of the residue theorem ∮ f dz = 2πi Σ n(γ,z_k) Res(f,z_k). Flat result: { id, provenance, verdict (holds | broken | fails), blockedAct (closed | offContour | meromorphic | simple | None),
+    valueKnown, I ([re, im] of the integral, None when it does not exist), IS (its text), poles ([{z: [re, im], m, res: [re, im], n}] sorted by re then im), naiveHolds, weightedHolds, failsYetHolds, conclusionFails, note }.
+    f is read in the SAME grammar as the JS tier (9.3's). The clauses are decided EXACTLY: closedness from the data, a pole on the contour by exact incidence, f meromorphic by the absence of z-bar / Re / Im and of
+    sin / cos in a denominator, simplicity by exact segment intersections and the sign of the shoelace area (a circle: one lap, counter-clockwise). The residues are sp.residue (a series) at each non-removable root of
+    the denominator, the order is read from limits of (z − p)^k f, the winding numbers are exact (|p − c| < r times the laps for a circle). So SymPy DECIDES MORE than the JS tier: exp / sin / cos factors and
+    non-Gaussian roots (z³ − 1) give exact closed forms where the JS tier is numeric. For a non-holomorphic f the integral itself is evaluated exactly with 9.9's helpers."""
+    def unk(note):
+        return {'id': 'residues', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'valueKnown': None, 'I': None, 'IS': None, 'poles': None, 'naiveHolds': None, 'weightedHolds': None,
+                'failsYetHolds': False, 'conclusionFails': None, 'note': note}
+    try:
+        e, ex_f, analytic = _cxl_parse(f)
+        if kind not in ('polygon', 'circle'):
+            raise ValueError('the contour must be a closed polygon or circle')
+        exact = ex_f
+        if kind == 'polygon':
+            vs, ev = _cxi_pts(pts)
+            exact = exact and ev
+            closed = sp.simplify(vs[0] - vs[-1]) == 0
+            c_ = r_ = q0_ = n_ = None
+        else:
+            cr, ci_, ec = _cxn_parse(c)
+            rr, ri, er = _cxn_parse(r)
+            exact = exact and ec and er
+            if ri != 0 or rr <= 0:
+                raise ValueError('the radius must be a positive real number')
+            q0_, n_ = int(str(q0).strip()), int(str(n).strip())
+            if n_ == 0 or abs(n_) > 16:
+                raise ValueError('the sweep must be between 1 and 16 quarter-turns')
+            c_, r_ = cr + sp.I * ci_, rr
+            closed = n_ % 4 == 0
+            vs = None
+        eZ = None
+        poles = []
+        if analytic:
+            eZ, _ex, _an = _cxl_parse(f, zval=_RSD_Z)
+            den = sp.fraction(sp.together(eZ))[1]
+            if den.has(sp.sin) or den.has(sp.cos):
+                return unk('sin or cos in a denominator: the poles are not a finite list')
+            if den.has(_RSD_Z) and den.is_polynomial(_RSD_Z):
+                pol = sp.Poly(sp.expand(den), _RSD_Z)
+                rts = sp.roots(pol)
+                if sum(rts.values()) != pol.degree():
+                    return unk('SymPy could not find all the poles of f in closed form')
+                for rho in rts.keys():
+                    if sp.limit(eZ, _RSD_Z, rho).is_finite:
+                        continue  # removable: residue 0, not counted
+                    poles.append(rho)
+        if not closed:
+            return {'id': 'residues', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'closed', 'valueKnown': True, 'I': None, 'IS': None, 'poles': None, 'naiveHolds': None,
+                    'weightedHolds': None, 'failsYetHolds': False, 'conclusionFails': True, 'note': 'the contour is not closed: there are no winding numbers and the right-hand side has no meaning'}
+        pole_on = [p for p in poles if _cf_on_path(kind, vs, c_, r_, p)]
+        simple, ccw = _rsd_shape(kind, vs, n_)
+        gates = [('closed', True), ('offContour', not pole_on), ('meromorphic', bool(analytic)), ('simple', simple and ccw)]
+        blocked = next((nm for nm, ok in gates if not ok), None)
+        value_known = not pole_on
+        out_poles, Iv, IS = [], None, None
+        naive_h = weighted_h = concl = None
+        if value_known and analytic:
+            tot, naive = sp.Integer(0), sp.Integer(0)
+            for p in poles:
+                nw = _cf_winding(kind, vs, c_, r_, n_, p)
+                res = sp.simplify(sp.residue(eZ, _RSD_Z, p))
+                m = _rsd_pole_order(eZ, p)
+                zc, rc = complex(sp.N(p)), complex(sp.N(res))
+                out_poles.append({'z': [zc.real, zc.imag], 'm': m, 'res': [rc.real, rc.imag], 'n': int(nw)})
+                tot += nw * res
+                if nw != 0:
+                    naive += res
+            Ivs = sp.simplify(2 * sp.pi * sp.I * tot)
+            Iv = complex(sp.N(Ivs, 15))
+            IS = '0' if Ivs == 0 else str(Ivs)
+            naive_h = bool(abs(complex(sp.N(2 * sp.pi * sp.I * naive)) - Iv) < 1e-9)
+            weighted_h = True
+            concl = not naive_h
+            out_poles.sort(key=lambda q: (round(q['z'][0], 9), round(q['z'][1], 9)))
+        elif value_known and not analytic:
+            ei, _ex, _an = _cxl_parse(f)
+            tot, prov_num = sp.Integer(0), False
+            if kind == 'polygon':
+                for a, b in zip(vs, vs[1:]):
+                    v, kd = _cxi_seg_integral(ei, a, b)
+                    if v is None or kd == 'pole':
+                        return unk('SymPy could not integrate the integrand along the contour')
+                    prov_num = prov_num or kd == 'numeric'
+                    tot += v
+            else:
+                v, kd = _cxi_circle_integral(ei, c_, r_, q0_, n_)
+                if v is None or kd == 'pole':
+                    return unk('SymPy could not reduce the integrand on the circle to a rational function of w')
+                tot, prov_num = v, kd == 'numeric'
+            Iv = complex(sp.N(tot, 15))
+            IS = '≈ 0' if abs(Iv) < 1e-9 else str(sp.simplify(tot))
+            exact = exact and not prov_num
+            concl = bool(abs(Iv) > 1e-9)
+        allhold = blocked is None
+        if allhold:
+            verdict, prov = 'holds', 'proved' if exact else 'numeric'
+        else:
+            verdict, prov = 'broken', 'refuted' if exact else 'numeric'
+        return {'id': 'residues', 'provenance': prov, 'verdict': verdict, 'blockedAct': blocked, 'valueKnown': bool(value_known), 'I': None if Iv is None else [Iv.real, Iv.imag], 'IS': IS,
+                'poles': out_poles if (value_known and analytic) else None, 'naiveHolds': naive_h, 'weightedHolds': weighted_h, 'failsYetHolds': bool(blocked and concl is False), 'conclusionFails': concl,
+                'note': 'the clauses are decided exactly (incidence, simplicity, winding numbers, poles of the denominator); the residues are sp.residue and the integral is 2πi Σ n·Res, so exp / sin / cos factors are exact here'}
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ── 9.17 realintegrals: real integrals by residues (prefix _rli_) ────────────────────────────────────────────────────────────────────────────
+_RLI_Z = sp.Symbol('zrli')
+
+
+def _rli_letters(text, frm, to):
+    import re as _re
+    return _re.sub(r'(?<![A-Za-z])' + frm + r'(?![A-Za-z])', to, text)
+
+
+def _rli_c(v):
+    c = complex(sp.N(v, 25))
+    return [c.real, c.imag]
+
+
+def analyse_realintegrals(kind, f, a='0'):
+    """9.17 realintegrals — the exact side of ∫ P/Q dx = 2πi Σ_{Im>0} Res, ∫ f e^{iax} dx (Jordan; a < 0 closes downward) and ∫_0^{2π} R(cos, sin) dθ = 2πi Σ_{|z|<1} Res g. Flat result: { id, provenance,
+    verdict (holds | broken), blockedAct (decay | offContour | None), I ([re, im] of the value, or of the symmetric limit / principal value on a break, None when none exists), IS, T (the textbook
+    formula over the enclosed poles), poles ([{z, m, res, where}] of the ENCLOSED poles by modulus), conclusionFails, failsYetHolds, note }.
+    f is read in the SAME grammar as the JS tier (9.3's, a rational function of z with real coefficients; trig: of the letters c = cos θ, s = sin θ). The clauses are decided EXACTLY: degrees for H1 (line
+    d ≥ 2; fourier with a ≠ 0, d ≥ 1; trig n/a) and the exact location of every pole for H2 (the real axis, |z| = 1). The residues are sp.residue of f·e^{iaz}, so SymPy DECIDES MORE than the JS tier:
+    every Fourier row is \`proved\` here (e^{iap} is exact), where the JS tier is numeric. On an H2 break with simple real poles the principal value is T + side·πi·Σ_real Res; on a decay break with d = 1,
+    a = 0 the symmetric limit is T − iπ·lim z f(z) (the arc contribution). Anything else (no closed-form roots, a non-rational f) abstains."""
+    def unk(note):
+        return {'id': 'realintegrals', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'I': None, 'IS': None, 'T': None, 'poles': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': note}
+    try:
+        if kind not in ('line', 'fourier', 'trig'):
+            raise ValueError('kind must be line, fourier or trig')
+        text = str(f).strip()
+        if not text:
+            raise ValueError('enter an integrand')
+        av, exact = sp.Integer(0), True
+        if kind == 'fourier':
+            ar, ai, ea = _cxn_parse(a)
+            if ai != 0:
+                raise ValueError('the frequency a must be real')
+            av, exact = ar, ea
+        if kind == 'trig':
+            if _cxl_re.search(r'(?<![A-Za-z])(i|j|z|x|y|conj|re|im|abs|exp|sin|cos|log|ln)(?![A-Za-z])', text, _cxl_re.I):
+                raise ValueError('write R with the letters c and s only')
+            _cxl_parse(_rli_letters(_rli_letters(text, 'c', 'x'), 's', 'y'))
+            gtext = '(' + _rli_letters(_rli_letters(text, 'c', '((z^2+1)/(2*z))'), 's', '((z^2-1)/(2*i*z))') + ')/(i*z)'
+            eZ, ex_f, analytic = _cxl_parse(gtext, zval=_RLI_Z)
+        else:
+            eZ, ex_f, analytic = _cxl_parse(text, zval=_RLI_Z)
+        exact = exact and ex_f
+        if not analytic:
+            raise ValueError('f must be a rational function of z')
+        eZ = sp.cancel(sp.together(eZ))
+        num, den = sp.fraction(eZ)
+        if not (num.is_polynomial(_RLI_Z) and den.is_polynomial(_RLI_Z)):
+            raise ValueError('f must be a rational function of z')
+        if kind != 'trig' and eZ.has(sp.I):
+            raise ValueError('f must have real coefficients')
+        if num == 0:
+            raise ValueError('f is identically 0')
+        pn, pd = sp.Poly(num, _RLI_Z), sp.Poly(den, _RLI_Z)
+        deg_d = pd.degree() - pn.degree()
+        rts = sp.roots(pd) if pd.degree() > 0 else {}
+        if sum(rts.values()) != pd.degree():
+            return unk('SymPy could not find all the poles in closed form')
+        side = -1 if (kind != 'trig' and av < 0) else 1
+        F = eZ * sp.exp(sp.I * av * _RLI_Z) if (kind != 'trig' and av != 0) else eZ
+        enc, on = [], []
+        for p, m in rts.items():
+            if kind == 'trig':
+                d = sp.simplify(sp.Abs(p) - 1)
+                (on if d == 0 else enc if bool(d < 0) else []).append((p, m))
+            else:
+                im = sp.im(p)
+                if im == 0:
+                    on.append((p, m))
+                elif bool(im * side > 0):
+                    enc.append((p, m))
+        enc.sort(key=lambda q: (float(sp.N(sp.Abs(q[0]))), float(sp.N(sp.re(q[0])))))
+        h1_pass = True if kind == 'trig' else (deg_d >= 1 if av != 0 else deg_d >= 2)
+        h2_pass = not on
+        blocked = None if (h1_pass and h2_pass) else ('decay' if not h1_pass else 'offContour')
+        res_enc = [(p, m, sp.simplify(sp.residue(F, _RLI_Z, p))) for p, m in enc]
+        Tv = sp.simplify(side * 2 * sp.pi * sp.I * sum((r for _, _, r in res_enc), sp.Integer(0)))
+        poles = [{'z': _rli_c(p), 'm': int(m), 'res': _rli_c(r), 'where': 'enclosed'} for p, m, r in res_enc]
+        out = {'id': 'realintegrals', 'T': _rli_c(Tv), 'poles': poles}
+        if blocked is None:
+            out.update({'provenance': 'proved' if exact else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'I': _rli_c(Tv), 'IS': str(Tv) if Tv != 0 else '0', 'conclusionFails': False, 'failsYetHolds': False,
+                        'note': 'the clauses are decided by degrees and the exact location of the poles; the residues are sp.residue, so e^{iap} factors and non-Gaussian roots are exact here'})
+            return out
+        measured = None
+        if all(m == 1 for _, m in on) and (h1_pass or (deg_d == 1 and av == 0)):
+            real_res = sum((sp.simplify(sp.residue(F, _RLI_Z, p)) for p, _ in on), sp.Integer(0))
+            measured = Tv + side * sp.pi * sp.I * real_res
+            if not h1_pass:  # d = 1, a = 0: subtract the arc limit iπ·lim z f(z)
+                measured = measured - sp.I * sp.pi * sp.limit(eZ * _RLI_Z, _RLI_Z, sp.oo)
+            measured = sp.simplify(measured)
+        if kind == 'trig':
+            measured = None
+        fails = None if measured is None else bool(sp.simplify(measured - Tv) != 0)
+        out.update({'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': blocked, 'I': None if measured is None else _rli_c(measured), 'IS': None if measured is None else (str(measured) if measured != 0 else '0'),
+                    'conclusionFails': fails, 'failsYetHolds': bool(fails is False),
+                    'note': 'a clause fails (decided exactly); the second fact is the principal value / symmetric limit, T + side·πi·Σ_real Res (− the arc limit iπ·c when d = 1)'})
+        return out
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ── 9.18 argprinciple: the argument principle, Rouché, Nyquist (prefix _apr_) ────────────────────────────────────────────────────────────────
+_APR_Z = sp.Symbol('zapr')
+
+
+def _apr_c(v):
+    c = complex(sp.N(v, 25))
+    return [c.real, c.imag]
+
+
+def _apr_roots(pol):
+    """the roots of a Poly with multiplicities: ([(root, mult)], exact). exact when SymPy finds every root in closed form; otherwise 40-digit numerical roots (never exact)."""
+    if pol.degree() < 1:
+        return [], True
+    d = sp.roots(pol)
+    if sum(d.values()) == pol.degree():
+        return [(r, int(m)) for r, m in d.items()], True
+    out = []
+    for fac, m in sp.sqf_list(pol)[1]:
+        for r in sp.Poly(fac, pol.gens[0]).nroots(n=40, maxsteps=500):
+            out.append((r, int(m)))
+    return out, False
+
+
+def _apr_sign(v, exact):
+    """-1 / 0 / 1 of a real algebraic expression: an exact zero test, then a 60-digit evaluation (a gap below 1e-40 counts as zero for inexact roots only)"""
+    v = sp.expand(v)
+    if v == 0 or (exact and sp.simplify(v) == 0):
+        return 0
+    x = sp.N(v, 60)
+    if abs(x) < sp.Float('1e-40'):
+        return 0
+    return 1 if x > 0 else -1
+
+
+def _apr_where(shape, ct, root, exact):
+    if shape == 'circle':
+        cr, ci, r = ct
+        dre, dim = sp.re(root) - cr, sp.im(root) - ci
+        k = _apr_sign(sp.expand_complex(dre ** 2 + dim ** 2) - r ** 2, exact)
+        return 'inside' if k < 0 else 'on' if k == 0 else 'outside'
+    x0, x1, y0, y1 = ct
+    re_, im_ = sp.re(root), sp.im(root)
+    c = [_apr_sign(re_ - x0, exact), _apr_sign(x1 - re_, exact), _apr_sign(im_ - y0, exact), _apr_sign(y1 - im_, exact)]
+    if min(c) < 0:
+        return 'outside'
+    return 'inside' if min(c) > 0 else 'on'
+
+
+def _apr_routh_rhp(coeffs):
+    """number of roots in Re s > 0 of the polynomial with ASCENDING Rational coefficients, by the exact Routh array: (count, regular)"""
+    a = list(reversed(coeffs))
+    while a and a[0] == 0:
+        a.pop(0)
+    n = len(a) - 1
+    if n < 1:
+        return 0, True
+    r0, r1 = [a[i] for i in range(0, n + 1, 2)], [a[i] for i in range(1, n + 1, 2)]
+    while len(r1) < len(r0):
+        r1.append(sp.Integer(0))
+    rows = [r0, r1]
+    for _ in range(2, n + 1):
+        pp, pr = rows[-2], rows[-1]
+        if pr[0] == 0:
+            return None, False
+        ln = max(1, len(pp) - 1)
+        rows.append([(pr[0] * (pp[j + 1] if j + 1 < len(pp) else 0) - pp[0] * (pr[j + 1] if j + 1 < len(pr) else 0)) / pr[0] for j in range(ln)])
+    first = [r[0] for r in rows]
+    if any(v == 0 for v in first):
+        return None, False
+    return sum(1 for i in range(1, len(first)) if (first[i] > 0) != (first[i - 1] > 0)), True
+
+
+def _apr_rhp(poly_s, S):
+    """(strict RHP roots, axis roots counted with multiplicity or None, regular) of a real polynomial: the axis factor is the gcd of Re p(iw) and Im p(iw), divided out before Routh"""
+    pol = sp.Poly(poly_s, S)
+    if pol.degree() < 1:
+        return 0, 0, True
+    w = sp.Symbol('wapr', real=True)
+    pe = sp.expand(pol.as_expr().subs(S, sp.I * w))
+    A, B = sp.re(pe), sp.im(pe)
+    g = sp.gcd(sp.Poly(sp.expand(A), w), sp.Poly(sp.expand(B), w)) if (A != 0 or B != 0) else sp.Poly(0, w)
+    axis = g.degree() if g.degree() > 0 else 0
+    q = pol
+    if axis:
+        a_s = sp.Poly(sp.expand(g.as_expr().subs(w, -sp.I * S)), S, extension=sp.I).monic()  # Π (S − i·w_k): real, because the axis roots come in ± pairs or sit at 0
+        cf = [sp.expand_complex(cc) for cc in a_s.all_coeffs()]
+        if any(sp.im(cc) != 0 for cc in cf):
+            return None, None, False
+        a_s = sp.Poly.from_list([sp.re(cc) for cc in cf], S)
+        q, rem = sp.div(pol, a_s)
+        if rem != 0:
+            return None, None, False
+    cnt, ok = _apr_routh_rhp([sp.Rational(c) for c in reversed(q.all_coeffs())])
+    return cnt, axis, ok
+
+
+def analyse_argprinciple(kind, f, g='', shape='circle', c='0', r='1', x0='0', x1='1', y0='0', y1='1'):
+    """9.18 argprinciple — the exact side of (1/2πi)∮ f′/f dz = N − P, Rouché (|g| < |f| on γ ⇒ Z(f + g) = Z(f)) and the Nyquist count Z − P. Flat result: { id, provenance, verdict (holds | broken),
+    blockedAct (offContour | dominance | None), count (N − P; Z(f) for Rouché; Z − P for Nyquist), witnesses ([{z, m, delta}] the roots INSIDE by modulus: zeros +m, poles −m), Zf, Zfg (rouche), Z, P, stability
+    (nyquist), jump (count: the change of the count across the roots on γ), conclusionFails, failsYetHolds, note }.
+    f is read in the SAME grammar as the JS tier (9.3's; nyquist in the letter s). Roots are exact when SymPy finds them in closed form (then every location is decided exactly: an exact zero test, then a
+    60-digit sign); the Nyquist counts are the exact Routh array of D + N and of D after the imaginary-axis factor (the gcd of Re and Im of p(iw)) is divided out — no root is found. The inequality of Rouché
+    is certified FALSE exactly at the exact contour points (refuted) and otherwise sampled (numeric, never proved). Anything else (no closed-form roots for the location, a non-rational f) abstains."""
+    def unk(note):
+        return {'id': 'argprinciple', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'count': None, 'witnesses': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': note}
+    try:
+        if kind not in ('count', 'rouche', 'nyquist'):
+            raise ValueError('kind must be count, rouche or nyquist')
+        text = str(f).strip()
+        if not text:
+            raise ValueError('enter f')
+        if kind == 'nyquist':
+            if _cxl_re.search(r'(?<![A-Za-z])(z|x|y)(?![A-Za-z])', text):
+                raise ValueError('write the loop in the letter s only')
+            eZ, exact, analytic = _cxl_parse(_rli_letters(text, 's', 'z'), zval=_APR_Z)
+        else:
+            eZ, exact, analytic = _cxl_parse(text, zval=_APR_Z)
+        if not analytic:
+            raise ValueError('f must be a rational function')
+        eZ = sp.cancel(sp.together(eZ))
+        num, den = sp.fraction(eZ)
+        if not (num.is_polynomial(_APR_Z) and den.is_polynomial(_APR_Z)):
+            raise ValueError('f must be a rational function')
+        if num == 0:
+            raise ValueError('f is identically 0')
+        if kind == 'nyquist':
+            if eZ.has(sp.I):
+                raise ValueError('L must have real coefficients')
+            S = _APR_Z
+            cl = sp.expand(den + num)
+            if cl == 0:
+                raise ValueError('D + N is identically 0')
+            Zs, axz, okz = _apr_rhp(cl, S)
+            Ps, axp, okp = _apr_rhp(den, S)
+            if not (okz and okp):
+                return unk('the Routh array of D + N (or D) is singular after the axis factor is removed; SymPy abstains')
+            axis_roots = (axz or 0) + (axp or 0)
+            allhold = axis_roots == 0
+            degn, degd = sp.Poly(num, S).degree(), sp.Poly(den, S).degree()
+            out = {'id': 'argprinciple', 'Z': int(Zs), 'P': int(Ps), 'axisZeros': int(axz or 0), 'axisPoles': int(axp or 0), 'proper': degn <= degd, 'witnesses': None}
+            if allhold:
+                out.update({'provenance': 'proved' if exact else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'count': int(Zs - Ps), 'stability': 'stable' if Zs == 0 else 'unstable', 'conclusionFails': False, 'failsYetHolds': False,
+                            'jump': None, 'note': 'exact Routh arrays of D + N and D (no root found): Z and P are the right-half-plane counts'})
+            else:
+                fails = not (axz == 0)
+                out.update({'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'offContour', 'count': int(Zs - Ps), 'stability': ('marginal' if axz else 'stable') if Zs == 0 else 'unstable', 'conclusionFails': bool(fails),
+                            'failsYetHolds': bool(not fails), 'jump': None, 'note': 'a root on the imaginary axis (decided exactly by the gcd of Re and Im of p(iw)); the counts are over the roots strictly in the right half-plane, as the indented contour measures'})
+            return out
+        # contour
+        if shape == 'rect':
+            vals = []
+            for t in (x0, x1, y0, y1):
+                a_, b_, e_ = _cxn_parse(t)
+                if b_ != 0:
+                    raise ValueError('the rectangle needs real corners')
+                vals.append(a_); exact = exact and e_
+            if not (vals[0] < vals[1] and vals[2] < vals[3]):
+                raise ValueError('the rectangle needs x0 < x1 and y0 < y1')
+            ct = tuple(vals)
+        else:
+            shape = 'circle'
+            cr, ci, ec = _cxn_parse(c if str(c).strip() else '0')
+            rr, ri, er = _cxn_parse(r)
+            if ri != 0 or not rr > 0:
+                raise ValueError('the radius must be a positive real number')
+            ct = (cr, ci, rr); exact = exact and ec and er
+        if kind == 'count':
+            pn, pd = sp.Poly(num, _APR_Z), sp.Poly(den, _APR_Z)
+            zs, ez = _apr_roots(pn)
+            ps, ep = _apr_roots(pd)
+            ex_roots = ez and ep and exact
+            wz = [(rt, m, _apr_where(shape, ct, rt, ex_roots)) for rt, m in zs]
+            wp = [(rt, m, _apr_where(shape, ct, rt, ex_roots)) for rt, m in ps]
+            on = [x for x in wz + wp if x[2] == 'on']
+            ins = [(rt, m, +m) for rt, m, w in wz if w == 'inside'] + [(rt, m, -m) for rt, m, w in wp if w == 'inside']
+            ins.sort(key=lambda q: (float(sp.N(sp.Abs(q[0]))), float(sp.N(sp.re(q[0]))), float(sp.N(sp.im(q[0])))))
+            cnt = sum(d for _, _, d in ins)
+            wit = [{'z': _apr_c(rt), 'm': m, 'delta': d} for rt, m, d in ins]
+            out = {'id': 'argprinciple', 'witnesses': wit, 'count': int(cnt)}
+            if not on:
+                out.update({'provenance': 'proved' if ex_roots else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'conclusionFails': False, 'failsYetHolds': False, 'jump': None, 'note': 'every root located (exactly when SymPy finds them in closed form): N − P with multiplicities'})
+            else:
+                jump = sum((m if x in wz else -m) for x in on for (rt, m, w) in [x])
+                out.update({'provenance': 'refuted' if (exact and ez and ep) else 'numeric', 'verdict': 'broken', 'blockedAct': 'offContour', 'conclusionFails': True, 'failsYetHolds': False, 'jump': int(jump),
+                            'note': 'a zero or pole lies on the contour; the count over the roots strictly inside is reported, and the change of the count across the contour is the signed multiplicity on it'})
+            return out
+        # rouche
+        gt = str(g).strip()
+        if not gt:
+            raise ValueError('enter g')
+        gZ, eg, an_g = _cxl_parse(gt, zval=_APR_Z)
+        if not an_g:
+            raise ValueError('g must be a polynomial')
+        gZ = sp.cancel(sp.together(gZ))
+        exact = exact and eg
+        fe, ge = eZ, gZ
+        if not (sp.denom(fe).is_number and sp.denom(ge).is_number):
+            raise ValueError('Rouché is stated for polynomials f and g')
+        fe, ge = sp.expand(fe), sp.expand(ge)
+        zf_, ef = _apr_roots(sp.Poly(fe, _APR_Z))
+        fg = sp.expand(fe + ge)
+        if fg == 0:
+            raise ValueError('f + g is identically 0')
+        zfg_, efg = _apr_roots(sp.Poly(fg, _APR_Z))
+        exr = ef and efg and exact
+        loc_f = [(rt, m, _apr_where(shape, ct, rt, exr)) for rt, m in zf_]
+        loc_fg = [(rt, m, _apr_where(shape, ct, rt, exr)) for rt, m in zfg_]
+        Zf = sum(m for _, m, w in loc_f if w == 'inside')
+        Zfg = sum(m for _, m, w in loc_fg if w == 'inside')
+        # dominance: an exact certificate of failure at an exact contour point, else a float scan of |g|/|f|
+        pts = []
+        if shape == 'circle':
+            cr, ci, rr = ct
+            pts = [cr + ci * sp.I + d for d in (rr, rr * sp.I, -rr, -rr * sp.I)]
+        else:
+            xa, xb, ya, yb = ct
+            mx, my = (xa + xb) / 2, (ya + yb) / 2
+            pts = [xa + ya * sp.I, xb + ya * sp.I, xb + yb * sp.I, xa + yb * sp.I, mx + ya * sp.I, xb + my * sp.I, mx + yb * sp.I, xa + my * sp.I]
+        cert = None
+        if exact:
+            for p in pts:
+                if sp.simplify(sp.Abs(ge.subs(_APR_Z, p)) ** 2 - sp.Abs(fe.subs(_APR_Z, p)) ** 2) >= 0:
+                    cert = p
+                    break
+        import cmath as _cm
+        import math as _m
+        Ff, Gf = sp.lambdify(_APR_Z, fe, 'cmath'), sp.lambdify(_APR_Z, ge, 'cmath')
+        worst = 0.0
+        if shape == 'circle':
+            cc, rf = complex(sp.N(ct[0] + ct[1] * sp.I)), float(ct[2])
+            samp = [cc + rf * _cm.exp(2j * _m.pi * k / 4000) for k in range(4000)]
+        else:
+            xa, xb, ya, yb = [float(v) for v in ct]
+            samp = [complex(xa + (xb - xa) * k / 1000, ya) for k in range(1000)] + [complex(xb, ya + (yb - ya) * k / 1000) for k in range(1000)] + [complex(xb - (xb - xa) * k / 1000, yb) for k in range(1000)] + [complex(xa, yb - (yb - ya) * k / 1000) for k in range(1000)]
+        for q in samp:
+            a_, b_ = abs(Ff(q)), abs(Gf(q))
+            worst = max(worst, (b_ / a_) if a_ > 1e-14 else (0.0 if b_ == 0 else float('inf')))
+        ok_dom = cert is None and worst < 1 - 1e-12
+        agree = Zf == Zfg
+        out = {'id': 'argprinciple', 'Zf': int(Zf), 'Zfg': int(Zfg), 'count': int(Zf), 'witnesses': [{'z': _apr_c(rt), 'm': m, 'delta': m} for rt, m, w in sorted(loc_f, key=lambda q: (float(sp.N(sp.Abs(q[0]))), float(sp.N(sp.re(q[0]))))) if w == 'inside'], 'maxRatio': None if worst == float('inf') else worst}
+        if ok_dom:
+            out.update({'provenance': 'numeric', 'verdict': 'holds', 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': 'the inequality is checked by sampling 4000 points: numeric, never proved; the zero counts are exact when the roots are'})
+        else:
+            out.update({'provenance': 'refuted' if cert is not None else 'numeric', 'verdict': 'broken', 'blockedAct': 'dominance', 'conclusionFails': bool(not agree), 'failsYetHolds': bool(agree),
+                        'note': 'the inequality |g| < |f| fails' + (' at an exact point of the contour (decided exactly)' if cert is not None else ' at a sampled point') + '; the counts are reported anyway'})
+        return out
+    except Exception as ex:  # abstain, never guess
+        return unk(str(ex))
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+#  9.19 conformal — conformal maps, the Joukowski airfoil, potential flow, the Riemann mapping theorem (prefix _cnf_)
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+_CNF_Z = sp.Symbol('zcnf')
+_CNF_DOM = {  # id: (margin(z) for a python complex, sector opening or None, vfree, invDisjoint, sinOK)
+    'plane': (lambda c: 1.0, None, False, False, False),
+    'upper': (lambda c: c.imag, sp.pi, False, True, False),
+    'right': (lambda c: c.real, sp.pi, False, False, False),
+    'quadrant': (lambda c: min(c.real, c.imag), sp.pi / 2, False, True, False),
+    'disc': (lambda c: 1 - abs(c), None, True, True, True),
+    'outside': (lambda c: abs(c) - 1, None, False, True, False),
+    'hstrip': (lambda c: float(sp.pi) - abs(c.imag), None, True, False, False),
+    'vstrip': (lambda c: float(sp.pi) / 2 - abs(c.real), None, False, False, True),
+}
+
+
+def _cnf_pt(text):
+    """A point: a Gaussian rational, or an expression with pi (pi/2, 2*pi+i): (SymPy value, exact flag). A decimal makes it inexact (and is read as a rational)."""
+    import re as _re
+    s = _re.sub(r'\\s+', '', str(text)).replace('−', '-').replace('–', '-').replace('pi', '@')
+    if not s or not _re.fullmatch(r'[0-9+\\-./*@ij()]+', s):
+        raise ValueError(f'cannot read the point "{text}"')
+    exact = '.' not in s
+    s = s.replace('j', 'i').replace('i', 'I').replace('@', 'pi')
+    s = _re.sub(r'(\\d|pi|\\))I', r'\\1*I', s)
+    s = _re.sub(r'(\\d)pi', r'\\1*pi', s)
+    v = sp.sympify(s, locals={'I': sp.I, 'pi': sp.pi}, rational=True)
+    return sp.nsimplify(v) if not exact else v, exact
+
+
+def _cnf_cx(v, digits=30):
+    return complex(sp.N(v, digits))
+
+
+def _cnf_is_zero(v):
+    v = sp.simplify(v)
+    if v == 0:
+        return True
+    return False
+
+
+def _cnf_wrap(d):
+    d = (d + 180) % 360 - 180
+    return 180 if d == -180 else d
+
+
+def _cnf_ratf(text):
+    """f(z) as a SymPy expression in _CNF_Z plus (exact, analytic) — the 9.3 grammar, reused."""
+    if _cxl_re.search(r'\\b(log|ln)\\b', str(text), _cxl_re.I):
+        raise ValueError('log is multivalued here; use a rational function, exp(z), sin(z) or cos(z)')
+    try:
+        e, exact, analytic = _cxl_parse(text, zval=_CNF_Z)
+    except ValueError as ex:
+        if 'analytic' not in str(ex):
+            raise
+        return None, '.' not in str(text), False
+    return e, exact, analytic
+
+
+def _cnf_in(dom, v):
+    c = _cnf_cx(v)
+    return _CNF_DOM[dom][0](c) > 1e-12
+
+
+def _cnf_angle(f, z0, a1, a2):
+    def unk(note):
+        return {'id': 'conformal', 'kind': 'angle', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'k': None, 'preserved': None, 'failsYetHolds': False, 'conclusionFails': None, 'note': note}
+    zt, zexact = _cnf_pt(z0)
+    al1, al2 = sp.nsimplify(sp.Rational(str(a1).strip())), sp.nsimplify(sp.Rational(str(a2).strip()))
+    alpha = al2 - al1                                                    # degrees
+    e, fexact, analytic = _cnf_ratf(f)
+    exact = bool(fexact and zexact and '.' not in str(a1) + str(a2))
+    if not analytic:
+        # not holomorphic by construction: decide the Cauchy-Riemann equations exactly at z0
+        ex_, _fe, _an = _cxl_parse(f)
+        x0, y0 = sp.re(zt), sp.im(zt)
+        u, v = sp.re(sp.expand_complex(ex_)), sp.im(sp.expand_complex(ex_))
+        r1 = sp.simplify((sp.diff(u, _CXL_X) - sp.diff(v, _CXL_Y)).subs({_CXL_X: x0, _CXL_Y: y0}))
+        r2 = sp.simplify((sp.diff(u, _CXL_Y) + sp.diff(v, _CXL_X)).subs({_CXL_X: x0, _CXL_Y: y0}))
+        if r1 == 0 and r2 == 0:
+            e2 = sp.simplify(sp.diff(u, _CXL_X) + sp.I * sp.diff(v, _CXL_X))
+            return unk('f satisfies the Cauchy-Riemann equations at z0 but is not a formula in z: use a rational function, exp, sin or cos')
+        rev = (sp.simplify(ex_ - sp.conjugate(_CXL_X + sp.I * _CXL_Y)) == 0)
+        return {'id': 'conformal', 'kind': 'angle', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'holomorphic', 'k': None,
+                'imageDeg': float(_cnf_wrap(-alpha)) if rev else None, 'preserved': bool(rev and _cnf_wrap(-alpha) == _cnf_wrap(alpha)) if rev else None,
+                'conclusionFails': bool(not (rev and _cnf_wrap(-alpha) == _cnf_wrap(alpha))), 'failsYetHolds': bool(rev and _cnf_wrap(-alpha) == _cnf_wrap(alpha) and _cnf_wrap(alpha) != 0),
+                'note': 'the Cauchy-Riemann equations fail at z0 (decided exactly); z -> conj z reverses the orientation of angles, which a straight line (alpha = 180) hides'}
+    val = e.subs(_CNF_Z, zt)
+    if val in (sp.zoo, sp.oo, sp.nan) or val.has(sp.zoo, sp.nan):
+        return {'id': 'conformal', 'kind': 'angle', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'holomorphic', 'k': None, 'imageDeg': None, 'preserved': False,
+                'conclusionFails': True, 'failsYetHolds': False, 'note': 'z0 is a pole: f(z0) is undefined (infinite)'}
+    k, c = None, None
+    for kk in range(1, 13):
+        cc = sp.simplify(sp.diff(e, _CNF_Z, kk).subs(_CNF_Z, zt) / sp.factorial(kk))
+        if cc != 0:
+            k, c = kk, cc
+            break
+    if k is None:
+        return {'id': 'conformal', 'kind': 'angle', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'critical', 'k': None, 'imageDeg': None, 'preserved': False,
+                'conclusionFails': True, 'failsYetHolds': False, 'note': 'f is constant near z0 (every derivative up to order 12 vanishes)'}
+    cf = _cnf_cx(c)
+    import cmath as _cm
+    img = _cnf_wrap(k * alpha)
+    preserved = (_cnf_wrap(k * alpha) == _cnf_wrap(alpha))
+    transc = bool(c.has(sp.sin, sp.cos, sp.exp))
+    base = {'id': 'conformal', 'kind': 'angle', 'k': int(k), 'c': str(c), 'scale': abs(cf), 'rotDeg': float(_cm.phase(cf) * 180 / _cm.pi), 'imageDeg': float(img), 'preserved': bool(preserved)}
+    if k == 1:
+        base.update({'provenance': 'proved' if (exact and not transc) else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False,
+                     'note': 'f\\'(z0) = c is nonzero: every angle is preserved, the rotation is arg c and the scale |c| (a transcendental c is nonzero by a 30-digit evaluation: numeric)'})
+    else:
+        base.update({'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'critical', 'conclusionFails': bool(not preserved), 'failsYetHolds': bool(preserved and _cnf_wrap(alpha) != 0),
+                     'note': f'f\\'(z0) = ... = f^({k - 1})(z0) = 0 exactly (decided by simplification): angles are multiplied by {k}'})
+    return base
+
+
+def _cnf_region(f, dom):
+    def unk(note):
+        return {'id': 'conformal', 'kind': 'region', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': note}
+    if dom not in _CNF_DOM:
+        raise ValueError('unknown domain')
+    e, exact, analytic = _cnf_ratf(f)
+    if not analytic:
+        return unk('f is not holomorphic (conj, Re, Im or abs): the region form needs a formula in z')
+    margin, sector, vfree, invdis, sinok = _CNF_DOM[dom]
+    norm = _cxl_re.sub(r'\\s+', '', str(f)).lower()
+    num, den = sp.fraction(sp.together(sp.cancel(e)))
+    rational = num.is_polynomial(_CNF_Z) and den.is_polynomial(_CNF_Z)
+    inD = lambda v: margin(_cnf_cx(v)) > 1e-12
+    # H1, H2
+    if rational:
+        poles = list(sp.roots(sp.Poly(den, _CNF_Z)).keys()) if den.has(_CNF_Z) else []
+        if den.has(_CNF_Z) and sum(sp.roots(sp.Poly(den, _CNF_Z)).values()) < sp.Poly(den, _CNF_Z).degree():
+            return unk('no closed-form poles: SymPy abstains')
+        dnum, _dd = sp.fraction(sp.together(sp.diff(e, _CNF_Z)))
+        if sp.simplify(dnum) == 0:
+            crit = ['all']
+        else:
+            rts = sp.roots(sp.Poly(sp.expand(dnum), _CNF_Z))
+            if sum(rts.values()) < sp.Poly(sp.expand(dnum), _CNF_Z).degree():
+                return unk('no closed-form critical points: SymPy abstains')
+            crit = [r for r in rts.keys() if den.subs(_CNF_Z, r) != 0]
+        decided_exact = bool(exact)
+        pin = [p for p in poles if inD(p)]
+        cin = ['all'] if crit == ['all'] else [r for r in crit if inD(r)]
+        if pin:
+            return {'id': 'conformal', 'kind': 'region', 'provenance': 'refuted' if decided_exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'finite', 'conclusionFails': True, 'failsYetHolds': False, 'note': 'f has a pole in D'}
+        if cin:
+            return {'id': 'conformal', 'kind': 'region', 'provenance': 'refuted' if decided_exact and cin != ['all'] else 'numeric', 'verdict': 'broken', 'blockedAct': 'critical', 'conclusionFails': True, 'failsYetHolds': False, 'note': 'f\\' vanishes at a point of D (or f is constant)'}
+        P_, Q_ = sp.Poly(sp.expand(num), _CNF_Z), sp.Poly(sp.expand(den), _CNF_Z)
+        deg = max(P_.degree(), Q_.degree())
+        # H3: structural rules (exact), then an exact fibre search
+        inj, how, pair_exact = None, '', False
+        if deg <= 1:
+            inj, how, pair_exact = True, 'degree 1', True
+        elif Q_.degree() == 0 and len(P_.monoms()) <= 2 and P_.degree() >= 2 and all(m[0] in (0, P_.degree()) for m in P_.monoms()):
+            n = P_.degree()
+            if sector is not None and n * sector <= 2 * sp.pi:
+                inj, how, pair_exact = True, 'c z^n + a on a sector with n*omega <= 2 pi', True
+            else:
+                inj, how, pair_exact = False, 'c z^n + a: z and (zeta z) share a value', True
+        elif Q_.degree() == 1 and den.subs(_CNF_Z, 0) == 0 and P_.degree() == 2 and sp.simplify(P_.coeff_monomial(1) * 0 + P_.coeff_monomial(_CNF_Z ** 0) - P_.coeff_monomial(_CNF_Z ** 2)) == 0:
+            inj, how, pair_exact = bool(invdis), 'a(z + 1/z) + b: z and 1/z share a value', True
+        if inj is None:
+            import random as _rnd
+            for a in range(-6, 7):
+                for b in range(-6, 7):
+                    z1 = sp.Rational(a, 2) + sp.I * sp.Rational(b, 2)
+                    if not inD(z1) or den.subs(_CNF_Z, z1) == 0:
+                        continue
+                    w = sp.simplify(e.subs(_CNF_Z, z1))
+                    poly = sp.Poly(sp.expand(num - w * den), _CNF_Z)
+                    for r_ in poly.nroots(n=25, maxsteps=200):
+                        if abs(complex(r_) - complex(z1)) > 1e-8 and margin(complex(r_)) > 1e-9:
+                            inj, how, pair_exact = False, 'a second preimage found by the fibre search', False
+                            break
+                    if inj is False:
+                        break
+            if inj is None:
+                inj, how = True, 'no second preimage among 169 sample points (sampled)'
+        if inj:
+            return {'id': 'conformal', 'kind': 'region', 'provenance': 'proved' if (decided_exact and pair_exact) else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': how}
+        return {'id': 'conformal', 'kind': 'region', 'provenance': 'refuted' if (decided_exact and pair_exact) else 'numeric', 'verdict': 'broken', 'blockedAct': 'injective', 'conclusionFails': True, 'failsYetHolds': False, 'note': how}
+    # exp / sin / cos: structural
+    if norm in ('exp(z)', 'e^z'):
+        return {'id': 'conformal', 'kind': 'region', 'provenance': 'proved' if vfree else 'refuted', 'verdict': 'holds' if vfree else 'broken', 'blockedAct': None if vfree else 'injective', 'conclusionFails': None if vfree else True, 'failsYetHolds': False,
+                'note': 'exp has no critical point; it is periodic with period 2 pi i, and D contains no two points differing by 2 pi i k' if vfree else 'e^(z + 2 pi i) = e^z and D contains both z and z + 2 pi i'}
+    if norm in ('sin(z)', 'cos(z)'):
+        crit = [sp.pi / 2 + k * sp.pi for k in range(-6, 7)] if norm == 'sin(z)' else [k * sp.pi for k in range(-6, 7)]
+        if any(inD(c) for c in crit):
+            return {'id': 'conformal', 'kind': 'region', 'provenance': 'refuted', 'verdict': 'broken', 'blockedAct': 'critical', 'conclusionFails': True, 'failsYetHolds': False, 'note': 'a critical point of sin / cos lies in D'}
+        if norm == 'sin(z)' and sinok:
+            return {'id': 'conformal', 'kind': 'region', 'provenance': 'proved', 'verdict': 'holds', 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False,
+                    'note': 'the fibre of sin is z + 2 pi k and pi - z + 2 pi k; no other point of the fibre lies in D, and sin has no critical point in D'}
+        return unk('injectivity of this trigonometric map on D is not decided exactly here')
+    return unk('only rational functions, exp(z), sin(z) and cos(z) are decided exactly')
+
+
+def _cnf_jouk(mu, r, alpha, gamma):
+    def unk(note):
+        return {'id': 'conformal', 'kind': 'joukowski', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': note}
+    m, mexact = _cnf_pt(mu)
+    if m.has(sp.pi):
+        return unk('mu must be a Gaussian rational')
+    al = sp.nsimplify(sp.Rational(str(alpha).strip()))
+    through = str(r).strip().lower() in ('through', '')
+    zeta1 = 1 - m
+    n1 = sp.simplify(sp.re(zeta1) ** 2 + sp.im(zeta1) ** 2)
+    n2 = sp.simplify(sp.re(1 + m) ** 2 + sp.im(1 + m) ** 2)
+    rr = n1 if through else sp.nsimplify(sp.Rational(str(r).strip())) ** 2
+    through = bool(through or n1 == rr)
+    exact = bool(mexact and '.' not in str(r) + str(alpha) + str(gamma))
+    in1, in2 = bool(n1 <= rr), bool(n2 <= rr)
+    if not (in1 and in2):
+        pair = None
+        for a in range(-6, 7):
+            for b in range(-6, 7):
+                z = sp.Rational(a, 2) + sp.I * sp.Rational(b, 2)
+                if z == 0 or z in (1, -1):
+                    continue
+                zi = sp.simplify(1 / z)
+                if sp.simplify(sp.re(z - m) ** 2 + sp.im(z - m) ** 2) > rr and sp.simplify(sp.re(zi - m) ** 2 + sp.im(zi - m) ** 2) > rr:
+                    pair = (z, zi)
+                    break
+            if pair:
+                break
+        return {'id': 'conformal', 'kind': 'joukowski', 'provenance': 'refuted' if exact else 'numeric', 'verdict': 'broken', 'blockedAct': 'exterior', 'conclusionFails': True, 'failsYetHolds': False, 'pair': [str(pair[0]), str(pair[1])] if pair else None,
+                'note': 'a critical point of J lies outside the circle: z and 1/z both lie in the fluid and J(z) = J(1/z)'}
+    alr = al * sp.pi / 180
+    U = 1
+    Gk = None
+    out = {'id': 'conformal', 'kind': 'joukowski', 'through': bool(through)}
+    if through:
+        GA = 4 * sp.pi * U * (sp.re(zeta1) * sp.sin(alr) - sp.im(zeta1) * sp.cos(alr))   # = 4 pi U r sin(alpha - beta)
+        Ph0 = U * (sp.exp(-sp.I * alr) - sp.conjugate(zeta1) * sp.exp(sp.I * alr) / zeta1)  # Phi'(zeta1) at Gamma = 0, r^2 = zeta1 conj(zeta1)
+        GB = sp.expand_complex(2 * sp.pi * sp.I * zeta1 * Ph0)
+        diff = sp.simplify(sp.expand_complex(GA - GB))
+        ident = bool(diff == 0)
+        if not ident and abs(complex(sp.N(GA - GB, 40))) < 1e-30:
+            ident = None
+        Gk = GA
+        out.update({'GammaKutta': float(sp.N(GA, 20)), 'kuttaIdentity': ident})
+    gm = str(gamma).strip().lower()
+    if gm in ('kutta', ''):
+        if Gk is None:
+            return unk('Kutta needs the circle through z = 1')
+        G = Gk
+    else:
+        G = sp.nsimplify(sp.Rational(gm))
+    # Blasius at infinity: with A, B symbols the 1/z coefficient of (Phi')^2 / J' is 2AB, so F-bar = -i U Gamma e^{-i alpha}: lift = U Gamma, drag = 0 (any Gamma)
+    A_, B_, mu_, z_, t_ = sp.symbols('A B mu z t')
+    Cc_ = sp.Symbol('Cc')
+    Rz = sp.together(((A_ + B_ / (z_ - mu_) + Cc_ / (z_ - mu_) ** 2) ** 2) * z_ ** 2 / (z_ ** 2 - 1))
+    c1 = sp.series(sp.together(Rz.subs(z_, 1 / t_)), t_, 0, 2).removeO().coeff(t_, 1)
+    blas = bool(sp.simplify(c1 - 2 * A_ * B_) == 0)
+    # stagnation points: a ze^2 + b ze + c = 0 ; both on the circle iff -G^2/(4 pi^2) + 4 U^2 r^2 >= 0
+    disc = sp.simplify(-G ** 2 / (4 * sp.pi ** 2) + 4 * U ** 2 * rr)
+    nbody = 2 if bool(sp.N(disc, 30) >= 0) else 0
+    out.update({'provenance': 'proved' if (exact and blas and out.get('kuttaIdentity', True) is not None and (not through or out.get('kuttaIdentity'))) else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False,
+                'Gamma': float(sp.N(G, 20)), 'lift': float(sp.N(G, 20)), 'blasius': blas, 'nStag': 2, 'nBody': nbody,
+                'note': 'Gamma by the Kutta condition in closed form and as the root of the linear equation Phi\\'(1 - mu) = 0 (the two agree); lift = rho U Gamma by the residue at infinity (Blasius), drag 0'})
+    return out
+
+
+def _cnf_riemann(rdom, z0):
+    def unk(note):
+        return {'id': 'conformal', 'kind': 'riemann', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': note}
+    meta = {'upper': 'phi', 'right': 'phi', 'strip': 'phi', 'quadrant': 'phi', 'slit': 'phi', 'disc': 'phi', 'plane': 'noproper', 'annulus': 'hole', 'punctured': 'hole', 'exterior': 'hole'}
+    if rdom not in meta:
+        raise ValueError('unknown domain')
+    if meta[rdom] == 'noproper':
+        return {'id': 'conformal', 'kind': 'riemann', 'provenance': 'refuted', 'verdict': 'broken', 'blockedAct': 'proper', 'conclusionFails': True, 'failsYetHolds': False,
+                'note': 'D is the whole plane: a holomorphic map into the disc is bounded and entire, hence constant (Liouville)'}
+    if meta[rdom] == 'hole':
+        # the loop in D about the hole 0: the residue of 1/z is 1, so the loop integral is 2 pi i
+        loop = {'annulus': sp.Rational(3, 2), 'punctured': sp.Rational(1, 2), 'exterior': sp.Integer(2)}[rdom]
+        res = sp.residue(1 / _CNF_Z, _CNF_Z, 0)
+        return {'id': 'conformal', 'kind': 'riemann', 'provenance': 'refuted', 'verdict': 'broken', 'blockedAct': 'simply', 'conclusionFails': True, 'failsYetHolds': False, 'loopIntegral': str(2 * sp.pi * sp.I * res), 'loopRadius': str(loop),
+                'note': 'a loop in D winds once round the hole: its integral of 1/z is 2 pi i, not 0, so z has no logarithm on D'}
+    zt, zexact = _cnf_pt(z0)
+    t = _CNF_Z
+    phi = {'upper': (t - sp.I) / (t + sp.I), 'right': (t - 1) / (t + 1), 'strip': (sp.exp(t) - sp.I) / (sp.exp(t) + sp.I), 'quadrant': (t ** 2 - sp.I) / (t ** 2 + sp.I), 'slit': (sp.sqrt(t) - 1) / (sp.sqrt(t) + 1), 'disc': t}[rdom]
+    inside = {'upper': lambda c: c.imag > 1e-12, 'right': lambda c: c.real > 1e-12, 'strip': lambda c: 1e-12 < c.imag < float(sp.pi) - 1e-12, 'quadrant': lambda c: c.real > 1e-12 and c.imag > 1e-12,
+              'slit': lambda c: not (abs(c.imag) < 1e-12 and c.real <= 0), 'disc': lambda c: abs(c) < 1 - 1e-12}[rdom]
+    if not inside(_cnf_cx(zt)):
+        raise ValueError('z0 is not in the domain')
+    t0 = sp.simplify(phi.subs(t, zt))
+    dphi = sp.simplify(sp.diff(phi, t).subs(t, zt))
+    rho = sp.simplify(sp.Abs(dphi) / (1 - sp.Abs(t0) ** 2))
+    algebraic = rdom in ('upper', 'right', 'quadrant', 'disc')
+    return {'id': 'conformal', 'kind': 'riemann', 'provenance': 'proved' if (algebraic and zexact) else 'numeric', 'verdict': 'holds', 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False,
+            'rho': float(sp.N(rho, 20)), 'rhoExact': str(rho) if algebraic else None,
+            'note': 'the explicit map f = e^{i theta}(phi - t0)/(1 - conj(t0) phi): f(z0) = 0 exactly, f\\'(z0) = |phi\\'|/(1 - |t0|^2) > 0 (the conformal radius)' + ('' if algebraic else '; the boundary identity |f| = 1 involves exp / sqrt and is a 30-digit check: numeric')}
+
+
+def analyse_conformal(kind, f='z^2', z0='1+i', a1='0', a2='60', dom='upper', mu='0', r='through', alpha='0', gamma='kutta', rdom='upper'):
+    """9.19 conformal — the exact side of f' != 0 => conformal (angle preserved, rotation arg f', scale |f'|; critical point of order k - 1 multiplies angles by k), the images of regions
+    (H1 no pole, H2 f' != 0, H3 injective), the Joukowski circle (both critical points inside) with the Kutta circulation Gamma = 4 pi U (Re zeta1 sin a - Im zeta1 cos a), the Blasius lift = rho U Gamma by the residue
+    at infinity, and the Riemann mapping theorem (proper, simply connected; the explicit map and its conformal radius). Flat result: { id, kind, provenance, verdict, blockedAct, conclusionFails, failsYetHolds, note, ... }.
+    Exact for rational input (and for exp/sin/cos when the verdict is an exact zero test or a structural rule); a transcendental nonzero value is a 30-digit evaluation (numeric). Anything else abstains."""
+    try:
+        if kind == 'angle':
+            return _cnf_angle(f, z0, a1, a2)
+        if kind == 'region':
+            return _cnf_region(f, dom)
+        if kind == 'joukowski':
+            return _cnf_jouk(mu, r, alpha, gamma)
+        if kind == 'riemann':
+            return _cnf_riemann(rdom, z0)
+        raise ValueError('kind must be angle, region, joukowski or riemann')
+    except Exception as ex:  # abstain, never guess
+        return {'id': 'conformal', 'kind': kind, 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': str(ex)}
+
+
+# ── 9.20 complexcap: the capstone — inversion by residues, stability by encirclements, a real integral by residues (prefix _ccp_) ─────────────────────
+_CCP_MAXDEG = 6
+
+
+def _ccp_closed_roots(pol):
+    """([(root, mult)], exact) of a Poly in _ILP_S: closed-form roots when SymPy finds all of them, else 40-digit numerical roots (never exact)"""
+    return _apr_roots(pol)
+
+
+def _ccp_count_rhp(pol):
+    """(count of roots with Re > 0, exact) — by the exact Routh array when it is regular, else by the signs of the real parts of the closed-form roots, else numerically"""
+    if pol.degree() < 1:
+        return 0, True
+    reg, ch, _first = _tfn_routh(sp.Poly(pol.as_expr(), _ILP_S))
+    if reg:
+        return int(ch), True
+    rts, exact = _ccp_closed_roots(pol)
+    n = 0
+    for r, m in rts:
+        if _apr_sign(sp.re(r), exact) > 0:
+            n += int(m)
+    return n, exact
+
+
+def _ccp_axis(pol):
+    """the roots of Poly pol ON the imaginary axis, decided exactly: gcd(Re p(iw), Im p(iw)) has a real root w iff p(iw) = 0. Returns the sorted real w's (as SymPy numbers)"""
+    W = sp.Symbol('ccp_w', real=True)
+    e = sp.expand(pol.as_expr().subs(_ILP_S, sp.I * W))
+    re_, im_ = sp.Poly(sp.re(e), W), sp.Poly(sp.im(e), W)
+    g = sp.gcd(re_, im_)
+    if g.degree() < 1:
+        return []
+    return sorted(set(sp.real_roots(g)), key=lambda v: float(v))
+
+
+def _ccp_res_at(F, p, m):
+    """the residue of the rational function F at its pole p of multiplicity m, to 30 digits"""
+    S = _ILP_S
+    if m == 1:
+        num, den = sp.fraction(sp.together(F))
+        val = num.subs(S, p) / sp.diff(den, S).subs(S, p)
+        return sp.N(val, 30)
+    g = sp.cancel(F * (S - p) ** m) if p.is_rational else F * (S - p) ** m
+    return sp.N(sp.diff(g, S, m - 1).subs(S, p) / sp.factorial(m - 1), 30)
+
+
+def analyse_complexcap(num, den, K, t):
+    """9.20 complexcap — the exact side of the capstone: L = K N/D, closed loop T = K N/M with M = D + K N. Flat result: { id, provenance, verdict (holds | broken), blockedAct (offAxis | stable | None), stability
+    (stable | marginal | unstable), Z (zeros of M in Re s > 0), P (zeros of D in Re s > 0), axisRoots, h (the impulse response at t by the sum of residues of T e^{st}, float), E (the frequency integral (1/2π)∫|T(iw)|² dw =
+    the sum of the residues of T(s)T(−s) in Re s < 0, float; None when a pole is on the axis), Etime (∫_0^∞ h² by the double sum −Σ r_p r_q/(p + q), stable simple poles only), parseval (E = Etime), conclusionFails,
+    failsYetHolds, note }.
+    Clauses: H1 no root of M on the imaginary axis (the gcd of Re M(iw) and Im M(iw) has no real root — exact); H2 no root of M in the open right half-plane (the exact Routh array of M, else the exact signs of the
+    closed-form roots). Z and P come from the exact Routh arrays. h and E need the poles in closed form: SymPy writes them (sp.roots) up to degree 4 and for factorable polynomials; otherwise they abstain (None) and the
+    verdict is still decided. A decimal in K or t makes the result numeric; the input is otherwise exact, so a decided clause is proved / refuted. Never guesses."""
+    def unk(note):
+        return {'id': 'complexcap', 'provenance': 'unknown', 'verdict': None, 'blockedAct': None, 'stability': None, 'Z': None, 'P': None, 'axisRoots': None, 'h': None, 'E': None, 'Etime': None,
+                'parseval': None, 'conclusionFails': None, 'failsYetHolds': False, 'note': note}
+    try:
+        Np, Dp = _ilp_poly(num), _ilp_poly(den)
+        Kv, kex = calc_parse_scalar(K)
+        tv, tex = calc_parse_scalar(t)
+        if not (Kv.is_real and Kv != 0 and abs(Kv) <= 1000):
+            raise ValueError('K must be a nonzero real number with |K| at most 1000')
+        if not (tv.is_real and 0 < tv <= 50):
+            raise ValueError('t must lie in (0, 50]')
+        if Np.is_zero or Dp.is_zero or Np.degree() >= Dp.degree():
+            raise ValueError('the loop must be strictly proper (deg N < deg D) and nonzero')
+        if not kex:
+            Kv = sp.nsimplify(Kv, rational=True)
+        if not tex:
+            tv = sp.nsimplify(tv, rational=True)
+        exact = bool(kex and tex)
+        S = _ILP_S
+        M = sp.Poly(sp.expand(Dp.as_expr() + Kv * Np.as_expr()), S)
+        if M.degree() < 1:
+            raise ValueError('the closed loop has no pole')
+        Z, zexact = _ccp_count_rhp(M)
+        P, pexact = _ccp_count_rhp(Dp)
+        axis = _ccp_axis(M)
+        h1 = len(axis) == 0
+        h2 = Z == 0
+        blocked = None if (h1 and h2) else ('offAxis' if not h1 else 'stable')
+        stability = 'marginal' if not h1 and Z == 0 else ('unstable' if Z > 0 else 'stable')
+        decided = exact and zexact
+        prov = ('proved' if blocked is None else 'refuted') if decided else 'numeric'
+        out = {'id': 'complexcap', 'provenance': prov, 'verdict': 'holds' if blocked is None else 'broken', 'blockedAct': blocked, 'stability': stability,
+               'Z': int(Z), 'P': int(P), 'axisRoots': [str(sp.simplify(a)) for a in axis], 'h': None, 'E': None, 'Etime': None, 'parseval': None,
+               'conclusionFails': None if blocked is None else True, 'failsYetHolds': False, 'finiteEnergy': bool(h1 and Z == 0), 'note': None}
+        # the inversion and the energy, when the poles of the cancelled T are in closed form
+        g = sp.gcd(sp.Poly(Kv * Np.as_expr(), S), M)
+        Nc, Mc = sp.quo(sp.Poly(Kv * Np.as_expr(), S), g), sp.quo(M, g)
+        T = Nc.as_expr() / Mc.as_expr()
+        rts, rex = _ccp_closed_roots(Mc)
+        if Mc.degree() >= 1:
+            Fst = sp.exp(S * tv) * T
+            h = sp.Integer(0)
+            for p, m in rts:
+                h += _ccp_res_at(Fst, p, m)
+            out['h'] = float(sp.re(h))
+            out['hExactPoles'] = bool(rex)
+            if h1:
+                Tm = T.subs(S, -S)
+                FF = sp.together(T * Tm)
+                num_, den_ = sp.fraction(FF)
+                PP = sp.Poly(sp.expand(den_), S)
+                prs, pex = _ccp_closed_roots(PP)
+                E = sp.Integer(0)
+                for p, m in prs:
+                    if float(sp.re(sp.N(p, 30))) < 0:
+                        E += _ccp_res_at(FF, p, m)
+                out['E'] = float(sp.re(E))
+                out['EexactPoles'] = bool(pex)
+                if Z == 0 and all(m == 1 for _p, m in rts):
+                    Et = sp.Integer(0)
+                    rs = [(p, _ccp_res_at(T, p, 1)) for p, _m in rts]
+                    for p, rp in rs:
+                        for q, rq in rs:
+                            Et += -rp * rq / sp.N(p + q, 30)
+                    out['Etime'] = float(sp.re(Et))
+                    out['parseval'] = bool(abs(out['Etime'] - out['E']) <= 1e-9 * max(1.0, abs(out['E'])))
+        else:
+            out['note'] = 'the closed loop has no pole after cancellation'
+        return out
+    except Exception as ex:  # abstain, never guess
+        return unk(f'cannot decide: {ex}')
+`),self.postMessage({type:`ready`}),t}function n(){return e||=t(),e}n().catch(e=>{self.postMessage({type:`init-error`,error:String(e&&e.message||e)})});let r={rowreduce:(e,t)=>e.globals.get(`analyse_rowreduce`)(e.toPy(t.matrix)),linsystems:(e,t)=>e.globals.get(`analyse_linsystems`)(e.toPy(t.matrix)),vectorspaces:(e,t)=>t.target?e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors),e.toPy(t.target)):e.globals.get(`analyse_vectorspaces`)(e.toPy(t.vectors)),orthogonality:(e,t)=>e.globals.get(`analyse_orthogonality`)(e.toPy(t.vectors)),fundspaces:(e,t)=>e.globals.get(`analyse_fundspaces`)(e.toPy(t.matrix)),lineartransform:(e,t)=>e.globals.get(`analyse_lineartransform`)(e.toPy(t.matrix)),eigen:(e,t)=>e.globals.get(`analyse_eigen`)(e.toPy(t.matrix)),determinants:(e,t)=>e.globals.get(`analyse_determinants`)(e.toPy(t.matrix)),inverses:(e,t)=>t.b?e.globals.get(`analyse_inverses`)(e.toPy(t.matrix),e.toPy(t.b)):e.globals.get(`analyse_inverses`)(e.toPy(t.matrix)),leastsquares:(e,t)=>e.globals.get(`analyse_leastsquares`)(e.toPy(t.matrix),e.toPy(t.b)),spectral:(e,t)=>e.globals.get(`analyse_spectral`)(e.toPy(t.matrix)),svd:(e,t)=>e.globals.get(`analyse_svd`)(e.toPy(t.matrix)),changeofbasis:(e,t)=>t.otherBasis?e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector),e.toPy(t.otherBasis)):e.globals.get(`analyse_changeofbasis`)(e.toPy(t.basis),e.toPy(t.vector)),quadraticforms:(e,t)=>e.globals.get(`analyse_quadraticforms`)(e.toPy(t.matrix)),factorizations:(e,t)=>e.globals.get(`analyse_factorizations`)(e.toPy(t.matrix),t.mode),rolle:(e,t)=>e.globals.get(`analyse_rolle`)(t.expr,t.a,t.b),dblrect:(e,t)=>e.globals.get(`analyse_dblrect`)(t.expr,t.a,t.b,t.c,t.d),dblregion:(e,t)=>e.globals.get(`analyse_dblregion`)(t.expr,t.region),polar:(e,t)=>e.globals.get(`analyse_polar`)(t.expr,t.region),jacobian:(e,t)=>e.globals.get(`analyse_jacobian`)(t.x,t.y,t.expr,t.u0,t.u1,t.v0,t.v1),triple:(e,t)=>e.globals.get(`analyse_triple`)(t.expr,t.solid),cylsph:(e,t)=>e.globals.get(`analyse_cylsph`)(t.expr,t.solid),massmoments:(e,t)=>e.globals.get(`analyse_massmoments`)(t.expr,t.region),fields:(e,t)=>e.globals.get(`analyse_fields`)(t.P,t.Q,t.f),lineint:(e,t)=>e.globals.get(`analyse_lineint`)(t.P,t.Q,t.f,t.x,t.y,t.t0,t.t1),conservative:(e,t)=>e.globals.get(`analyse_conservative`)(t.P,t.Q,t.domain),green:(e,t)=>e.globals.get(`analyse_green`)(t.P,t.Q,t.region,t.boundary,t.form),surfaces:(e,t)=>e.globals.get(`analyse_surfaces`)(t.x,t.y,t.z,t.u0,t.u1,t.v0,t.v1,t.mode,t.f,t.F),stokes:(e,t)=>e.globals.get(`analyse_stokes`)(t.F,t.x,t.y,t.z,t.u,t.v,t.glue,t.degenerate,t.reverse),gauss:(e,t)=>e.globals.get(`analyse_gauss`)(t.F,t.patches,t.solid),picard:(e,t)=>e.globals.get(`analyse_picard`)(t.f,t.t0,t.y0,t.a,t.b,t.override??null),slopefield:(e,t)=>e.globals.get(`analyse_slopefield`)(t.f,t.phi,t.t0,t.y0,t.tA,t.tB),autonomous:(e,t)=>e.globals.get(`analyse_autonomous`)(t.f,t.y0,t.ymin,t.ymax,t.tmax??null),separable:(e,t)=>e.globals.get(`analyse_separable`)(t.f,t.t0,t.y0,t.ymin,t.ymax,t.tmax),exact:(e,t)=>e.globals.get(`analyse_exact`)(t.M,t.N,t.t0,t.y0,t.tmin,t.tmax,t.ymin,t.ymax,t.domain??`plane`),eulermethod:(e,t)=>e.globals.get(`analyse_eulermethod`)(t.f,t.t0,t.y0,t.T,t.h,t.exact??null),secondorder:(e,t)=>e.globals.get(`analyse_secondorder`)(t.p,t.q,t.g,t.y1??``,t.t0,t.y0,t.v0,t.ymin,t.ymax,t.tmax,t.a1,t.b1,t.a2,t.b2),odesystems:(e,t)=>e.globals.get(`analyse_odesystems`)(t.A,t.x0,t.f,t.tmax),phaseplane:(e,t)=>e.globals.get(`analyse_phaseplane`)(t.A),linearize:(e,t)=>e.globals.get(`analyse_linearize`)(t.f,t.g,t.xmin,t.xmax,t.ymin,t.ymax,t.px,t.py,t.H??``),limitcycles:(e,t)=>e.globals.get(`analyse_limitcycles`)(t.mode,t.f,t.g,t.B??`1`,t.region,t.xmin,t.xmax,t.ymin,t.ymax),forced:(e,t)=>e.globals.get(`analyse_forced`)(t.p,t.q,t.g,t.method??`uc`,t.shift??`auto`,t.t0,t.y0,t.v0,t.ymin,t.ymax,t.tmax),resonance:(e,t)=>e.globals.get(`analyse_resonance`)(t.m,t.c,t.k,t.F,t.w,t.x0,t.v0,t.tmax,t.xmax),damping:(e,t)=>e.globals.get(`analyse_damping`)(t.m,t.c,t.k,t.x0,t.v0,t.tmax,t.xmax),seriessol:(e,t)=>e.globals.get(`analyse_seriessol`)(t.P,t.Q,t.R,t.t0,t.y0,t.v0,t.exact??`1`,t.n??`10`),lyapunov:(e,t)=>e.globals.get(`analyse_lyapunov`)(t.f,t.g,t.V,t.rad??`1`),frobenius:(e,t)=>e.globals.get(`analyse_frobenius`)(t.A,t.B,t.C,t.t0,t.exact??`1`,t.n??`8`),bvp:(e,t)=>e.globals.get(`analyse_bvp`)(t.lam,t.L,t.bc,t.g,t.alpha,t.beta),odemodel:(e,t)=>e.globals.get(`analyse_odemodel`)(t.g,t.L,t.th0,t.c,t.F,t.w,t.cycles,t.tolA,t.tolV),fourierseries:(e,t)=>e.globals.get(`analyse_fourierseries`)(t.f,t.L,t.x0,t.N),ztransform:(e,t)=>e.globals.get(`analyse_ztransform`)(t.termsJson,t.z0re,t.z0im),laplace:(e,t)=>e.globals.get(`analyse_laplace`)(t.f,t.s),laplaceprops:(e,t)=>e.globals.get(`analyse_laplaceprops`)(t.prop,t.f,t.g??null,t.a??null,t.b??null,t.n??null,t.T??null,t.s,!!t.slip),invlaplace:(e,t)=>e.globals.get(`analyse_invlaplace`)(t.num,t.den,t.s,t.slip??null),laplaceivp:(e,t)=>e.globals.get(`analyse_laplaceivp`)(t.p,t.q,t.g,t.y0,t.v0,t.s,t.slip??null),stepimpulse:(e,t)=>e.globals.get(`analyse_stepimpulse`)(t.p,t.q,t.g,t.steps,t.imps,t.y0,t.v0,t.slip??null),convolution:(e,t)=>e.globals.get(`analyse_convolution`)(t.f,t.g,t.h??``,t.s,t.slip??null),transferfn:(e,t)=>e.globals.get(`analyse_transferfn`)(t.num,t.den),fouriergibbs:(e,t)=>e.globals.get(`analyse_fouriergibbs`)(t.f,t.L,t.x0),fouriercomplex:(e,t)=>e.globals.get(`analyse_fouriercomplex`)(t.f,t.L),fouriertransform:(e,t)=>e.globals.get(`analyse_fouriertransform`)(t.f,t.t0),ftprops:(e,t)=>e.globals.get(`analyse_ftprops`)(t.prop,t.f,t.a,t.g),sampling:(e,t)=>e.globals.get(`analyse_sampling`)(t.kind,t.tones,t.fs,t.A,t.f0),dft:(e,t)=>e.globals.get(`analyse_dft`)(t.f,t.N),zstability:(e,t)=>e.globals.get(`analyse_zstability`)(t.num,t.den,!!t.dec),interp:(e,t)=>e.globals.get(`analyse_interp`)(t.f,t.nodes,t.x0),discretize:(e,t)=>e.globals.get(`analyse_discretize`)(t.num,t.den,t.T,t.method,!!t.dec),signalcap:(e,t)=>e.globals.get(`analyse_signalcap`)(t.num,t.den,t.fs,t.method,t.sig,t.hum,t.sigma,!!t.dec),floatpoint:(e,t)=>e.globals.get(`analyse_floatpoint`)(t.formula,t.alg,t.x),bisection:(e,t)=>e.globals.get(`analyse_bisection`)(t.f,t.a,t.b,t.tol),fixedpoint:(e,t)=>e.globals.get(`analyse_fixedpoint`)(t.g,t.a,t.b,t.x0,t.tol),newton:(e,t)=>e.globals.get(`analyse_newton`)(t.f,t.x0,t.a,t.b,t.m),secant:(e,t)=>e.globals.get(`analyse_secant`)(t.method,t.f,t.x0,t.x1,t.a,t.b),runge:(e,t)=>e.globals.get(`analyse_runge`)(t.f,t.a,t.b,t.family,Number(t.N)),spline:(e,t)=>e.globals.get(`analyse_spline`)(t.f,t.knots,t.end),lsqnum:(e,t)=>e.globals.get(`analyse_lsqnum`)(t.f,t.a,t.b,Number(t.m),Number(t.n),t.basis),numdiff:(e,t)=>e.globals.get(`analyse_numdiff`)(t.f,t.x0,t.formula),quadrature:(e,t)=>e.globals.get(`analyse_quadrature`)(t.f,t.a,t.b,t.rule,Number(t.n)),romberg:(e,t)=>e.globals.get(`analyse_romberg`)(t.mode,t.f,t.a,t.b,t.x0,t.h0,Number(t.K)),gaussquad:(e,t)=>e.globals.get(`analyse_gaussquad`)(t.f,t.a,t.b,t.rule,Number(t.n)),gausselim:(e,t)=>e.globals.get(`analyse_gausselim`)(t.A,t.b,t.strategy),condition:(e,t)=>e.globals.get(`analyse_condition`)(t.A,t.b,t.eps),iterative:(e,t)=>e.globals.get(`analyse_iterative`)(t.A,t.b,t.method),poweriter:(e,t)=>e.globals.get(`analyse_poweriter`)(t.A,t.x0,t.method,t.sigma),rungekutta:(e,t)=>e.globals.get(`analyse_rungekutta`)(t.f,t.t0,t.y0,t.T,t.method,t.h,t.exact),gradient:(e,t)=>e.globals.get(`analyse_gradient`)(t.A,t.b,t.x0,t.eta),numcap:(e,t)=>e.globals.get(`analyse_numcap`)(t.task,t.f,t.a,t.b,t.y0,t.A,t.rhs,t.exact,t.eps),proplogic:(e,t)=>e.globals.get(`analyse_proplogic`)(t.task,t.A,t.B,t.premises,t.vars),quantifiers:(e,t)=>e.globals.get(`analyse_quantifiers`)(t.task,t.S,t.N,t.domain,t.relation),prooftech:(e,t)=>e.globals.get(`analyse_prooftech`)(t.task,t.P,t.Q,t.method,t.cases,t.lo,t.hi,t.d,t.B),induction:(e,t)=>e.globals.get(`analyse_induction`)(t.kind,t.t,t.f,t.g,t.rel,t.rec,t.init,t.bases,t.n0,t.N),relations:(e,t)=>e.globals.get(`analyse_relations`)(t.task,t.A,t.pairs),pigeonhole:(e,t)=>e.globals.get(`analyse_pigeonhole`)(t.D,t.C,t.table),inclexcl:(e,t)=>e.globals.get(`analyse_inclexcl`)(t.task,t.U,t.sets,t.order,t.n,t.identity,t.n0,t.N,t.x,t.y,t.r),recurrence:(e,t)=>e.globals.get(`analyse_recurrence`)(t.task,t.order,t.c1,t.c2,t.a0,t.a1,t.k,t.s,t.form,t.N,t.a,t.b,t.c,t.d,t.e,t.t1,t.K),genfunc:(e,t)=>e.globals.get(`analyse_genfunc`)(t.task,t.rule,t.M,t.k,t.order,t.c1,t.c2,t.a0,t.a1,t.x,t.N),bigo:(e,t)=>e.globals.get(`analyse_bigo`)(t.f,t.g,t.rel),modular:(e,t)=>e.globals.get(`analyse_modular`)(t.a,t.b,t.m),rsa:(e,t)=>e.globals.get(`analyse_rsa`)(t.p,t.q,t.e,t.M),graphbasics:(e,t)=>e.globals.get(`analyse_graphbasics`)(t.n,t.edges,t.claim),traversal:(e,t)=>e.globals.get(`analyse_traversal`)(t.n,t.edges,t.start,t.algo),dijkstra:(e,t)=>e.globals.get(`analyse_dijkstra`)(t.n,t.edges,t.source),spanning:(e,t)=>e.globals.get(`analyse_spanning`)(t.n,t.edges),maxflow:(e,t)=>e.globals.get(`analyse_maxflow`)(t.n,t.edges,t.s,t.t,t.residual),boolean:(e,t)=>e.globals.get(`analyse_boolean`)(t.n,t.on,t.dc,t.groups),automata:(e,t)=>e.globals.get(`analyse_automata`)(t.k,t.moves,t.acc,t.target,t.N),discretecap:(e,t)=>e.globals.get(`analyse_discretecap`)(t.algo,t.variant,t.inv,t.u??t.a??t.n,t.v??t.E??``,t.m??``,t.edges??``,t.source??0),complexnum:(e,t)=>e.globals.get(`analyse_complexnum`)(t.z,t.w,t.n,t.c,t.laps),cxmaps:(e,t)=>e.globals.get(`analyse_cxmaps`)(t.f,t.domain,t.w,t.z0),cxlimits:(e,t)=>e.globals.get(`analyse_cxlimits`)(t.f,t.z0,t.override??``),cauchyriemann:(e,t)=>e.globals.get(`analyse_cauchyriemann`)(t.f,t.z0,t.override??``),analytic:(e,t)=>e.globals.get(`analyse_analytic`)(t.facet,t.g,t.domain??`plane`,t.z0??`0`),cxexp:(e,t)=>e.globals.get(`analyse_cxexp`)(t.facet,t.z??`0`,t.w??`0`,t.a??`1`,t.domain??`plane`),cxlog:(e,t)=>e.globals.get(`analyse_cxlog`)(t.facet,t.z??`1`,t.w??`1`,t.a??`1`,t.b??`1`,t.c??``,t.laps??`1`,t.n??`2`),mobius:(e,t)=>e.globals.get(`analyse_mobius`)(t.facet,t.a??`1`,t.b??`0`,t.c??`0`,t.d??`1`,t.shape??`circle`,t.p1??`0`,t.p2??`1`,t.a2??`1`,t.b2??`0`,t.c2??`0`,t.d2??`1`,t.z1??`1`,t.z2??`2`,t.z3??`3`,t.z4??`4`),cxintegral:(e,t)=>e.globals.get(`analyse_cxintegral`)(t.f??`z`,t.kind??`polygon`,t.pts??`0, 1`,t.c??`0`,t.r??`1`,t.q0??`0`,t.n??`4`,t.ra??`1`,t.rd??`1`),cauchythm:(e,t)=>e.globals.get(`analyse_cauchythm`)(t.f??`z`,t.kind??`polygon`,t.pts??`0, 1`,t.c??`0`,t.r??`1`,t.q0??`0`,t.n??`4`,t.dom??`plane`,t.dc??`0`,t.dr??`2`,t.sa??`0`,t.sd??`-1`,t.holes??`0`),cauchyformula:(e,t)=>e.globals.get(`analyse_cauchyformula`)(t.f??`z`,t.kind??`polygon`,t.pts??`0, 1`,t.c??`0`,t.r??`1`,t.q0??`0`,t.n??`4`,t.z0??`0`,t.k??`0`),cxseries:(e,t)=>e.globals.get(`analyse_cxseries`)(t.facet??`series`,t.cn??`1`,t.z0??`0`,t.startN??`0`,t.z??``),laurent:(e,t)=>e.globals.get(`analyse_laurent`)(t.f??`z`,t.z0??`0`,t.r1??`0`,t.r2??`inf`),singularities:(e,t)=>e.globals.get(`analyse_singularities`)(t.f??`z`,t.z0??`0`,t.R??`1`,t.w??`2+i`),residues:(e,t)=>e.globals.get(`analyse_residues`)(t.f??`1/z`,t.kind??`circle`,t.pts??`0, 1`,t.c??`0`,t.r??`1`,t.q0??`0`,t.n??`4`),realintegrals:(e,t)=>e.globals.get(`analyse_realintegrals`)(t.kind??`line`,t.f??`1/(z^2+1)`,t.a??`0`),argprinciple:(e,t)=>e.globals.get(`analyse_argprinciple`)(t.kind??`count`,t.f??`(z-1)/(z^2+4)`,t.g??``,t.shape??`circle`,t.c??`0`,t.r??`1`,t.x0??`0`,t.x1??`1`,t.y0??`0`,t.y1??`1`),conformal:(e,t)=>e.globals.get(`analyse_conformal`)(t.kind??`angle`,t.f??`z^2`,t.z0??`1+i`,t.a1??`0`,t.a2??`60`,t.dom??`upper`,t.mu??`-1/10+1/10i`,t.r??`through`,t.alpha??`5`,t.gamma??`kutta`,t.rdom??`upper`),complexcap:(e,t)=>e.globals.get(`analyse_complexcap`)(t.num??`1`,t.den??`(s + 1)`,t.K??`Rational(3, 1)`,t.t??`Rational(1, 2)`),liouville:(e,t)=>e.globals.get(`analyse_liouville`)(t.facet??`liouville`,t.f??`z`,t.region??`disc`,t.c??`0`,t.r??`1`,t.p0??`-1-i`,t.p1??`1+i`),invz:(e,t)=>e.globals.get(`analyse_invz`)(t.num,t.den,t.rho,t.slip||``,!!t.dec),windowing:(e,t)=>e.globals.get(`analyse_windowing`)(t.f1,t.A1,t.f2,t.A2,t.fs,t.N,t.win,!!t.dec),cauchyeuler:(e,t)=>e.globals.get(`analyse_cauchyeuler`)(t.c2,t.c1,t.c0,t.t0,t.tend,t.y0,t.v0,t.ymax),linear1:(e,t)=>e.globals.get(`analyse_linear1`)(t.p,t.q,t.n,t.t0,t.y0,t.ymin,t.ymax,t.tmax),mvt:(e,t)=>e.globals.get(`analyse_mvt`)(t.expr,t.a,t.b),limits:(e,t)=>e.globals.get(`analyse_limits`)(t.expr,t.c,t.override??null),ivt:(e,t)=>e.globals.get(`analyse_ivt`)(t.expr,t.a,t.b,t.k),riemann:(e,t)=>e.globals.get(`analyse_riemann`)(t.expr,t.a,t.b),netchange:(e,t)=>e.globals.get(`analyse_netchange`)(t.expr,t.a,t.b),ftc:(e,t)=>e.globals.get(`analyse_ftc`)(t.f,t.F,t.a,t.b),improper:(e,t)=>e.globals.get(`analyse_improper`)(t.expr,t.a,t.b),gammabeta:(e,t)=>e.globals.get(`analyse_gammabeta`)(t.kind,t.p,t.q??null),sequences:(e,t)=>e.globals.get(`analyse_sequences`)(t.expr,t.startN),series:(e,t)=>e.globals.get(`analyse_series`)(t.expr,t.startN,t.testMode),powerseries:(e,t)=>e.globals.get(`analyse_powerseries`)(t.expr,t.startN,t.testMode),cauchymvt:(e,t)=>e.globals.get(`analyse_cauchymvt`)(t.f,t.g,t.a,t.b),taylor:(e,t)=>e.globals.get(`analyse_taylor`)(t.f,t.a,t.x,t.n),partials:(e,t)=>e.globals.get(`analyse_partials`)(t.expr,t.a,t.b),totaldiff:(e,t)=>e.globals.get(`analyse_totaldiff`)(t.expr,t.a,t.b),chainrule:(e,t)=>e.globals.get(`analyse_chainrule`)(t.expr,t.xt,t.yt,t.t0),extrema:(e,t)=>e.globals.get(`analyse_extrema`)(t.expr,t.a,t.b),lagrange:(e,t)=>e.globals.get(`analyse_lagrange`)(t.f,t.g,t.a,t.b),probabilitylaws:(e,t)=>e.globals.get(`analyse_probabilitylaws`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.idxA),e.toPy(t.idxB)),counting:(e,t)=>e.globals.get(`analyse_counting`)(t.mode,t.n,t.k,t.order??null,t.replacement??null,t.trueOrder??null,t.trueReplacement??null),descriptivestats:(e,t)=>e.globals.get(`analyse_descriptivestats`)(e.toPy(t.entries),t.outlierIndex??null),conditional:(e,t)=>e.globals.get(`analyse_conditional`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),bayes:(e,t)=>e.globals.get(`analyse_bayes`)(e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.partition),e.toPy(t.eventA)),randomvariables:(e,t)=>e.globals.get(`analyse_randomvariables`)(t.kind,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.formula??null,t.supportKind??null,t.lo??null,t.hi??null),independence:(e,t)=>e.globals.get(`analyse_independence`)(t.checkMode,e.toPy(t.outcomes),e.toPy(t.entries),e.toPy(t.events)),expectation:(e,t)=>e.globals.get(`analyse_expectation`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),transformrv:(e,t)=>e.globals.get(`analyse_transformrv`)(t.rvMode,e.toPy(t.xs??[]),e.toPy(t.ps??[]),t.gFormula??null,t.fFormula??null,t.lo??null,t.hi??null),binomial:(e,t)=>e.globals.get(`analyse_binomial`)(t.n,t.p,t.nCheck,t.scenario,e.toPy(t.pArr??[])),geometric:(e,t)=>e.globals.get(`analyse_geometric`)(t.p,t.nCheck,t.scenario,t.inc??null,t.s,t.t),poisson:(e,t)=>e.globals.get(`analyse_poisson`)(t.lambda,t.k,t.scalingRule,t.pFixed??null),uniform:(e,t)=>e.globals.get(`analyse_uniform`)(t.rvMode,t.a,t.b,t.c??null,t.d??null),exponential:(e,t)=>e.globals.get(`analyse_exponential`)(t.lambda,t.x,t.s,t.t,t.rateMode,t.agingK??null),normal:(e,t)=>e.globals.get(`analyse_normal`)(t.mu,t.sigma,t.a??null,t.b??null),distconnections:(e,t)=>e.globals.get(`analyse_distconnections`)(t.mode,t.r??null,t.p??null,t.k??null,e.toPy(t.pArr??[])),mgf:(e,t)=>e.globals.get(`analyse_mgf`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.b??null),inequalities:(e,t)=>e.globals.get(`analyse_inequalities`)(t.theoremMode,t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.a??null,t.c??null),convergence:(e,t)=>e.globals.get(`analyse_convergence`)(t.construction,t.p??null,t.q??null,t.c??null),wlln:(e,t)=>e.globals.get(`analyse_wlln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.eps??null,t.nCheck??null),slln:(e,t)=>e.globals.get(`analyse_slln`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null),clt:(e,t)=>e.globals.get(`analyse_clt`)(t.rvMode,t.xFormula??null,t.pFormula??null,t.startN??null,t.discSupportKind??null,t.count??null,t.formula??null,t.contSupportKind??null,t.lo??null,t.hi??null,t.z??null,t.nCheck??null)};self.onmessage=async e=>{let{requestId:t,kind:i,payload:a}=e.data,o;try{let e=await n(),s=r[i];if(!s)throw Error(`unknown analysis kind: ${i}`);o=s(e,a);let c=o.toJs({dict_converter:Object.fromEntries});self.postMessage({requestId:t,result:c})}catch(e){self.postMessage({requestId:t,error:String(e&&e.message||e)})}finally{o?.destroy?.()}}})();
